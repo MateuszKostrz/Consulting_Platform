@@ -1,0 +1,700 @@
+{% load static %}
+<!doctype html>
+<html lang="en"
+  class="layout-navbar-fixed layout-menu-fixed layout-compact"
+  dir="ltr" data-skin="default" data-bs-theme="light"
+  data-assets-path="../../assets/" data-template="vertical-menu-template">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>{% if upload_mode|default:False %}Uploaded paper preview{% else %}IB Paper preview (rough){% endif %} | Edunade</title>
+  <link rel="icon" href="{% static 'website/images/platform_logo.svg' %}">
+  {% include 'top_base.html' %}
+  <link rel="stylesheet" href="{% static 'website/css/questionbank.css' %}">
+  <link rel="stylesheet" href="{% static 'website/css/image-lightbox.css' %}">
+  <style>
+    /* Paper preview chrome only — question typography comes from questionbank.css */
+    .ipp-wrap { max-width: 920px; }
+    .ipp-stage {
+      background: #fff;
+      border: 1px solid rgba(13,31,56,.1);
+      border-radius: 14px;
+      padding: 1.5rem 1.75rem;
+      min-height: 18rem;
+      box-shadow: 0 1px 6px rgba(10,22,40,.05);
+    }
+    .ipp-slide { display: none; }
+    .ipp-slide.is-active { display: block; }
+    .ipp-paper-qb .question-text,
+    .ipp-paper-qb .qb-question-text {
+      margin-left: 0;
+      margin-top: 0.25rem;
+    }
+    /* Ensure QB image sizing applies inside preview slide */
+    .ipp-paper-qb.question-card img.medium_question {
+      height: auto;
+    }
+    .ipp-toolbar {
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: .75rem;
+      margin-bottom: 1rem;
+    }
+    .ipp-counter {
+      font-size: .9rem; font-weight: 700; color: #4a5570;
+    }
+    .ipp-meta { font-size: .82rem; color: #6b7485; margin-bottom: .25rem; }
+    .ipp-hero { background: #f6f8fc; border-radius: 12px; padding: 1rem 1.25rem; margin-bottom: 1.25rem; font-size: .85rem; color: #4a5570; }
+  </style>
+  <script>
+    window.MathJax = { tex: { inlineMath: [['$','$'], ['\\(','\\)']], displayMath: [['$$','$$']] } };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+</head>
+<body>
+<div class="layout-wrapper layout-content-navbar">
+<div class="layout-container">
+  {% include 'sidebar.html' %}
+  <div class="content-wrapper" style="background:#f3f6fa;min-height:100vh;">
+  <div class="container-xxl flex-grow-1 container-p-y">
+  <div class="ipp-wrap mx-auto">
+
+    <nav aria-label="breadcrumb" class="mb-3">
+      <ol class="breadcrumb mb-0" style="font-size:.82rem;">
+        <li class="breadcrumb-item"><a href="{% url 'revision-engine' %}">Revision Engine</a></li>
+        {% if upload_mode|default:False %}
+        <li class="breadcrumb-item"><a href="{% url 'ib-paper-upload' %}">Paper upload</a></li>
+        <li class="breadcrumb-item active">Preview</li>
+        {% else %}
+        <li class="breadcrumb-item"><a href="{% url 'ib-paper-upload' %}">Paper upload</a></li>
+        <li class="breadcrumb-item active">Sample (May 2023)</li>
+        {% endif %}
+      </ol>
+    </nav>
+
+    <div class="ipp-hero">
+      <div class="fw-semibold" style="color:#0a1628;">{{ paper_meta.title }}</div>
+      <div class="mt-1">{{ paper_meta.subtitle }} · {{ paper_meta.time }}</div>
+      <div class="mt-2 fst-italic">{{ paper_meta.notes }}</div>
+      {% if upload_mode|default:False %}
+      <div class="mt-2 small text-muted mb-0">Session <code>{{ upload_id|default:'—' }}</code> —
+        <a href="{% url 'ib-paper-upload' %}">upload another folder</a></div>
+      {% endif %}
+    </div>
+
+    <div class="ipp-toolbar">
+      <div class="d-flex gap-2 flex-wrap">
+        <button type="button" class="btn btn-sm btn-outline-secondary" id="ippPrev" title="Previous (←)">
+          <i class="ri-arrow-left-line"></i> Previous
+        </button>
+        <button type="button" class="btn btn-sm btn-primary" id="ippNext" title="Next (→)">
+          Next <i class="ri-arrow-right-line"></i>
+        </button>
+        <button type="button" class="btn btn-sm btn-outline-primary" id="ippEditQuestion" title="Edit HTML for this question">
+          <i class="ri-edit-line"></i> Edit HTML
+        </button>
+      </div>
+      <div class="ipp-counter" id="ippCounter">1 / {{ questions|length }}</div>
+    </div>
+
+    <div class="ipp-stage">
+      {% for q in questions %}
+      <div class="ipp-slide {% if forloop.first %}is-active{% endif %}" data-ipp-index="{{ forloop.counter0 }}">
+        <div class="d-flex align-items-baseline justify-content-between flex-wrap gap-2 mb-2">
+          <h5 class="mb-0" style="color:#0a1628;font-weight:800;">Question {{ q.num }}</h5>
+          <span class="badge bg-label-primary">[Maximum mark: {{ q.marks }}]</span>
+        </div>
+        <div class="question-card qb-question-card ipp-paper-qb border-0 shadow-none bg-transparent">
+          <div class="card-body p-0">
+            {% if q.image_url %}
+            <img class="medium_question" src="{{ q.image_url }}" alt="Figure for question {{ q.num }}"/>
+            {% elif q.image %}
+            <img class="medium_question" src="{% static q.image %}" alt="Figure for question {{ q.num }}"/>
+            {% endif %}
+            <div class="question-text qb-question-text paper-body">{{ q.body|safe }}</div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+  </div>
+
+  <!-- Edit question HTML -->
+  <div class="modal fade" id="ippEditModal" tabindex="-1" aria-labelledby="ippEditModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="ippEditModalLabel">Edit question</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p class="small text-muted mb-2">
+            Applies to <strong id="ippEditSlideLabel"></strong>.
+            <strong>Apply / Save</strong> use the HTML source. If readable is on and you edited it, we try to merge those edits into HTML first, then save.
+            Leave the <code>---IPP-BLOCK---</code> lines between sections. If merge fails, you can discard readable changes when you turn readable off, or edit in HTML.
+          </p>
+          <div class="form-check form-switch mb-2">
+            <input class="form-check-input" type="checkbox" id="ippEditPlainMode"
+              aria-checked="false" aria-controls="ippPlainWrap ippHtmlWrap ippPlainWarn ippReadonlyHint">
+            <label class="form-check-label" for="ippEditPlainMode" id="ippEditPlainModeLabel">Readable text view</label>
+          </div>
+          <div class="alert alert-info py-2 px-3 small mb-2 d-none" id="ippReadonlyHint" role="status">
+            While readable is checked, Apply / Save merges your readable edits into HTML when possible, then runs. If that fails, fix the ---IPP-BLOCK--- lines or switch to HTML—or turn readable off and discard when asked.
+          </div>
+          <div class="alert alert-warning py-2 px-3 small mb-2 d-none" id="ippPlainWarn" role="status">
+            Part wrappers (<code class="small">question</code> / <code class="small">sub-question</code>) are preserved only when merging from readable into structured HTML succeeds.
+          </div>
+          <div class="btn-toolbar flex-wrap gap-1 mb-2" role="toolbar">
+            <button type="button" class="btn btn-sm btn-outline-secondary" id="ippIndentOutdent">Outdent</button>
+            <button type="button" class="btn btn-sm btn-outline-secondary" id="ippIndentMore">Indent</button>
+            <button type="button" class="btn btn-sm btn-outline-info" id="ippAiCleanup" title="Use OpenAI to strip OCR clutter and tidy structure">
+              <i class="ri-sparkling-2-line"></i> Clean up with AI
+            </button>
+          </div>
+          {% csrf_token %}
+          <div id="ippPlainWrap">
+            <textarea class="form-control" id="ippEditPlain" rows="15" spellcheck="true"
+              style="font-size: 0.9375rem; line-height: 1.45;"></textarea>
+          </div>
+          <div id="ippHtmlWrap" class="d-none">
+            <textarea class="form-control" id="ippEditTextarea" rows="15" spellcheck="false"
+              style="font-family: ui-monospace, monospace; font-size: 0.8125rem;"></textarea>
+          </div>
+          <div class="small text-success mt-2 d-none" id="ippAiCleanupFeedback" role="status" aria-live="polite"></div>
+          <div class="small text-danger mt-2 d-none" id="ippEditSaveErr"></div>
+        </div>
+        <div class="modal-footer flex-wrap gap-2">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary" id="ippApplyEdits">Apply to preview</button>
+          {% if ib_paper_save_html_url %}
+          <button type="button" class="btn btn-success" id="ippSaveEdits">Save permanently</button>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  </div>
+  {% include 'footer.html' %}
+  <div class="content-backdrop fade"></div>
+  </div>
+</div>
+</div>
+
+<script src="{% static 'website/js/vendor/libs/jquery/jquery.js' %}"></script>
+{# website/js/bootstrap.js is ESM-only and breaks as a classic script; vendor bundle exposes modal API in the browser #}
+<script src="{% static 'website/js/vendor/bootstrap.js' %}"></script>
+<script src="{% static 'website/js/main.js' %}"></script>
+<script>
+window.ippSaveHtmlUrl = '{{ ib_paper_save_html_url|default:""|escapejs }}';
+window.ippAiCleanupUrl = '{% url "ib-paper-ai-cleanup-html" %}';
+</script>
+<script>
+(function () {
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.ipp-slide'));
+  var total = slides.length;
+  var idx = 0;
+  var counter = document.getElementById('ippCounter');
+  var btnPrev = document.getElementById('ippPrev');
+  var btnNext = document.getElementById('ippNext');
+  var editBtn = document.getElementById('ippEditQuestion');
+  var modalEl = document.getElementById('ippEditModal');
+  var taHtml = document.getElementById('ippEditTextarea');
+  var taPlain = document.getElementById('ippEditPlain');
+  var ippEditPlainMode = document.getElementById('ippEditPlainMode');
+  var ippPlainWrap = document.getElementById('ippPlainWrap');
+  var ippHtmlWrap = document.getElementById('ippHtmlWrap');
+  var ippPlainWarn = document.getElementById('ippPlainWarn');
+  var ippEditSlideLabel = document.getElementById('ippEditSlideLabel');
+  var ippApplyEdits = document.getElementById('ippApplyEdits');
+  var ippSaveEdits = document.getElementById('ippSaveEdits');
+  var ippEditSaveErr = document.getElementById('ippEditSaveErr');
+  var ippIndentMore = document.getElementById('ippIndentMore');
+  var ippIndentOutdent = document.getElementById('ippIndentOutdent');
+  var ippAiCleanup = document.getElementById('ippAiCleanup');
+  var ippAiCleanupFeedback = document.getElementById('ippAiCleanupFeedback');
+  var modalOpen = false;
+  var editModal = null;
+  var modalPlainDirty = false;
+  /** Deep clones of each top-level block under .paper-body (preserves QB classes when editing readable text). */
+  var editBlockTemplates = null;
+  var IPP_BLOCK_SEP = '\n---IPP-BLOCK---\n';
+
+  if (!total || !btnPrev || !btnNext || !counter) return;
+
+  function htmlToInnerText(html) {
+    var d = document.createElement('div');
+    d.innerHTML = html || '';
+    return String(d.innerText || '').replace(/\r\n/g, '\n');
+  }
+
+  function escapeHtml(s) {
+    return String(s)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
+  function normalizeNewlines(s) {
+    return String(s || '').replace(/\r\n/g, '\n');
+  }
+
+  /** Figures / tables can't survive readable structural round-trip reliably (use HTML for those). */
+  function fragmentNeedsHtmlOnlyMode(html) {
+    return /<(?:img|table)\b/i.test(html || '');
+  }
+
+  /** Top-level element clones (QB intro / parts) in document order */
+  function serializeTopLevelBlocks(html) {
+    var wrap = document.createElement('div');
+    wrap.innerHTML = html || '';
+    var children = Array.prototype.slice.call(wrap.children);
+    return children.map(function (el) {
+      return el.cloneNode(true);
+    });
+  }
+
+  function plainToFlowHtml(plain) {
+    var t = normalizeNewlines(plain);
+    if (!t.trim()) return '';
+    return escapeHtml(t).replace(/\n/g, '<br/>');
+  }
+
+  function splitStructuredPlainParts(plainCombined) {
+    var n = normalizeNewlines(plainCombined);
+    var parts = n.split(IPP_BLOCK_SEP);
+    while (parts.length > 0 && parts[parts.length - 1].trim() === '') parts.pop();
+    while (parts.length > 0 && parts[0].trim() === '') parts.shift();
+    return parts;
+  }
+
+  /** @returns {string|null} rebuilt HTML or null if ---IPP-BLOCK--- count mismatched */
+  function rebuildStructuredHtml(plainCombined) {
+    if (!editBlockTemplates || editBlockTemplates.length === 0) return null;
+    var parts = splitStructuredPlainParts(plainCombined);
+    if (parts.length !== editBlockTemplates.length) return null;
+    var out = document.createElement('div');
+    editBlockTemplates.forEach(function (tpl, i) {
+      var node = tpl.cloneNode(true);
+      node.innerHTML = plainToFlowHtml(parts[i]);
+      out.appendChild(node);
+    });
+    return out.innerHTML;
+  }
+
+  /** Build readable textarea + templates from HTML source textarea */
+  function refreshPlainStructured() {
+    if (!taPlain || !taHtml) return;
+    var src = taHtml.value || '';
+    if (fragmentNeedsHtmlOnlyMode(src)) {
+      editBlockTemplates = null;
+      taPlain.value = htmlToInnerText(src);
+      modalPlainDirty = false;
+      var lbl = document.getElementById('ippEditPlainModeLabel');
+      if (lbl) lbl.classList.add('text-muted');
+      return;
+    }
+    var lbl2 = document.getElementById('ippEditPlainModeLabel');
+    if (lbl2) lbl2.classList.remove('text-muted');
+    editBlockTemplates = serializeTopLevelBlocks(src);
+    if (!editBlockTemplates.length) {
+      editBlockTemplates = null;
+      taPlain.value = htmlToInnerText(src);
+      modalPlainDirty = false;
+      return;
+    }
+    taPlain.value = editBlockTemplates.map(function (t) {
+      return normalizeNewlines(t.innerText || '');
+    }).join(IPP_BLOCK_SEP);
+    modalPlainDirty = false;
+  }
+
+  function isPlainMode() {
+    return !!(ippEditPlainMode && ippEditPlainMode.checked);
+  }
+
+  /** Apply/Save always enabled; readable mode triggers merge first when needed */
+  function updateApplySaveDisabled() {
+    if (ippApplyEdits) ippApplyEdits.disabled = false;
+    if (ippSaveEdits) ippSaveEdits.disabled = false;
+    var hint = document.getElementById('ippReadonlyHint');
+    if (hint) hint.classList.toggle('d-none', !isPlainMode());
+  }
+
+  /**
+   * If user edited readable text, write merged HTML into taHtml. Does not toggle the switch.
+   * @returns {Object} ok: boolean; msg: string (optional)
+   */
+  function attemptMergeReadableIntoHtmlSource() {
+    if (!modalPlainDirty) return { ok: true, msg: '' };
+    var src = taHtml ? (taHtml.value || '') : '';
+    if (fragmentNeedsHtmlOnlyMode(src)) {
+      return {
+        ok: false,
+        msg: 'This question has an image or table—readable edits cannot merge. Edit in HTML, or turn readable off and choose to discard.',
+      };
+    }
+    if (editBlockTemplates && editBlockTemplates.length) {
+      var built = rebuildStructuredHtml(taPlain.value);
+      if (built === null) {
+        return {
+          ok: false,
+          msg: 'Section count mismatch—keep one ---IPP-BLOCK--- line between each HTML block, or turn readable off and discard.',
+        };
+      }
+      taHtml.value = built;
+      modalPlainDirty = false;
+      return { ok: true, msg: '' };
+    }
+    return {
+      ok: false,
+      msg: 'No block structure to merge. Paste into HTML or turn readable off and discard.',
+    };
+  }
+
+  function discardReadableEditsSwitchToHtml() {
+    modalPlainDirty = false;
+    refreshPlainStructured();
+    syncingPlainUi = true;
+    if (ippEditPlainMode) ippEditPlainMode.checked = false;
+    syncingPlainUi = false;
+    syncModeVisibility();
+    toggleSaveErr('');
+  }
+
+  /** Before Apply/Save from readable with edits: merge then switch to HTML tab */
+  function ensureMergedForCommit() {
+    if (!isPlainMode()) {
+      toggleSaveErr('');
+      return true;
+    }
+    if (!modalPlainDirty) {
+      toggleSaveErr('');
+      return true;
+    }
+    var m = attemptMergeReadableIntoHtmlSource();
+    if (!m.ok) {
+      toggleSaveErr(m.msg || 'Merge failed.');
+      return false;
+    }
+    syncingPlainUi = true;
+    if (ippEditPlainMode) ippEditPlainMode.checked = false;
+    syncingPlainUi = false;
+    syncModeVisibility();
+    toggleSaveErr('');
+    return true;
+  }
+
+  function computeBodyHtmlFromModal() {
+    return taHtml ? (taHtml.value || '') : '';
+  }
+
+  function syncModeVisibility() {
+    var plain = isPlainMode();
+    if (ippPlainWrap) ippPlainWrap.classList.toggle('d-none', !plain);
+    if (ippHtmlWrap) ippHtmlWrap.classList.toggle('d-none', plain);
+    if (ippPlainWarn) ippPlainWarn.classList.toggle('d-none', !plain);
+    if (ippEditPlainMode) ippEditPlainMode.setAttribute('aria-checked', plain ? 'true' : 'false');
+    updateApplySaveDisabled();
+  }
+
+  function getActiveTextarea() {
+    return isPlainMode() ? taPlain : taHtml;
+  }
+
+  function pushEditedContentToSlide() {
+    if (!ensureMergedForCommit()) return Promise.resolve();
+    var html = computeBodyHtmlFromModal();
+    var host = getActivePaperBody();
+    if (!host) return Promise.resolve();
+    host.innerHTML = html;
+    if (window.MathJax && MathJax.typesetClear) {
+      try { MathJax.typesetClear([host]); } catch (e) {}
+    }
+    return typeset(host);
+  }
+
+  function typeset(el) {
+    if (!window.MathJax || !window.MathJax.typesetPromise) return Promise.resolve();
+    return MathJax.typesetPromise(el ? [el] : undefined).catch(function () {});
+  }
+
+  function getActivePaperBody() {
+    var s = slides[idx];
+    return s ? s.querySelector('.paper-body') : null;
+  }
+
+  function show(i) {
+    idx = Math.max(0, Math.min(total - 1, i));
+    slides.forEach(function (s, j) {
+      s.classList.toggle('is-active', j === idx);
+    });
+    counter.textContent = (idx + 1) + ' / ' + total;
+    btnPrev.disabled = idx <= 0;
+    btnNext.disabled = idx >= total - 1;
+    typeset(slides[idx]);
+  }
+
+  function getCsrfToken() {
+    var m = document.cookie.match(/csrftoken=([^;]+)/);
+    return m ? decodeURIComponent(m[1].trim()) : '';
+  }
+
+  function toggleSaveErr(msg) {
+    if (!ippEditSaveErr) return;
+    if (!msg) {
+      ippEditSaveErr.classList.add('d-none');
+      ippEditSaveErr.textContent = '';
+    } else {
+      ippEditSaveErr.textContent = msg;
+      ippEditSaveErr.classList.remove('d-none');
+    }
+  }
+
+  function hideAiCleanupFeedbackSoon() {
+    if (!ippAiCleanupFeedback) return;
+    if (window._ippAiCleanupT) clearTimeout(window._ippAiCleanupT);
+    window._ippAiCleanupT = setTimeout(function () {
+      ippAiCleanupFeedback.classList.add('d-none');
+      ippAiCleanupFeedback.textContent = '';
+    }, 7000);
+  }
+
+  function showAiCleanupFeedback(msg) {
+    if (!ippAiCleanupFeedback) return;
+    ippAiCleanupFeedback.textContent = msg;
+    ippAiCleanupFeedback.classList.remove('d-none');
+    hideAiCleanupFeedbackSoon();
+  }
+
+  function onAiCleanupClick() {
+    var url = window.ippAiCleanupUrl || '';
+    if (!url) {
+      toggleSaveErr('Clean-up URL unavailable.');
+      return;
+    }
+    if (!ensureMergedForCommit()) return;
+    var htmlSnap = computeBodyHtmlFromModal();
+    if (!htmlSnap || !htmlSnap.trim()) {
+      toggleSaveErr('Nothing to clean. Open Edit for this slide first.');
+      return;
+    }
+    if (ippAiCleanup) ippAiCleanup.disabled = true;
+    toggleSaveErr('');
+    if (ippAiCleanupFeedback) ippAiCleanupFeedback.classList.add('d-none');
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': getCsrfToken(),
+      },
+      body: JSON.stringify({ body_html: htmlSnap }),
+    })
+      .then(function (r) {
+        return r.text().then(function (t) {
+          var j = {};
+          try { j = t ? JSON.parse(t) : {}; } catch (e) { j = { error: t || 'Bad response' }; }
+          return { ok: r.ok, status: r.status, j: j };
+        });
+      })
+      .then(function (res) {
+        if (res.ok && res.j && res.j.ok && typeof res.j.body_html === 'string') {
+          if (!taHtml) return;
+          taHtml.value = res.j.body_html;
+          modalPlainDirty = false;
+          syncingPlainUi = true;
+          if (ippEditPlainMode) ippEditPlainMode.checked = false;
+          syncingPlainUi = false;
+          syncModeVisibility();
+          refreshPlainStructured();
+          var nf = fragmentNeedsHtmlOnlyMode(taHtml.value);
+          var ippLbl = document.getElementById('ippEditPlainModeLabel');
+          if (ippLbl) ippLbl.classList.toggle('text-muted', !!nf);
+          toggleSaveErr('');
+          showAiCleanupFeedback('AI cleanup applied — review HTML, then Apply or Save.');
+          return;
+        }
+        var err = (res.j && res.j.error) ? String(res.j.error) : 'AI cleanup failed';
+        toggleSaveErr(err);
+      })
+      .catch(function () {
+        toggleSaveErr('Network error');
+      })
+      .then(function () {
+        if (ippAiCleanup) ippAiCleanup.disabled = false;
+      });
+  }
+
+  function modifyIndent(add) {
+    var ta = getActiveTextarea();
+    if (!ta) return;
+    var start = ta.selectionStart;
+    var end = ta.selectionEnd;
+    var val = ta.value;
+    if (start === end) {
+      var lineStart = val.lastIndexOf('\n', start - 1) + 1;
+      var nel = val.indexOf('\n', start);
+      if (nel === -1) nel = val.length;
+      start = lineStart;
+      end = nel;
+    }
+    var before = val.substring(0, start);
+    var sel = val.substring(start, end);
+    var after = val.substring(end);
+    var lines = sel.split('\n');
+    lines = lines.map(function (line) {
+      if (add) return '    ' + line;
+      if (/^\t/.test(line)) return line.slice(1);
+      if (/^ {1,4}/.test(line)) return line.replace(/^ {1,4}/, '');
+      return line;
+    });
+    var nu = lines.join('\n');
+    ta.value = before + nu + after;
+    var delta = nu.length - sel.length;
+    ta.selectionStart = start;
+    ta.selectionEnd = end + delta;
+    ta.focus();
+    if (ta === taPlain) modalPlainDirty = true;
+  }
+
+  if (taPlain) {
+    taPlain.addEventListener('input', function () { modalPlainDirty = true; });
+  }
+
+  if (ippAiCleanup) {
+    ippAiCleanup.addEventListener('click', function () {
+      onAiCleanupClick();
+    });
+  }
+
+  var syncingPlainUi = false;
+
+  if (modalEl && window.bootstrap && window.bootstrap.Modal) {
+    editModal = bootstrap.Modal.getOrCreateInstance(modalEl);
+    modalEl.addEventListener('shown.bs.modal', function () {
+      modalOpen = true;
+      syncModeVisibility();
+      updateApplySaveDisabled();
+      var taF = getActiveTextarea();
+      if (taF) taF.focus();
+    });
+    modalEl.addEventListener('hidden.bs.modal', function () {
+      modalOpen = false;
+      toggleSaveErr('');
+    });
+  }
+
+  if (ippEditPlainMode) {
+    ippEditPlainMode.addEventListener('change', function () {
+      if (syncingPlainUi) return;
+      if (isPlainMode()) {
+        refreshPlainStructured();
+        syncModeVisibility();
+        toggleSaveErr('');
+        return;
+      }
+      var m = attemptMergeReadableIntoHtmlSource();
+      if (!m.ok) {
+        var discardQ = 'Could not merge readable text into HTML.\n\nDiscard readable changes and switch to HTML view? (HTML in the editor stays as it was.)';
+        if (window.confirm(discardQ)) {
+          discardReadableEditsSwitchToHtml();
+        } else {
+          syncingPlainUi = true;
+          ippEditPlainMode.checked = true;
+          syncingPlainUi = false;
+          syncModeVisibility();
+          toggleSaveErr(m.msg || '');
+        }
+        return;
+      }
+      syncModeVisibility();
+      toggleSaveErr('');
+    });
+  }
+
+  if (editBtn && taPlain && taHtml && ippEditSlideLabel && editModal) {
+    editBtn.addEventListener('click', function () {
+      var host = getActivePaperBody();
+      if (!host) return;
+      ippEditSlideLabel.textContent = 'question ' + (idx + 1);
+      modalPlainDirty = false;
+      taHtml.value = host.innerHTML;
+      syncingPlainUi = true;
+      if (ippEditPlainMode) ippEditPlainMode.checked = false;
+      syncingPlainUi = false;
+      refreshPlainStructured();
+      var nf = fragmentNeedsHtmlOnlyMode(taHtml.value);
+      var ippLbl = document.getElementById('ippEditPlainModeLabel');
+      if (ippLbl) ippLbl.classList.toggle('text-muted', !!nf);
+      syncModeVisibility();
+      toggleSaveErr('');
+      editModal.show();
+    });
+  }
+
+  if (ippIndentMore) ippIndentMore.addEventListener('click', function () { modifyIndent(true); });
+  if (ippIndentOutdent) ippIndentOutdent.addEventListener('click', function () { modifyIndent(false); });
+
+  if (ippApplyEdits) {
+    ippApplyEdits.addEventListener('click', function () {
+      pushEditedContentToSlide().then(function () {
+        if (editModal) editModal.hide();
+      });
+    });
+  }
+
+  if (ippSaveEdits) {
+    ippSaveEdits.addEventListener('click', function () {
+      var url = window.ippSaveHtmlUrl;
+      if (!url) return;
+      toggleSaveErr('');
+      if (!ensureMergedForCommit()) return;
+      var htmlToSave = computeBodyHtmlFromModal();
+      fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': getCsrfToken()
+        },
+        body: JSON.stringify({ question_index: idx, body_html: htmlToSave })
+      })
+        .then(function (r) {
+          return r.text().then(function (t) {
+            var j = {};
+            try { j = t ? JSON.parse(t) : {}; } catch (e) { j = { error: t || 'Bad response' }; }
+            return { ok: r.ok, j: j };
+          });
+        })
+        .then(function (res) {
+          if (res.ok && res.j && res.j.ok) {
+            return pushEditedContentToSlide().then(function () {
+              if (editModal) editModal.hide();
+            });
+          }
+          var err = (res.j && res.j.error) ? res.j.error : 'Save failed';
+          toggleSaveErr(err);
+        })
+        .catch(function () { toggleSaveErr('Network error'); });
+    });
+  }
+
+  btnPrev.addEventListener('click', function () { show(idx - 1); });
+  btnNext.addEventListener('click', function () { show(idx + 1); });
+
+  document.addEventListener('keydown', function (e) {
+    if (modalOpen) return;
+    if (e.key === 'ArrowLeft') show(idx - 1);
+    if (e.key === 'ArrowRight') show(idx + 1);
+  });
+
+  if (document.readyState === 'complete') {
+    show(0);
+  } else {
+    window.addEventListener('load', function () { show(0); });
+  }
+})();
+</script>
+</body>
+</html>

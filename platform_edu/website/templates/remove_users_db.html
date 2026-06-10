@@ -1,0 +1,337 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" class="light-style layout-menu-fixed layout-compact" dir="ltr" data-theme="theme-default" data-assets-path="/static/" data-template="vertical-menu-template-free" data-style="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Remove Users from Database | {{ site_name }}</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="icon" href="{% static 'website/images/platform_logo.svg' %}">
+    <link rel="alternate icon" href="{% static 'website/images/safari_logo2_prev_ui.png' %}" type="image/png">
+    <meta property="og:image" content="https://academy.edunade.com/static/website/images/Edunade_Vertical_Black_RGB.png">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+        body {
+            background-color: #f8f9fa;
+            min-height: 100vh;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            color: #566a7f;
+        }
+        
+        .main-container {
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .header-card, .form-card {
+            background: white;
+            border: 2px solid #ff3e1d;
+            box-shadow: 0 2px 8px rgba(255, 62, 29, 0.1);
+            border-radius: 8px;
+            margin-bottom: 24px;
+        }
+        
+        .form-control, .form-select {
+            border-radius: 6px;
+            border: 1px solid #d0d4f1;
+            padding: 10px 15px;
+            transition: all 0.2s ease;
+            font-size: 0.9375rem;
+            color: #566a7f;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: #ff3e1d;
+            box-shadow: 0 0 0 0.2rem rgba(255, 62, 29, 0.15);
+        }
+        
+        .btn-danger {
+            background: #ff3e1d;
+            border: none;
+            color: white;
+            border-radius: 6px;
+            padding: 10px 20px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            font-size: 0.9375rem;
+        }
+        
+        .btn-danger:hover {
+            background: #e6371a;
+            color: white;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(255, 62, 29, 0.25);
+        }
+        
+        .back-btn {
+            background: #696cff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 16px;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9375rem;
+        }
+        
+        .back-btn:hover {
+            background: #5f61e6;
+            color: white;
+            text-decoration: none;
+            transform: translateY(-1px);
+        }
+        
+        .warning-box {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .danger-text {
+            color: #ff3e1d;
+            font-weight: 600;
+        }
+        
+        .user-count {
+            background: #ff3e1d;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+        
+        .user-info {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            padding: 15px;
+            margin-top: 15px;
+            display: none;
+        }
+        
+        .user-detail {
+            margin-bottom: 8px;
+        }
+        
+        .user-detail strong {
+            color: #495057;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <!-- Header -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <a href="{% url 'home' %}" class="back-btn">
+                    <i class="bi bi-arrow-left"></i>
+                    Back to Dashboard
+                </a>
+            </div>
+            <div class="text-end">
+                <h5 class="mb-0 text-dark">Welcome, {{ admin_name }}!</h5>
+                <small class="text-muted">User Database Management | Edunade</small>
+            </div>
+        </div>
+
+        <!-- Messages -->
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags|default:'info' }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <!-- Warning Card -->
+        <div class="card header-card">
+            <div class="card-header bg-transparent border-0 pt-4">
+                <h5 class="mb-0 danger-text">
+                    <i class="bi bi-exclamation-triangle me-2"></i>
+                    Danger Zone - Remove Users from Database
+                </h5>
+                <small class="text-muted">This action permanently deletes users and cannot be undone</small>
+            </div>
+            <div class="card-body">
+                <div class="warning-box">
+                    <h6 class="danger-text"><i class="bi bi-shield-exclamation me-2"></i>Warning!</h6>
+                    <ul class="mb-0">
+                        <li>This will <strong>permanently delete</strong> the selected user from the database</li>
+                        <li>All related data (sessions, management records) may also be affected</li>
+                        <li>This action <strong>cannot be undone</strong></li>
+                        <li>You cannot delete your own account</li>
+                    </ul>
+                </div>
+                
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <h6 class="mb-0">Custom Users (Your App):</h6>
+                    <span class="user-count">{{ total_users }} users</span>
+                </div>
+                <div class="d-flex justify-content-between align-items-center">
+                    <h6 class="mb-0">Django Admin Users:</h6>
+                    <span class="user-count">{{ total_django_users }} users</span>
+                </div>
+                <div class="mt-2">
+                    <small class="text-muted">💡 This tool deletes from both systems when email addresses match</small>
+                </div>
+            </div>
+        </div>
+
+        <!-- Remove User Form -->
+        <div class="card form-card">
+            <div class="card-header bg-transparent border-0 pt-4">
+                <h5 class="mb-0">
+                    <i class="bi bi-person-x me-2 text-danger"></i>
+                    Select User to Remove
+                </h5>
+                <small class="text-muted">Choose a user from the dropdown to permanently delete them</small>
+            </div>
+            <div class="card-body">
+                <form method="post" id="deleteUserForm">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
+                            <label for="user_to_delete" class="form-label">Select User to Delete</label>
+                            <select class="form-select" id="user_to_delete" name="user_to_delete" required onchange="showUserInfo()">
+                                <option value="">Choose a user to delete...</option>
+                                {% for user in all_users %}
+                                    <option value="{{ user.id }}" 
+                                            data-name="{{ user.first_name }} {{ user.last_name }}"
+                                            data-email="{{ user.email }}"
+                                            data-occupation="{{ user.occupation }}"
+                            data-curriculum="{{ user.curriculum|default:'Not specified' }}"
+                            data-school="{{ user.school_name|default:'Not specified' }}"
+                            data-id="{{ user.id }}">
+                        {{ user.first_name }} {{ user.last_name }} - {{ user.email }} ({{ user.occupation }}) [ID: {{ user.id }}]
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        
+                        <!-- User Info Display -->
+                        <div class="col-md-12 mb-3">
+                            <div id="userInfo" class="user-info">
+                                <h6 class="danger-text mb-3">Selected User Details:</h6>
+                                <div class="user-detail"><strong>Name:</strong> <span id="userName"></span></div>
+                                <div class="user-detail"><strong>Email:</strong> <span id="userEmail"></span></div>
+                                <div class="user-detail"><strong>Occupation:</strong> <span id="userOccupation"></span></div>
+                                <div class="user-detail"><strong>Curriculum:</strong> <span id="userCurriculum"></span></div>
+                                <div class="user-detail"><strong>School:</strong> <span id="userSchool"></span></div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-12">
+                            <button type="button" class="btn btn-danger" onclick="confirmDelete()" disabled id="deleteBtn">
+                                <i class="bi bi-trash me-2"></i>Delete Selected User
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Django Admin Users (Optional Display) -->
+        {% if django_users %}
+        <div class="card form-card">
+            <div class="card-header bg-transparent border-0 pt-4">
+                <h5 class="mb-0">
+                    <i class="bi bi-gear me-2 text-info"></i>
+                    Django Admin Users (Reference Only)
+                </h5>
+                <small class="text-muted">These are separate from your custom app users but may be linked by email</small>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    {% for django_user in django_users %}
+                        <div class="col-md-6 mb-2">
+                            <div class="p-2 bg-light border rounded">
+                                <strong>{{ django_user.username }}</strong>
+                                <br>
+                                <small class="text-muted">
+                                    {% if django_user.first_name or django_user.last_name %}
+                                        {{ django_user.first_name }} {{ django_user.last_name }}
+                                        <br>
+                                    {% endif %}
+                                    {{ django_user.email|default:"No email" }}
+                                    {% if django_user.is_superuser %}
+                                        <span class="badge bg-danger">Superuser</span>
+                                    {% elif django_user.is_staff %}
+                                        <span class="badge bg-warning">Staff</span>
+                                    {% endif %}
+                                </small>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JS -->
+    <script>
+        function showUserInfo() {
+            const select = document.getElementById('user_to_delete');
+            const userInfo = document.getElementById('userInfo');
+            const deleteBtn = document.getElementById('deleteBtn');
+            const selectedOption = select.options[select.selectedIndex];
+            
+            if (selectedOption.value) {
+                // Show user information
+                document.getElementById('userName').textContent = selectedOption.dataset.name;
+                document.getElementById('userEmail').textContent = selectedOption.dataset.email;
+                document.getElementById('userOccupation').textContent = selectedOption.dataset.occupation;
+                document.getElementById('userCurriculum').textContent = selectedOption.dataset.curriculum;
+                document.getElementById('userSchool').textContent = selectedOption.dataset.school;
+                
+                userInfo.style.display = 'block';
+                deleteBtn.disabled = false;
+            } else {
+                userInfo.style.display = 'none';
+                deleteBtn.disabled = true;
+            }
+        }
+        
+        function confirmDelete() {
+            const select = document.getElementById('user_to_delete');
+            const selectedOption = select.options[select.selectedIndex];
+            
+            if (selectedOption.value) {
+                const userName = selectedOption.dataset.name;
+                const userEmail = selectedOption.dataset.email;
+                
+                if (confirm(`⚠️ DANGER ⚠️\n\nAre you absolutely sure you want to permanently delete this user?\n\nUser: ${userName}\nEmail: ${userEmail}\n\nThis action CANNOT be undone and will permanently remove all user data from the database.\n\nType "DELETE" in the next prompt to confirm.`)) {
+                    const confirmation = prompt('Type "DELETE" to confirm this permanent deletion:');
+                    if (confirmation === 'DELETE') {
+                        document.getElementById('deleteUserForm').submit();
+                    } else {
+                        alert('Deletion cancelled. User not deleted.');
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>

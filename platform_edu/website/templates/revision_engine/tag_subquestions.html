@@ -1,0 +1,235 @@
+{% load static %}
+<!doctype html>
+<html lang="en"
+  class="layout-navbar-fixed layout-menu-fixed layout-compact"
+  dir="ltr" data-skin="default" data-bs-theme="light"
+  data-assets-path="../../assets/" data-template="vertical-menu-template">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
+  <title>Tag Subquestions | Edunade</title>
+  <link rel="icon" href="{% static 'website/images/platform_logo.svg' %}">
+  {% include 'top_base.html' %}
+  <style>
+    .tq-wrap { max-width: 960px; margin: 0 auto; }
+
+    .q-card {
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      margin-bottom: 1rem;
+      background: #fff;
+      overflow: hidden;
+    }
+    .q-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: .85rem 1.25rem;
+      background: #f8f9ff;
+      border-bottom: 1px solid #eaecf0;
+      cursor: pointer;
+      gap: 12px;
+    }
+    .q-header:hover { background: #f0f0ff; }
+    .q-id   { font-weight: 700; font-size: .9rem; color: #333; white-space: nowrap; }
+    .q-meta { font-size: .78rem; color: #888; }
+    .q-chevron { color: #696cff; transition: transform .2s; }
+    .q-card.open .q-chevron { transform: rotate(180deg); }
+
+    .sq-list { display: none; padding: .75rem 1.25rem 1.25rem; }
+    .q-card.open .sq-list { display: block; }
+
+    .sq-row {
+      border: 1px solid #eaecf0;
+      border-radius: 10px;
+      padding: .9rem 1.1rem;
+      margin-bottom: .65rem;
+      background: #fdfdff;
+    }
+    .sq-part { font-weight: 700; font-size: .82rem; color: #696cff; margin-bottom: .3rem; }
+    .sq-text { font-size: .85rem; color: #444; margin-bottom: .7rem; line-height: 1.5; }
+
+    .skill-grid { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: .65rem; }
+    .skill-chip {
+      display: inline-flex; align-items: center; gap: 6px;
+      border: 1px solid #ddd; border-radius: 8px;
+      padding: 4px 10px; font-size: .78rem; cursor: pointer;
+      background: #fff; color: #555;
+      transition: background .12s, border-color .12s;
+      user-select: none;
+    }
+    .skill-chip input { display: none; }
+    .skill-chip.checked { background: #696cff; color: #fff; border-color: #696cff; }
+    .skill-chip .topic-name { opacity: .7; font-size: .72rem; }
+
+    .save-btn {
+      font-size: .8rem; padding: 4px 16px;
+      border-radius: 8px;
+    }
+    .save-status { font-size: .75rem; color: #2e7d32; margin-left: 8px; display: none; }
+    .save-status.show { display: inline; }
+  </style>
+</head>
+<body>
+<div class="layout-wrapper layout-content-navbar">
+<div class="layout-container">
+  {% include 'sidebar.html' %}
+  <div class="content-wrapper">
+  <div class="container-xxl flex-grow-1 container-p-y">
+  <div class="tq-wrap">
+
+    <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-3">
+      <div>
+        <h4 class="mb-1">Tag Subquestions</h4>
+        <p class="text-muted mb-0" style="font-size:.85rem;">
+          Assign revision skills to individual question parts (a, b, c…).
+          <a href="{% url 'revision-engine-tag-questions' %}" class="ms-2">← Question-level tags</a>
+        </p>
+      </div>
+      <!-- Chapter filter -->
+      <form method="get" class="d-flex align-items-center gap-2">
+        <select name="chapter" class="form-select form-select-sm" style="width:auto;" onchange="this.form.submit()">
+          {% for val, label in chapters %}
+            {% if val and val != 'null' %}
+            <option value="{{ val }}" {% if val == chapter_filter %}selected{% endif %}>{{ label }}</option>
+            {% endif %}
+          {% endfor %}
+        </select>
+      </form>
+    </div>
+
+    <!-- Questions -->
+    {% for question in questions %}
+    <div class="q-card" id="qcard_{{ question.id }}">
+      <div class="q-header" onclick="toggleQ('{{ question.id }}')">
+        <div class="d-flex align-items-center gap-3 flex-grow-1 min-w-0">
+          <span class="q-id">Q{{ question.id }}</span>
+          <span class="q-meta">{{ question.difficulty }} &middot; {{ question.marks|default:"?" }} marks &middot; {{ question.subquestions.count }} part{{ question.subquestions.count|pluralize }}</span>
+        </div>
+        <i class="ri-arrow-down-s-line q-chevron fs-5"></i>
+      </div>
+
+      <div class="sq-list">
+        {% for sq in question.subquestions.all %}
+        <div class="sq-row" id="sqrow_{{ sq.id }}">
+          <div class="sq-part">Part {{ sq.part_label|upper }}</div>
+          <div class="sq-text">{{ sq.question_text }}</div>
+
+          <!-- Skill checkboxes -->
+          <div class="skill-grid" id="skills_{{ sq.id }}">
+            {% for skill in all_skills %}
+            <label class="skill-chip"
+                   id="chip_{{ sq.id }}_{{ skill.id }}"
+                   onclick="toggleChip({{ sq.id }}, {{ skill.id }}, this)">
+              {{ skill.display_name }}
+              <span class="topic-name">{{ skill.topic.display_name }}</span>
+            </label>
+            {% endfor %}
+          </div>
+
+          <button class="btn btn-primary btn-sm save-btn" onclick="saveSubquestion({{ sq.id }})">
+            Save all parts
+          </button>
+          <span class="save-status" id="status_{{ sq.id }}">✓ Saved</span>
+        </div>
+        {% empty %}
+        <p class="text-muted small py-2">No subquestions set up for this question.</p>
+        {% endfor %}
+      </div>
+    </div>
+    {% empty %}
+    <div class="text-center text-muted py-5">No questions found for this chapter.</div>
+    {% endfor %}
+
+  </div>
+  </div>
+  </div>
+</div>
+</div>
+
+<script>
+const SQ_TAGS = {{ sq_tags_json|safe }};
+// checked state per subquestion: {sq_id: Set of skill_ids}
+const checkedState = {};
+Object.entries(SQ_TAGS).forEach(([sqId, skillIds]) => {
+  checkedState[sqId] = new Set(skillIds);
+});
+
+function toggleQ(qid) {
+  const card = document.getElementById('qcard_' + qid);
+  card.classList.toggle('open');
+}
+
+function toggleChip(sqId, skillId, el) {
+  if (!checkedState[sqId]) checkedState[sqId] = new Set();
+  if (checkedState[sqId].has(skillId)) {
+    checkedState[sqId].delete(skillId);
+    el.classList.remove('checked');
+  } else {
+    checkedState[sqId].add(skillId);
+    el.classList.add('checked');
+  }
+}
+
+// Save a single subquestion, returns a Promise resolving to the response JSON
+function saveSingleSubquestion(sqId) {
+  const skillIds = Array.from(checkedState[sqId] || []);
+  return fetch('{% url "revision-engine-save-subquestion-tags" %}', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CSRFToken': '{{ csrf_token }}',
+    },
+    body: JSON.stringify({ subquestion_id: sqId, skill_ids: skillIds }),
+  })
+  .then(r => r.json())
+  .catch(() => ({ success: false, skill_count: 0 }));
+}
+
+// Save the clicked part AND all other parts of the same question automatically
+function saveSubquestion(sqId) {
+  const clickedRow = document.getElementById('sqrow_' + sqId);
+  const card = clickedRow.closest('.q-card');
+
+  // Collect all subquestion IDs inside this question card
+  const allIds = Array.from(card.querySelectorAll('.sq-row'))
+    .map(r => parseInt(r.id.replace('sqrow_', ''), 10));
+
+  // Fire all saves in parallel
+  Promise.all(allIds.map(id => saveSingleSubquestion(id))).then(results => {
+    allIds.forEach((id, i) => {
+      const status = document.getElementById('status_' + id);
+      if (!status) return;
+      const d = results[i];
+      if (d && d.success) {
+        const label = id === sqId ? '✓ Saved' : '✓ Auto-saved';
+        status.textContent = label + ' (' + d.skill_count + ' skill' + (d.skill_count !== 1 ? 's' : '') + ')';
+        status.style.color = '#2e7d32';
+      } else {
+        status.textContent = '✗ Error';
+        status.style.color = '#b71c1c';
+      }
+      status.classList.add('show');
+      setTimeout(() => status.classList.remove('show'), 2500);
+    });
+  });
+}
+
+// Pre-apply checked state from DB on load
+document.addEventListener('DOMContentLoaded', () => {
+  Object.entries(SQ_TAGS).forEach(([sqId, skillIds]) => {
+    skillIds.forEach(skillId => {
+      const chip = document.getElementById('chip_' + sqId + '_' + skillId);
+      if (chip) chip.classList.add('checked');
+    });
+  });
+});
+</script>
+
+<script src="{% static 'website/js/vendor/libs/jquery/jquery.js' %}"></script>
+<script src="{% static 'website/js/vendor/libs/popper/popper.js' %}"></script>
+<script src="{% static 'website/js/bootstrap.js' %}"></script>
+<script src="{% static 'website/js/vendor/libs/perfect-scrollbar/perfect-scrollbar.js' %}"></script>
+<script src="{% static 'website/js/vendor/menu.js' %}"></script>
+<script src="{% static 'website/js/main.js' %}"></script>
+<script src="{% static 'website/js/vendors.min.js' %}"></script>
+</body>
+</html>

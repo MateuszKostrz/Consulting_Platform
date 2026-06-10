@@ -1,0 +1,130 @@
+{% load static %}
+
+<!doctype html>
+<html
+  lang="en"
+  class="layout-navbar-fixed layout-menu-fixed layout-compact"
+  dir="ltr"
+  data-skin="default"
+  data-bs-theme="light"
+  data-assets-path="../../assets/"
+  data-template="vertical-menu-template">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Live Question Preview</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="../../assets/img/favicon/favicon.ico" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&ampdisplay=swap"
+        rel="stylesheet" />
+  <link rel="stylesheet" href="{% static 'website/fonts/iconify-icons.css' %}" />
+
+  <!-- Core CSS -->
+  <link rel="stylesheet" href="{% static 'website/css/vendor/libs/node-waves/node-waves.css' %}" />
+  <link rel="stylesheet" href="{% static 'website/css/vendor/libs/pickr/pickr-themes.css' %}" />
+  <link rel="stylesheet" href="{% static 'website/css/vendor/css/core.css' %}" />
+  <link rel="stylesheet" href="{% static 'website/css/demo.css' %}" />
+  <link rel="stylesheet" href="{% static 'website/css/vendor/libs/perfect-scrollbar/perfect-scrollbar.css' %}" />
+
+  <!-- Inline CSS for layout -->
+   <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)'], ['$', '$']]
+      },
+      options: {
+        renderActions: {
+          addMenu: []
+        }
+      }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+
+  <style>
+    .math {
+      font-style: normal;
+    }
+
+     .container {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 2rem;
+    }
+
+    textarea {
+      width: 60%;
+      height: 400px;
+      padding: 1rem;
+      border: 1px solid rgb(255, 255, 255);
+      border-radius: 4px; /* Less rounded edges */
+      padding: 10px;
+      font-family: inherit;
+      text-decoration: none;
+    }
+    #previewBox {
+      color: black;
+    }
+  #inputBox:focus,
+  #previewBox:focus {
+  outline: none;
+  box-shadow: none;
+}
+    #previewBox table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    #previewBox th, #previewBox td {
+      border: 1px solid #ddd;
+      padding: 8px;
+    }
+
+    #previewBox th {
+      background-color: #f2f2f2;
+      font-weight: bold;
+    
+    }
+  </style>
+ 
+  <!-- Helpers -->
+  <script type="text/javascript" src="{% static 'website/js/vendor/helpers.js' %}"></script>
+  <script type="text/javascript" src="{% static 'website/js/vendor/config.js' %}"></script>
+</head>
+
+<body>
+  <h1 class="text-center mt-4">Create a New Question</h1>
+  <div class="container">
+    <textarea id="inputBox" placeholder="Paste or write question HTML here..."></textarea>
+
+    <div id="previewBox" class="card p-4">
+      <!-- Rendered content shows here with full styling -->
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('inputBox').addEventListener('input', function () {
+      document.getElementById('previewBox').innerHTML = this.value;
+    });
+  </script>
+   <script>
+    document.getElementById('inputBox').addEventListener('input', function () {
+      const preview = document.getElementById('previewBox');
+      preview.innerHTML = this.value;
+
+      if (window.MathJax) {
+        MathJax.typesetPromise([preview]);
+      }
+    });
+  </script>
+</body>
+</html>

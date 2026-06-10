@@ -1,0 +1,482 @@
+{% load static %}
+<!doctype html>
+<html
+  lang="en"
+  class="layout-navbar-fixed layout-menu-fixed layout-compact"
+  dir="ltr"
+  data-skin="default"
+  data-bs-theme="light"
+  data-assets-path="../../assets/"
+  data-template="vertical-menu-template">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>Revision Engine | Edunade Academy</title>
+    <link rel="icon" href="{% static 'website/images/platform_logo.svg' %}">
+    <link rel="alternate icon" href="{% static 'website/images/safari_logo2_prev_ui.png' %}" type="image/png">
+
+    {% include 'top_base.html' %}
+
+    <style>
+      .container-xxl { max-width: 85%; margin: 0 auto; padding-left: 1rem; padding-right: 1rem; }
+      @media (max-width: 768px) { .container-xxl { max-width: 95%; } }
+
+      /* ── Filter bar ── */
+      .filter-bar {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 1.5rem;
+        flex-wrap: wrap;
+      }
+      .filter-search-wrap {
+        position: relative;
+        flex: 1;
+        min-width: 200px;
+      }
+      .filter-search-wrap i {
+        position: absolute;
+        left: 0.75rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #9e9e9e;
+        font-size: 1rem;
+        pointer-events: none;
+      }
+      .filter-search {
+        width: 100%;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        padding: 0.48rem 0.85rem 0.48rem 2.2rem;
+        font-size: 0.875rem;
+        background: transparent;
+        color: #4a4a4a;
+        transition: border-color .2s, box-shadow .2s;
+      }
+      .filter-search::placeholder { color: #bbb; }
+      .filter-search:focus { outline: none; border-color: #696cff; box-shadow: 0 0 0 3px rgba(105,108,255,.12); }
+
+      .filter-select {
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        padding: 0.48rem 2.2rem 0.48rem 0.85rem;
+        font-size: 0.875rem;
+        background-color: transparent;
+        color: #4a4a4a;
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24'%3E%3Cpath fill='%239e9e9e' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 0.7rem center;
+        cursor: pointer;
+        min-width: 160px;
+        transition: border-color .2s, box-shadow .2s;
+      }
+      .filter-select:focus { outline: none; border-color: #696cff; box-shadow: 0 0 0 3px rgba(105,108,255,.12); }
+
+      /* ── Chapter accordion ── */
+      .chapter-item {
+        background: #fff;
+        border: 1px solid #e8e8e8;
+        border-radius: 12px;
+        margin-bottom: 1rem;
+        overflow: hidden;
+        box-shadow: 0 1px 4px rgba(0,0,0,.04);
+        transition: box-shadow .2s;
+      }
+      .chapter-item:hover { box-shadow: 0 3px 12px rgba(0,0,0,.07); }
+
+      .chapter-header {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 1.1rem 1.4rem;
+        cursor: pointer;
+        user-select: none;
+        border-bottom: 0;
+        transition: background .15s;
+      }
+      .chapter-header:hover { background: #fafafa; }
+      .chapter-header.open { border-bottom: 1px solid #f0f0f0; }
+
+      /* .chapter-icon-wrap {
+        display: flex; align-items: center; justify-content: center;
+        width: 40px; height: 40px; border-radius: 10px;
+        background: linear-gradient(135deg, #696cff, #8b88f8);
+        flex-shrink: 0;
+      }
+      .chapter-icon-wrap i { font-size: 1.2rem; color: #fff; } */
+
+      .chapter-title { font-size: 1.05rem; font-weight: 700; color: #2f2b3d; margin: 0; }
+      .chapter-meta  { font-size: 0.78rem; color: #9e9e9e; margin: 0; }
+
+      .chapter-right { display: flex; align-items: center; gap: 0.75rem; margin-left: auto; }
+      .chapter-avg-wrap { display: flex; align-items: center; gap: 0.5rem; }
+      .chapter-avg-bar  { width: 90px; height: 6px; background: #eee; border-radius: 99px; overflow: hidden; }
+      .chapter-avg-fill { height: 100%; border-radius: 99px; background: #696cff; transition: width .4s; }
+      .chapter-avg-pct  { font-size: 0.8rem; font-weight: 600; color: #555; min-width: 30px; text-align: right; }
+
+      .chapter-chevron {
+        font-size: 1.3rem;
+        color: #696cff;
+        transition: transform 0.35s ease;
+        flex-shrink: 0;
+      }
+
+      .chapter-body {
+        max-height: 0;
+        overflow: hidden;
+        padding: 0 1.2rem;
+        transition: max-height 0.35s ease, padding 0.35s ease;
+      }
+      .chapter-body.open {
+        max-height: 4000px;
+        padding: 0.5rem 1.2rem 0.8rem;
+      }
+
+      /* ── Topic accordion ── */
+      .topic-item { border-radius: 8px; margin-bottom: 0.4rem; border: 1px solid #f0f0f0; overflow: hidden; }
+
+      .topic-header {
+        display: flex; align-items: center; gap: 0.75rem;
+        padding: 0.75rem 1rem; cursor: pointer; user-select: none;
+        background: #fafafa; transition: background .15s;
+      }
+      .topic-header:hover { background: #f3f3ff; }
+      .topic-header.open { background: #f3f3ff; border-bottom: 1px solid #ebebff; }
+
+      .topic-dot { width: 10px; height: 10px; border-radius: 50%; background: #696cff; flex-shrink: 0; }
+      .topic-name { font-size: 0.9rem; font-weight: 600; color: #3a3660; flex: 1; }
+
+      .topic-stat-bar  { width: 80px; height: 5px; background: #e0e0e0; border-radius: 99px; overflow: hidden; }
+      .topic-stat-fill { height: 100%; border-radius: 99px; transition: width .4s; }
+      .topic-stat-pct  { font-size: 0.78rem; color: #666; min-width: 30px; text-align: right; }
+
+      .topic-chevron { font-size: 0.9rem; color: #aaa; transition: transform 0.3s ease; flex-shrink: 0; }
+
+      .topic-body {
+        max-height: 0;
+        overflow: hidden;
+        background: #fff;
+        transition: max-height 0.3s ease;
+      }
+      .topic-body.open { max-height: 2000px; }
+
+      /* ── Skill rows ── */
+      .skill-row {
+        display: flex; align-items: center; gap: 0.9rem;
+        padding: 0.7rem 1rem 0.7rem 1.5rem;
+        border-bottom: 1px solid #f5f5f5;
+        transition: background .12s;
+      }
+      .skill-row:last-child { border-bottom: none; }
+      .skill-row:hover { background: #fafafa; }
+      .skill-row-name { flex: 1; font-size: 0.875rem; color: #3a3660; }
+
+      .mastery-track { width: 110px; height: 6px; background: #eee; border-radius: 99px; overflow: hidden; flex-shrink: 0; }
+      .mastery-fill  { height: 100%; border-radius: 99px; transition: width .4s; }
+      .fill-success  { background: #28a745; }
+      .fill-info     { background: #17a2b8; }
+      .fill-warning  { background: #ffc107; }
+      .fill-danger   { background: #dc3545; }
+      .fill-secondary{ background: #bdbdbd; }
+
+      .mastery-pct { font-size: 0.78rem; color: #666; min-width: 30px; text-align: right; flex-shrink: 0; }
+
+      /* Status badges */
+      .sbadge { display: inline-block; padding: .2rem .6rem; border-radius: 20px; font-size: .72rem; font-weight: 600; white-space: nowrap; }
+      .sbadge-mastered   { background: #e8f5e9; color: #388e3c; }
+      .sbadge-developing { background: #e3f2fd; color: #1565c0; }
+      .sbadge-learning   { background: #fff8e1; color: #f57f17; }
+      .sbadge-struggling { background: #fce4ec; color: #c62828; }
+      .sbadge-notstarted { background: #f5f5f5; color: #9e9e9e; }
+
+      .qs-chip { font-size: 0.75rem; color: #9e9e9e; white-space: nowrap; flex-shrink: 0; }
+    </style>
+  </head>
+
+  <body>
+    <div class="layout-wrapper layout-content-navbar">
+      <div class="layout-container">
+
+        {% include 'sidebar.html' %}
+
+        <div class="content-wrapper">
+          <div class="container-xxl flex-grow-1 container-p-y">
+
+            <h2 class="pb-1 mb-1">Revision Engine</h2>
+            <p class="text-muted mb-2">Skill-based revision and mastery tracking for IB Mathematics AI SL</p>
+            <p class="fw-semibold mb-4" style="font-size:0.95rem;color:#3a3660;">Practice the skills you need to improve — track your mastery and focus on what matters most.</p>
+
+            <!-- How it works -->
+            <ul class="mb-7" style="font-size:0.85rem;color:#6e6b85;line-height:1.9;padding-left:1.2rem;">
+              <li>Every skill starts at <strong>30% mastery</strong> — answer correctly to raise it, wrong answers bring it down slightly.</li>
+              <li>Answering quickly gives a small <strong>speed bonus</strong>; viewing a hint or video reduces the gain for that question.</li>
+              <li>Each question part (A, B, C…) updates only the <strong>skill it directly tests</strong>.</li>
+            </ul>
+            <hr class="mb-7" style="border-color:#929292;">
+
+            {% if not already_registered %}
+              <div class="card">
+                <div class="card-body text-center py-5">
+                  <i class="bx bx-lock-alt" style="font-size:3rem;color:var(--bs-secondary);"></i>
+                  <h4 class="mt-3">Please log in to access the Revision Engine</h4>
+                  <a href="/login/" class="btn btn-primary mt-3">Log In</a>
+                </div>
+              </div>
+
+            {% elif not has_access %}
+              <div class="card border-0 shadow-sm">
+                <div class="card-body text-center py-5">
+                  <i class="bx bx-book-open" style="font-size:3rem;color:var(--bs-secondary);"></i>
+                  <h4 class="mt-3">Revision Engine – Not Available Yet</h4>
+                  <p class="text-muted mt-2 mb-0">
+                    The Revision Engine is currently only available to students enrolled in Edunade tutoring classes.<br>
+                    Speak to your tutor or contact us if you believe this is a mistake.
+                  </p>
+                </div>
+              </div>
+
+            {% elif error %}
+              <div class="alert alert-danger">{{ error }}</div>
+
+            {% elif not topics %}
+              <div class="alert alert-warning">
+                No taxonomy data found. Run <code>python manage.py seed_revision_skills</code> to load skills.
+              </div>
+
+            {% else %}
+
+              <!-- ── Filter bar ── -->
+              <div class="filter-bar mb-5">
+
+                <!-- Search -->
+                <div class="filter-search-wrap">
+                  <i class="icon-base ri ri-search-line"></i>
+                  <input type="text" class="filter-search" id="filterSearch" placeholder="Search skills…">
+                </div>
+
+                <!-- Chapter -->
+                <select class="filter-select" id="filterChapter">
+                  <option value="">All Chapters</option>
+                  {% for chapter_item in chapters %}
+                    <option value="{{ chapter_item.chapter.slug }}">{{ chapter_item.chapter.display_name }}</option>
+                  {% endfor %}
+                </select>
+
+                <!-- Status -->
+                <select class="filter-select" id="filterStatus">
+                  <option value="">All Statuses</option>
+                  <option value="mastered">Mastered</option>
+                  <option value="developing">Developing</option>
+                  <option value="learning">Learning</option>
+                  <option value="struggling">Struggling</option>
+                  <option value="notstarted">Not Started</option>
+                </select>
+
+              </div>
+
+              <!-- ── Chapters ── -->
+              <div id="chaptersContainer">
+
+              {% for chapter_item in chapters %}
+              <div class="chapter-item" data-chapter="{{ chapter_item.chapter.slug }}" id="chap-{{ chapter_item.chapter.slug }}">
+
+                <!-- Chapter header -->
+                <div class="chapter-header" onclick="toggleChapter(this)">
+                  <div class="chapter-icon-wrap">
+                    <i class="bx bx-math"></i>
+                  </div>
+                  <div>
+                    <p class="chapter-title">{{ chapter_item.chapter.display_name }}</p>
+                    <p class="chapter-meta">
+                      {{ chapter_item.topics|length }} topic{{ chapter_item.topics|length|pluralize }}
+                      &nbsp;·&nbsp;
+                      {{ chapter_item.skill_count }} skill{{ chapter_item.skill_count|pluralize }}
+                    </p>
+                  </div>
+                  <div class="chapter-right">
+                    <div class="chapter-avg-wrap">
+                      <div class="chapter-avg-bar">
+                        <div class="chapter-avg-fill" data-chap-avg="{{ chapter_item.chapter.slug }}" style="width:0%"></div>
+                      </div>
+                      <span class="chapter-avg-pct" data-chap-pct="{{ chapter_item.chapter.slug }}">—</span>
+                    </div>
+                    <i class="icon-base ri ri-arrow-down-s-line chapter-chevron"></i>
+                  </div>
+                </div>
+
+                <!-- Chapter body -->
+                <div class="chapter-body open">
+
+                  {% for item in chapter_item.topics %}
+                  <div class="topic-item" data-topic="{{ item.topic.slug }}">
+
+                    <!-- Topic header -->
+                    <div class="topic-header open" onclick="toggleTopic(this)">
+                      <div class="topic-dot"></div>
+                      <span class="topic-name">{{ item.topic.display_name }}</span>
+                      <div class="topic-stat-bar">
+                        <div class="topic-stat-fill" data-topic-avg="{{ item.topic.slug }}" style="width:0%"></div>
+                      </div>
+                      <span class="topic-stat-pct" data-topic-pct="{{ item.topic.slug }}">—</span>
+                      <i class="icon-base ri ri-arrow-down-s-line topic-chevron open"></i>
+                    </div>
+
+                    <!-- Skill rows -->
+                    <div class="topic-body open">
+                      {% for s in item.skills %}
+                      <div class="skill-row"
+                           data-chapter="{{ chapter_item.chapter.slug }}"
+                           data-topic="{{ item.topic.slug }}"
+                           data-status="{% if not s.mastery %}notsta rted{% elif s.color == 'success' %}mastered{% elif s.color == 'info' %}developing{% elif s.color == 'warning' %}learning{% else %}struggling{% endif %}"
+                           data-percent="{{ s.percent }}">
+
+                        <span class="skill-row-name">{{ s.skill.display_name }}</span>
+
+                        <span class="qs-chip">{{ s.tagged_count }} questions</span>
+
+                        <div class="mastery-track">
+                          <div class="mastery-fill fill-{% if not s.mastery %}secondary{% else %}{{ s.color }}{% endif %}" style="width:{{ s.percent }}%"></div>
+                        </div>
+                        <span class="mastery-pct">{{ s.percent }}%</span>
+
+                        <!-- <span class="sbadge {% if not s.mastery %}sbadge-notstarted{% elif s.color == 'success' %}sbadge-mastered{% elif s.color == 'info' %}sbadge-developing{% elif s.color == 'warning' %}sbadge-learning{% else %}sbadge-struggling{% endif %}">
+                          {% if not s.mastery %}Not Started{% else %}{{ s.label }}{% endif %}
+                        </span> -->
+
+                        {% if s.tagged_count > 0 %}
+                          <a href="{% url 'revision-engine-practice' s.skill.slug %}" class="btn btn-sm btn-primary" style="white-space:nowrap;">
+                            <i class="bx bx-play-circle me-1"></i>Practice
+                          </a>
+                        {% else %}
+                          <button class="btn btn-sm btn-outline-secondary" disabled style="white-space:nowrap;">Practice</button>
+                        {% endif %}
+
+                      </div>
+                      {% endfor %}
+                    </div><!-- /topic-body -->
+
+                  </div><!-- /topic-item -->
+                  {% endfor %}
+
+                </div><!-- /chapter-body -->
+              </div><!-- /chapter-item -->
+              {% endfor %}
+
+              </div><!-- /chaptersContainer -->
+
+            {% endif %}
+
+          </div><!-- /container-xxl -->
+
+          {% include 'footer.html' %}
+          <div class="content-backdrop fade"></div>
+        </div><!-- /content-wrapper -->
+      </div><!-- /layout-container -->
+    </div><!-- /layout-wrapper -->
+
+    <script src="{% static 'website/js/vendor/libs/jquery/jquery.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/popper/popper.js' %}"></script>
+    <script src="{% static 'website/js/bootstrap.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/node-waves/node-waves.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/perfect-scrollbar/perfect-scrollbar.js' %}"></script>
+    <script src="{% static 'website/js/vendor/menu.js' %}"></script>
+    <script type="text/javascript" src="{% static 'website/js/main.js' %}"></script>
+    <script type="text/javascript" src="{% static 'website/js/vendors.min.js' %}"></script>
+
+    <script>
+      /* ── Toggle chapters ── */
+      function toggleChapter(header) {
+        const body    = header.nextElementSibling;
+        const chevron = header.querySelector('.chapter-chevron');
+        const opening = !body.classList.contains('open');
+        body.classList.toggle('open', opening);
+        header.classList.toggle('open', opening);
+        chevron.style.transform = opening ? 'rotate(180deg)' : 'rotate(0deg)';
+      }
+
+      /* ── Toggle topics ── */
+      function toggleTopic(header) {
+        const body    = header.nextElementSibling;
+        const chevron = header.querySelector('.topic-chevron');
+        const opening = !body.classList.contains('open');
+        body.classList.toggle('open', opening);
+        header.classList.toggle('open', opening);
+        chevron.style.transform = opening ? 'rotate(180deg)' : 'rotate(0deg)';
+      }
+
+      function avgColor(pct) {
+        return pct >= 75 ? '#28a745' : pct >= 50 ? '#17a2b8' : pct >= 30 ? '#ffc107' : '#dc3545';
+      }
+
+      /* ── Compute & display averages ── */
+      function computeAverages() {
+        // Topic averages
+        document.querySelectorAll('.topic-item').forEach(topicEl => {
+          const slug = topicEl.dataset.topic;
+          const rows = topicEl.querySelectorAll('.skill-row');
+          if (!rows.length) return;
+          const avg  = Math.round([...rows].reduce((s, r) => s + parseInt(r.dataset.percent || 0, 10), 0) / rows.length);
+          const fill = topicEl.querySelector(`[data-topic-avg="${slug}"]`);
+          const pct  = topicEl.querySelector(`[data-topic-pct="${slug}"]`);
+          if (fill) { fill.style.width = avg + '%'; fill.style.background = avgColor(avg); }
+          if (pct)  pct.textContent = avg + '%';
+        });
+
+        // Chapter averages
+        document.querySelectorAll('.chapter-item').forEach(chapEl => {
+          const slug = chapEl.dataset.chapter;
+          const rows = chapEl.querySelectorAll('.skill-row');
+          if (!rows.length) return;
+          const avg  = Math.round([...rows].reduce((s, r) => s + parseInt(r.dataset.percent || 0, 10), 0) / rows.length);
+          const fill = chapEl.querySelector(`[data-chap-avg="${slug}"]`);
+          const pct  = chapEl.querySelector(`[data-chap-pct="${slug}"]`);
+          if (fill) { fill.style.width = avg + '%'; fill.style.background = avgColor(avg); }
+          if (pct)  pct.textContent = avg + '%';
+        });
+      }
+
+      /* ── Filtering ── */
+      function applyFilters() {
+        const chapter = document.getElementById('filterChapter').value;
+        const status  = document.getElementById('filterStatus').value;
+        const search  = (document.getElementById('filterSearch').value || '').toLowerCase().trim();
+
+        document.querySelectorAll('.chapter-item').forEach(chapEl => {
+          const chapMatch = !chapter || chapEl.dataset.chapter === chapter;
+          if (!chapMatch) { chapEl.style.display = 'none'; return; }
+          chapEl.style.display = '';
+
+          chapEl.querySelectorAll('.skill-row').forEach(row => {
+            const statusMatch = !status || row.dataset.status === status;
+            const nameEl      = row.querySelector('.skill-row-name');
+            const searchMatch = !search || (nameEl && nameEl.textContent.toLowerCase().includes(search));
+            row.style.display = (statusMatch && searchMatch) ? '' : 'none';
+          });
+
+          // Auto-expand chapters/topics that have visible matches when searching
+          chapEl.querySelectorAll('.topic-item').forEach(topicEl => {
+            const visibleRows = [...topicEl.querySelectorAll('.skill-row')].filter(r => r.style.display !== 'none');
+            topicEl.style.display = visibleRows.length ? '' : 'none';
+            if (search && visibleRows.length) {
+              topicEl.querySelector('.topic-body').classList.add('open');
+              const chev = topicEl.querySelector('.topic-chevron');
+              if (chev) chev.style.transform = 'rotate(180deg)';
+            }
+          });
+
+          const visibleTopics = [...chapEl.querySelectorAll('.topic-item')].filter(t => t.style.display !== 'none');
+          if (search && visibleTopics.length) {
+            chapEl.querySelector('.chapter-body').classList.add('open');
+          }
+        });
+      }
+
+      document.getElementById('filterChapter') && document.getElementById('filterChapter').addEventListener('change', applyFilters);
+      document.getElementById('filterStatus')  && document.getElementById('filterStatus').addEventListener('change', applyFilters);
+      document.getElementById('filterSearch')  && document.getElementById('filterSearch').addEventListener('input', applyFilters);
+
+      computeAverages();
+    </script>
+  </body>
+</html>

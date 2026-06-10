@@ -1,0 +1,1484 @@
+﻿{% load static %}
+
+
+
+
+    
+
+    {% include 'top_base.html' %}
+
+    <!-- endbuild -->
+
+    <!-- Number Skills AI SL Dedicated CSS -->
+    <link rel="stylesheet" href="{% static 'website/css/questionbank.css' %}" />
+
+    <!-- Image Lightbox CSS -->
+<link rel="stylesheet" href="{% static 'website/css/image-lightbox.css' %}" />
+
+    <style>
+      .answer-choices {
+        list-style-type: none;
+        padding-left: 0;
+        margin: 15px 0;
+      }
+      .answer-choice {
+        padding: 8px;
+        margin: 5px 0;
+        border: 1px solid #e9ecef;
+        border-radius: 4px;
+      }
+      .answer-choice.correct {
+        background-color: #d4edda;
+        border-color: #c3e6cb;
+      }
+      
+      /* Styling for Physics questions with li structure */
+      ul.answer-choices li.correct {
+        background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+        border: 2px solid #28a745;
+        border-radius: 6px;
+        box-shadow: 0 2px 8px rgba(40, 167, 69, 0.2);
+        font-weight: 500;
+        animation: highlightAnswer 0.6s ease-out;
+      }
+      
+      ul.answer-choices li.correct span {
+        font-weight: 500;
+      }
+      /* CSS for highlighting correct answers in HTML format */
+      p.question {
+        transition: all 0.4s ease-in-out;
+        border-radius: 6px;
+        padding: 8px 12px;
+        margin: 0px 0;
+        border: 2px solid transparent;
+      }
+      
+      p.question.correct {
+        background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+        border-color: #28a745;
+        box-shadow: 0 2px 8px rgba(40, 167, 69, 0.2);
+        font-weight: 500;
+      }
+      
+      /* Animation for the highlighting effect */
+      @keyframes highlightAnswer {
+        0% {
+          transform: scale(1) translateX(0);
+          box-shadow: 0 0 0 rgba(40, 167, 69, 0);
+        }
+        50% {
+          transform: scale(1.02) translateX(2px);
+          box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+        }
+        100% {
+          transform: scale(1) translateX(0px);
+          box-shadow: 0 2px 8px rgba(40, 167, 69, 0.2);
+        }
+      }
+      
+      p.question.correct {
+        animation: highlightAnswer 0.6s ease-out;
+      }
+
+      /* ChatGPT Section Styling */
+      .chatgpt-section {
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        border-radius: 8px;
+        padding: 15px;
+        margin-top: 15px;
+        border: 1px solid #dee2e6;
+      }
+      
+      .chatgpt-response {
+        background: white;
+        border-radius: 6px;
+        padding: 12px;
+        border-left: 4px solid #007bff;
+        margin-top: 10px;
+        font-size: 14px;
+        line-height: 1.5;
+      }
+      
+      .chatgpt-loading {
+        color: #6c757d;
+        font-style: italic;
+      }
+
+      /* ChatGPT Modal Styling */
+      .chat-modal .modal-dialog {
+        max-width: 600px;
+        max-height: 80vh;
+      }
+      
+      .chat-modal .modal-content {
+        max-height: 80vh;
+        display: flex;
+        flex-direction: column;
+      }
+      
+      .chat-modal .modal-header {
+        background: #f8f9fa;
+        color: #333;
+        border-radius: 8px 8px 0 0;
+        border-bottom: 1px solid #e9ecef;
+        padding: 20px 24px;
+      }
+      
+      .chat-modal .modal-header .btn-close {
+        filter: none;
+      }
+      
+      .chat-container {
+        flex: 1;
+        overflow-y: auto;
+        padding: 20px;
+        background-color: #f8f9fa;
+        min-height: 300px;
+        max-height: 500px;
+      }
+      
+      .chat-message {
+        margin-bottom: 15px;
+        animation: fadeInMessage 0.3s ease-out;
+      }
+      
+      @keyframes fadeInMessage {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      
+      .chat-message.user {
+        text-align: right;
+      }
+      
+      .chat-message.assistant {
+        text-align: left;
+      }
+      
+      .message-bubble {
+        display: inline-block;
+        max-width: 80%;
+        padding: 12px 16px;
+        border-radius: 18px;
+        font-size: 14px;
+        line-height: 1.4;
+        word-wrap: break-word;
+      }
+      
+      .message-bubble.user {
+        background: #e9ecef;
+        color: #333;
+        border-bottom-right-radius: 6px;
+      }
+      
+      .message-bubble.assistant {
+        background: white;
+        color: #333;
+        border: 1px solid #e9ecef;
+        border-bottom-left-radius: 6px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      }
+      
+      .chat-input-container {
+        padding: 15px;
+        background: white;
+        border-top: 1px solid #e9ecef;
+        border-radius: 0 0 8px 8px;
+      }
+      
+      .chat-input-row {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
+      
+      .chat-input {
+        flex: 1;
+        border: 1px solid #ddd;
+        border-radius: 25px;
+        padding: 12px 20px;
+        font-size: 14px;
+        outline: none;
+        transition: border-color 0.2s;
+      }
+      
+      .chat-input:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 0 3px rgba(0,123,255,0.1);
+      }
+      
+      .chat-send-btn {
+        width: 48px;
+        height: 48px;
+        border-radius: 8px;
+        border: none;
+        background: #e9ecef;
+        color: #6c757d;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: background-color 0.2s;
+      }
+      
+      .chat-send-btn:hover {
+        background: #dee2e6;
+      }
+      
+      .chat-send-btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+      }
+      
+      .typing-indicator {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        color: #6c757d;
+        font-style: italic;
+        margin: 10px 0;
+        padding: 10px;
+      }
+      
+      .typing-dots {
+        display: flex;
+        gap: 3px;
+      }
+      
+      .typing-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background-color: #6c757d;
+        animation: typingDot 1.4s infinite ease-in-out;
+      }
+      
+      .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+      .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+      
+      @keyframes typingDot {
+        0%, 80%, 100% { opacity: 0.3; transform: scale(0.8); }
+        40% { opacity: 1; transform: scale(1); }
+      }
+      
+
+      /* Robot Background */
+      .robot-bg {
+        background-color: #c9d1ff !important;
+      }
+
+      /* Arrow Animation */
+      .arrow-container {
+        transition: border 0.15s ease;
+      }
+
+      .arrow-container:hover {
+        border: 2px solid #6c757d !important;
+      }
+
+      /* Force sidebar scrolling with thin scrollbar */
+      .layout-menu .menu-inner {
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+        -webkit-overflow-scrolling: touch !important;
+      }
+      
+      /* Style the scrollbar to be thin and elegant */
+      .layout-menu .menu-inner::-webkit-scrollbar {
+        width: 4px;
+      }
+      
+      .layout-menu .menu-inner::-webkit-scrollbar-track {
+        background: rgba(0,0,0,0.1);
+        border-radius: 2px;
+      }
+      
+      .layout-menu .menu-inner::-webkit-scrollbar-thumb {
+        background: rgba(0,0,0,0.15);
+        border-radius: 2px;
+      }
+      
+      .layout-menu .menu-inner::-webkit-scrollbar-thumb:hover {
+        background: rgba(0,0,0,0.25);
+      }
+      
+      /* Firefox scrollbar styling */
+      .layout-menu .menu-inner {
+        scrollbar-width: thin;
+        scrollbar-color: rgba(0,0,0,0.3) rgba(0,0,0,0.1);
+      }
+    </style>
+
+<script>
+  // Store questions data globally
+  let questionsData = [];
+  let availablePapers = [];
+  let availableDifficulties = [];
+  
+  // User session variables
+  const user_logged_in = {{ user_logged_in|yesno:"true,false" }};
+  const user_type = "{{ user_type }}";
+
+  function fetchQuestions() {
+    const selectedDifficulties = [];
+    const selectedPapers = [];
+    
+    // Check if "All" is selected for difficulty
+    const difficultyAllChecked = document.getElementById('difficultyAll').checked;
+    if (!difficultyAllChecked) {
+      document.querySelectorAll('input[type="checkbox"][id^="difficulty"]:not([id="difficultyAll"])').forEach(checkbox => {
+        if (checkbox.checked) {
+          selectedDifficulties.push(checkbox.value);
+        }
+      });
+    }
+    
+    // Check if "All" is selected for papers
+    const paperAllChecked = document.getElementById('paperAll').checked;
+    if (!paperAllChecked) {
+      document.querySelectorAll('input[type="checkbox"][id^="paper"]:not([id="paperAll"])').forEach(checkbox => {
+        if (checkbox.checked) {
+          selectedPapers.push(checkbox.value);
+        }
+      });
+    }
+    
+    // Build query parameters
+    const params = new URLSearchParams();
+    params.append('chapter', '{{ chapter }}');
+    
+    if (!difficultyAllChecked && selectedDifficulties.length > 0) {
+      selectedDifficulties.forEach(difficulty => params.append('difficulties[]', difficulty));
+    }
+    
+    if (!paperAllChecked && selectedPapers.length > 0) {
+      selectedPapers.forEach(paper => params.append('papers[]', paper));
+    }
+    
+    const url = `/api/physics-sl-questions/?${params.toString()}`;
+    
+    fetch(url)
+      .then(response => response.json())
+      .then(data => {
+        // Handle new API response format
+        console.log('API Response:', data);
+        const questions = data.questions || data; // Fallback for old format
+        const metadata = data.metadata || {};
+        console.log('Metadata:', metadata);
+        
+        // Store questions data globally
+        questionsData = questions;
+        
+        // Update available papers and difficulties if metadata is present
+        if (metadata.available_papers) {
+          availablePapers = metadata.available_papers;
+          console.log('Available papers:', availablePapers);
+          generatePaperOptions(availablePapers);
+        }
+        
+        if (metadata.available_difficulties) {
+          availableDifficulties = metadata.available_difficulties;
+          console.log('Available difficulties:', availableDifficulties);
+          generateDifficultyOptions(availableDifficulties);
+        }
+        
+        const container = document.getElementById('questionsContainer');
+        container.innerHTML = '';
+        
+        questions.forEach((question, index) => {
+          const questionNumber = index + 1;
+          const div = document.createElement('div');
+          div.className = 'card question-card mb-4';
+          
+          // Determine if question should be blurred (using existing subscription logic)
+          let blur = false;
+          if (question.type === 'registered' && !user_logged_in) {
+            blur = true;
+          } else if (question.type === 'premium' && user_type !== 'premium') {
+            blur = true;
+          }
+          
+          const overlay = blur ? `
+            <div class="locked-overlay">
+              <div class="lock-icon">
+                <i class="iconify" data-icon="mdi:lock"></i>
+              </div>
+              <div class="lock-text">
+                ${question.type === 'registered' ? 'Register for Free Access' : 'Premium Content'}
+              </div>
+              <div class="lock-action">
+                ${question.type === 'registered' ? 
+                  '<a href="/register/" class="btn btn-primary btn-sm">Register Free</a>' : 
+                  '<a href="/pricing/" class="btn btn-warning btn-sm">Upgrade to Premium</a>'
+                }
+              </div>
+            </div>
+          ` : '';
+          
+          // Use the same renderQuestion function as the dynamic loading
+          const questionHTML = renderQuestion(question, questionNumber);
+          div.innerHTML = questionHTML;
+          container.appendChild(div);
+        });
+      })
+      .catch(error => {
+        console.error('Error fetching questions:', error);
+        const container = document.getElementById('questionsContainer');
+        container.innerHTML = `
+          <div class="card">
+            <div class="card-body text-center py-5">
+              <h5 class="card-title text-danger">Error Loading Questions</h5>
+              <p class="card-text text-muted">Please try again later.</p>
+            </div>
+          </div>
+        `;
+      });
+  }
+
+  // ChatGPT Modal Integration Functions
+  let currentQuestionData = null;
+  let conversationHistory = [];
+
+  function handleChatGPTKeyPress(event, questionNumber, questionId) {
+    if (event.key === 'Enter') {
+      openChatModal(questionNumber, questionId);
+    }
+  }
+
+  function openChatModal(questionNumber, questionId) {
+    // Find the question data
+    currentQuestionData = questionsData.find(q => q.id === questionId);
+    
+    // Get any text from the input field
+    const inputElement = document.getElementById(`chatgpt-input-${questionNumber}`);
+    const initialMessage = inputElement ? inputElement.value.trim() : '';
+    
+    // Set up the modal
+    const modal = new bootstrap.Modal(document.getElementById('chatModal'));
+    
+    // Clear conversation history for new question
+    conversationHistory = [];
+    
+    // Reset chat container to welcome message
+    const chatContainer = document.getElementById('chatContainer');
+    chatContainer.innerHTML = `
+      <div class="chat-message assistant">
+        <div class="message-bubble assistant">
+          Struggling with this Physics SL question? No problem at all! Ask me anything you need about this question, answer, or markscheme! 🤝
+        </div>
+      </div>
+    `;
+    
+    // Show modal
+    modal.show();
+    
+    // If there was text in the input field, put it in the modal input and clear the original
+    setTimeout(() => {
+      const modalInput = document.getElementById('modalChatInput');
+      if (initialMessage) {
+        modalInput.value = initialMessage;
+        inputElement.value = ''; // Clear the original input
+      }
+      modalInput.focus();
+    }, 300);
+  }
+
+  function handleModalKeyPress(event) {
+    if (event.key === 'Enter') {
+      sendModalMessage();
+    }
+  }
+
+  async function sendModalMessage() {
+    const input = document.getElementById('modalChatInput');
+    const userMessage = input.value.trim();
+    
+    if (!userMessage) return;
+    
+    // Clear input
+    input.value = '';
+    
+    // Add user message to chat
+    addMessageToChat(userMessage, 'user');
+    
+    // Show typing indicator
+    showTypingIndicator();
+    
+    // Disable send button
+    const sendBtn = document.getElementById('modalSendBtn');
+    sendBtn.disabled = true;
+    
+    try {
+      // Prepare context for ChatGPT
+      const questionContext = `
+        Subject: Physics SL - {{ topic_title }}
+        
+        Question: ${currentQuestionData ? currentQuestionData.question.replace(/<[^>]*>/g, '').trim() : ''}
+        Correct Answer: ${currentQuestionData ? currentQuestionData.correct_answer : ''}
+        Detailed Explanation: ${currentQuestionData && currentQuestionData.answer ? currentQuestionData.answer.replace(/<[^>]*>/g, '').trim() : 'No detailed explanation available'}
+        
+        Conversation History: ${conversationHistory.map(msg => `${msg.role}: ${msg.content}`).join('\n')}
+        
+        Student's Current Question: ${userMessage}
+      `;
+      
+      // Call ChatGPT API
+      const response = await fetch('/api/chatgpt-query/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': getCookie('csrftoken')
+        },
+        body: JSON.stringify({
+          question_context: questionContext,
+          user_question: userMessage
+        })
+      });
+      
+      if (!response.ok) {
+        throw new Error('Failed to get response from ChatGPT');
+      }
+      
+      const data = await response.json();
+      
+      // Hide typing indicator
+      hideTypingIndicator();
+      
+      // Add ChatGPT response to chat
+      const responseText = data.response || 'Sorry, I couldn\'t generate a response. Please try again.';
+      addMessageToChat(responseText, 'assistant');
+      
+      // Add to conversation history
+      conversationHistory.push(
+        { role: 'user', content: userMessage },
+        { role: 'assistant', content: responseText }
+      );
+      
+    } catch (error) {
+      console.error('ChatGPT Error:', error);
+      hideTypingIndicator();
+      addMessageToChat('❌ Sorry, there was an error connecting to our AI tutor. Please try again later.', 'assistant');
+    }
+    
+    // Re-enable send button
+    sendBtn.disabled = false;
+  }
+
+  function addMessageToChat(message, sender) {
+    const chatContainer = document.getElementById('chatContainer');
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `chat-message ${sender}`;
+    
+    const bubbleDiv = document.createElement('div');
+    bubbleDiv.className = `message-bubble ${sender}`;
+    bubbleDiv.innerHTML = message;
+    
+    messageDiv.appendChild(bubbleDiv);
+    chatContainer.appendChild(messageDiv);
+    
+    // Scroll to bottom
+    chatContainer.scrollTop = chatContainer.scrollHeight;
+  }
+
+  function showTypingIndicator() {
+    const indicator = document.getElementById('typingIndicator');
+    indicator.style.display = 'flex';
+    
+    // Scroll to show indicator
+    setTimeout(() => {
+      const chatContainer = document.getElementById('chatContainer');
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+    }, 100);
+  }
+
+  function hideTypingIndicator() {
+    const indicator = document.getElementById('typingIndicator');
+    indicator.style.display = 'none';
+  }
+  
+  // Helper function to get CSRF token
+  function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+      const cookies = document.cookie.split(';');
+      for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i].trim();
+        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          break;
+        }
+      }
+    }
+    return cookieValue;
+  }
+</script>
+
+  </head>
+
+  <body>
+    <!-- Layout wrapper -->
+    <div class="layout-wrapper layout-content-navbar">
+      <div class="layout-container">
+        <!-- Menu -->
+
+        {% include 'sidebar.html' %}
+
+          <!-- / Navbar -->
+
+          <div class="content-wrapper">
+
+            <div class="container-xxl flex-grow-1 container-p-y">
+
+              <h3 class="pb-1 mb-6">{{ topic_title }} | Physics SL Questionbank</h3>
+
+              <!-- Filters Section -->
+              <div class="d-flex flex-wrap gap-3 mb-4">
+                <!-- Difficulty Filter -->
+                <div class="filter-card card">
+                  <div class="card-body">
+                    <div class="filter-title">Difficulty Level</div>
+                    <div id="difficultyFiltersContainer">
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="difficultyAll" value="all" />
+                        <label class="form-check-label" for="difficultyAll">All</label>
+                      </div>
+                      <!-- Dynamic difficulty options will be populated here -->
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Paper Type Filter -->
+                <div class="filter-card card">
+                  <div class="card-body">
+                    <div class="filter-title">Paper</div>
+                    <div id="paperFiltersContainer">
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="paperAll" value="all" />
+                        <label class="form-check-label" for="paperAll">All</label>
+                      </div>
+                      <!-- Dynamic paper options will be populated here -->
+                    </div>
+                  </div>
+                </div>
+
+
+
+              </div>
+              <br><br>
+              <!-- Content Area -->
+              <div class="row">
+                <div class="col-12">
+                  <!-- Loading Spinner -->
+                  <div class="loading-spinner text-center py-5">
+                    <div class="spinner-border text-primary" role="status">
+                      <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p class="mt-2 text-muted">Loading questions...</p>
+                  </div>
+
+                  <!-- Questions Container -->
+                  <div id="questionsContainer">
+                    <!-- Initial placeholder -->
+                    <div class="card" id="placeholder">
+                      <div class="card-body text-center py-5">
+                        <h5 class="card-title">Physics SL Question Bank</h5>
+                        <p class="card-text text-muted">Select filters above to browse through the question bank, or see all questions below.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Answer Modal -->
+            <div class="modal fade answer-modal" id="answerModal" tabindex="-1" aria-labelledby="answerModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="answerModalLabel">
+                      <span id="modalQuestionNumber">Question Answer</span>
+                      <span id="modalBadges"></span>
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <div id="modalAnswerContent">
+                      <!-- Answer content will be loaded here -->
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Video Modal -->
+            <div class="modal fade video-modal" id="videoModal" tabindex="-1" aria-labelledby="videoModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="videoModalLabel">
+                      <span id="videoQuestionNumber">Question Video</span>
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <div id="videoContainer">
+                      <!-- YouTube embed will be loaded here -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Footer -->
+            <!-- <footer class="content-footer footer bg-footer-theme">
+              <div class="container-xxl">
+                <div
+                  class="footer-container d-flex align-items-center justify-content-between py-4 flex-md-row flex-column">
+                  <div class="text-body">
+                    ©
+                    <script>
+                      document.write(new Date().getFullYear());
+                    </script>
+                    , made with ❤️ by
+                    <a href="https://edunade.com" target="_blank" class="footer-link">Edunade</a>
+                  </div>
+                </div>
+              </div>
+            </footer> -->
+            <!-- / Footer -->
+
+            <div class="content-backdrop fade"></div>
+          </div>
+          <!-- Content wrapper -->
+        </div>
+        <!-- / Layout page -->
+      </div>
+
+      <!-- Overlay -->
+      <div class="layout-overlay layout-menu-toggle"></div>
+
+      <!-- Drag Target Area To SlideIn Menu On Small Screens -->
+      <div class="drag-target"></div>
+    </div>
+    <!-- / Layout wrapper -->
+
+    <!-- Core JS -->
+    <!-- build:js assets/vendor/js/core.js -->
+
+    <script type="text/javascript" src="{% static 'website/js/vendor/jquery.js' %}"></script>
+    <script type="text/javascript" src="{% static 'website/js/vendor/popper.js' %}"></script>
+    <script type="text/javascript" src="{% static 'website/js/vendor/bootstrap.js' %}"></script>
+    <script type="text/javascript" src="{% static 'website/js/vendor/perfect-scrollbar.js' %}"></script>
+    <script type="text/javascript" src="{% static 'website/js/vendor/hammer.js' %}"></script>
+    <script type="text/javascript" src="{% static 'website/js/vendor/i18n.js' %}"></script>
+    <script type="text/javascript" src="{% static 'website/js/vendor/typeahead.js' %}"></script>
+    <script type="text/javascript" src="{% static 'website/js/vendor/menu.js' %}"></script>
+
+    <!-- endbuild -->
+
+    <!-- Vendors JS -->
+    <script type="text/javascript" src="{% static 'website/js/vendor/apexcharts.js' %}"></script>
+    <script type="text/javascript" src="{% static 'website/js/vendor/swiper.js' %}"></script>
+
+    <!-- Iconify (for icons) -->
+    <script src="https://code.iconify.design/3/3.1.1/iconify.min.js"></script>
+
+    <!-- MathJax for math rendering -->
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          displayMath: [['$$', '$$'], ['\\[', '\\]']]
+        }
+      };
+    </script>
+
+    <!-- Helpers -->
+    <script type="text/javascript" src="{% static 'website/js/vendor/helpers.js' %}"></script>
+
+    <!--? Template customizer: To hide customizer set displayCustomizer value false in config.js. -->
+    <!-- <script type="text/javascript" src="{% static 'website/js/vendor/template-customizer.js' %}"></script> -->
+
+    <!--? Config: Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file. -->
+
+    <script type="text/javascript" src="{% static 'website/js/vendor/config.js' %}"></script>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        let difficultyCheckboxes = document.querySelectorAll('#difficultyAll, .difficulty-checkbox');
+        let paperCheckboxes = document.querySelectorAll('#paperAll, .paper-checkbox');
+        const questionsContainer = document.getElementById('questionsContainer');
+        const loadingSpinner = document.querySelector('.loading-spinner');
+        const placeholder = document.getElementById('placeholder');
+        
+        function showLoading() {
+          loadingSpinner.style.display = 'block';
+          questionsContainer.style.display = 'none';
+        }
+        
+        function hideLoading() {
+          loadingSpinner.style.display = 'none';
+          questionsContainer.style.display = 'block';
+        }
+        
+        function formatPaperName(paper) {
+          // Convert "paper1A" to "Paper 1A", "paper1B" to "Paper 1B", "paper2" to "Paper 2"
+          if (paper === 'paper1A') {
+            return 'Paper 1A';
+          } else if (paper === 'paper1B') {
+            return 'Paper 1B';
+          } else if (paper === 'paper2') {
+            return 'Paper 2';
+          } else if (paper.toLowerCase().startsWith('paper')) {
+            const number = paper.replace(/paper/i, '');
+            return `Paper ${number.toUpperCase()}`;
+          }
+          return paper; // Return as-is if it doesn't match expected format
+        }
+        
+        function generateDifficultyOptions(difficulties) {
+          const container = document.getElementById('difficultyFiltersContainer');
+          
+          // Save current checked states
+          const checkedStates = {};
+          const existingOptions = container.querySelectorAll('.difficulty-checkbox');
+          existingOptions.forEach(checkbox => {
+            checkedStates[checkbox.value] = checkbox.checked;
+          });
+          
+          // Remove any existing dynamic difficulty options
+          existingOptions.forEach(option => option.closest('.form-check').remove());
+          
+          difficulties.forEach(difficulty => {
+            const optionHTML = `
+              <div class="form-check form-check-inline">
+                <input class="form-check-input difficulty-checkbox" type="checkbox" id="difficulty${difficulty}" value="${difficulty}" ${checkedStates[difficulty] ? 'checked' : ''} />
+                <label class="form-check-label" for="difficulty${difficulty}">${difficulty}</label>
+              </div>
+            `;
+            container.insertAdjacentHTML('beforeend', optionHTML);
+          });
+          
+          // Update difficultyCheckboxes array with new elements
+          difficultyCheckboxes = document.querySelectorAll('#difficultyAll, .difficulty-checkbox');
+          
+          // Add event listeners to new difficulty checkboxes
+          difficulties.forEach(difficulty => {
+            const checkbox = document.getElementById(`difficulty${difficulty}`);
+            if (checkbox) {
+              checkbox.addEventListener('change', function() {
+                if (this.checked) {
+                  // Uncheck "All" when any individual difficulty is selected
+                  document.getElementById('difficultyAll').checked = false;
+                }
+                fetchQuestions();
+              });
+            }
+          });
+        }
+
+        function generatePaperOptions(papers) {
+          const container = document.getElementById('paperFiltersContainer');
+          
+          // Save current checked states
+          const checkedStates = {};
+          const existingOptions = container.querySelectorAll('.paper-checkbox');
+          existingOptions.forEach(checkbox => {
+            checkedStates[checkbox.value] = checkbox.checked;
+          });
+          
+          // Remove any existing dynamic paper options
+          existingOptions.forEach(option => option.closest('.form-check').remove());
+          
+          papers.forEach(paper => {
+            const formattedName = formatPaperName(paper);
+            const optionHTML = `
+              <div class="form-check form-check-inline">
+                <input class="form-check-input paper-checkbox" type="checkbox" id="${paper}" value="${paper}" ${checkedStates[paper] ? 'checked' : ''} />
+                <label class="form-check-label" for="${paper}">${formattedName}</label>
+              </div>
+            `;
+            container.insertAdjacentHTML('beforeend', optionHTML);
+          });
+          
+          // Update paperCheckboxes array with new elements
+          paperCheckboxes = document.querySelectorAll('#paperAll, .paper-checkbox');
+          
+          // Add event listeners to new paper checkboxes
+          papers.forEach(paper => {
+            const checkbox = document.getElementById(paper);
+            if (checkbox) {
+              checkbox.addEventListener('change', function() {
+                if (this.checked) {
+                  // Uncheck "All" when any individual paper is selected
+                  document.getElementById('paperAll').checked = false;
+                }
+                fetchQuestions();
+              });
+            }
+          });
+        }
+
+        function sortQuestionsByDifficulty(questions) {
+          // The ordering is already applied by the API based on user subscription status
+          // Just return questions as-is to preserve the custom ordering
+          return questions;
+        }
+        
+        function renderQuestion(question, questionNumber) {
+          // Determine if content should be blurred
+          let blur = false;
+          if (question.type === 'registered' && !user_logged_in) {
+            blur = true;
+          } else if (question.type === 'premium' && user_type !== 'premium') {
+            blur = true;
+          }
+          
+          // Create overlay for locked content
+          let overlay = '';
+          if (blur) {
+            if (question.type === 'registered') {
+              overlay = `<a class="unlock-overlay lite" tabindex="0" href="/register/">Lite (Free)</a>`;
+            } else if (question.type === 'premium') {
+              overlay = `<a class="unlock-overlay premium" tabindex="0" href="/pricing/">Premium</a>`;
+            } else {
+              overlay = '<div class="unlock-overlay" tabindex="0">Upgrade to unlock</div>';
+            }
+          }
+          
+          // Format badges
+          const difficultyClass = `difficulty-${question.difficulty.toLowerCase()}`;
+          const formattedDifficulty = question.difficulty;
+          const formattedPaper = formatPaperName(question.paper);
+          
+          // Create buttons
+          let answerButton = '';
+          let videoButton = '';
+          if (blur) {
+            answerButton = `<button class="btn btn-outline-primary answer-btn mb-3 w-100" disabled aria-disabled="true">Answer</button>`;
+            videoButton = `<button class="btn btn-outline-secondary video-btn w-100" disabled aria-disabled="true">Video</button>`;
+          } else {
+            // For Paper 2, only show Explanation button (if answer is not "none")
+            if (question.paper === 'paper2') {
+              if (question.answer && question.answer.toLowerCase() !== 'none') {
+                answerButton = `
+                  <button class="btn btn-outline-primary mb-2 w-100" onclick="showAnswer('${questionNumber}', ${question.id}, '${formattedDifficulty}', '${formattedPaper}')" data-bs-toggle="modal" data-bs-target="#answerModal">
+                    Explanation
+                  </button>
+                `;
+              } else {
+                answerButton = ''; // No explanation button if answer is "none"
+              }
+            } else {
+              // Paper 1: Show Answer button, and Explanation button only if answer is not "none"
+              answerButton = `
+                <button class="btn btn-outline-primary mb-2 w-100" onclick="toggleAnswer(this, '${question.correct_answer}')" >
+                  Answer
+                </button>
+              `;
+              
+              if (question.answer && question.answer.toLowerCase() !== 'none') {
+                answerButton += `
+                  <button class="btn btn-outline-primary mb-2 w-100" onclick="showAnswer('${questionNumber}', ${question.id}, '${formattedDifficulty}', '${formattedPaper}')" data-bs-toggle="modal" data-bs-target="#answerModal">
+                    Explanation
+                  </button>
+                `;
+              }
+            }
+            if (question.video && question.video !== 'none') {
+              videoButton = `<button class="btn btn-outline-primary video-btn w-100" onclick="showVideo('${questionNumber}', '${question.video}')" data-bs-toggle="modal" data-bs-target="#videoModal">Video</button>`;
+            } else {
+              videoButton = `<button class="btn btn-outline-secondary video-btn w-100" onclick="showVideoNotAvailable('${questionNumber}')" data-bs-toggle="modal" data-bs-target="#videoModal">Video</button>`;
+            }
+          }
+
+          // AI chat functionality commented out
+          /*
+          const chatGPTSection = !blur ? `
+            <div class="question-text">
+              <div class="d-flex align-items-stretch mt-3">
+                <div class="robot-bg rounded d-flex align-items-center justify-content-center me-2" style="min-width: 48px;">
+                  <i class="iconify text-primary" data-icon="mdi:robot-outline" style="font-size: 1.5rem;"></i>
+                </div>
+                <input type="text" class="form-control me-2" 
+                       style="background-color: #f8f9fa;"
+                       placeholder="Ask a follow-up question..." 
+                       id="chatgpt-input-${questionNumber}"
+                       onkeypress="handleChatGPTKeyPress(event, ${questionNumber}, ${question.id})">
+                <div class="arrow-container rounded d-flex align-items-center justify-content-center" style="cursor: pointer; min-width: 48px; background-color: #e9ecef;" onclick="openChatModal(${questionNumber}, ${question.id})">
+                  <i class="iconify arrow-icon text-muted" data-icon="mdi:arrow-right" style="font-size: 1.2rem;"></i>
+                </div>
+              </div>
+              <div id="chatgpt-response-${questionNumber}" class="chatgpt-response mt-2" style="display: none;">
+                <div id="chatgpt-text-${questionNumber}"></div>
+              </div>
+            </div>
+          ` : '';
+          */
+          const chatGPTSection = '';
+          
+          return `
+            <div class="card question-card${blur ? ' blurred-question' : ''}">
+              <div class="card-body">
+                ${overlay}
+                <div class="row${blur ? ' blurred-question-content' : ''}">
+                  <div class="col-md-9 col-12">
+                    <!-- Question Header -->
+                    <div class="d-flex align-items-center mb-3">
+                      <span class="question-number">Question ${questionNumber}</span>
+                      <span class="badge ${difficultyClass} difficulty-badge">${formattedDifficulty}</span>
+                      <span class="paper-badge">${formattedPaper}</span>
+                    </div>
+                    
+                    <!-- Maximum Mark -->
+                    ${question.marks ? `
+                      <div class="question-marks">
+                        <p>[Maximum Mark: ${question.marks}]</p>
+                      </div>
+                    ` : ''}
+                    
+                    <!-- Question Text -->
+                    <div class="question-text">
+                      ${question.question}
+                    </div>
+                    
+                    <!-- ChatGPT Integration -->
+                    ${chatGPTSection}
+                  </div>
+                  
+                  <!-- Desktop Vertical Line -->
+                  <div class="col-md-1 d-none d-md-flex justify-content-center desktop-separator">
+                    <div style="width: 2px; background-color: #e9ecef; height: 100%; min-height: 80px;"></div>
+                  </div>
+                  
+                  <!-- Mobile Horizontal Line -->
+                  <div class="mobile-separator d-md-none"></div>
+                  
+                  <!-- Buttons Column -->
+                  <div class="col-md-2 col-12 d-flex flex-column align-items-start justify-content-start pt-2">
+                    ${answerButton}
+                    ${videoButton}
+                  </div>
+                </div>
+              </div>
+            </div>
+          `;
+        }
+        
+        function fetchQuestions() {
+          const selectedDifficulties = [];
+          const selectedPapers = [];
+          
+          // Check if "All" is selected for difficulty
+          const difficultyAllChecked = document.getElementById('difficultyAll').checked;
+          if (!difficultyAllChecked) {
+            document.querySelectorAll('input[type="checkbox"][id^="difficulty"]:not([id="difficultyAll"])').forEach(checkbox => {
+              if (checkbox.checked) {
+                selectedDifficulties.push(checkbox.value);
+              }
+            });
+          }
+          
+          // Check if "All" is selected for papers
+          const paperAllChecked = document.getElementById('paperAll').checked;
+          if (!paperAllChecked) {
+            document.querySelectorAll('input[type="checkbox"][id^="paper"]:not([id="paperAll"])').forEach(checkbox => {
+              if (checkbox.checked) {
+                selectedPapers.push(checkbox.value);
+              }
+            });
+          }
+          
+          // Build query parameters
+          const params = new URLSearchParams();
+          params.append('chapter', '{{ chapter }}');
+          
+          if (!difficultyAllChecked && selectedDifficulties.length > 0) {
+            selectedDifficulties.forEach(difficulty => params.append('difficulties[]', difficulty));
+          }
+          
+          if (!paperAllChecked && selectedPapers.length > 0) {
+            selectedPapers.forEach(paper => params.append('papers[]', paper));
+          }
+          
+          const url = `/api/physics-sl-questions/?${params.toString()}`;
+          
+          showLoading();
+          
+          fetch(url)
+            .then(response => {
+              if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+              }
+              return response.json();
+            })
+            .then(data => {
+              // Handle new API response format
+              const questions = data.questions || data; // Fallback for old format
+              const metadata = data.metadata || {};
+              
+              // Store questions data globally
+              questionsData = questions;
+              
+              // Update available papers and difficulties if metadata is present
+              if (metadata.available_papers) {
+                availablePapers = metadata.available_papers;
+                console.log('Available papers (2nd call):', availablePapers);
+                generatePaperOptions(availablePapers);
+              }
+              
+              if (metadata.available_difficulties) {
+                availableDifficulties = metadata.available_difficulties;
+                console.log('Available difficulties (2nd call):', availableDifficulties);
+                generateDifficultyOptions(availableDifficulties);
+              }
+              
+              hideLoading();
+              
+              if (questions.length === 0) {
+                questionsContainer.innerHTML = `
+                  <div class="card">
+                    <div class="card-body text-center py-5">
+                      <h5 class="card-title">No questions found...</h5>
+                      <p class="card-text text-muted">Try adjusting your filters!</p>
+                    </div>
+                  </div>
+                `;
+                return;
+              }
+              
+              // Sort questions based on user type (API already handles custom ordering)
+              const sortedQuestions = sortQuestionsByDifficulty(questions);
+              
+              questionsContainer.innerHTML = '';
+              sortedQuestions.forEach((question, index) => {
+                const questionNumber = index + 1;
+                const questionHTML = renderQuestion(question, questionNumber);
+                questionsContainer.insertAdjacentHTML('beforeend', questionHTML);
+              });
+              
+              // Process MathJax if available
+              if (window.MathJax) {
+                MathJax.typesetPromise([questionsContainer]).catch((err) => console.log('MathJax error:', err.message));
+              }
+              
+              // Refresh image lightbox for newly loaded questions
+              if (window.imageLightbox) {
+                window.imageLightbox.refresh();
+              }
+            })
+            .catch(error => {
+              console.error('Error fetching questions:', error);
+              hideLoading();
+              questionsContainer.innerHTML = `
+                <div class="card">
+                  <div class="card-body text-center py-5">
+                    <h5 class="card-title text-danger">Error Loading Questions</h5>
+                    <p class="card-text text-muted">Please try again later.</p>
+                  </div>
+                </div>
+              `;
+            });
+        }
+        
+        // Handle "All" checkbox interactions
+        document.getElementById('difficultyAll').addEventListener('change', function() {
+          if (this.checked) {
+            // Uncheck all individual difficulty checkboxes when "All" is selected
+            document.querySelectorAll('.difficulty-checkbox').forEach(checkbox => {
+              checkbox.checked = false;
+            });
+          }
+          fetchQuestions();
+        });
+        
+        // Individual difficulty checkboxes are handled dynamically in generateDifficultyOptions()
+        
+        document.getElementById('paperAll').addEventListener('change', function() {
+          if (this.checked) {
+            // Uncheck all individual paper checkboxes when "All" is selected
+            document.querySelectorAll('.paper-checkbox').forEach(checkbox => {
+              checkbox.checked = false;
+            });
+          }
+          fetchQuestions();
+        });
+        
+        // Individual paper checkboxes are handled dynamically in generatePaperOptions()
+        
+        // Load all questions initially by checking "All" options
+        document.getElementById('difficultyAll').checked = true;
+        document.getElementById('paperAll').checked = true;
+        fetchQuestions();
+
+        // Fix sidebar scrolling by reinitializing PerfectScrollbar
+        setTimeout(() => {
+          if (window.Helpers && window.Helpers.menuPsScroll) {
+            try {
+              window.Helpers.menuPsScroll.update();
+            } catch (e) {
+              console.log('PerfectScrollbar update failed:', e);
+            }
+          }
+          
+          // Fallback: ensure menu-inner has proper scrolling
+          const menuInner = document.querySelector('.menu-inner');
+          if (menuInner) {
+            menuInner.style.overflowY = 'auto';
+            menuInner.style.webkitOverflowScrolling = 'touch';
+          }
+        }, 1000);
+      });
+      
+      // Also ensure MathJax processes when modal is fully shown
+      document.addEventListener('DOMContentLoaded', function() {
+        const answerModal = document.getElementById('answerModal');
+        const videoModal = document.getElementById('videoModal');
+        
+        if (answerModal) {
+          answerModal.addEventListener('shown.bs.modal', function () {
+            const modalContent = document.getElementById('modalAnswerContent');
+            if (window.MathJax && modalContent) {
+              MathJax.typesetPromise([modalContent]).catch((err) => console.log('MathJax modal error:', err.message));
+            }
+            
+            // Refresh image lightbox for modal content
+            if (window.imageLightbox) {
+              window.imageLightbox.refresh();
+            }
+          });
+        }
+        
+        if (videoModal) {
+          // Clean up video when modal is closed to stop playback
+          videoModal.addEventListener('hidden.bs.modal', function () {
+            const videoContainer = document.getElementById('videoContainer');
+            videoContainer.innerHTML = '';
+          });
+        }
+      });
+
+      // Function to toggle answer visibility (highlight/unhighlight correct answer)
+      function toggleAnswer(button, correctAnswer) {
+        // Find the question container
+        const container = button.closest('.card');
+        
+        // Find all answer elements - both p.question and li span elements
+        const pAnswers = container.querySelectorAll('p.question');
+        const liAnswers = container.querySelectorAll('ul.answer-choices li span');
+        
+        // Combine both types of answer elements
+        const allAnswers = [...pAnswers, ...liAnswers];
+        
+        // Check if answer is currently shown
+        const isAnswerShown = Array.from(allAnswers).some(answer => 
+          answer.classList.contains('correct') || answer.closest('li')?.classList.contains('correct')
+        );
+        
+        if (isAnswerShown) {
+          // Hide answer - remove highlighting with smooth transition
+          allAnswers.forEach(answer => {
+            answer.classList.remove('correct');
+            // Also remove from parent li if it's a span inside li
+            if (answer.closest('li')) {
+              answer.closest('li').classList.remove('correct');
+            }
+          });
+          button.innerHTML = 'Answer';
+        } else {
+          // Show answer - add highlighting with animation
+          button.innerHTML = 'Hide Answer';
+          
+          // Small delay to ensure button text updates before animation
+          setTimeout(() => {
+            allAnswers.forEach(answer => {
+              const answerText = answer.textContent.trim().toLowerCase();
+              if (answerText.startsWith(correctAnswer.toLowerCase() + ')')) {
+                answer.classList.add('correct');
+                // Also add to parent li if it's a span inside li
+                if (answer.closest('li')) {
+                  answer.closest('li').classList.add('correct');
+                }
+              }
+            });
+          }, 50);
+        }
+      }
+
+      // Function to show answer in modal
+      function showAnswer(questionNumber, questionId, difficulty, paper) {
+        // Find the question data from the global questionsData
+        const question = questionsData.find(q => q.id === questionId);
+        if (!question) {
+          console.error('Question not found');
+          return;
+        }
+        
+        // Update modal title
+        document.getElementById('modalQuestionNumber').textContent = `Question ${questionNumber} - Answer`;
+        
+        // Set the content directly without escaping to preserve LaTeX
+        document.getElementById('modalAnswerContent').innerHTML = question.answer;
+        
+        // Trigger MathJax to render the modal content with a delay to ensure DOM is ready
+        setTimeout(() => {
+          if (window.MathJax) {
+            console.log('Processing MathJax for modal content...');
+            MathJax.typesetPromise([document.getElementById('modalAnswerContent')]).then(() => {
+              console.log('MathJax processing completed');
+            }).catch((err) => console.log('MathJax error:', err.message));
+          }
+          
+          // Refresh image lightbox for modal content
+          if (window.imageLightbox) {
+            window.imageLightbox.refresh();
+          }
+        }, 200);
+        
+        // Remove focus from the button to prevent highlighting
+        setTimeout(() => {
+          document.activeElement.blur();
+        }, 250);
+      }
+
+    // Function to show video in modal
+    function showVideo(questionNumber, videoUrl) {
+        const modalTitle = document.getElementById('videoQuestionNumber');
+        const videoContainer = document.getElementById('videoContainer');
+        
+        modalTitle.textContent = `Question ${questionNumber} - Video Solution`;
+        
+        // Convert YouTube URL to embed format if needed
+        let embedUrl = videoUrl;
+        if (videoUrl.includes('youtube.com/watch?v=')) {
+          const videoId = videoUrl.split('v=')[1].split('&')[0];
+          embedUrl = `https://www.youtube.com/embed/${videoId}`;
+        } else if (videoUrl.includes('youtu.be/')) {
+          const videoId = videoUrl.split('youtu.be/')[1].split('?')[0];
+          embedUrl = `https://www.youtube.com/embed/${videoId}`;
+        }
+        
+        // Create the iframe
+        videoContainer.innerHTML = `
+          <iframe src="${embedUrl}" 
+                  width="100%" 
+                  height="480" 
+                  frameborder="0" 
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                  allowfullscreen>
+          </iframe>
+        `;
+        
+        // Remove focus from the button to prevent highlighting
+        setTimeout(() => {
+          document.activeElement.blur();
+        }, 100);
+      }
+      
+      // Function to show video not available message
+      function showVideoNotAvailable(questionNumber) {
+        const modalTitle = document.getElementById('videoQuestionNumber');
+        const videoContainer = document.getElementById('videoContainer');
+        
+        modalTitle.textContent = `Question ${questionNumber} - Video Solution`;
+        
+        // Show not available message
+        videoContainer.innerHTML = `
+          <div class="d-flex align-items-center justify-content-center" style="height: 480px; background-color: #f8f9fa;">
+            <div class="text-center">
+              <i class="iconify text-muted mb-3" data-icon="mdi:video-off-outline" style="font-size: 4rem;"></i>
+              <h5 class="text-muted">Video not available yet</h5>
+              <p class="text-muted">This video solution will be available soon.</p>
+            </div>
+          </div>
+        `;
+        
+        // Remove focus from the button to prevent highlighting
+        setTimeout(() => {
+          document.activeElement.blur();
+        }, 100);
+      }
+
+      
+    </script>
+
+    <!-- ChatGPT Modal -->
+    <div class="modal fade chat-modal" id="chatModal" tabindex="-1" aria-labelledby="chatModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title d-flex align-items-center" id="chatModalLabel">
+              <i class="iconify me-2" data-icon="mdi:robot-outline" style="font-size: 1.2rem;"></i>
+              Edunade AI Assistant
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          
+
+          
+          <!-- AI Chat Modal functionality commented out
+          <div class="chat-container" id="chatContainer">
+            <div class="chat-message assistant">
+              <div class="message-bubble assistant">
+                👋 Hi! I'm here to help you understand this Biology question. Feel free to ask me anything about the topic, concepts, or need clarification!
+              </div>
+            </div>
+          </div>
+          
+          <div class="typing-indicator" id="typingIndicator" style="display: none;">
+            <div class="typing-dots">
+              <div class="typing-dot"></div>
+              <div class="typing-dot"></div>
+              <div class="typing-dot"></div>
+            </div>
+            <span>Edunade AI is thinking...</span>
+          </div>
+          
+          <div class="chat-input-container">
+            <div class="chat-input-row">
+              <input 
+                type="text" 
+                class="chat-input" 
+                id="modalChatInput" 
+                placeholder="Ask about this question..." 
+                onkeypress="handleModalKeyPress(event)"
+              />
+              <button 
+                class="chat-send-btn" 
+                id="modalSendBtn" 
+                onclick="sendModalMessage()"
+              >
+                <i class="iconify" data-icon="mdi:arrow-right" style="font-size: 1.2rem;"></i>
+              </button>
+            </div>
+          </div>
+          -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Page JS -->
+    <script type="text/javascript" src="{% static 'website/js/vendor/helpers.js' %}"></script>
+    <!-- Config: Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
+    <!--  <script type="text/javascript" src="{% static 'website/js/vendor/template-customizer.js' %}"></script> -->
+    <!--  Template customizer: To hide customizer set displayCustomizer value false in config.js.  -->
+    <script type="text/javascript" src="{% static 'website/js/vendor/config.js' %}"></script>
+
+    <!-- Image Lightbox JS -->
+    <script type="text/javascript" src="{% static 'website/js/image-lightbox.js' %}"></script>
+
+    <!-- Main JS -->
+    <script type="text/javascript" src="{% static 'website/js/main.js' %}"></script>
+  </body>
+</html>
+
+
+

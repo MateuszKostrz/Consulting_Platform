@@ -1,0 +1,108 @@
+﻿{% load static %}
+
+
+<header>
+  <!-- start navigation -->
+  <nav class="navbar navbar-expand-lg header-light bg-transparent disable-fixed" data-header-hover="light"> 
+      <div class="container-fluid">
+          <div class="col-auto me-auto">
+              <a class="navbar-brand" href="demo-application.html">
+                  <img src="images/demo-application-logo-white.png" data-at2x="images/demo-application-logo-white@2x.png" alt="" class="default-logo">
+                  <img src="images/demo-application-logo-black.png" data-at2x="images/demo-application-logo-black@2x.png" alt="" class="alt-logo">
+                  <img src="images/demo-application-logo-black.png" data-at2x="images/demo-application-logo-black@2x.png" alt="" class="mobile-logo">
+              </a>
+          </div>
+          <div class="col-auto menu-order position-static">
+              <button class="navbar-toggler float-start" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-line"></span>
+                  <span class="navbar-toggler-line"></span>
+                  <span class="navbar-toggler-line"></span>
+                  <span class="navbar-toggler-line"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarNav"> 
+                  <ul class="navbar-nav"> 
+                      <li class="nav-item"><a href="{% url 'landing' %}" class="nav-link">Home</a></li>
+                      <li class="nav-item"><a href="{% url 'tutoring' %}" class="nav-link">Tutoring</a></li>
+
+                      <!-- <li class="nav-item"><a href="#about" class="nav-link">About</a></li> -->
+                      <li class="nav-item dropdown submenu">
+                          <a href="{% url 'home' %}" class="nav-link">Edunade Academy</a>
+                          <i class="fa-solid fa-angle-down dropdown-toggle" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false"></i>
+                          <div class="dropdown-menu submenu-content" aria-labelledby="navbarDropdownMenuLink"> 
+                              <div class="d-lg-flex mega-menu m-auto">
+                                  <a href="{% url 'questionbank' %}">
+                                      <ul class="col-12 col-lg-4">
+                                          <li class="w-100 p-0">
+                                              <div class="w-100 icon-with-text-style-04 transition-inner-all md-mb-15px">
+                                                  <div class="feature-box bg-white justify-content-start h-100 border-radius-6px p-16 lg-p-10 box-shadow-quadruple-large box-shadow-quadruple-large-hover">
+                                                      <div class="feature-box-icon mb-25px"> 
+                                                          <img src="{% static 'website/images/tutoring/questionbank.webp' %}" class="w-60px" alt="">
+                                                      </div>
+                                                      <div class="feature-box-content last-paragraph-no-margin">
+                                                          <span class="d-inline-block text-dark-gray fw-700 fs-18 mb-5px">IB Hub</span>
+                                                          <!-- <p class="fs-16 text-medium-gray">This section is all you need to take you to your dream university abroad.</p> -->
+                                                      </div>
+                                                  </div>  
+                                              </div>
+                                          </li>
+                                      </ul>
+                                  </a>
+
+                                  <ul class="col-12 col-lg-4">
+                                      <li class="w-100 p-0">
+                                          <div class="w-100 icon-with-text-style-04 transition-inner-all md-mb-15px">
+                                              <div class="feature-box bg-white justify-content-start h-100 border-radius-6px p-16 lg-p-10 box-shadow-quadruple-large box-shadow-quadruple-large-hover">
+                                                  <div class="feature-box-icon mb-25px"> 
+                                                      <img src="{% static 'website/images/tutoring/admissions.webp' %}" class="w-60px" alt="">
+                                                  </div>
+                                                  <div class="feature-box-content last-paragraph-no-margin">
+                                                      <span class="d-inline-block text-dark-gray fw-700 fs-18 mb-5px">University Admissions</span>
+                                                      <!-- <p class="fs-16 text-medium-gray">Live and prerecorded webinars and video courses with our expert tutors.</p> -->
+                                                  </div>
+                                              </div>  
+                                          </div>
+                                      </li>
+                                  </ul>
+
+
+                                  <ul class="col-12 col-lg-4">
+                                      <li class="w-100 p-0">
+                                          <div class="w-100 icon-with-text-style-04 transition-inner-all md-mb-15px">
+                                              <div class="feature-box bg-white justify-content-start h-100 border-radius-6px p-16 lg-p-10 box-shadow-quadruple-large box-shadow-quadruple-large-hover">
+                                                  <div class="feature-box-icon mb-25px"> 
+                                                      <img src="{% static 'website/images/tutoring/webinars.webp' %}" class="w-60px" alt="">
+                                                  </div>
+                                                  <div class="feature-box-content last-paragraph-no-margin">
+                                                      <span class="d-inline-block text-dark-gray fw-700 fs-18 mb-5px">Webinars</span>
+                                                      <!-- <p class="fs-16 text-medium-gray">This section is all you need to take you to your dream university abroad.</p> -->
+                                                  </div>
+                                              </div>  
+                                          </div>
+                                      </li>
+                                  </ul>
+    
+                              </div>
+                            </div>
+                            </li>
+        
+                  </ul>
+              </div>
+          </div>
+    
+
+
+          <div class="col-auto col-auto xs-ps-0">
+              <div class="header-icon">  
+                  <div class="header-button">
+                      {% if user_logged_in %}
+                          <a href="{% url 'home' %}" class="btn btn-small btn-rounded with-rounded btn-box-shadow btn-dark-gray text-uppercase-inherit">Open!<span class="bg-licorice-blue text-white"><i class="bi bi-arrow-right"></i></span></a>
+                      {% else %}
+                      <a href="{% url 'login' %}" class="btn btn-small btn-rounded with-rounded btn-box-shadow btn-dark-gray text-uppercase-inherit">Login<span class="bg-licorice-blue text-white"><i class="bi bi-arrow-right"></i></span></a>
+                      {% endif %}
+                  </div>
+              </div>
+          </div>
+      </div>
+  </nav>
+  <!-- end navigation -->
+</header>

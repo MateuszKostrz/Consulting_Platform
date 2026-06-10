@@ -1,0 +1,2586 @@
+[
+  {
+    "question_id": 56,
+    "subquestions": [
+      {
+        "part_label": "a",
+        "skill_keys": [
+          "one_sample_t_test"
+        ],
+        "question_text": "State the alternative hypothesis for the critic's test that burgers weigh less than advertised.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(H_1:\\mu>200\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(H_1:\\mu<200\\)",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "\\(H_1:\\mu=200\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(H_1:\\mu\\ne200\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "b",
+        "skill_keys": [
+          "one_sample_t_test"
+        ],
+        "question_text": "Find the p-value for the one-sample t-test.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.100\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(0.452\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(0.0226\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(0.226\\)",
+            "is_correct": true
+          }
+        ]
+      },
+      {
+        "part_label": "c",
+        "skill_keys": [
+          "one_sample_t_test"
+        ],
+        "question_text": "At the 10% significance level, what is the conclusion?",
+        "options": [
+          {
+            "label": "A",
+            "text": "Do not reject \\(H_0\\). There is insufficient evidence that the mean burger weight is less than \\(200\\text{ g}\\).",
+            "is_correct": true
+          },
+          {
+            "label": "B",
+            "text": "Reject \\(H_0\\). There is evidence that the mean weight is less than \\(200\\text{ g}\\).",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "Accept \\(H_0\\) and prove the mean is exactly \\(200\\text{ g}\\).",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "Reject \\(H_1\\) because \\(p<0.1\\).",
+            "is_correct": false
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "question_id": 57,
+    "subquestions": [
+      {
+        "part_label": "a",
+        "skill_keys": [
+          "two_sample_t_test"
+        ],
+        "question_text": "State the hypotheses for testing whether Game B is rated higher than Game A.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(H_0:\\mu_A\\ne\\mu_B,\\ H_1:\\mu_B=\\mu_A\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(H_0:\\mu_B>\\mu_A,\\ H_1:\\mu_A=\\mu_B\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(H_0:\\mu_A=\\mu_B,\\ H_1:\\mu_B>\\mu_A\\)",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "\\(H_0:\\mu_A=\\mu_B,\\ H_1:\\mu_B<\\mu_A\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "b",
+        "skill_keys": [
+          "two_sample_t_test"
+        ],
+        "question_text": "Find the p-value for the two-sample t-test.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.125\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(0.0125\\)",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "\\(0.05\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(0.025\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "c",
+        "skill_keys": [
+          "two_sample_t_test"
+        ],
+        "question_text": "At the 5% level, what conclusion should be made?",
+        "options": [
+          {
+            "label": "A",
+            "text": "Do not reject \\(H_0\\). There is no evidence Game B is better.",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "Accept \\(H_0\\). The games are exactly equal.",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "Reject \\(H_1\\). Game A is better.",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "Reject \\(H_0\\). There is evidence that Game B is rated higher on average.",
+            "is_correct": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "question_id": 58,
+    "subquestions": [
+      {
+        "part_label": "a",
+        "skill_keys": [
+          "two_sample_t_test"
+        ],
+        "question_text": "State the hypotheses for testing whether the two fertilizers have different effects.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(H_0:\\mu_1=\\mu_2,\\ H_1:\\mu_1\\ne\\mu_2\\)",
+            "is_correct": true
+          },
+          {
+            "label": "B",
+            "text": "\\(H_0:\\mu_1<\\mu_2,\\ H_1:\\mu_1=\\mu_2\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(H_0:\\mu_1=\\mu_2,\\ H_1:\\mu_1>\\mu_2\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(H_0:\\mu_1\\ne\\mu_2,\\ H_1:\\mu_1=\\mu_2\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "b",
+        "skill_keys": [
+          "two_sample_t_test"
+        ],
+        "question_text": "Find the p-value for this two-tailed two-sample t-test.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.838\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(0.0419\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(0.0838\\)",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "\\(0.100\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "c",
+        "skill_keys": [
+          "two_sample_t_test"
+        ],
+        "question_text": "At \\(\\alpha=10\\%\\), what is the conclusion?",
+        "options": [
+          {
+            "label": "A",
+            "text": "Do not reject \\(H_0\\). There is no evidence of a difference.",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "Reject \\(H_0\\). There is evidence that the fertilizer type makes a difference.",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "Reject \\(H_0\\) only if \\(p>0.10\\).",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "Accept \\(H_0\\). The fertilizers are proven equivalent.",
+            "is_correct": false
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "question_id": 60,
+    "subquestions": [
+      {
+        "part_label": "a",
+        "skill_keys": [
+          "chi_squared_goodness_of_fit"
+        ],
+        "question_text": "For 600 rolls of a fair six-sided die, find the expected frequency for each face.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(600\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(6\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(120\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(100\\)",
+            "is_correct": true
+          }
+        ]
+      },
+      {
+        "part_label": "b",
+        "skill_keys": [
+          "chi_squared_goodness_of_fit"
+        ],
+        "question_text": "State the hypotheses for the goodness-of-fit test for fairness of the die.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(H_0:\\) the die is fair; \\(H_1:\\) the die is not fair.",
+            "is_correct": true
+          },
+          {
+            "label": "B",
+            "text": "\\(H_0:\\) the die is not fair; \\(H_1:\\) the die is fair.",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(H_0:\\) all observed frequencies are equal; \\(H_1:\\) all expected frequencies are zero.",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(H_0:\\) the mean is 3.5; \\(H_1:\\) the mean is 6.",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "c",
+        "skill_keys": [
+          "chi_squared_goodness_of_fit"
+        ],
+        "question_text": "Find the degrees of freedom for the die goodness-of-fit test.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(6\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(4\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(5\\)",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "\\(600\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "d",
+        "skill_keys": [
+          "chi_squared_goodness_of_fit"
+        ],
+        "question_text": "Find the p-value for the goodness-of-fit test.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.05\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(0.215\\)",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "\\(0.785\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(0.0215\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "e",
+        "skill_keys": [
+          "chi_squared_goodness_of_fit"
+        ],
+        "question_text": "At the 5% level, state the conclusion.",
+        "options": [
+          {
+            "label": "A",
+            "text": "Reject \\(H_0\\). The die is unfair.",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "Accept \\(H_1\\). The die is balanced.",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "Reject \\(H_0\\) because \\(p>0.05\\).",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "Do not reject \\(H_0\\). There is insufficient evidence that the die is unfair.",
+            "is_correct": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "question_id": 61,
+    "subquestions": [
+      {
+        "part_label": "a",
+        "skill_keys": [
+          "chi_squared_goodness_of_fit"
+        ],
+        "question_text": "State the hypotheses for testing whether the participant's estimated schedule is accurate.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(H_0:\\) the time distribution follows the participant's estimate; \\(H_1:\\) it does not.",
+            "is_correct": true
+          },
+          {
+            "label": "B",
+            "text": "\\(H_0:\\) all activities take equal time; \\(H_1:\\) they do not.",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(H_0:\\) the watch is inaccurate; \\(H_1:\\) the watch is accurate.",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(H_0:\\) the observed data are random; \\(H_1:\\) they are fixed.",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "b",
+        "skill_keys": [
+          "chi_squared_goodness_of_fit"
+        ],
+        "question_text": "Find the expected times for Work, Chores, Hobbies, Socializing, and Sleeping.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(441,\\ 161,\\ 278,\\ 166,\\ 394\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(288,\\ 288,\\ 288,\\ 288,\\ 288\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(432,\\ 144,\\ 288,\\ 144,\\ 432\\)",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "\\(432,\\ 288,\\ 144,\\ 144,\\ 432\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "c",
+        "skill_keys": [
+          "chi_squared_goodness_of_fit"
+        ],
+        "question_text": "Find the p-value for the goodness-of-fit test.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.553\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(0.0553\\)",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "\\(0.00553\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(0.100\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "d",
+        "skill_keys": [
+          "chi_squared_goodness_of_fit"
+        ],
+        "question_text": "At the 10% level, state the conclusion.",
+        "options": [
+          {
+            "label": "A",
+            "text": "Do not reject \\(H_0\\). The estimate is supported.",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "Reject \\(H_0\\) only at 5%.",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "Accept \\(H_0\\). The estimate is exact.",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "Reject \\(H_0\\). The distribution is different from the participant's estimate.",
+            "is_correct": true
+          }
+        ]
+      },
+      {
+        "part_label": "e",
+        "skill_keys": [
+          "chi_squared_goodness_of_fit"
+        ],
+        "question_text": "Would the conclusion change at a 5% significance level?",
+        "options": [
+          {
+            "label": "A",
+            "text": "Yes. At \\(5\\%\\), we would not reject \\(H_0\\).",
+            "is_correct": true
+          },
+          {
+            "label": "B",
+            "text": "No. We would still reject \\(H_0\\).",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "Yes. At \\(5\\%\\), we would reject \\(H_1\\).",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "No. The p-value changes with the significance level.",
+            "is_correct": false
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "question_id": 62,
+    "subquestions": [
+      {
+        "part_label": "a",
+        "skill_keys": [
+          "chi_squared_goodness_of_fit"
+        ],
+        "question_text": "If attendance is equal across four concert dates, find the expected attendance for each date.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(80300\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(20194\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(20075\\)",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "\\(19946\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "b",
+        "skill_keys": [
+          "chi_squared_goodness_of_fit"
+        ],
+        "question_text": "Find the degrees of freedom for the goodness-of-fit test.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(4\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(3\\)",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "\\(5\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(1\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "c",
+        "skill_keys": [
+          "chi_squared_goodness_of_fit"
+        ],
+        "question_text": "Find the \\(\\chi^2\\) statistic for this test.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(7.81\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(3\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(0.094\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(9.40\\)",
+            "is_correct": true
+          }
+        ]
+      },
+      {
+        "part_label": "d",
+        "skill_keys": [
+          "chi_squared_goodness_of_fit"
+        ],
+        "question_text": "Using the critical value \\(7.81\\), state the conclusion.",
+        "options": [
+          {
+            "label": "A",
+            "text": "Reject \\(H_0\\), since \\(9.40>7.81\\).",
+            "is_correct": true
+          },
+          {
+            "label": "B",
+            "text": "Do not reject \\(H_0\\), since \\(9.40>7.81\\).",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "Reject \\(H_0\\), since \\(9.40<7.81\\).",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "Accept \\(H_0\\), since the expected values are equal.",
+            "is_correct": false
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "question_id": 63,
+    "subquestions": [
+      {
+        "part_label": "a",
+        "skill_keys": [
+          "chi_squared_independence"
+        ],
+        "question_text": "State the hypotheses for testing whether vegetable preference is influenced by city.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(H_0:\\) preference is not independent of city; \\(H_1:\\) preference is independent of city.",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(H_0:\\) all vegetables are equally preferred; \\(H_1:\\) all cities are equal.",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(H_0:\\) preference is independent of city; \\(H_1:\\) preference is not independent of city.",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "\\(H_0:\\mu_A=\\mu_B;\\ H_1:\\mu_A\\ne\\mu_B\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "b",
+        "skill_keys": [
+          "chi_squared_independence"
+        ],
+        "question_text": "Find the degrees of freedom for the independence test.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(12\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(6\\)",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "\\(5\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(3\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "c",
+        "skill_keys": [
+          "chi_squared_independence"
+        ],
+        "question_text": "Find the p-value for the test.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.0192\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(0.05\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(0.808\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(0.192\\)",
+            "is_correct": true
+          }
+        ]
+      },
+      {
+        "part_label": "d",
+        "skill_keys": [
+          "chi_squared_independence"
+        ],
+        "question_text": "At the 5% level, state the conclusion.",
+        "options": [
+          {
+            "label": "A",
+            "text": "Do not reject \\(H_0\\). There is insufficient evidence that vegetable preference depends on city.",
+            "is_correct": true
+          },
+          {
+            "label": "B",
+            "text": "Reject \\(H_0\\). Preference depends on city.",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "Accept \\(H_1\\). The variables are dependent.",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "Reject \\(H_0\\) because \\(p>0.05\\).",
+            "is_correct": false
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "question_id": 64,
+    "subquestions": [
+      {
+        "part_label": "a",
+        "skill_keys": [
+          "chi_squared_independence"
+        ],
+        "question_text": "State the hypotheses for testing whether activity level is independent of age group.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(H_0:\\) activity level depends on age group; \\(H_1:\\) it is independent.",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(H_0:\\) all groups are very active; \\(H_1:\\) no groups are active.",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(H_0:\\) activity level is independent of age group; \\(H_1:\\) activity level is not independent of age group.",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "\\(H_0:\\mu_1=\\mu_2;\\ H_1:\\mu_1\\ne\\mu_2\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "b",
+        "skill_keys": [
+          "chi_squared_independence"
+        ],
+        "question_text": "Find the degrees of freedom for this test.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(12\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(6\\)",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "\\(5\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(3\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "c",
+        "skill_keys": [
+          "chi_squared_independence"
+        ],
+        "question_text": "Find the \\(\\chi^2\\) statistic for this test.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(12.59\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(6\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(0.138\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(13.8\\)",
+            "is_correct": true
+          }
+        ]
+      },
+      {
+        "part_label": "d",
+        "skill_keys": [
+          "chi_squared_independence"
+        ],
+        "question_text": "Using the critical value \\(12.59\\), state the conclusion.",
+        "options": [
+          {
+            "label": "A",
+            "text": "Reject \\(H_0\\), since \\(13.8>12.59\\).",
+            "is_correct": true
+          },
+          {
+            "label": "B",
+            "text": "Do not reject \\(H_0\\), since \\(13.8>12.59\\).",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "Reject \\(H_0\\), since \\(13.8<12.59\\).",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "Accept \\(H_0\\), since the variables are independent.",
+            "is_correct": false
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "question_id": 200,
+    "subquestions": [
+      {
+        "part_label": "a",
+        "skill_keys": [
+          "chi_squared_goodness_of_fit"
+        ],
+        "question_text": "Find the missing probability of rolling a 5.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(\\frac{1}{10}\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(\\frac18\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(\\frac15\\)",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "\\(\\frac14\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "b",
+        "skill_keys": [
+          "chi_squared_goodness_of_fit"
+        ],
+        "question_text": "Find the probability of rolling an even number.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.45\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(0.55\\)",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "\\(0.50\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(0.60\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "c",
+        "skill_keys": [
+          "chi_squared_goodness_of_fit"
+        ],
+        "question_text": "Given that an even number is rolled, find the probability that it is a 6.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.10\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(0.20\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(0.55\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(0.18\\)",
+            "is_correct": true
+          }
+        ]
+      },
+      {
+        "part_label": "d",
+        "skill_keys": [
+          "chi_squared_goodness_of_fit"
+        ],
+        "question_text": "Show the expected frequency of rolling a 6 in 100 throws.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(10\\)",
+            "is_correct": true
+          },
+          {
+            "label": "B",
+            "text": "\\(8\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(20\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(12.5\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "e",
+        "skill_keys": [
+          "chi_squared_goodness_of_fit"
+        ],
+        "question_text": "At the 5% level, state the conclusion of the \\(\\chi^2\\) goodness-of-fit test, given \\(p=0.491\\).",
+        "options": [
+          {
+            "label": "A",
+            "text": "Reject \\(H_0\\). The shop probabilities are incorrect.",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "Reject \\(H_0\\) because \\(p>0.05\\).",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "Do not reject \\(H_0\\). There is insufficient evidence that the shop probabilities are incorrect.",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "Accept \\(H_1\\). The die is loaded differently.",
+            "is_correct": false
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "question_id": 297,
+    "subquestions": [
+      {
+        "part_label": "a",
+        "skill_keys": [
+          "two_sample_t_test"
+        ],
+        "question_text": "State the hypotheses for testing whether the new training programme increases mean jump height.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(H_0:\\mu_B\\ne\\mu_A,\\ H_1:\\mu_B=\\mu_A\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(H_0:\\mu_B=\\mu_A,\\ H_1:\\mu_B>\\mu_A\\)",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "\\(H_0:\\mu_B=\\mu_A,\\ H_1:\\mu_B<\\mu_A\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(H_0:\\mu_B>\\mu_A,\\ H_1:\\mu_B=\\mu_A\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "b",
+        "skill_keys": [
+          "two_sample_t_test"
+        ],
+        "question_text": "Find the p-value for the two-sample t-test.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.000531\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(0.05\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(0.0115\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(0.0000115\\)",
+            "is_correct": true
+          }
+        ]
+      },
+      {
+        "part_label": "c",
+        "skill_keys": [
+          "two_sample_t_test"
+        ],
+        "question_text": "At the 5% level, state the conclusion.",
+        "options": [
+          {
+            "label": "A",
+            "text": "Reject \\(H_0\\). There is sufficient evidence that the new programme increases mean jump height.",
+            "is_correct": true
+          },
+          {
+            "label": "B",
+            "text": "Do not reject \\(H_0\\). There is insufficient evidence.",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "Accept \\(H_0\\). The programmes are the same.",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "Reject \\(H_1\\). The original programme is better.",
+            "is_correct": false
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "question_id": 298,
+    "subquestions": [
+      {
+        "part_label": "a",
+        "skill_keys": [
+          "chi_squared_independence"
+        ],
+        "question_text": "Find the number of households that own at least 4 bicycles.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(86\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(46\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(54\\)",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "\\(180\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "b",
+        "skill_keys": [
+          "chi_squared_independence"
+        ],
+        "question_text": "Find the probability that a randomly selected household owns fewer than 3 bicycles.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.522\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(0.478\\)",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "\\(0.300\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(0.700\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "c.i",
+        "skill_keys": [
+          "chi_squared_independence"
+        ],
+        "question_text": "Find the mode of the bicycle distribution.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(3\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(4\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(46\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(2\\)",
+            "is_correct": true
+          }
+        ]
+      },
+      {
+        "part_label": "c.ii",
+        "skill_keys": [
+          "chi_squared_independence"
+        ],
+        "question_text": "Find the median number of bicycles.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(3\\)",
+            "is_correct": true
+          },
+          {
+            "label": "B",
+            "text": "\\(2\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(4\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(90\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "c.iii",
+        "skill_keys": [
+          "chi_squared_independence"
+        ],
+        "question_text": "Find the interquartile range.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(1\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(3\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(2\\)",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "\\(4\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "d.i",
+        "skill_keys": [
+          "chi_squared_independence"
+        ],
+        "question_text": "State the null hypothesis for the holiday preference and age group test.",
+        "options": [
+          {
+            "label": "A",
+            "text": "Holiday preference and age group are not independent.",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "Holiday preference and age group are independent.",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "All destinations are equally preferred.",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "All age groups have the same size.",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "d.ii",
+        "skill_keys": [
+          "chi_squared_independence"
+        ],
+        "question_text": "State the alternative hypothesis.",
+        "options": [
+          {
+            "label": "A",
+            "text": "Holiday preference and age group are independent.",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "All destinations are equally preferred.",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "There is no association.",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "Holiday preference and age group are not independent.",
+            "is_correct": true
+          }
+        ]
+      },
+      {
+        "part_label": "e",
+        "skill_keys": [
+          "chi_squared_independence"
+        ],
+        "question_text": "Find the degrees of freedom for the test of independence.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(4\\)",
+            "is_correct": true
+          },
+          {
+            "label": "B",
+            "text": "\\(3\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(6\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(9\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "f",
+        "skill_keys": [
+          "chi_squared_independence"
+        ],
+        "question_text": "Find the expected frequency for adults aged 30–49 who prefer city holidays.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(26\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(68\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(25.8\\)",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "\\(76\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "g",
+        "skill_keys": [
+          "chi_squared_independence"
+        ],
+        "question_text": "Find the p-value for the test.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.05\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(0.178\\)",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "\\(0.822\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(0.0178\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "h",
+        "skill_keys": [
+          "chi_squared_independence"
+        ],
+        "question_text": "State the conclusion of the test.",
+        "options": [
+          {
+            "label": "A",
+            "text": "Reject \\(H_0\\). Holiday preference depends on age group.",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "Accept \\(H_1\\). The variables are dependent.",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "Reject \\(H_0\\) because \\(p>0.05\\).",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "Fail to reject \\(H_0\\). There is insufficient evidence that holiday preference depends on age group.",
+            "is_correct": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "question_id": 299,
+    "subquestions": [
+      {
+        "part_label": "a",
+        "skill_keys": [
+          "chi_squared_goodness_of_fit"
+        ],
+        "question_text": "Complete the expected frequency table if 150 emails are equally distributed across 5 weekdays.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(30\\) for each weekday",
+            "is_correct": true
+          },
+          {
+            "label": "B",
+            "text": "\\(150\\) for each weekday",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(24,31,28,35,32\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(25\\) for each weekday",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "b",
+        "skill_keys": [
+          "chi_squared_goodness_of_fit"
+        ],
+        "question_text": "State the hypotheses for testing whether emails are uniformly distributed across weekdays.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(H_0:\\) emails are not uniformly distributed; \\(H_1:\\) emails are uniformly distributed.",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(H_0:\\) Monday has the most emails; \\(H_1:\\) Friday has the most emails.",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(H_0:\\) emails are uniformly distributed; \\(H_1:\\) emails are not uniformly distributed.",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "\\(H_0:\\mu_1=\\mu_2;\\ H_1:\\mu_1\\ne\\mu_2\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "c",
+        "skill_keys": [
+          "chi_squared_goodness_of_fit"
+        ],
+        "question_text": "Find the degrees of freedom.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(5\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(4\\)",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "\\(3\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(150\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "d",
+        "skill_keys": [
+          "chi_squared_goodness_of_fit"
+        ],
+        "question_text": "Find the \\(\\chi^2\\) statistic and p-value.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(\\chi^2\\approx9.488,\\ p\\approx0.05\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(\\chi^2\\approx0.675,\\ p\\approx2.33\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(\\chi^2\\approx2.33,\\ p\\approx0.0675\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(\\chi^2\\approx2.33,\\ p\\approx0.675\\)",
+            "is_correct": true
+          }
+        ]
+      },
+      {
+        "part_label": "e",
+        "skill_keys": [
+          "chi_squared_goodness_of_fit"
+        ],
+        "question_text": "Using the critical value \\(9.488\\), state the conclusion.",
+        "options": [
+          {
+            "label": "A",
+            "text": "Fail to reject \\(H_0\\), since \\(2.33<9.488\\).",
+            "is_correct": true
+          },
+          {
+            "label": "B",
+            "text": "Reject \\(H_0\\), since \\(2.33<9.488\\).",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "Reject \\(H_0\\), since \\(p>0.05\\).",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "Accept \\(H_1\\), since emails are not uniform.",
+            "is_correct": false
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "question_id": 300,
+    "subquestions": [
+      {
+        "part_label": "a.i",
+        "skill_keys": [
+          "chi_squared_goodness_of_fit"
+        ],
+        "question_text": "Find \\(P(V<990)\\) for carton volumes modelled by \\(N(1000,6^2)\\).",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.0228\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(0.4522\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(0.0478\\)",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "\\(0.4772\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "a.ii",
+        "skill_keys": [
+          "chi_squared_goodness_of_fit"
+        ],
+        "question_text": "Find \\(P(V>1012)\\).",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.0478\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(0.0228\\)",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "\\(0.4522\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(0.4772\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "b.i",
+        "skill_keys": [
+          "chi_squared_goodness_of_fit"
+        ],
+        "question_text": "Estimate the expected number of cartons with \\(990\\le V<1000\\) in a sample of 600.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(286\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(29\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(600\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(271\\)",
+            "is_correct": true
+          }
+        ]
+      },
+      {
+        "part_label": "b.ii",
+        "skill_keys": [
+          "chi_squared_goodness_of_fit"
+        ],
+        "question_text": "Estimate the expected number of cartons with \\(1000\\le V<1012\\) in a sample of 600.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(286\\)",
+            "is_correct": true
+          },
+          {
+            "label": "B",
+            "text": "\\(271\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(29\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(600\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "c",
+        "skill_keys": [
+          "chi_squared_goodness_of_fit"
+        ],
+        "question_text": "State the hypotheses for the goodness-of-fit test on carton volumes.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(H_0:\\) volumes do not follow \\(N(1000,6^2)\\); \\(H_1:\\) they do.",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(H_0:\\mu=6;\\ H_1:\\mu=1000\\).",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(H_0:\\) volumes follow \\(N(1000,6^2)\\); \\(H_1:\\) volumes do not follow \\(N(1000,6^2)\\).",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "\\(H_0:\\) all observed frequencies are equal; \\(H_1:\\) they are not.",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "d",
+        "skill_keys": [
+          "chi_squared_goodness_of_fit"
+        ],
+        "question_text": "Find the p-value of the goodness-of-fit test.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.0973\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(0.00973\\)",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "\\(0.05\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(0.99027\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "e",
+        "skill_keys": [
+          "chi_squared_goodness_of_fit"
+        ],
+        "question_text": "State the conclusion at the 5% level.",
+        "options": [
+          {
+            "label": "A",
+            "text": "Fail to reject \\(H_0\\), since \\(p<0.05\\).",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "Reject \\(H_0\\), since \\(p>0.05\\).",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "Accept \\(H_0\\), since the model is exact.",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "Reject \\(H_0\\), since \\(p<0.05\\).",
+            "is_correct": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "question_id": 301,
+    "subquestions": [
+      {
+        "part_label": "a",
+        "skill_keys": [
+          "chi_squared_independence"
+        ],
+        "question_text": "Find the missing value \\(k\\) in the age 10 row.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(20\\)",
+            "is_correct": true
+          },
+          {
+            "label": "B",
+            "text": "\\(10\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(15\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(25\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "b",
+        "skill_keys": [
+          "chi_squared_independence"
+        ],
+        "question_text": "Find the degrees of freedom for the activity preference and age test.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(4\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(8\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(6\\)",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "\\(12\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "c",
+        "skill_keys": [
+          "chi_squared_independence"
+        ],
+        "question_text": "Find the \\(\\chi^2\\) statistic.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(12.6\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(8.22\\)",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "\\(6\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(0.822\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "d",
+        "skill_keys": [
+          "chi_squared_independence"
+        ],
+        "question_text": "Using the critical value \\(12.6\\), state the conclusion.",
+        "options": [
+          {
+            "label": "A",
+            "text": "Reject \\(H_0\\). Activity preference depends on age.",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "Reject \\(H_0\\), since \\(8.22<12.6\\).",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "Accept \\(H_1\\). The variables are dependent.",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "Fail to reject \\(H_0\\). There is insufficient evidence that activity preference depends on age.",
+            "is_correct": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "question_id": 302,
+    "subquestions": [
+      {
+        "part_label": "a",
+        "skill_keys": [
+          "two_sample_t_test"
+        ],
+        "question_text": "State the null hypothesis for comparing reaction times between breakfast groups.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(H_0:\\mu_1=\\mu_2\\)",
+            "is_correct": true
+          },
+          {
+            "label": "B",
+            "text": "\\(H_0:\\mu_1\\ne\\mu_2\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(H_0:\\mu_1<\\mu_2\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(H_0:\\mu_1>\\mu_2\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "b",
+        "skill_keys": [
+          "two_sample_t_test"
+        ],
+        "question_text": "State the alternative hypothesis.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(H_1:\\mu_1=\\mu_2\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(H_1:\\mu_1<\\mu_2\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(H_1:\\mu_1\\ne\\mu_2\\)",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "\\(H_1:\\mu_1>\\mu_2\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "c",
+        "skill_keys": [
+          "two_sample_t_test"
+        ],
+        "question_text": "Find the p-value for the two-sample t-test.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.000414\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(0.0000414\\)",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "\\(0.10\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(0.0414\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "d",
+        "skill_keys": [
+          "two_sample_t_test"
+        ],
+        "question_text": "At the 10% level, does the teacher's conclusion agree with the study?",
+        "options": [
+          {
+            "label": "A",
+            "text": "No. Do not reject \\(H_0\\).",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "Yes. Accept \\(H_0\\); the means are equal.",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "No. Reject \\(H_1\\).",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "Yes. Reject \\(H_0\\); there is evidence of a significant difference in mean reaction time.",
+            "is_correct": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "question_id": 303,
+    "subquestions": [
+      {
+        "part_label": "a",
+        "skill_keys": [
+          "chi_squared_goodness_of_fit"
+        ],
+        "question_text": "State the hypotheses for testing whether employees are equally likely to choose any of the six offices.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(H_0:\\) employees are equally likely to choose each office; \\(H_1:\\) they are not equally likely.",
+            "is_correct": true
+          },
+          {
+            "label": "B",
+            "text": "\\(H_0:\\) employees are not equally likely; \\(H_1:\\) they are equally likely.",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(H_0:\\) all offices have different frequencies; \\(H_1:\\) all offices are the same.",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(H_0:\\mu_1=\\mu_2;\\ H_1:\\mu_1\\ne\\mu_2\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "b",
+        "skill_keys": [
+          "chi_squared_goodness_of_fit"
+        ],
+        "question_text": "Determine the expected number of employees assigned to each office.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(300\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(60\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(50\\)",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "\\(35\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "c",
+        "skill_keys": [
+          "chi_squared_goodness_of_fit"
+        ],
+        "question_text": "Find the degrees of freedom for this test.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(6\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(5\\)",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "\\(4\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(300\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "d",
+        "skill_keys": [
+          "chi_squared_goodness_of_fit"
+        ],
+        "question_text": "Given \\(p\\approx0.117\\), state the conclusion at the 5% level.",
+        "options": [
+          {
+            "label": "A",
+            "text": "Reject \\(H_0\\). Employees are not equally likely to choose the offices.",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "Accept \\(H_1\\). The distribution is not uniform.",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "Reject \\(H_0\\) because \\(p>0.05\\).",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "Fail to reject \\(H_0\\). There is insufficient evidence that employees are not equally likely to choose the six offices.",
+            "is_correct": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "question_id": 304,
+    "subquestions": [
+      {
+        "part_label": "a",
+        "skill_keys": [
+          "chi_squared_goodness_of_fit"
+        ],
+        "question_text": "Construct the probability distribution for the four spending categories.",
+        "options": [
+          {
+            "label": "A",
+            "text": "Upgrades \\(\\frac{12}{25}\\), special items \\(\\frac{6}{25}\\), extra lives \\(\\frac{4}{25}\\), saving coins \\(\\frac{3}{25}\\).",
+            "is_correct": true
+          },
+          {
+            "label": "B",
+            "text": "Upgrades \\(\\frac{6}{25}\\), special items \\(\\frac{12}{25}\\), extra lives \\(\\frac{4}{25}\\), saving coins \\(\\frac{3}{25}\\).",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "Upgrades \\(\\frac{12}{25}\\), special items \\(\\frac{4}{25}\\), extra lives \\(\\frac{6}{25}\\), saving coins \\(\\frac{3}{25}\\).",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "All categories have probability \\(\\frac14\\).",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "b",
+        "skill_keys": [
+          "chi_squared_goodness_of_fit"
+        ],
+        "question_text": "Find the probability of exactly 3 purchases on special items out of 12.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.765\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(0.115\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(0.257\\)",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "\\(0.500\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "c",
+        "skill_keys": [
+          "chi_squared_goodness_of_fit"
+        ],
+        "question_text": "Find the probability of at least 5 purchases on upgrades out of 12.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.257\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(0.765\\)",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "\\(0.115\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(0.500\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "d",
+        "skill_keys": [
+          "chi_squared_goodness_of_fit"
+        ],
+        "question_text": "Determine the expected frequencies for 400 purchases.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(162,\\ 92,\\ 71,\\ 75\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(96,\\ 192,\\ 64,\\ 48\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(192,\\ 64,\\ 96,\\ 48\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(192,\\ 96,\\ 64,\\ 48\\)",
+            "is_correct": true
+          }
+        ]
+      },
+      {
+        "part_label": "e",
+        "skill_keys": [
+          "chi_squared_goodness_of_fit"
+        ],
+        "question_text": "State the hypotheses for the goodness-of-fit test.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(H_0:\\) categories follow the model; \\(H_1:\\) categories do not follow the model.",
+            "is_correct": true
+          },
+          {
+            "label": "B",
+            "text": "\\(H_0:\\) categories do not follow the model; \\(H_1:\\) categories follow it.",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(H_0:\\) all categories are equal; \\(H_1:\\) all categories are different.",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(H_0:\\) purchases are independent; \\(H_1:\\) purchases are dependent.",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "f",
+        "skill_keys": [
+          "chi_squared_goodness_of_fit"
+        ],
+        "question_text": "Find the degrees of freedom.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(4\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(2\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(3\\)",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "\\(5\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "g",
+        "skill_keys": [
+          "chi_squared_goodness_of_fit"
+        ],
+        "question_text": "Find the p-value for the goodness-of-fit test.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.0115\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(0.000115\\)",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "\\(0.00115\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(0.05\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "h",
+        "skill_keys": [
+          "chi_squared_goodness_of_fit"
+        ],
+        "question_text": "State the conclusion at the 5% level.",
+        "options": [
+          {
+            "label": "A",
+            "text": "Fail to reject \\(H_0\\). The model is suitable.",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "Accept \\(H_0\\). The observed values match exactly.",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "Reject \\(H_1\\). The model is correct.",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "Reject \\(H_0\\). There is sufficient evidence that the company's model is not suitable.",
+            "is_correct": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "question_id": 305,
+    "subquestions": [
+      {
+        "part_label": "a",
+        "skill_keys": [
+          "two_sample_t_test"
+        ],
+        "question_text": "State the null hypothesis for comparing mean running times of the two programmes.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(H_0:\\mu_A=\\mu_B\\)",
+            "is_correct": true
+          },
+          {
+            "label": "B",
+            "text": "\\(H_0:\\mu_A\\ne\\mu_B\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(H_0:\\mu_A<\\mu_B\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(H_0:\\mu_A>\\mu_B\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "b",
+        "skill_keys": [
+          "two_sample_t_test"
+        ],
+        "question_text": "State the alternative hypothesis.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(H_1:\\mu_A=\\mu_B\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(H_1:\\mu_A<\\mu_B\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(H_1:\\mu_A\\ne\\mu_B\\)",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "\\(H_1:\\mu_A>\\mu_B\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "c",
+        "skill_keys": [
+          "two_sample_t_test"
+        ],
+        "question_text": "Find the t-statistic and p-value.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(t\\approx0.000531,\\ p\\approx4.56\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(t\\approx4.56,\\ p\\approx0.000531\\)",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "\\(t\\approx4.56,\\ p\\approx0.0531\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(t\\approx0.456,\\ p\\approx0.000531\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "d",
+        "skill_keys": [
+          "two_sample_t_test"
+        ],
+        "question_text": "At the 5% level, state the conclusion.",
+        "options": [
+          {
+            "label": "A",
+            "text": "Fail to reject \\(H_0\\). There is no significant difference.",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "Accept \\(H_0\\). The means are equal.",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "Reject \\(H_1\\). The programmes are the same.",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "Reject \\(H_0\\). There is sufficient evidence that the mean running times are different.",
+            "is_correct": true
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,18 @@
+/* Cookie Consent Custom Styling */
+#cc-main {
+    --cc-btn-primary-bg: #696cff;
+    --cc-btn-primary-hover-bg: #5f63f2;
+    --cc-btn-primary-border-color: #696cff;
+    --cc-btn-secondary-bg: #8592a3;
+    --cc-btn-secondary-hover-bg: #697a8d;
+    font-family: var(--bs-font-sans-serif);
+}
+
+#cc-main .cm__footer {
+    border-top: 1px solid rgba(0,0,0,0.1);
+}
+
+#cc-main .cm__btn {
+    border-radius: 0.375rem;
+    font-weight: 500;
+}

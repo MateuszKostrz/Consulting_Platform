@@ -1,0 +1,335 @@
+% This LaTeX document needs to be compiled with XeLaTeX.
+\documentclass[10pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{ucharclasses}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true, linkcolor=blue, filecolor=magenta, urlcolor=cyan,}
+\urlstyle{same}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage[version=4]{mhchem}
+\usepackage{stmaryrd}
+\usepackage{graphicx}
+\usepackage[export]{adjustbox}
+\graphicspath{ {./images/} }
+\usepackage{bbold}
+\usepackage{polyglossia}
+\usepackage{fontspec}
+\setmainlanguage{english}
+\setotherlanguages{hindi, spanish}
+\IfFontExistsTF{Noto Serif Devanagari}
+{\newfontfamily\hindifont{Noto Serif Devanagari}}
+{\IfFontExistsTF{Kohinoor Devanagari}
+  {\newfontfamily\hindifont{Kohinoor Devanagari}}
+  {\IfFontExistsTF{Devanagari MT}
+    {\newfontfamily\hindifont{Devanagari MT}}
+    {\IfFontExistsTF{Lohit Devanagari}
+      {\newfontfamily\hindifont{Lohit Devanagari}}
+      {\IfFontExistsTF{FreeSerif}
+        {\newfontfamily\hindifont{FreeSerif}}
+        {\newfontfamily\hindifont{Arial Unicode MS}}
+}}}}
+\IfFontExistsTF{CMU Serif}
+{\newfontfamily\lgcfont{CMU Serif}}
+{\IfFontExistsTF{DejaVu Sans}
+  {\newfontfamily\lgcfont{DejaVu Sans}}
+  {\newfontfamily\lgcfont{Georgia}}
+}
+\setDefaultTransitions{\lgcfont}{}
+\setTransitionsForDevanagari{\hindifont}{\rmfamily}
+
+\begin{document}
+© International Baccalaureate Organization 2023
+
+All rights reserved. No part of this product may be reproduced in any form or by any electronic or mechanical means, including information storage and retrieval systems, without the prior written permission from the IB. Additionally, the license tied with this product prohibits use of any selected files or extracts from this product. Use by third parties, including but not limited to publishers, private teachers, tutoring or study services, preparatory schools, vendors operating curriculum mapping services or teacher resource digital platforms and app developers, whether fee-covered or not, is prohibited and is a criminal offense.
+
+More information on how to request written permission in the form of a license can be obtained from \href{https://ibo.org/become-an-ib-school/ib-publishing/licensing/applying-for-alicense/}{https://ibo.org/become-an-ib-school/ib-publishing/licensing/applying-for-alicense/}.\\
+© Organisation du Baccalauréat International 2023
+
+Tous droits réservés. Aucune partie de ce produit ne peut être reproduite sous quelque forme ni par quelque moyen que ce soit, électronique ou mécanique, y compris des systèmes de stockage et de récupération d'informations, sans l'autorisation écrite préalable de l'IB. De plus, la licence associée à ce produit interdit toute utilisation de tout fichier ou extrait sélectionné dans ce produit. L'utilisation par des tiers, y compris, sans toutefois s'y limiter, des éditeurs, des professeurs particuliers, des services de tutorat ou d'aide aux études, des établissements de préparation à l'enseignement supérieur, des fournisseurs de services de planification des programmes d'études, des gestionnaires de plateformes pédagogiques en ligne, et des développeurs d'applications, moyennant paiement ou non, est interdite et constitue une infraction pénale.
+
+Pour plus d'informations sur la procédure à suivre pour obtenir une autorisation écrite sous la forme d'une licence, rendez-vous à l'adresse \href{https://ibo.org/become-an-ib-school/}{https://ibo.org/become-an-ib-school/} ib-publishing/licensing/applying-for-a-license/.\\
+© Organización del Bachillerato Internacional, 2023
+
+Todos los derechos reservados. No se podrá reproducir ninguna parte de este producto de ninguna forma ni por ningún medio electrónico o mecánico, incluidos los sistemas de almacenamiento y recuperación de información, sin la previa autorización por escrito del IB. Además, la licencia vinculada a este producto prohíbe el uso de todo archivo o fragmento seleccionado de este producto. El uso por parte de terceros -lo que incluye, a título enunciativo, editoriales, profesores particulares, servicios de apoyo académico o ayuda para el estudio, colegios preparatorios, desarrolladores de aplicaciones y entidades que presten servicios de planificación curricular u ofrezcan recursos para docentes mediante plataformas digitales-, ya sea incluido en tasas o no, está prohibido y constituye un delito.
+
+En este enlace encontrará más información sobre cómo solicitar una autorización por escrito en forma de licencia: \href{https://ibo.org/become-an-ib-school/ib-publishing/licensing/}{https://ibo.org/become-an-ib-school/ib-publishing/licensing/} applying-for-a-license/.
+
+\section*{Mathematics: applications and interpretation Standard level \\
+ Paper 1}
+8 May 2023\\
+Zone A afternoon | Zone B morning | Zone C afternoon
+
+1 hour 30 minutes
+
+Candidate session number
+
+\begin{center}
+\begin{tabular}{|l|l|l|l|l|l|l|l|l|l|}
+\hline
+ &  &  &  &  &  &  &  &  &  \\
+\hline
+\end{tabular}
+\end{center}
+
+\section*{Instructions to candidates}
+\begin{itemize}
+  \item Write your session number in the boxes above.
+  \item Do not open this examination paper until instructed to do so.
+  \item A graphic display calculator is required for this paper.
+  \item Answer all questions.
+  \item Answers must be written within the answer boxes provided.
+  \item Unless otherwise stated in the question, all numerical answers should be given exactly or correct to three significant figures.
+  \item A clean copy of the mathematics: applications and interpretation formula booklet is required for this paper.
+  \item The maximum mark for this examination paper is [80 marks].
+\end{itemize}
+
+Answers must be written within the answer boxes provided. Full marks are not necessarily awarded for a correct answer with no working. Answers must be supported by working and/or explanations. Solutions found from a graphic display calculator should be supported by suitable working. For example, if graphs are used to find a solution, you should sketch these as part of your answer. Where an answer is incorrect, some marks may be given for a correct method, provided this is shown by written working. You are therefore advised to show all working.
+
+\begin{enumerate}
+  \item \hspace{0pt} [Maximum mark: 6]
+\end{enumerate}
+
+The decathlon is a competition where athletes compete in ten events. Two of those events are long jump and high jump. In both events, a greater distance means a better ranking.
+
+The table shows results for these two events at the World Championships.
+
+\begin{center}
+\begin{tabular}{|l|l|l|l|l|}
+\hline
+ & \multicolumn{2}{|c|}{Event} & \multicolumn{2}{|c|}{Rank} \\
+\hline
+Athlete's Country & Long Jump (m) & High Jump (m) & Long Jump Rank & High Jump Rank \\
+\hline
+Germany & 7.64 & 2.11 & 1 &  \\
+\hline
+France & 7.52 & 2.08 & 2 &  \\
+\hline
+Estonia & 7.49 & 1.84 & 3 &  \\
+\hline
+Canada & 7.44 & 2.02 & 4 &  \\
+\hline
+Netherlands & 7.33 & 2.05 & 5 &  \\
+\hline
+Ukraine & 7.28 & 2.02 & 6 &  \\
+\hline
+Algeria & 7.22 & 1.90 & 7 &  \\
+\hline
+Austria & 7.11 & 1.87 & 8 &  \\
+\hline
+Grenada & 6.98 & 1.99 & 9 &  \\
+\hline
+Japan & 6.64 & 1.96 & 10 &  \\
+\hline
+\end{tabular}
+\end{center}
+
+The Spearman's rank correlation coefficient is used to determine if there is a linear correlation between an athlete's ranking in long jump and their ranking in high jump.\\
+(a) Complete the table to show the athletes' rankings in high jump.\\
+(b) Find the value of the Spearman's rank correlation coefficient $r_{s}$.\\
+(This question continues on the following page)
+
+\section*{(Question 1 continued)}
+The following guide is used by the coach to determine the strength of the correlation between the ranks for long jump and high jump.
+
+\begin{center}
+\begin{tabular}{|l|l|}
+\hline
+\multicolumn{1}{|c|}{$\left|\boldsymbol{r}_{s}\right|$} & \multicolumn{1}{|c|}{Strength} \\
+\hline
+0.000 to 0.199 & Very weak \\
+\hline
+0.200 to 0.399 & Weak \\
+\hline
+0.400 to 0.599 & Moderate \\
+\hline
+0.600 to 0.799 & Strong \\
+\hline
+0.800 to 1.000 & Very strong \\
+\hline
+\end{tabular}
+\end{center}
+
+(c) State the strength of the correlation between the rankings as indicated by the table and interpret this in the context of the question.\\[0pt]
+2. [Maximum mark: 6]
+
+Point H on a hot-air balloon is sighted at the same time by two observers. One observer is at the top of a vertical building that is 156 metres tall. The other observer is at the base of the building.
+
+The angle of elevation from point A (at the top of the building) to H is $40^{\circ}$, and the angle of elevation from point B (at the base of the building) to H is $57^{\circ}$. Point X is the ground directly below point H. This information is shown in the diagram.\\
+diagram not to scale\\
+\includegraphics[max width=\textwidth, center]{5cdc1a65-4377-40e4-9d8e-1930138bb87d-05}\\
+(a) Find the size of angle AHB .\\
+(b) Calculate the distance from point B to point H .
+
+The hot-air balloon remains at a constant height as it moves further away from the building.\\
+(c) Describe, in words, the change in the angle of depression from point H to point B as the horizontal distance between the balloon and the building increases.\\
+(This question continues on the following page)\\
+(Question 2 continued)\\[0pt]
+3. [Maximum mark: 5]
+
+On 1 January 2022, Mina deposited $\$ 1000$ into a bank account with an annual interest rate of $4 \%$, compounded monthly. At the end of January, and the end of every month after that, she deposits $\$ 100$ into the same account.\\
+(a) Calculate the amount of money in her account at the start of 2024. Give your answer to two decimal places.\\
+(b) Find how many complete months, counted from 1 January 2022, it will take for Mina to have more than $\$ 5000$ in her account.\\[0pt]
+4. [Maximum mark: 6]
+
+Carys believes that, on a memory retention test, the mean score of bilingual people ( $\mu_{b}$ ) will be higher than the mean score of monolingual people $\left(\mu_{m}\right)$. Carys gave a memory retention test to a random sample of students in her class. The results are shown in the two tables.
+
+\begin{center}
+\begin{tabular}{|l|c|c|c|c|c|c|c|c|c|c|}
+\multicolumn{1}{c}{} & \multicolumn{1}{|c|}{} & \multicolumn{9}{c|}{Scores} \\
+\hline
+Bilingual & 100 & 94 & 100 & 90 & 100 & 94 & 98 & 98 & 98 & 98 \\
+\hline
+\end{tabular}
+\end{center}
+
+\begin{center}
+\begin{tabular}{|l|c|c|c|c|c|c|c|c|}
+\cline { 2 - 9 }
+\multicolumn{1}{c|}{} & \multicolumn{9}{|c|}{Scores} \\
+\hline
+Monolingual & 97 & 92 & 88 & 98 & 88 & 94 & 100 & 100 &  \\
+\hline
+\end{tabular}
+\end{center}
+
+Carys performs a one-tailed $t$-test at a $5 \%$ level of significance. It is assumed that the scores are normally distributed and the samples have equal variances.\\
+(a) State the null and alternative hypotheses.\\
+(b) Calculate the $p$-value for this test.\\
+(c) State the conclusion of the test in the context of the question. Justify your answer.\\[0pt]
+5. [Maximum mark: 5]
+
+Line $L_{1}$ is tangent to the graph of a function $f(x)$ at the point $\mathrm{P}(3,-1)$. Line $L_{2}$ is given by the equation $y=-\frac{1}{2} x-\frac{5}{2}$ and is perpendicular to $L_{1}$.\\
+(a) Write down the gradient of $L_{1}$.\\
+(b) Find the equation of $L_{1}$ in the form $y=m x+c$.\\
+(c) Show that $L_{2}$ is not the line that is normal to $f(x)$ at point P .\\[0pt]
+6. [Maximum mark: 5]
+
+When the brakes of a car are fully applied the car will continue to travel some distance before it completely stops. This stopping distance, $d$, in metres is directly proportional to the square of the speed of the car, $v$, in kilometres per hour ( $\mathrm{km} \mathrm{h}^{-1}$ ).
+
+When a car is travelling at a speed of $50 \mathrm{~km} \mathrm{~h}^{-1}$ it will travel 12.3 m after the brakes are fully applied before it completely stops.\\
+(a) Determine an equation for $d$ in terms of $v$.
+
+The police can use this equation to estimate if cars are exceeding the speed limit.\\
+A car is found to have travelled 33 m , after fully applying its brakes, before it completely stopped.\\
+(b) Use your equation from part (a) to estimate the speed at which this car was travelling before the brakes were applied.\\
+(c) After the brakes have been fully applied, identify one other variable besides speed that could affect stopping distance.\\[0pt]
+7. [Maximum mark: 6]
+
+A rectangular box, with an open top, is to be constructed from a piece of cardboard that measures 48 cm by 30 cm .
+
+Squares of equal size will be cut from the corners of the cardboard, as indicated by the shading in the diagram. The sides will then be folded along the dotted lines to form the box.\\
+diagram not to scale\\
+\includegraphics[max width=\textwidth, center]{5cdc1a65-4377-40e4-9d8e-1930138bb87d-11}
+
+The volume of the box, in cubic centimetres, can be modelled by the function $V(x)=(48-2 x)(30-2 x)(x)$, for $0<x<k$, where $x$ is the length of the sides of the squares removed in centimetres.\\
+(a) Write down the maximum possible value of $k$ in this context.\\
+(b) Find the value of $x$ that maximizes the volume of the box.
+
+A second piece of 48 cm by 30 cm cardboard is damaged and a strip 2 cm wide must be removed from all four sides. A box will then be constructed in a similar manner from the remaining cardboard.\\
+(c) Calculate the maximum possible volume of the box made from the second piece of cardboard.\\
+(This question continues on the following page)\\
+(Question 7 continued)\\[0pt]
+8. [Maximum mark: 7]\\
+"Password entropy" is a measure of the predictability of a computer password. The higher the entropy, the more difficult it is to guess the password.
+
+The relationship between the password entropy, $p$, (measured in bits) and the number of guesses, $G$, required to decode the password is given by $0.301 p=\log _{10} G$.\\
+(a) Calculate the value of $p$ for a password that takes 5000 guesses to decode.\\
+(b) Write down $G$ as a function of $p$.\\
+(c) Find the number of guesses required to decode a password that has an entropy of 28 bits. Write your answer in the form $a \times 10^{k}$, where $1 \leq a<10, k \in \mathbb{Z}$.
+
+There is a point on the graph of the function $G(p)$ with coordinates $(0,1)$.\\
+(d) Explain what these coordinate values mean in the context of computer passwords.\\[0pt]
+9. [Maximum mark: 8]
+
+The cross section of a scale model of a hill is modelled by the following graph.\\
+\includegraphics[max width=\textwidth, center]{5cdc1a65-4377-40e4-9d8e-1930138bb87d-14}
+
+The heights of the model are measured at horizontal intervals and are given in the table.
+
+\begin{center}
+\begin{tabular}{|l|l|l|r|l|l|}
+\hline
+Horizontal distance, $\boldsymbol{x} \mathbf{c m}$ & 0 & 10 & 20 & 30 & 40 \\
+\hline
+Vertical distance, $\boldsymbol{y} \mathbf{c m}$ & 0 & 3 & 8 & 9 & 0 \\
+\hline
+\end{tabular}
+\end{center}
+
+(a) Use the trapezoidal rule with $h=10$ to find an approximation for the cross-sectional area of the model.
+
+It is given that the equation of the curve is $y=0.04 x^{2}-0.001 x^{3}, 0 \leq x \leq 40$.\\
+(b) (i) Write down an integral to find the exact cross-sectional area.\\
+(ii) Calculate the value of the cross-sectional area to two decimal places.\\
+(c) Find the percentage error in the area found using the trapezoidal rule.\\[0pt]
+10. [Maximum mark: 7]
+
+In a baseball game, Sakura is the batter standing beside home plate. The ball is thrown towards home plate along a path that can be modelled by the following function
+
+$$
+y=-0.045 x+2 .
+$$
+
+In this model, $x$ is the horizontal distance of the ball from the point the ball is thrown and $y$ is the vertical height of the ball above the ground. Both measured in metres.
+
+The outcome of the throw is called a strike if the height of the ball is between 0.53 m and 1.24 m at some point while it travels over home plate. The length of home plate is 0.43 m .\\
+diagram not to scale\\
+\includegraphics[max width=\textwidth, center]{5cdc1a65-4377-40e4-9d8e-1930138bb87d-15}\\
+\includegraphics[max width=\textwidth, center]{5cdc1a65-4377-40e4-9d8e-1930138bb87d-15(1)}
+
+When the ball reaches the front of home plate, the height of the ball above the ground is 1.25 m . The height of the ball changes by $a$ metres as the ball travels over the length of home plate.\\
+(a) (i) Find the value of $a$.\\
+(ii) Justify why this throw is a strike.
+
+On the next throw, Sakura hits the ball towards a wall that is 5 metres high. The horizontal distance of the wall from the point where the ball was hit is 96 metres. The path of the ball after it is hit can be modelled by the function $h(d)$.
+
+$$
+h(d)=-0.01 d^{2}+1.04 d+0.66, \text { for } h, d>0
+$$
+
+In this model, $h$ is the height of the ball above the ground and $d$ is the horizontal distance of the ball from the point where it was hit. Both $h$ and $d$ are measured in metres.\\
+(b) Determine whether the ball will go over the wall. Justify your answer.\\
+(This question continues on the following page)\\
+(Question 10 continued)\\[0pt]
+11. [Maximum mark: 7]
+
+Vertical posts are to be placed around the outer edge of a children's park. Each post is formed from a cuboid with a right square-based pyramid on top.
+
+The cuboid part of the post is machine-made such that its width, and hence the width of the pyramid, is exactly 20 cm . The length from the apex of the pyramid, A , to any corner of the base of the pyramid is 14.6 cm , but this is only accurate to the nearest tenth of a centimetre. The post is shown in the diagram.\\
+diagram not to scale\\
+\includegraphics[max width=\textwidth, center]{5cdc1a65-4377-40e4-9d8e-1930138bb87d-17}\\
+(a) Write down the upper bound and lower bound for the possible lengths of edge AC .
+
+Point H is the midpoint of BC .\\
+(b) Determine the upper bound and lower bound for AH , the slant height of the pyramid.
+
+For the post to be safe for children, the angle between the slant height and the base of the pyramid must be less than $22^{\circ}$.\\
+(c) Show that this post is safe for children. Justify your answer.\\
+(This question continues on the following page)\\
+(Question 11 continued)\\[0pt]
+12. [Maximum mark: 7]
+
+On a specific day, the speed of cars as they pass a speed camera can be modelled by a normal distribution with a mean of $67.3 \mathrm{~km} \mathrm{~h}^{-1}$.
+
+A speed of $75.7 \mathrm{kmh}^{-1}$ is two standard deviations from the mean.\\
+(a) Find the standard deviation for the speed of the cars.
+
+Speeding tickets are issued to all drivers travelling at a speed greater than $72 \mathrm{~km} \mathrm{~h}^{-1}$.\\
+(b) Find the probability that a randomly selected driver who passes the speed camera receives a speeding ticket.
+
+It is found that $82 \%$ of cars on this road travel at speeds between $p \mathrm{kmh}^{-1}$ and $q \mathrm{kmh}^{-1}$, where $p<q$. This interval includes cars travelling at a speed of $74 \mathrm{~km} \mathrm{~h}^{-1}$.\\
+(c) Show that the region of the normal distribution between $p$ and $q$ is not symmetrical about the mean.\\[0pt]
+13. [Maximum mark: 5]
+
+A boat travels 8 km on a bearing of $315^{\circ}$ and then a further 6 km on a bearing of $045^{\circ}$. Find the bearing on which the boat should travel to return directly to the starting point.
+
+References:\\
+© International Baccalaureate Organization 2023
+
+\section*{Please do not write on this page.}
+Answers written on this page will not be marked.
+
+
+\end{document}

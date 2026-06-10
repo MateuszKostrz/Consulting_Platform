@@ -1,0 +1,29 @@
+{% load static %}
+
+
+<!doctype html>
+<!doctype html>
+
+<html
+  lang="en"
+  class="layout-navbar-fixed layout-menu-fixed layout-compact"
+  dir="ltr"
+  data-skin="default"
+  data-bs-theme="light"
+  data-assets-path="../../assets/"
+  data-template="vertical-menu-template">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>{{ topic_title }} | {{ subject }} | {{ site_name }}</title>
+
+    <meta name="description" content="" />
+
+    <link rel="icon" href="{% static 'website/images/platform_logo.svg' %}">
+    <link rel="alternate icon" href="{% static 'website/images/safari_logo2_prev_ui.png' %}" type="image/png">
+    <meta property="og:image" content="https://academy.edunade.com/static/website/images/Edunade_Vertical_Black_RGB.png">
+
+
+{% include 'math_general_template_with_ai.html' %}

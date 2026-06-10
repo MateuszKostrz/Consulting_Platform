@@ -1,0 +1,2447 @@
+[
+  {
+    "question_id": 128,
+    "subquestions": [
+      {
+        "part_label": "a",
+        "skill_keys": [
+          "normal_distribution"
+        ],
+        "question_text": "Which sketch best represents egg weights normally distributed with mean \\(48.8\\text{ g}\\) and standard deviation \\(3.40\\text{ g}\\)?",
+        "options": [
+          {
+            "label": "A",
+            "text": "A right-skewed curve centred at \\(48.8\\text{ g}\\).",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "A uniform distribution from \\(45.4\\) to \\(52.2\\).",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "A symmetric bell curve centred at \\(48.8\\text{ g}\\).",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "A symmetric bell curve centred at \\(3.40\\text{ g}\\).",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "b",
+        "skill_keys": [
+          "inverse_normal_distribution"
+        ],
+        "question_text": "Find the maximum weight of a small egg, where small means the lightest \\(25\\%\\).",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(46.5\\text{ g}\\)",
+            "is_correct": true
+          },
+          {
+            "label": "B",
+            "text": "\\(45.4\\text{ g}\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(48.8\\text{ g}\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(51.1\\text{ g}\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "c",
+        "skill_keys": [
+          "inverse_normal_distribution"
+        ],
+        "question_text": "Find the minimum weight of a big egg, where big means heavier than \\(75\\%\\) of eggs.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(46.5\\text{ g}\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(48.8\\text{ g}\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(52.2\\text{ g}\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(51.1\\text{ g}\\)",
+            "is_correct": true
+          }
+        ]
+      },
+      {
+        "part_label": "d",
+        "skill_keys": [
+          "normal_distribution"
+        ],
+        "question_text": "In a sample of 50 eggs, estimate the number weighing less than \\(46\\text{ g}\\).",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(8\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(10\\)",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "\\(20\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(25\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "e",
+        "skill_keys": [
+          "normal_distribution"
+        ],
+        "question_text": "In a sample of 50 eggs, estimate the number weighing between \\(45\\text{ g}\\) and \\(55\\text{ g}\\).",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(10\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(34\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(42\\)",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "\\(50\\)",
+            "is_correct": false
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "question_id": 129,
+    "subquestions": [
+      {
+        "part_label": "a",
+        "skill_keys": [
+          "normal_distribution",
+          "binomial_distribution"
+        ],
+        "question_text": "Two people are chosen at random. Find the probability that both have savings between \\(\\$2800\\) and \\(\\$5200\\).",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.466\\)",
+            "is_correct": true
+          },
+          {
+            "label": "B",
+            "text": "\\(0.683\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(0.341\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(0.202\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "b",
+        "skill_keys": [
+          "inverse_normal_distribution"
+        ],
+        "question_text": "Find the amount needed to be in the top \\(10\\%\\) of wealth.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(\\$4809.39\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(\\$5200.00\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(\\$4000.00\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(\\$5537.86\\)",
+            "is_correct": true
+          }
+        ]
+      },
+      {
+        "part_label": "c",
+        "skill_keys": [
+          "inverse_normal_distribution"
+        ],
+        "question_text": "If \\(75\\%\\) of people have less than \\(d\\) dollars, find \\(d\\).",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(\\$5537.86\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(\\$4809.39\\)",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "\\(\\$4000.00\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(\\$2800.00\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "d",
+        "skill_keys": [
+          "normal_distribution"
+        ],
+        "question_text": "Find the proportion of people with less than \\(\\$3000\\).",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.798\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(0.466\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(0.202\\)",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "\\(0.683\\)",
+            "is_correct": false
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "question_id": 130,
+    "subquestions": [
+      {
+        "part_label": "a",
+        "skill_keys": [
+          "binomial_distribution"
+        ],
+        "question_text": "Find the probability that all 10 alarms work properly.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.817\\)",
+            "is_correct": true
+          },
+          {
+            "label": "B",
+            "text": "\\(0.98\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(0.991\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(0.294\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "b",
+        "skill_keys": [
+          "binomial_distribution"
+        ],
+        "question_text": "Find the probability that at least 8 of the 10 alarms work properly.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.817\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(0.294\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(0.601\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(0.991\\)",
+            "is_correct": true
+          }
+        ]
+      },
+      {
+        "part_label": "c",
+        "skill_keys": [
+          "binomial_distribution"
+        ],
+        "question_text": "Find the probability that the alarm rings when the squirrel runs in front of one house.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.300\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(0.294\\)",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "\\(0.980\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(0.601\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "d",
+        "skill_keys": [
+          "binomial_distribution"
+        ],
+        "question_text": "Find the probability that the squirrel makes at least 3 alarm systems ring.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.294\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(0.399\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(0.601\\)",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "\\(0.991\\)",
+            "is_correct": false
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "question_id": 131,
+    "subquestions": [
+      {
+        "part_label": "a.i",
+        "skill_keys": [
+          "normal_distribution"
+        ],
+        "question_text": "Find the probability that a watermelon has diameter less than \\(10\\text{ cm}\\).",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.0488\\)",
+            "is_correct": true
+          },
+          {
+            "label": "B",
+            "text": "\\(0.00621\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(0.00177\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(0.9512\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "a.ii",
+        "skill_keys": [
+          "normal_distribution"
+        ],
+        "question_text": "Find the probability that a watermelon has diameter more than \\(15\\text{ cm}\\).",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.0488\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(0.99379\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(0.00177\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(0.00621\\)",
+            "is_correct": true
+          }
+        ]
+      },
+      {
+        "part_label": "b",
+        "skill_keys": [
+          "inverse_normal_distribution"
+        ],
+        "question_text": "If \\(20\\%\\) of watermelons have diameter bigger than \\(d\\), find \\(d\\) to the nearest integer.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(12\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(13\\)",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "\\(14\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(10\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "c",
+        "skill_keys": [
+          "normal_distribution"
+        ],
+        "question_text": "Find the probability that a randomly selected watermelon is discarded because its diameter is less than \\(8.5\\text{ cm}\\).",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.0488\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(0.00621\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(0.00177\\)",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "\\(0.99823\\)",
+            "is_correct": false
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "question_id": 132,
+    "subquestions": [
+      {
+        "part_label": "a",
+        "skill_keys": [
+          "normal_distribution"
+        ],
+        "question_text": "Find the probability that a randomly selected car is expensive, where expensive means priced between \\(\\$40000\\) and \\(\\$48000\\).",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.000009\\)",
+            "is_correct": true
+          },
+          {
+            "label": "B",
+            "text": "\\(0.0009\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(0.009\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(0.60\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "b",
+        "skill_keys": [
+          "inverse_normal_distribution"
+        ],
+        "question_text": "For a central probability of \\(0.6\\), find \\(q\\) where the interval is symmetric about \\(\\$25000\\).",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(\\$5537.86\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(\\$3500.00\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(\\$22054.33\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(\\$2945.67\\)",
+            "is_correct": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "question_id": 192,
+    "subquestions": [
+      {
+        "part_label": "a",
+        "skill_keys": [
+          "normal_distribution"
+        ],
+        "question_text": "Find the probability that a bag of potatoes weighs less than \\(700\\text{ g}\\).",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.9772\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(0.0228\\)",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "\\(0.294\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(0.159\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "b",
+        "skill_keys": [
+          "binomial_distribution"
+        ],
+        "question_text": "In a random selection of 20 bags, find the probability that exactly 1 weighs less than \\(700\\text{ g}\\).",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.0228\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(0.159\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(0.294\\)",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "\\(0.706\\)",
+            "is_correct": false
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "question_id": 193,
+    "subquestions": [
+      {
+        "part_label": "a",
+        "skill_keys": [
+          "normal_distribution"
+        ],
+        "question_text": "Find the probability that a randomly selected hamburger weighs exactly \\(210\\text{ g}\\).",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.0147\\)",
+            "is_correct": true
+          },
+          {
+            "label": "B",
+            "text": "\\(0.212\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(0.356\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(0\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "b",
+        "skill_keys": [
+          "normal_distribution"
+        ],
+        "question_text": "Find the probability that a randomly selected hamburger weighs more than \\(240\\text{ g}\\).",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.0147\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(0.356\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(0.291\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(0.212\\)",
+            "is_correct": true
+          }
+        ]
+      },
+      {
+        "part_label": "c",
+        "skill_keys": [
+          "binomial_distribution"
+        ],
+        "question_text": "For 10 hamburgers, find the probability that fewer than 4 weigh more than \\(240\\text{ g}\\).",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.212\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(0.857\\)",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "\\(0.143\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(0.291\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "d",
+        "skill_keys": [
+          "normal_distribution"
+        ],
+        "question_text": "Find the probability that a randomly selected burger weighs more than \\(240\\text{ g}\\).",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.212\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(0.356\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(0.291\\)",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "\\(0.673\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "e",
+        "skill_keys": [
+          "normal_distribution"
+        ],
+        "question_text": "Given that a randomly selected burger weighs more than \\(240\\text{ g}\\), find the probability that it is a cheeseburger.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.673\\)",
+            "is_correct": true
+          },
+          {
+            "label": "B",
+            "text": "\\(0.291\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(0.356\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(0.550\\)",
+            "is_correct": false
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "question_id": 194,
+    "subquestions": [
+      {
+        "part_label": "a",
+        "skill_keys": [
+          "normal_distribution"
+        ],
+        "question_text": "Find the probability that a randomly selected flour pack is rejected.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.841\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(0.189\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(0.500\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(0.159\\)",
+            "is_correct": true
+          }
+        ]
+      },
+      {
+        "part_label": "b",
+        "skill_keys": [
+          "normal_distribution"
+        ],
+        "question_text": "Estimate the number of rejected packs in a sample of 100.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(15\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(16\\)",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "\\(19\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(84\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "c",
+        "skill_keys": [
+          "normal_distribution"
+        ],
+        "question_text": "Given that a bag is not rejected, find the probability that it has mass greater than \\(502\\text{ g}\\).",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.159\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(0.841\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(0.189\\)",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "\\(0.500\\)",
+            "is_correct": false
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "question_id": 195,
+    "subquestions": [
+      {
+        "part_label": "a",
+        "skill_keys": [
+          "normal_distribution"
+        ],
+        "question_text": "Which sketch represents grades normally distributed with mean 6 and standard deviation 1, including 1 and 2 standard deviations above the mean?",
+        "options": [
+          {
+            "label": "A",
+            "text": "A bell curve centred at 6 with marks at 7 and 8.",
+            "is_correct": true
+          },
+          {
+            "label": "B",
+            "text": "A bell curve centred at 1 with marks at 6 and 8.",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "A uniform distribution from 1 to 10.",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "A bell curve centred at 6 with marks at 5 and 4 only.",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "b",
+        "skill_keys": [
+          "normal_distribution"
+        ],
+        "question_text": "How many standard deviations is a grade of 5.5 away from the mean?",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(1.5\\) standard deviations above the mean",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(0.5\\) standard deviations above the mean",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(5.5\\) standard deviations below the mean",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(0.5\\) standard deviations below the mean",
+            "is_correct": true
+          }
+        ]
+      },
+      {
+        "part_label": "c",
+        "skill_keys": [
+          "normal_distribution"
+        ],
+        "question_text": "Find the probability that a student gets a grade higher than \\(7.5\\).",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.477\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(0.068\\)",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "\\(0.932\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(0.750\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "d.i",
+        "skill_keys": [
+          "normal_distribution"
+        ],
+        "question_text": "Find the probability that a randomly chosen student scores between 6 and 8.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.068\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(0.682\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(0.477\\)",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "\\(0.954\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "d.ii",
+        "skill_keys": [
+          "normal_distribution"
+        ],
+        "question_text": "Out of 30 students, estimate how many score between 6 and 8.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(14\\)",
+            "is_correct": true
+          },
+          {
+            "label": "B",
+            "text": "\\(2\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(21\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(30\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "e",
+        "skill_keys": [
+          "inverse_normal_distribution"
+        ],
+        "question_text": "If 75% of students scored less than \\(X\\), find \\(X\\).",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(5.33\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(7.50\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(6.00\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(6.67\\)",
+            "is_correct": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "question_id": 288,
+    "subquestions": [
+      {
+        "part_label": "a",
+        "skill_keys": [
+          "normal_distribution"
+        ],
+        "question_text": "Which sketch correctly represents parcel masses with mean \\(24\\text{ kg}\\) and standard deviation \\(5\\text{ kg}\\)?",
+        "options": [
+          {
+            "label": "A",
+            "text": "A bell curve centred at \\(5\\), with marks at \\(24\\) and \\(34\\).",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "A bell curve centred at \\(24\\), with marks at \\(19,29,14,34\\).",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "A uniform graph from \\(19\\) to \\(29\\).",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "A bell curve centred at \\(29\\), with marks at \\(24\\) and \\(34\\).",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "b",
+        "skill_keys": [
+          "normal_distribution"
+        ],
+        "question_text": "State how many standard deviations \\(34\\text{ kg}\\) is above the mean.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(1\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(5\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(2\\)",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "\\(10\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "c",
+        "skill_keys": [
+          "normal_distribution"
+        ],
+        "question_text": "Find \\(P(M<20)\\).",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.212\\)",
+            "is_correct": true
+          },
+          {
+            "label": "B",
+            "text": "\\(0.540\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(0.85\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(0.6826\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "d",
+        "skill_keys": [
+          "normal_distribution"
+        ],
+        "question_text": "Find \\(P(22<M<30)\\).",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.212\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(0.85\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(0.6826\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(0.540\\)",
+            "is_correct": true
+          }
+        ]
+      },
+      {
+        "part_label": "e",
+        "skill_keys": [
+          "normal_distribution"
+        ],
+        "question_text": "A depot processes 240 parcels. Estimate how many have masses between \\(22\\text{ kg}\\) and \\(30\\text{ kg}\\).",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(54\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(130\\)",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "\\(163\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(240\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "f",
+        "skill_keys": [
+          "inverse_normal_distribution"
+        ],
+        "question_text": "If 85% of parcels have mass less than \\(k\\), find \\(k\\).",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(24\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(19\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(29.2\\)",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "\\(34\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "g",
+        "skill_keys": [
+          "inverse_normal_distribution"
+        ],
+        "question_text": "Find \\(a\\) and \\(b\\) for the central region representing probability \\(0.6826\\).",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(a=19,\\ b=29\\)",
+            "is_correct": true
+          },
+          {
+            "label": "B",
+            "text": "\\(a=14,\\ b=34\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(a=22,\\ b=30\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(a=24,\\ b=29\\)",
+            "is_correct": false
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "question_id": 289,
+    "subquestions": [
+      {
+        "part_label": "a.i",
+        "skill_keys": [
+          "normal_distribution"
+        ],
+        "question_text": "Estimate the mean mass of the oranges from the grouped table.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(148\\text{ g}\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(131\\text{ g}\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(165\\text{ g}\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(146\\text{ g}\\)",
+            "is_correct": true
+          }
+        ]
+      },
+      {
+        "part_label": "a.ii",
+        "skill_keys": [
+          "normal_distribution"
+        ],
+        "question_text": "Estimate the standard deviation of the orange masses.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(12\\text{ g}\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(11.6\\text{ g}\\)",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "\\(7.83\\text{ g}\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(146\\text{ g}\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "b",
+        "skill_keys": [
+          "normal_distribution"
+        ],
+        "question_text": "Estimate the percentage of oranges with mass greater than \\(165\\text{ g}\\).",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(84.2\\%\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(8\\%\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(7.83\\%\\)",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "\\(92.17\\%\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "c",
+        "skill_keys": [
+          "inverse_normal_distribution"
+        ],
+        "question_text": "If 8% of oranges are very small with mass less than \\(y\\), find \\(y\\).",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(131\\text{ g}\\)",
+            "is_correct": true
+          },
+          {
+            "label": "B",
+            "text": "\\(146\\text{ g}\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(165\\text{ g}\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(120\\text{ g}\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "d",
+        "skill_keys": [
+          "normal_distribution"
+        ],
+        "question_text": "Estimate the percentage of oranges with masses between \\(131\\text{ g}\\) and \\(165\\text{ g}\\).",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(7.83\\%\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(50\\%\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(92.17\\%\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(84.2\\%\\)",
+            "is_correct": true
+          }
+        ]
+      },
+      {
+        "part_label": "e",
+        "skill_keys": [
+          "normal_distribution"
+        ],
+        "question_text": "The shipment contains approximately 18000 oranges. Estimate how many are heavy.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(1800\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(1410\\)",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "\\(783\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(1510\\)",
+            "is_correct": false
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "question_id": 290,
+    "subquestions": [
+      {
+        "part_label": "a",
+        "skill_keys": [
+          "binomial_distribution"
+        ],
+        "question_text": "Find the probability that the featured book on a given day is a mystery novel.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.6\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(0.0823\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(0.4\\)",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "\\(0.578\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "b",
+        "skill_keys": [
+          "binomial_distribution"
+        ],
+        "question_text": "Over 30 days, find the probability that a mystery novel is chosen exactly 9 times.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.0823\\)",
+            "is_correct": true
+          },
+          {
+            "label": "B",
+            "text": "\\(0.4\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(0.578\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(0.9177\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "c",
+        "skill_keys": [
+          "binomial_distribution"
+        ],
+        "question_text": "Over 30 days, find the probability that a non-mystery book is chosen at least 18 times.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.0823\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(0.4\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(0.422\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(0.578\\)",
+            "is_correct": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "question_id": 291,
+    "subquestions": [
+      {
+        "part_label": "a",
+        "skill_keys": [
+          "normal_distribution"
+        ],
+        "question_text": "Find the probability that a battery lasts between 40 and 45 hours.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.85\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(0.589\\)",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "\\(0.95\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(0.025\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "b",
+        "skill_keys": [
+          "inverse_normal_distribution"
+        ],
+        "question_text": "If 85% of batteries last less than \\(m\\) hours, find \\(m\\).",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(42\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(47.9\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(45.1\\)",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "\\(36.1\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "c",
+        "skill_keys": [
+          "inverse_normal_distribution"
+        ],
+        "question_text": "Find \\(a\\) and \\(b\\) such that \\(P(a<T<b)=0.95\\) and the interval is symmetric about 42.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(a=36.1,\\ b=47.9\\)",
+            "is_correct": true
+          },
+          {
+            "label": "B",
+            "text": "\\(a=40,\\ b=45\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(a=37.0,\\ b=47.0\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(a=35.0,\\ b=49.0\\)",
+            "is_correct": false
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "question_id": 292,
+    "subquestions": [
+      {
+        "part_label": "a",
+        "skill_keys": [
+          "binomial_distribution"
+        ],
+        "question_text": "Find the probability that exactly 4 customers choose the limited-edition cupcake.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.738\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(0.504\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(0.372\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(0.238\\)",
+            "is_correct": true
+          }
+        ]
+      },
+      {
+        "part_label": "b",
+        "skill_keys": [
+          "binomial_distribution"
+        ],
+        "question_text": "Find the probability that at least 3 customers choose the limited-edition cupcake.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.238\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(0.738\\)",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "\\(0.504\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(0.372\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "c",
+        "skill_keys": [
+          "binomial_distribution"
+        ],
+        "question_text": "Find the probability that at least 3 customers from the first branch and at least 6 from the second branch choose the cupcake.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.738\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(0.504\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(0.372\\)",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "\\(0.238\\)",
+            "is_correct": false
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "question_id": 293,
+    "subquestions": [
+      {
+        "part_label": "a",
+        "skill_keys": [
+          "normal_distribution"
+        ],
+        "question_text": "For jar volume \\(V\\sim N(510,8^2)\\), state \\(P(V<510)\\).",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.5\\)",
+            "is_correct": true
+          },
+          {
+            "label": "B",
+            "text": "\\(0.789\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(0.0668\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(0.9332\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "b",
+        "skill_keys": [
+          "normal_distribution"
+        ],
+        "question_text": "Find \\(P(500<V<520)\\).",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.5\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(0.0668\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(0.958\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(0.789\\)",
+            "is_correct": true
+          }
+        ]
+      },
+      {
+        "part_label": "c",
+        "skill_keys": [
+          "normal_distribution"
+        ],
+        "question_text": "Find the probability that a randomly selected jar is rejected if rejected means volume less than \\(498\\text{ ml}\\).",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.9332\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(0.0668\\)",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "\\(0.789\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(0.148\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "d",
+        "skill_keys": [
+          "binomial_distribution"
+        ],
+        "question_text": "For 12 selected jars, find the probability exactly 2 are rejected.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.0668\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(0.958\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(0.148\\)",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "\\(0.789\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "e",
+        "skill_keys": [
+          "inverse_normal_distribution"
+        ],
+        "question_text": "Find the minimum volume required for a jar to be labelled large capacity, the highest 15%.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(518.3\\text{ ml}\\)",
+            "is_correct": true
+          },
+          {
+            "label": "B",
+            "text": "\\(510.0\\text{ ml}\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(498.0\\text{ ml}\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(520.0\\text{ ml}\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "f",
+        "skill_keys": [
+          "binomial_distribution"
+        ],
+        "question_text": "Find the probability that a box of 12 jars contains at least 10 jars that are not rejected.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.148\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(0.9332\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(0.0668\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(0.958\\)",
+            "is_correct": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "question_id": 294,
+    "subquestions": [
+      {
+        "part_label": "a",
+        "skill_keys": [
+          "binomial_distribution"
+        ],
+        "question_text": "Sophia speaks to 10 customers and sells warranties with probability 0.35. Find the probability she sells at least one warranty.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.238\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(0.987\\)",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "\\(0.350\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(0.013\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "b",
+        "skill_keys": [
+          "binomial_distribution"
+        ],
+        "question_text": "Find the probability Sophia sells exactly 4 warranties.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.987\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(0.350\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(0.238\\)",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "\\(0.762\\)",
+            "is_correct": false
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "question_id": 295,
+    "subquestions": [
+      {
+        "part_label": "a",
+        "skill_keys": [
+          "expected_value_variance"
+        ],
+        "question_text": "A fair die is rolled 15 times and a point is scored each time a 6 appears. Find the expected number of points.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(2.5\\)",
+            "is_correct": true
+          },
+          {
+            "label": "B",
+            "text": "\\(3\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(0.236\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(0.232\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "b",
+        "skill_keys": [
+          "binomial_distribution"
+        ],
+        "question_text": "Find the probability that the player scores exactly 3 points.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(2.5\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(0.232\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(0.500\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(0.236\\)",
+            "is_correct": true
+          }
+        ]
+      },
+      {
+        "part_label": "c",
+        "skill_keys": [
+          "binomial_distribution"
+        ],
+        "question_text": "Find the probability that the player scores more than 3 points.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.236\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(0.232\\)",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "\\(2.5\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(0.768\\)",
+            "is_correct": false
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "question_id": 296,
+    "subquestions": [
+      {
+        "part_label": "a.i",
+        "skill_keys": [
+          "binomial_distribution"
+        ],
+        "question_text": "Write down the distribution used to model the number of successful serves.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(X\\sim N(18,0.7)\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(X\\sim B(0.7,18)\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(X\\sim B(18,0.7)\\)",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "\\(X\\sim B(18,0.3)\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "a.ii",
+        "skill_keys": [
+          "binomial_distribution"
+        ],
+        "question_text": "Which assumption is needed for this binomial model?",
+        "options": [
+          {
+            "label": "A",
+            "text": "Each serve is independent with the same probability of success.",
+            "is_correct": true
+          },
+          {
+            "label": "B",
+            "text": "The probability of success changes after each serve.",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "The serves follow a normal distribution.",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "There must be exactly 13 successes.",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "b.i",
+        "skill_keys": [
+          "binomial_distribution"
+        ],
+        "question_text": "Calculate the probability of exactly 13 successful serves.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.722\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(12.6\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(3.78\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(0.202\\)",
+            "is_correct": true
+          }
+        ]
+      },
+      {
+        "part_label": "b.ii",
+        "skill_keys": [
+          "binomial_distribution"
+        ],
+        "question_text": "Calculate the probability of at least 12 successful serves.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.202\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(0.722\\)",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "\\(0.278\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(3.78\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "c.i",
+        "skill_keys": [
+          "expected_value_variance"
+        ],
+        "question_text": "Find \\(E(X)\\).",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(3.78\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(0.7\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(12.6\\)",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "\\(18\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "c.ii",
+        "skill_keys": [
+          "expected_value_variance"
+        ],
+        "question_text": "Find \\(\\operatorname{Var}(X)\\).",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(3.78\\)",
+            "is_correct": true
+          },
+          {
+            "label": "B",
+            "text": "\\(12.6\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(0.7\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(18\\)",
+            "is_correct": false
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "question_id": 300,
+    "subquestions": [
+      {
+        "part_label": "a.i",
+        "skill_keys": [
+          "normal_distribution"
+        ],
+        "question_text": "Find the probability that a carton contains less than \\(990\\text{ ml}\\).",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.0228\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(0.4522\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(0.4772\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(0.0478\\)",
+            "is_correct": true
+          }
+        ]
+      },
+      {
+        "part_label": "a.ii",
+        "skill_keys": [
+          "normal_distribution"
+        ],
+        "question_text": "Find the probability that a carton contains more than \\(1012\\text{ ml}\\).",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.0478\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(0.0228\\)",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "\\(0.4522\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(0.4772\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "b.i",
+        "skill_keys": [
+          "normal_distribution"
+        ],
+        "question_text": "In a sample of 600 cartons, estimate the number with volumes between \\(990\\text{ ml}\\) and \\(1000\\text{ ml}\\).",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(29\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(286\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(271\\)",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "\\(600\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "b.ii",
+        "skill_keys": [
+          "normal_distribution"
+        ],
+        "question_text": "In a sample of 600 cartons, estimate the number with volumes between \\(1000\\text{ ml}\\) and \\(1012\\text{ ml}\\).",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(286\\)",
+            "is_correct": true
+          },
+          {
+            "label": "B",
+            "text": "\\(271\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(29\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(600\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "c",
+        "skill_keys": [
+          "normal_distribution"
+        ],
+        "question_text": "State the null and alternative hypotheses for testing whether carton volumes follow the stated normal distribution.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(H_0:\\) volumes do not follow \\(N(1000,6^2)\\); \\(H_1:\\) they do.",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(H_0:\\) mean is 6; \\(H_1:\\) mean is 1000.",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(H_0:\\) all classes have equal frequency; \\(H_1:\\) they do not.",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(H_0:\\) volumes follow \\(N(1000,6^2)\\); \\(H_1:\\) volumes do not follow this distribution.",
+            "is_correct": true
+          }
+        ]
+      },
+      {
+        "part_label": "d",
+        "skill_keys": [
+          "normal_distribution"
+        ],
+        "question_text": "Find the p-value of the goodness-of-fit test.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.0973\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(0.00973\\)",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "\\(0.05\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(0.99027\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "e",
+        "skill_keys": [
+          "normal_distribution"
+        ],
+        "question_text": "State the conclusion at the 5% significance level.",
+        "options": [
+          {
+            "label": "A",
+            "text": "Fail to reject \\(H_0\\), since \\(p<0.05\\).",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "Reject \\(H_0\\), since \\(p>0.05\\).",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "Reject \\(H_0\\), since \\(p<0.05\\).",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "Accept \\(H_0\\), since the model is exact.",
+            "is_correct": false
+          }
+        ]
+      }
+    ]
+  }
+]

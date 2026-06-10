@@ -1,0 +1,652 @@
+{% load static %}
+
+<meta name="referrer" content="strict-origin-when-cross-origin">
+
+    <style>
+      .video-item {
+        transition: all 0.2s ease;
+        border: 1px solid #e9ecef;
+        background-color: #ffffff;
+        margin-bottom: 8px !important;
+      }
+      
+      .video-item:hover {
+        background-color: #f8f9fa !important;
+        border-color: #007bff;
+        transform: translateY(-1px);
+      }
+      
+      .video-item.active {
+        background-color: #e7f3ff;
+        border-color: #007bff;
+      }
+      
+      /* Dark mode styles for video items */
+      [data-bs-theme="dark"] .video-item {
+        background-color: #2b2c40;
+        border-color: #3e4159;
+      }
+      
+      [data-bs-theme="dark"] .video-item:hover {
+        background-color: #363750 !important;
+        border-color: #696cff;
+      }
+      
+      [data-bs-theme="dark"] .video-item.active {
+        background-color: #383a59;
+        border-color: #696cff;
+      }
+      
+      .cursor-pointer {
+        cursor: pointer;
+      }
+      
+      .hover-bg-light:hover {
+        background-color: #f8f9fa !important;
+      }
+      
+      [data-bs-theme="dark"] .hover-bg-light:hover {
+        background-color: #363750 !important;
+      }
+      
+      /* Locked video items */
+      .video-item-locked {
+        background-color: #f8f9fa;
+        border: 1px dashed #dee2e6;
+        opacity: 0.7;
+        position: relative;
+      }
+      
+      [data-bs-theme="dark"] .video-item-locked {
+        background-color: #2b2c40;
+        border-color: #4b4e6d;
+      }
+      
+      [data-bs-theme="dark"] .video-item-locked .text-muted {
+        color: #a1a3b8 !important;
+      }
+      
+      [data-bs-theme="dark"] .video-item-locked i.ri-lock-line {
+        color: #a1a3b8 !important;
+      }
+      
+      .video-item-locked i.ri-lock-line {
+        color: #6c757d;
+      }
+      
+      /* Blur effect for locked video topics */
+      .topic-blurred {
+        filter: blur(4px);
+        user-select: none;
+        pointer-events: none;
+      }
+      
+      #main-video {
+        border-radius: 12px;
+        overflow: hidden;
+      }
+
+      /* Height matching and scrolling styles */
+      .accordion-custom-button.height-matched {
+        height: 100%;
+      }
+      
+      .accordion-custom-button.height-matched .accordion-item {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+      
+      .accordion-custom-button.height-matched .accordion-collapse.show {
+        flex: 1;
+        overflow: hidden;
+      }
+      
+      .accordion-custom-button .accordion-body {
+        overflow-y: auto;
+      }
+      
+      .accordion-custom-button.height-matched .accordion-body {
+        height: 100%;
+      }
+    </style>
+
+    <script>
+      // Global variables to track current question screenshots
+      let currentQuestionScreenshotUrls = [];
+      let currentScreenshotIndex = 0;
+      let currentZoom = 1;
+
+      function loadVideo(videoUrl, title, clickedElement, questionScreenshotUrl = null) {
+        // Get the iframe container
+        const container = document.getElementById('video-container');
+        
+        // Create a new iframe element to avoid Vimeo privacy issues
+        const newIframe = document.createElement('iframe');
+        newIframe.id = 'main-video';
+        newIframe.className = 'w-100';
+        newIframe.height = '500';
+        newIframe.src = videoUrl;
+        newIframe.frameBorder = '0';
+        newIframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+        newIframe.referrerPolicy = 'strict-origin-when-cross-origin';
+        newIframe.allowFullscreen = true;
+        
+        // Replace the old iframe with the new one
+        const oldIframe = document.getElementById('main-video');
+        container.replaceChild(newIframe, oldIframe);
+        
+        // Store question screenshot URLs
+        if (questionScreenshotUrl && questionScreenshotUrl !== 'null' && questionScreenshotUrl !== '') {
+          currentQuestionScreenshotUrls = questionScreenshotUrl.split(',').map(url => url.trim()).filter(url => url);
+        } else {
+          currentQuestionScreenshotUrls = [];
+        }
+        currentScreenshotIndex = 0;
+        
+        // Update the video title - you can add this back if needed
+        // document.getElementById('video-title').textContent = title;
+        
+        // Remove active class from all video items
+        const videoItems = document.querySelectorAll('.video-item');
+        videoItems.forEach(item => item.classList.remove('active'));
+        
+        // Add active class to clicked item
+        clickedElement.classList.add('active');
+
+        // Show or hide the preview button based on screenshot availability
+        const previewSection = document.getElementById('question-preview-section');
+        if (previewSection) {
+          if (currentQuestionScreenshotUrls.length > 0) {
+            previewSection.style.display = 'block';
+          } else {
+            previewSection.style.display = 'none';
+          }
+        }
+      }
+
+      function openQuestionPreview(hasAccess) {
+        if (!hasAccess) {
+          const premiumModal = new bootstrap.Modal(document.getElementById('premiumOnlyModal'));
+          premiumModal.show();
+          return;
+        }
+
+        if (currentQuestionScreenshotUrls.length === 0) {
+          alert('No question screenshots available for this video.');
+          return;
+        }
+
+        currentScreenshotIndex = 0;
+        currentZoom = 1;
+        
+        const modal = new bootstrap.Modal(document.getElementById('questionPreviewModal'));
+        modal.show();
+        
+        updatePreviewImage();
+        updateNavigationButtons();
+        updateDots();
+      }
+
+      function updatePreviewImage() {
+        const imgElement = document.getElementById('question-preview-image');
+        if (imgElement && currentQuestionScreenshotUrls.length > 0) {
+          imgElement.src = currentQuestionScreenshotUrls[currentScreenshotIndex];
+          imgElement.style.transform = `scale(${currentZoom})`;
+        }
+      }
+
+      function updateNavigationButtons() {
+        const prevButton = document.getElementById('prev-screenshot');
+        const nextButton = document.getElementById('next-screenshot');
+        const navigationDiv = document.querySelector('.screenshot-navigation');
+        
+        if (currentQuestionScreenshotUrls.length > 1) {
+          if (navigationDiv) navigationDiv.style.display = 'block';
+          if (prevButton) prevButton.disabled = currentScreenshotIndex === 0;
+          if (nextButton) nextButton.disabled = currentScreenshotIndex === currentQuestionScreenshotUrls.length - 1;
+        } else {
+          if (navigationDiv) navigationDiv.style.display = 'none';
+        }
+      }
+
+      function updateDots() {
+        const dotsContainer = document.getElementById('screenshot-dots');
+        if (!dotsContainer) return;
+
+        if (currentQuestionScreenshotUrls.length <= 1) {
+          dotsContainer.style.display = 'none';
+          return;
+        }
+
+        dotsContainer.innerHTML = '';
+        dotsContainer.style.display = 'flex';
+
+        currentQuestionScreenshotUrls.forEach((url, index) => {
+          const dot = document.createElement('div');
+          dot.className = 'screenshot-dot' + (index === currentScreenshotIndex ? ' active' : '');
+          dot.onclick = () => {
+            currentScreenshotIndex = index;
+            updatePreviewImage();
+            updateNavigationButtons();
+            updateDots();
+          };
+          dotsContainer.appendChild(dot);
+        });
+      }
+
+      function zoomIn() {
+        currentZoom = Math.min(currentZoom + 0.25, 3);
+        updatePreviewImage();
+      }
+
+      function zoomOut() {
+        currentZoom = Math.max(currentZoom - 0.25, 0.5);
+        updatePreviewImage();
+      }
+      
+      function previousScreenshot() {
+        if (currentScreenshotIndex > 0) {
+          currentScreenshotIndex--;
+          updatePreviewImage();
+          updateNavigationButtons();
+          updateDots();
+        }
+      }
+      
+      function nextScreenshot() {
+        if (currentScreenshotIndex < currentQuestionScreenshotUrls.length - 1) {
+          currentScreenshotIndex++;
+          updatePreviewImage();
+          updateNavigationButtons();
+          updateDots();
+        }
+      }
+
+      // Function to match heights
+      function matchHeights() {
+        const leftContainer = document.querySelector('.col-lg-9 .card');
+        const rightSidebar = document.querySelector('.right-sidebar');
+        const accordion = document.querySelector('.accordion-custom-button');
+        const accordionBody = document.querySelector('.accordion-custom-button .accordion-body');
+        const accordionCollapse = document.querySelector('.accordion-collapse');
+        
+        if (leftContainer && rightSidebar && accordion && accordionBody && accordionCollapse) {
+          // Only apply height matching if accordion is expanded
+          if (accordionCollapse.classList.contains('show')) {
+            const leftHeight = leftContainer.offsetHeight;
+            const videoItems = document.querySelectorAll('.video-item');
+            const totalVideoItems = videoItems.length;
+            
+            // Calculate minimum height needed for content
+            const accordionHeader = document.querySelector('.accordion-header');
+            const headerHeight = accordionHeader ? accordionHeader.offsetHeight : 60;
+            const itemHeight = 80; // Approximate height of each video item
+            const padding = 20;
+            const minContentHeight = (totalVideoItems * itemHeight) + headerHeight + padding;
+            
+            // If we have few items, use content height. Otherwise, match video height
+            let targetHeight;
+            if (totalVideoItems <= 9) {
+              targetHeight = minContentHeight + 20; // Add 20px extra padding
+            } else {
+              targetHeight = leftHeight; // Always use video height when more than 9 items
+            }
+            
+            // Add height-matched class and set heights
+            accordion.classList.add('height-matched');
+            rightSidebar.style.height = targetHeight + 'px';
+            accordion.style.height = targetHeight + 'px';
+            
+            // Set accordion body height
+            const bodyHeight = targetHeight - headerHeight - padding;
+            accordionBody.style.height = bodyHeight + 'px';
+          } else {
+            // Remove height matching when collapsed
+            accordion.classList.remove('height-matched');
+            rightSidebar.style.height = '';
+            accordion.style.height = '';
+            accordionBody.style.height = '';
+          }
+        }
+      }
+
+      // Run on page load and resize
+      document.addEventListener('DOMContentLoaded', function() {
+        // Initial run
+        matchHeights();
+        
+        // Run multiple times to ensure it catches all content loading
+        setTimeout(matchHeights, 100);
+        setTimeout(matchHeights, 500);
+        setTimeout(matchHeights, 1000);
+        
+        // Listen for accordion collapse/expand events
+        const accordionElement = document.querySelector('.accordion-collapse');
+        if (accordionElement) {
+          accordionElement.addEventListener('shown.bs.collapse', matchHeights);
+          accordionElement.addEventListener('hidden.bs.collapse', matchHeights);
+        }
+
+        // Initialize the first video's screenshot data
+        {% if videos %}
+        const firstVideoScreenshots = '{{ videos.0.question_screenshots_url|default:"" }}';
+        if (firstVideoScreenshots && firstVideoScreenshots !== 'null' && firstVideoScreenshots !== '') {
+          currentQuestionScreenshotUrls = firstVideoScreenshots.split(',').map(url => url.trim()).filter(url => url);
+        }
+        
+        // Show or hide preview section for first video
+        const previewSection = document.getElementById('question-preview-section');
+        if (previewSection) {
+          if (currentQuestionScreenshotUrls.length > 0) {
+            previewSection.style.display = 'block';
+          } else {
+            previewSection.style.display = 'none';
+          }
+        }
+        {% endif %}
+      });
+      
+      // Run on window load to ensure all resources are loaded
+      window.addEventListener('load', matchHeights);
+      
+      // Run on resize
+      window.addEventListener('resize', matchHeights);
+    </script>
+  </head>
+
+  <body>
+    <!-- Layout wrapper -->
+    <div class="layout-wrapper layout-content-navbar">
+      <div class="layout-container">
+        <!-- Menu -->
+
+        {% include 'sidebar.html' %}
+
+          <!-- / Navbar -->
+
+          <!-- Content wrapper -->
+          <div class="content-wrapper">
+            <!-- Content -->
+            <div class="container-xxl flex-grow-1 container-p-y">
+              <div class="g-3">
+                <div class="row g-6">
+                  <div class="col-lg-9">
+                    <div class="card">
+                      <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center flex-wrap mb-6 gap-1">
+                          <div class="me-1">
+                            <h5 class="mb-0">Edunade Academy | Past Papers</h5>
+                            <!-- <p class="mb-0">Prof. <span class="fw-medium text-heading"> Devonne Wallbridge </span></p> -->
+                          </div>
+                          <div class="d-flex align-items-center">
+                            <span class="badge bg-label-primary rounded-pill">Physics SL</span>
+                            <!-- <i class="icon-base ri ri-share-forward-line icon-24px mx-4"></i>
+                            <i class="icon-base ri ri-bookmark-line icon-24px"></i> -->
+                          </div>
+                        </div>
+                        <div class="card academy-content shadow-none border">
+                          <div class="p-2">
+                            <div class="cursor-pointer" id="video-container">
+                              <iframe
+                                id="main-video"
+                                class="w-100"
+                                height="500"
+                                src="{% if videos %}{{ videos.0.link }}{% else %}https://www.youtube.com/embed/ywFWNw1VjaE?si=ekQ0ahinAKCIYZgp{% endif %}"
+                                frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                referrerpolicy="strict-origin-when-cross-origin"
+                                allowfullscreen>
+                              </iframe>
+                            </div>
+                          </div>
+                          <div class="card-body pt-3">
+            
+                            <h5>About this paper</h5>
+                            <div class="d-flex flex-wrap row-gap-2">
+                              <div class="me-12">
+                                <p class="text-nowrap mb-2">
+                                  <i class="icon-base ri ri-check-line icon-20px me-2"></i>Exam: {{ dynamic_exam }}
+                                </p>
+                                <p class="text-nowrap mb-2">
+                                  <i class="icon-base ri ri-group-line icon-20px me-2"></i>Subject: Physics SL
+                                </p>
+                        
+            
+                              </div>
+                              <div>
+                                <p class="text-nowrap mb-2">
+                                  <i class="icon-base ri ri-video-upload-line icon-20px me-2 ms-50"></i>Questions: {{ videos|length }}
+                                </p>
+                                <p class="text-nowrap mb-2">
+                                  <i class="icon-base ri ri-global-line icon-20px me-2"></i>Language: English
+                                </p>
+                
+                              </div>
+                            </div>
+    
+                          </div>
+                          <!-- Question Preview Section -->
+                          <div id="question-preview-section" class="card-body pt-3 border-top" style="{% if not videos.0.question_screenshots_url %}display: none;{% endif %}">
+                            <button class="btn btn-primary btn-sm" onclick="openQuestionPreview({% if user_type == 'premium' or user_type == 'admin' %}true{% else %}false{% endif %})">
+                              <i class="ri-image-line me-1"></i> Preview the question
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 right-sidebar">
+                    <div class="accordion stick-top accordion-custom-button" id="courseContent">
+                      <div class="accordion-item active mb-0">
+                        <div class="accordion-header border-bottom-0" id="headingOne">
+                          <button
+                            type="button"
+                            class="accordion-button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#chapterOne"
+                            aria-expanded="true"
+                            aria-controls="chapterOne">
+                            <span class="d-flex flex-column">
+                              <span class="h5 mb-0">{{ dynamic_exam }}</span>
+                              <span class="text-body fw-normal">{{ videos|length }} questions</span>
+                            </span>
+                          </button>
+                        </div>
+                        <div id="chapterOne" class="accordion-collapse collapse show" data-bs-parent="#courseContent">
+                          <div class="accordion-body py-4">
+                            <!-- DEBUG: Check if tiered system is working -->
+    
+                            
+                            {% for video in videos %}
+                            <div class="mb-4">
+   
+                              {% if video.user_can_access %}
+                                <!-- User can access this video -->
+                                <div class="video-item cursor-pointer p-3 rounded hover-bg-light {% if forloop.first %}active{% endif %}" onclick="loadVideo('{{ video.link }}', 'Question {{ video.question }}: {% if video.topic1 == "null" %}Not in syllabus{% else %}{{ video.get_topic1_display }}{% endif %}', this, '{{ video.question_screenshots_url|default:"" }}')" style="position: relative;">
+                                  <span class="mb-0 h6 d-block">Question {{ video.question }}</span>
+                                  <small class="text-body">{% if video.topic1 == "null" %}Not in syllabus{% else %}{{ video.get_topic1_display }}{% endif %}</small>
+            
+                                </div>
+                                                             {% else %}
+                                 <!-- User cannot access this video -->
+                                 <div class="video-item video-item-locked p-3 rounded">
+                                   <span class="mb-0 h6 d-block text-muted">Question {{ video.question }}</span>
+                                   <small class="text-muted topic-blurred">No topic shown</small>
+                                   <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;">
+                                     <i class="ri-lock-line" style="font-size: 1.5em;"></i>
+                                   </div>
+                                                                       {% if video.access_tier == 'registered' %}
+                                      <a href="{% url 'login' %}" class="btn btn-sm" style="position: absolute; top: -4px; right: -4px; background: #26c6f9; color: white; right: -2px; font-size: 0.7rem; padding: 2px 6px; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">LITE</a>
+                                   {% elif video.access_tier == 'premium' %}
+                                      <a href="{% url 'pricing' %}" class="btn btn-sm" style="position: absolute; top: -4px; right: -4px; background: #72e128; color: white; border: none; font-size: 0.7rem; padding: 2px 6px; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">PREMIUM</a>
+                                   {% endif %}
+                                 </div>
+                              {% endif %}
+                            </div>
+                            {% empty %}
+                            <div class="mb-4">
+                              <p class="text-muted">No videos available for this paper.</p>
+                            </div>
+                            {% endfor %}
+                            
+          
+                          </div>
+                        </div>
+                      </div>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- / Content -->
+
+
+
+            <div class="content-backdrop fade"></div>
+          </div>
+          <!-- Content wrapper -->
+        </div>
+        <!-- / Layout page -->
+      </div>
+
+      <!-- Overlay -->
+      <div class="layout-overlay layout-menu-toggle"></div>
+
+      <!-- Drag Target Area To SlideIn Menu On Small Screens -->
+      <div class="drag-target"></div>
+    </div>
+    <!-- / Layout wrapper -->
+
+    <!-- Question Preview Modal -->
+    <div class="modal fade" id="questionPreviewModal" tabindex="-1" aria-labelledby="questionPreviewModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" style="max-width: fit-content; margin: 3rem auto 1.75rem;">
+        <div class="modal-content">
+          <div class="modal-header">
+            <div class="d-flex align-items-center gap-2">
+              <button onclick="zoomOut()" class="btn btn-sm btn-outline-secondary" style="width: 32px; height: 32px; padding: 0; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: bold; line-height: 1;">
+                −
+              </button>
+              <button onclick="zoomIn()" class="btn btn-sm btn-outline-secondary" style="width: 32px; height: 32px; padding: 0; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: bold; line-height: 1;">
+                +
+              </button>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body text-center" style="position: relative; padding: 60px; overflow: auto; max-height: 80vh;">
+            <div style="display: inline-block;">
+              <img id="question-preview-image" src="" alt="Question Preview" style="max-height: 60vh; max-width: 70vw; transition: transform 0.2s; display: block; transform-origin: top left;">
+            </div>
+            <!-- Navigation arrows -->
+            <div class="screenshot-navigation" style="display: none;">
+              <button id="prev-screenshot" onclick="previousScreenshot()" style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.9); border: none; color: #333; width: 45px; height: 45px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+              </button>
+              <button id="next-screenshot" onclick="nextScreenshot()" style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.9); border: none; color: #333; width: 45px; height: 45px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </button>
+            </div>
+            <!-- Dot indicators -->
+            <div id="screenshot-dots" class="screenshot-dots" style="position: absolute; bottom: 15px; left: 50%; transform: translateX(-50%); display: none; gap: 8px;">
+            </div>
+          </div>
+          <style>
+            #prev-screenshot:hover, #next-screenshot:hover {
+              background: rgba(255,255,255,1) !important;
+              box-shadow: 0 4px 12px rgba(0,0,0,0.3) !important;
+              transform: translateY(-50%) scale(1.05) !important;
+            }
+            #prev-screenshot:disabled, #next-screenshot:disabled {
+              opacity: 0.3;
+              cursor: not-allowed;
+            }
+            #prev-screenshot:active, #next-screenshot:active {
+              transform: translateY(-50%) scale(0.95) !important;
+            }
+            .screenshot-dot {
+              width: 10px;
+              height: 10px;
+              border-radius: 50%;
+              background: rgba(255,255,255,0.5);
+              border: 2px solid rgba(0,0,0,0.3);
+              cursor: pointer;
+              transition: all 0.3s;
+            }
+            .screenshot-dot.active {
+              background: white;
+              border-color: rgba(0,0,0,0.5);
+              transform: scale(1.2);
+            }
+            .screenshot-dot:hover {
+              background: rgba(255,255,255,0.8);
+            }
+            .screenshot-dots {
+              display: flex;
+            }
+          </style>
+        </div>
+      </div>
+    </div>
+
+    <!-- Premium Only Modal -->
+    <div class="modal fade" id="premiumOnlyModal" tabindex="-1" aria-labelledby="premiumOnlyModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <!-- <h5 class="modal-title" id="premiumOnlyModalLabel">Premium Feature</h5> -->
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body text-center p-4">
+            <i class="ri-vip-crown-line" style="font-size: 3rem; color: #72e128; margin-bottom: 1rem;"></i>
+            <!-- <h5 class="mb-3">Question Preview is a Premium Feature</h5> -->
+            <p class="text-muted mb-4">Upgrade to Premium to preview questions before watching the solutions.</p>
+            <a href="{% url 'pricing' %}" class="btn btn-primary">
+              <i class="ri-arrow-right-line me-1"></i> Let's go!
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Core JS -->
+
+    <!-- build:js assets/vendor/js/theme.js  -->
+
+    <script src="{% static 'website/js/vendor/libs/jquery/jquery.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/popper/popper.js' %}"></script>
+    <script src="{% static 'website/js/bootstrap.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/node-waves/node-waves.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/@algolia/autocomplete-js.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/pickr/pickr.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/perfect-scrollbar/perfect-scrollbar.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/hammer/hammer.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/i18n/i18n.js' %}"></script>
+
+    <script src="{% static 'website/js/vendor/menu.js' %}"></script>
+
+    <!-- endbuild -->
+
+    <!-- Vendors JS -->
+    <script src="{% static 'website/js/vendor/libs/plyr/plyr.js' %}"></script>
+
+    <!-- Main JS -->
+
+    <script type="text/javascript" src="{% static 'website/js/main.js' %}"></script>
+
+    <!-- For the top header to work -->
+    <script type="text/javascript" src="{% static 'website/js/vendors.min.js' %}"></script>
+
+    <!-- Page JS -->
+    <script type="text/javascript" src="{% static 'website/js/app-academy-course-details.js' %}"></script>
+
+    <!-- Vimeo Player API -->
+    <script src="https://player.vimeo.com/api/player.js"></script>
+
+  </body>
+</html> 

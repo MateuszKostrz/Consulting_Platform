@@ -1,0 +1,508 @@
+# Meeting Transcription
+
+  Meeting started: 26/04/2026, 13:36:46
+  Duration: 72 minutes
+  Participants: Hoor Alhasson, Mateusz Kostrz
+
+  [View original transcript](https://app.tactiq.io/api/2/u/m/r/N63dsn8yi3nvVoVETfeM?o=txt)
+
+    
+
+  
+
+  
+    ## Highlights
+
+    > 45:49 Mateusz Kostrz: Yeah, and the rule for this is, let's say we had some function, like, would be easy like, maybe something like this. Let's say we have that and with integrals, very important thing here is that for again just for notation purposes, this means nothing more. You have to write here, DX? At the at the end of it to kind of state that the value the variable that you're interpreting is x. So but this is actually our function so, the way we solve an integral is,
+> 48:34 Mateusz Kostrz: how you, you know, that you integrated correctly, because you get the same thing. However, A one important rule about integrals is that when you finish your integral like we did with it here, right? We went from one to the other way that the integral here you have to add a so-called constant constant c. Usually, sometimes it's called d because you have to add this constant because, you know, that, with when you take the derivative back from it. So like, like we did here, you know, we took the derivative again, you know, constants disappear when you have, when you have a derivative, right? So when you take the derivative and you have a constant in there, then it just disappears right. After you took the derivative
+> 54:12 Mateusz Kostrz: 48x, and then plus c, right? And that's why the C here is very important and because now we need to find the c and the way you find the c is you have to, you have to know at least one point on this original function, to be able to find the C. Actually, in this case, we know, because, and that's usually how those questions are structured. They tell you that, in this case, the company makes a profit of 260,000 when they produce 15 electric cars, okay? And we know that x
+
+  ## Transcript
+
+  00:00 Mateusz Kostrz: Your mama malang for the night but lazy can get it. Oh,
+00:27 Mateusz Kostrz: tasty Obama for the night, but That's myself pretty good about that money. I did find one thing but I absolutely needed. Age. It's gas. They're out of any straw. So they give you three.
+01:39 Mateusz Kostrz: Guys, my name is Joe Foshim. I want to bring back the US right from, where a mustache If your startup foundation. Sorry. Sorry. Oh, there's no. Oh, sorry. Well I just
+02:35 Mateusz Kostrz: Know.
+02:57 Mateusz Kostrz: there's no true saying than this you become like who You hang around.
+07:28 Mateusz Kostrz: Hello.
+07:30 Hoor Alhasson: Hi, how are you?
+07:31 Mateusz Kostrz: Good, and you.
+07:33 Hoor Alhasson: I'm good.
+07:35 Mateusz Kostrz: Nice, did you did you try to solve those questions? I said No. What's up?
+07:38 Hoor Alhasson: Yeah, I did. The first question that she sent was really easy. The second one
+07:41 Mateusz Kostrz: Hi, I'm transcribing this call with my Tactiq AI Extension. https://tactiq.io/r/transcribing
+07:44 Hoor Alhasson: though. Sorry. The second one, it was also easy, but the last part was a bit complicated. Like I don't understand Part D.
+07:53 Mateusz Kostrz: Okay. And did you finish this question? We started all during class last time.
+07:57 Hoor Alhasson: I tried. I didn't really finish because I was like, I was still stuck on it.
+08:03 Mateusz Kostrz: Okay. Okay, no worries noise. Okay, so let's maybe first to this part D that you were struggling with. So let me open this. Mmm. Okay. Okay, so I think Wait times open it. Okay, so I mean you see this question but I think this Part D Is very similar to one of the questions we did during Class 2 last time. So, everything else you could do it before, ABC?
+08:36 Hoor Alhasson: Yeah, everything else I did about 4d, I tried to even watch the like, the
+08:42 Mateusz Kostrz: The video.
+08:42 Hoor Alhasson: The video. Yeah, and I I tried to like understand that I couldn't
+08:47 Mateusz Kostrz: Okay, okay. No worries. No worries. So let's first, can you tell me what's the
+08:49 Hoor Alhasson: Yeah.
+08:53 Mateusz Kostrz: derivative of this so you can cancel it?
+08:55 Hoor Alhasson: Oh, yeah, me. For quickly, for which part do you Part B?
+09:00 Mateusz Kostrz: Question question. So those of you try to solve question for B?
+09:05 Hoor Alhasson: Or b, I got 12x squared minus x to the power of 1. Plus 20.
+09:14 Mateusz Kostrz: Yeah, that's fine. Okay, that's good. Okay, so regarding this these increasing values. So you may remember from from last time that this is also one of the kind of the most typical questions for derivatives because the way I derivatives work is that? Because here we have to find the to show that c of x is increasing, right? This is c prime. So this is the derivative This is the derivative, and we have to show that the original function.
+09:36 Hoor Alhasson: Yeah.
+09:39 Mateusz Kostrz: Is always increasing. And basically the way that derivatives work, is that Let's say that if we're to, for example, plug this function here, it would look probably something like this. I mean, actually, no, don't look. Something is, but let's imagine that our derivative function, looks something like this. So there is this rule with derivatives that whenever the derivative is below zero. So here, for example, in this case, And here, right? So you're below the x-axis, right? This is x or below it or so,
+10:12 Hoor Alhasson: Yeah.
+10:14 Mateusz Kostrz: this is when our original function is, is decreasing when you're below. So this is the decreasing part. Decreasing and then you're above the x-axis. So here, Then we are increasing. Okay?
+10:29 Hoor Alhasson: Okay.
+10:30 Mateusz Kostrz: So this is increasing. So basically what we need to show is that our function c of x is increasing for all values of x. But basically means that is always increasing, right? So probably what will happen is that if we if we plot it, If we if we plot, it probably will get get something maybe like this. For the derivative function. That was here. Because the idea would be that
+10:54 Hoor Alhasson: Oh yeah. Yeah.
+10:57 Mateusz Kostrz: because we have to show it. So we probably would happen is that our derivative function will always be above our x-axis. So it will always be increasing. Okay.
+11:07 Hoor Alhasson: Oh, okay. So that's the rule. Like if the derivative is below extra under zero means, it's going to be decreasing.
+11:15 Mateusz Kostrz: Yes, yes, exactly. That's the rules. So imagine our derivative function, actually. That's plotted quickly to see if that we have.
+11:20 Hoor Alhasson: Yeah, I tried plotting it. Like how you did in the question. I don't know what I'm doing wrong, but I don't know. It's not showing up the same.
+11:30 Mateusz Kostrz: Yeah. Like you're one that was probably different than, that's probably explanation. So let's see. Plus 20. Okay. It's graph it. Yeah. Okay so you get something like this.
+11:42 Hoor Alhasson: Yeah. Wait, let me gravity. Check.
+11:46 Mateusz Kostrz: This weekend like this and this maybe like this. Whoops.
+11:55 Hoor Alhasson: Are with the window the Windows setting.
+12:00 Mateusz Kostrz: Yeah, so yeah, the window setting is usually something that you kind of have to
+12:00 Hoor Alhasson: Okay.
+12:04 Mateusz Kostrz: learn how to play with it because there's no, like one button that you can click, that will make it look. Perfect. So here the window that I selected just kind of randomly now, is this That can copy this if you want. And yeah, I think this shows quite nicely our function.
+12:21 Hoor Alhasson: Okay. Okay, I got the same.
+12:36 Mateusz Kostrz: Yeah. Yeah, so from here we can see if we're to draw this.
+12:37 Hoor Alhasson: Yeah.
+12:41 Mateusz Kostrz: That our function. Actually looks like this, right? So it's going like this, okay? So as you can see, it's always above our x-axis, right? Because this is here is never crossing
+12:51 Hoor Alhasson: Yeah.
+12:53 Mateusz Kostrz: it. Which means that we are always above, it means that it's always increasing our original function, Okay? Is our derivative, for example, looked something more like this if I'm saying it's not, but if it did Then it would not always be increasing because you have this part here. That is below our x-axis, right?
+13:13 Hoor Alhasson: Yeah.
+13:14 Mateusz Kostrz: All of this. And for this part, it will be decreasing, but since we don't have it. So that's how we shot on the exam, you just need to draw a draw graph like this. So just draw this Right? And you you say that our function is always above the x-axis. So, so it's always increasing.
+13:33 Hoor Alhasson: Okay, so when a question like this comes up, I Remember the derivative rule of like of it like being on top of the x-axis or or below.
+13:44 Mateusz Kostrz: Yes, exactly, exactly. Exactly. You have to remember this rule that when the
+13:45 Hoor Alhasson: Okay. Okay, that makes sense that
+13:50 Mateusz Kostrz: derivative function is below the x-axis, then the original function and that's right here. You have to remember this distinction is that this needs to be the graph for our derivative and the graph for the derivative, Tells you stuff about your original function, not about the derivative. So, if the function of the derivative is always about the x-axis, then our original function, that the derivative of the original function is always increasing, okay?
+14:15 Hoor Alhasson: Okay. Okay, that makes sense then
+14:18 Mateusz Kostrz: All right, so that's that's Part D. So I guess, I guess we can go back to To this question. I think we finished on Part A 3.
+14:30 Hoor Alhasson: Oh yeah. I think we just did part a. I am not sure. Oh yeah.
+14:36 Mateusz Kostrz: I definitely do actually answers for this. Do you remember? It was Ai.
+14:44 Hoor Alhasson: Wait for there. Wait, I do remember
+14:46 Mateusz Kostrz: I think AI would be like x, minus 3. You have to see it somewhere, it's minus three.
+14:55 Hoor Alhasson: Oh wait on Channel. Find it on my notes. It was like, we made like a Like, what's it called? I was. Yeah, it was X minus 3 for part AI. and then for part AI, like the second part of party was 1,200 over X minus 4. That was like, the
+15:21 Mateusz Kostrz: Okay. Yeah, I'll make sense. That makes sense.
+15:22 Hoor Alhasson: Expression.
+15:25 Mateusz Kostrz: Okay, okay, so that's, that's nice. So now we need to do A3, so any idea how to do it.
+15:49 Hoor Alhasson: Um, I'm not sure, but do you replace like A with 1,200 or something.
+15:56 Mateusz Kostrz: Mmm. No, no. Okay, here, we can really replace anything so because it's a we can read it from the top of the question that this is the The area of the garden, right? So is this small rectangle here, right? In the middle.
+16:10 Hoor Alhasson: Yeah. Yeah.
+16:11 Mateusz Kostrz: So four Part AI, we found the length of the garden and for bird AI, we found the width of the garden. So if we multiply these two, we should be getting area right of the rectangle.
+16:23 Hoor Alhasson: Oh yeah. Yeah. So we combine the expressions that we meet.
+16:24 Mateusz Kostrz: So, we need to multiply this. Yeah, we need to multiply them. So, we just do.
+16:32 Hoor Alhasson: Okay, so it's gonna be X, minus 3, brackets time. Yeah.
+16:35 Mateusz Kostrz: Yeah. That's right.
+16:41 Hoor Alhasson: But the X is like alone in the denominator. It's just minus 4 next to the flagship.
+16:48 Mateusz Kostrz: Oh okay, doesn't make sense. Yeah, I guess. Yeah, that makes sense. That makes
+16:49 Hoor Alhasson: Yeah.
+16:53 Mateusz Kostrz: sense. Okay. Okay yeah that makes makes more sense. All right, that's good. So now let's just try to multiply it out. Would you know how to actually try to do it? And then we'll compare, we get the same thing.
+17:06 Hoor Alhasson: Okay.
+17:41 Hoor Alhasson: I was gonna do, like, I don't know if it's correct the foreign with it. Where you you, multiply x with with the fraction and then x with minus 4 and then negative 3 with the fraction and then Negative 3 times negative 4 but I don't know how to multiply X with the fraction. This is like, 1,200 over X to the power of 2.
+18:07 Mateusz Kostrz: No, no. So it's If you have this, X times this. Then basically those exodus cancel out, right?
+18:18 Hoor Alhasson: Oh yeah, so that's just 1,200.
+18:20 Mateusz Kostrz: Yeah.
+18:22 Hoor Alhasson: Okay.
+18:57 Hoor Alhasson: Okay, I got the same exact thing you have.
+19:00 Mateusz Kostrz: Uh-huh. Yeah, so that's basically the answer. I just need to add this 12. So, we have this.
+19:09 Hoor Alhasson: Oh, we're just trying to prove. We were trying to prove, okay?
+19:11 Mateusz Kostrz: Yeah. Like here we just make it the same answers. They have if we managed to get the same answer, then that's it. That's the answer.
+19:19 Hoor Alhasson: Okay.
+19:20 Mateusz Kostrz: So we got it so that's that's the answer.
+19:24 Hoor Alhasson: That makes sense.
+19:26 Mateusz Kostrz: Okay, so let's continue.
+19:44 Hoor Alhasson: For part B. we're trying to find that isn't like the length and the width again, but if the garden was 800,
+19:52 Mateusz Kostrz: So, we have to we know that area has to be 800, right? So we have to equalize
+19:52 Hoor Alhasson: Meters squared. Okay.
+20:26 Hoor Alhasson: Okay, which I'm not really sure how to approach this or like how to get the dimensions. Yeah.
+20:39 Mateusz Kostrz: The formula we got for the area to just 800. So
+20:42 Hoor Alhasson: oh,
+20:43 Mateusz Kostrz: It's just gonna be what we got here. And we just need to do this. And from this, we should be able to find some X.
+20:58 Hoor Alhasson: Okay.
+20:58 Mateusz Kostrz: Or possibly more than one because they say dimensions. So probably there's there's one or more.
+21:06 Hoor Alhasson: Okay, so Could I graph this because there's two answers. Okay?
+21:11 Mateusz Kostrz: Exactly. definitely got a graph, it
+21:45 Mateusz Kostrz: Here, try to figure out the window yourself now.
+21:48 Hoor Alhasson: Okay.
+21:49 Mateusz Kostrz: This can be a bit tricky.
+22:21 Hoor Alhasson: okay, wait a to Zoominator because I'm a little
+22:54 Hoor Alhasson: Okay. I got the window.
+22:59 Mateusz Kostrz: There, can you see the functions?
+23:01 Hoor Alhasson: yeah, I do and I I see it crossing two points so I'm just, you know,
+23:05 Mateusz Kostrz: Oh nice. Yeah, find them.
+23:08 Hoor Alhasson: Yeah.
+23:08 Mateusz Kostrz: And then we compare.
+23:45 Hoor Alhasson: Okay, so Wait. For the first X, I got 9.64.
+23:52 Mateusz Kostrz: Okay.
+23:53 Hoor Alhasson: In the second X I got 93.4.
+23:56 Mateusz Kostrz: Yeah, very good. Very good. So these are the answers and so this is only X-ray. So we have X1 964. And X2. Is 93.4. So now what would you do to get full dimensions?
+24:19 Hoor Alhasson: um, Oh wait, do wait. Do we like substitute the axis?
+24:33 Mateusz Kostrz: Into what?
+24:35 Hoor Alhasson: into the The item. The equation we did the one with 800.
+24:47 Mateusz Kostrz: No, I mean if you put I mean in here.
+24:51 Hoor Alhasson: Yeah.
+24:53 Mateusz Kostrz: Well, if you put eggs in here, you will just get 800. So
+24:56 Hoor Alhasson: Okay. Um, I'm not really sure.
+25:08 Mateusz Kostrz: Because this X is just the length, right? So we need dimensions. So we need length and width. So with, we need to get somehow and probably the five. I mean, there's probably the fastest way to to do it is since we know that the garden is 800 meters squared the the area so we can just do 800 divided by 964 For this one. Right.
+25:34 Hoor Alhasson: Okay.
+25:34 Mateusz Kostrz: And this will be. This will be the first width. And the second one, which is divide by 93.4.
+25:46 Hoor Alhasson: Okay.
+25:48 Mateusz Kostrz: And then you get the width for both of them, okay?
+25:51 Hoor Alhasson: Yeah, that okay. Makes sense, then
+25:53 Mateusz Kostrz: Okay, so let's continue.
+26:06 Hoor Alhasson: I've seen this before. I'm not sure how to approach it.
+26:12 Mateusz Kostrz: See.
+26:12 Hoor Alhasson: Then yeah, no like da over the X.
+26:18 Mateusz Kostrz: oh this is just the derivative of maybe you haven't done it but this just means find the derivative of a
+26:25 Hoor Alhasson: oh, I don't think we've done it. That's why.
+26:28 Mateusz Kostrz: yeah, yeah maybe maybe we haven't done this notation but basically the ADX Is the same thing. It's just the derivative of A
+26:37 Hoor Alhasson: Oh, okay. Just in
+26:38 Mateusz Kostrz: That's just like a different notation.
+26:41 Hoor Alhasson: Okay. so, I'm not sure how you could solve that way. Okay, fine expression. I thought it was like area recently.
+26:54 Mateusz Kostrz: Yeah. Is this function? No, this one we got for a part A3.
+26:59 Hoor Alhasson: So don't do. We put like these yeah, much for these 800.
+27:06 Mateusz Kostrz: No, no. Like we just have this function. That we've got in the previous part. And just find the derivative of this.
+27:17 Hoor Alhasson: Okay. Oh wait. Wait, what? Wait?
+27:27 Mateusz Kostrz: Did you see what we found in Part? A3.
+27:30 Hoor Alhasson: Yeah. Yeah, I do but I'm just Confused for Dndx.
+27:37 Mateusz Kostrz: What do you mean? I mean this is just notation. So this d doesn't really mean anything is derivative
+27:43 Hoor Alhasson: Okay.
+27:44 Mateusz Kostrz: So this means find the derivative of the function, a, which is written in terms of x, which is what we have here. So, this function of a, and you have x's in here. So, it's, this is a, in terms of x
+27:55 Hoor Alhasson: Oh, okay.
+27:57 Mateusz Kostrz: There's nothing this we need to just find the derivative of this and nothing else. So basically, just an answer for this.
+28:01 Hoor Alhasson: Oh, the derivative okay.
+28:04 Mateusz Kostrz: It's like, you know, how would you find the derivative of this?
+28:07 Hoor Alhasson: So, so
+28:08 Mateusz Kostrz: The, the custom disappears, right? So that's that's nothing. Then minus for x
+28:10 Hoor Alhasson: Yeah.
+28:12 Mateusz Kostrz: would become what?
+28:14 Hoor Alhasson: Minus was just before.
+28:16 Mateusz Kostrz: Yep, minus 4.
+28:17 Hoor Alhasson: Minus 4.
+28:18 Mateusz Kostrz: But yeah, and then the last one.
+28:21 Hoor Alhasson: And that would be. Minus 3,600 to the power of x minus 2.
+28:29 Mateusz Kostrz: Mmm, all what will become plus?
+28:30 Hoor Alhasson: Oh no, I mean x minus 1. Oh, okay.
+28:34 Mateusz Kostrz: You see why it will become a plus.
+28:35 Hoor Alhasson: First. Yeah. Because you multiply -15.
+28:41 Mateusz Kostrz: Mm-hmm. Yeah, you have two minuses so that would become a plus, right?
+28:47 Hoor Alhasson: Yeah.
+28:48 Mateusz Kostrz: So that's it. That's the answer.
+28:50 Hoor Alhasson: Okay, okay, so it's basically the same just in a different notation.
+28:54 Mateusz Kostrz: Yeah, that's exactly what it means. There's nothing. Nothing crazy. Yeah.
+28:57 Hoor Alhasson: Really. Okay. Because I'm just because like why is it a different rotation? Like maybe
+29:04 Mateusz Kostrz: Yeah, sometimes sometimes they, they do. It usually. It's, it's when because
+29:05 Hoor Alhasson: there's a
+29:11 Mateusz Kostrz: like technically let's say, technically, this is not really a correct notation. So, usually, when you have a function, for example, like f of x, let's say you have f of x. And then, I don't know our F of X is whatever. Let's say this. I'm just as an example, right? Like completely unrelated to the question then if you want to find the derivative of this, Which is right AF prime of x, right? And this prime has to be kind of, for a function where you have like x kind of, in brackets here. Let's say like that.
+29:41 Mateusz Kostrz: You just say that this is a function of f of x and very often, you have
+29:45 Hoor Alhasson: Hey.
+29:46 Mateusz Kostrz: something like, for example, you just have a function for volume of something, right? Then you have volume is equal to, i don't know, 10x the power of three because whatever you have you have this. So then for this you don't have v of x, right? Do you say v you don't have x here. Very often desire. I kind of volume. And that's it. So since you don't have this
+30:03 Hoor Alhasson: oh,
+30:06 Mateusz Kostrz: this X here, you cannot really then do V prime to find the derivative like we did here, but you have to do this. In this case, you would do dvdx
+30:12 Hoor Alhasson: Okay. Oh, okay. Okay, so, okay, that makes sense.
+30:20 Mateusz Kostrz: so then you find the derivative of this and then it becomes, you know, 30 It becomes this, right? And that's the answer.
+30:28 Hoor Alhasson: So, they're basically the same derivative just different notation because x is
+30:32 Mateusz Kostrz: Yeah.
+30:32 Hoor Alhasson: in there.
+30:33 Mateusz Kostrz: Exactly. Exactly. I mean X is there. We just don't have it here, right? So
+30:34 Hoor Alhasson: Okay, okay. Yeah, it's there. Yeah.
+30:38 Mateusz Kostrz: that's why
+30:40 Hoor Alhasson: yeah, I got
+30:41 Mateusz Kostrz: No, so that's it. Yeah, I'm thinking oh yeah, there could also potentially be a situation where you would have Let's say, we would still have this volume function, so we would have volume, but let's say would have it not in terms of x. But in terms of time, for example, so in terms of t, right? So i x will just become become t. And again, let's say we had the same the same The same function, pretty much whatever doesn't matter.
+31:11 Mateusz Kostrz: but if you had this, then the notation for the derivative would be DV Over DT. Because this X is not here anymore, okay? Usually it is like, you know, Dy/dx
+31:20 Hoor Alhasson: Oh, okay. That makes Yeah.
+31:25 Mateusz Kostrz: Dy/dx is the most common one because then you have a function that why is equal to something, you know, whatever. Something like this and why being equal to something is the most common way because that's your most common access name. So then from this you get dui DX okay that's the
+31:40 Hoor Alhasson: Oh, okay. Yeah.
+31:41 Mateusz Kostrz: Right? Because you have. So we always have white on top. I mean, like, not white. But like, whatever. The left hand side is always on top. So you have d and then left hand side and then the variable that you have here. So x, in this case is here, right? In this case, we had T So t become so t goes there? Okay.
+31:59 Hoor Alhasson: Okay. Okay, that makes sense. Can you keep the working or you just did?
+32:04 Mateusz Kostrz: Yeah.
+32:04 Hoor Alhasson: On the board. Yeah. Okay. Go look back at it.
+32:07 Mateusz Kostrz: Of course, of course, of course. Um yeah. Okay. So we did see this is our answer for c. And now, we need to use this answer to find the value of x. Okay. So we need to do d. Did we ever do this? Did we ever do those maximizations?
+32:29 Hoor Alhasson: Um, I don't think so.
+32:33 Mateusz Kostrz: okay, I think we might have briefly done them, but so this is this is kind of
+32:33 Hoor Alhasson: I'm not sure.
+32:38 Mateusz Kostrz: another, Let's say, part of that of the theory for this for this chapter because A rule for derivatives. This is a rule with stationary points. Is that? If you find the derivative and you equalize it to zero, this would mean that this point would be the minimum or the maximum of the original function. so if we have the derivative that we found in part C, which is this so then if we equalize it to zero, And we find the solution to this, then this solution will be exactly what you're looking for here. So this will be the value of x that will maximize the area of the of the garden When you're doing this. You don't really know if it's going to be a minimum or a maximum yet. You kind of have to plot the function to, to know. But like you definitely know that is going to be either a minimum or a maximum. It has to be one of these two. So the question they tell you, That is the value of external maximize it. This would mean that this is in this
+33:33 Hoor Alhasson: oh,
+33:33 Mateusz Kostrz: case,
+33:34 Hoor Alhasson: I think we have done about another topic, where we I think, take, Like, when the answer is rounded up and we take like the No, we didn't take the highest. Well I'm not I'm not sure how it went but it's just that the answer is rounded up one point about or something.
+33:55 Mateusz Kostrz: Mmm. I don't think this is that.
+34:00 Hoor Alhasson: Okay.
+34:00 Mateusz Kostrz: I don't think this was this, this chapter.
+34:04 Hoor Alhasson: Okay, but Okay.
+34:09 Mateusz Kostrz: So here basically, these questions are usually quite easy because what you really have to do, the only thing, you just have to equalize the derivative to zero. So we have minus 4. So, we just have this. And we have to equalize it to zero. And we have to solve it so you can either graph it, you can put it into numerical, solver. I guess you could. You could do it manually. So, we just need to solve this question.
+34:37 Hoor Alhasson: Okay. But but when okay, so when I get a question like this and for calculus to maximize Something I have to equalize my function to zero.
+34:48 Mateusz Kostrz: Yes, you're there with the function to your exactly.
+34:52 Hoor Alhasson: Okay, wait.
+34:52 Mateusz Kostrz: That they're actually two ways to solve these since in this case we property
+34:54 Hoor Alhasson: Yeah.
+34:57 Mateusz Kostrz: they tell you that Use your answer from Part C. So, you know, use your derivative answer. Let's say, so if you have to use your derivative answer, then this is always the way to solve it.
+35:07 Hoor Alhasson: Okay, what if I have to use the My normal function.
+35:13 Mateusz Kostrz: So actually, with with your normal function, it's even easier because so if for by d, for example, you didn't have this user answer for Part C but you just had, you know, find the value of X with maximizes the area. Then this is quite easy because The only thing we have to do is you have to plot the function for the area, like we got in Part A3. So just about it in your GDC. Just like that. And the maximum is here. So, it's super easy to find it because you just go to maximum.
+35:41 Hoor Alhasson: Okay.
+35:45 Mateusz Kostrz: And you just find it, right?
+35:48 Hoor Alhasson: Yeah.
+35:49 Mateusz Kostrz: So, you go left bound, right bound, I think for us a little bit different because we have a different calculator, but finding maximum is very easy. I do just go to your analyze graph thing. You find the maximum and that's
+35:58 Hoor Alhasson: Yeah. I have it on my calculator. It's pretty easy to access.
+36:03 Mateusz Kostrz: Yeah, yeah, it's really. So here the answer is x is equal to 30. So that's our answer and we should get the same answer here. So if we solve this And we have to because they ask us and parody that we have to use the answer for merchy. If we solve this, then we should also get 30. Can you can you try to solve it?
+36:21 Hoor Alhasson: Yeah. Okay, wait. But solve it in the graph or like a little bit manually.
+36:30 Mateusz Kostrz: Doesn't matter.
+36:32 Hoor Alhasson: Okay.
+36:33 Mateusz Kostrz: Whatever you prefer.
+38:02 Hoor Alhasson: of China, just my window but it's just like, I can't find the peak that I can't find the maximum because it's like, really, really like
+38:13 Mateusz Kostrz: Hello. So did you put this function?
+38:16 Hoor Alhasson: Yeah, I did.
+38:18 Mateusz Kostrz: Oh, okay. But then if you plot this, then we're not looking for maximum. We're looking for zero because you equalize it to zero. No.
+38:25 Hoor Alhasson: oh,
+38:27 Mateusz Kostrz: So there's two ways to solve these questions. Either, you plot the derivative and you have to find the zeros. So this is this what you're trying to do now or you plug the original function. So not this. But this what you got for part A3 and then you find the maximum. In this case, we have to do the first option because they ask us to do it, okay?
+38:46 Hoor Alhasson: Okay.
+38:47 Mateusz Kostrz: so, you have to plot the derivative So, minus 4. Plus. This right, we have to plot this. so, Okay, I would justice window. It's maybe do it like This. Should like this. Okay, so now you see the zero over here?
+39:21 Hoor Alhasson: Oh, okay, we are waiting. Let me just do that windows one.
+39:25 Mateusz Kostrz: Yeah, when you plug the derivative, you have to find zeros, not the middle of
+39:25 Hoor Alhasson: because I didn't like, Really far away.
+39:33 Mateusz Kostrz: maximum.
+39:34 Hoor Alhasson: Yeah. Okay. Okay, I have it.
+39:47 Mateusz Kostrz: Yep. So now let's try to find it. Fine, we find zero.
+39:54 Hoor Alhasson: so, I have like an option that says zero and then
+39:57 Mateusz Kostrz: Yeah.
+39:58 Hoor Alhasson: I just plot it from there.
+39:59 Mateusz Kostrz: Yeah.
+40:00 Hoor Alhasson: Um, it's 30. Yeah.
+40:02 Mateusz Kostrz: Yeah, so we see we got the same thing. No.
+40:05 Hoor Alhasson: Yeah.
+40:06 Mateusz Kostrz: Yep, so that's it. That's the answer.
+40:08 Hoor Alhasson: Um if you can't, can you write both rules as in like the one where I have to find what's called the derivative under Normal answer? Like How to do it? Can you like Write it down? Like both rooms? Yeah.
+40:19 Mateusz Kostrz: Right here. Yeah, no worries.
+40:48 Mateusz Kostrz: Okay. Okay, like that.
+41:03 Hoor Alhasson: Oh yes.
+41:04 Mateusz Kostrz: All right.
+41:05 Hoor Alhasson: Thank you.
+41:06 Mateusz Kostrz: No worries. Okay, so let's do let's do E.
+41:13 Hoor Alhasson: Okay, so for E is it is it like this same thing we did for Part D but this time it's like the normal function.
+41:23 Mateusz Kostrz: Mmm. This year, I mean, this again you can kind of do in two different ways. Let me think of so the way that usually solve these questions to find the maximum possible area of the garden because we know so basically what we know is we know that when X is equal to 30 Then this means that our area of the garden will maximized, right? This will be found for pretty.
+41:50 Mateusz Kostrz: For part dessert. Yeah. So Basically here, the only thing that we really have to do is we have to plot it to our original function for the area and put our X in there. Put our 30 because we know that for this value, our area will be highest
+42:05 Hoor Alhasson: Yeah, okay, so we just substitute x with 30 in that original function, and
+42:11 Mateusz Kostrz: Exactly. And there is what we cannot.
+42:12 Hoor Alhasson: Okay. Then we can find the maximum there.
+42:17 Mateusz Kostrz: Yeah, like if we just if we just substitute it. So, we just do. You know, this. Minus this. Yeah, like that. So this is our our maximum possible area.
+42:40 Hoor Alhasson: Okay.
+42:42 Mateusz Kostrz: Okay.
+42:42 Hoor Alhasson: Oh, okay.
+42:44 Mateusz Kostrz: That's it. And that's it. A pretty Like a faster way. If if you don't have a question structured like this to kind of solve both question. The question E is to plot your original function. So this for a so, just this
+43:03 Hoor Alhasson: And then put 30 as my second function.
+43:07 Mateusz Kostrz: and no actually, you can do it even faster, so if you just plot it, so
+43:07 Hoor Alhasson: oh,
+43:15 Mateusz Kostrz: So good, something. Oops, even more Okay. yeah, so if you get something like this one second, So this is our original function, right? So if we simply find this maximum, like
+43:31 Hoor Alhasson: Yeah.
+43:32 Mateusz Kostrz: we did before, Right? So we get that excess 30, like, we need to round it. Of course, and why is 972, which is what we just got now for part E. So here's you can see, you kind of solve both question d and d in the same time because for d, we have to find the value of x. So x is 30, so that's easy. And for e, we have to find the
+43:59 Hoor Alhasson: oh,
+44:00 Mateusz Kostrz: maximum possible area, so the area will be our y in this case. So it's 972
+44:05 Hoor Alhasson: Okay, that makes sense. So these are like two ways. You could either just manually put 13 x or just put in the graph and find it in the y.
+44:12 Mateusz Kostrz: Yes, yes. However, in this case, there's only one because they ask you to go in the specific direction, right? You cannot just pick yourself, but you usually
+44:19 Hoor Alhasson: Okay.
+44:20 Mateusz Kostrz: there are two words.
+44:21 Hoor Alhasson: Okay, that makes sense.
+44:23 Mateusz Kostrz: Okay. Alright, so let's move on to a different topic of integration. Actually here we have a question for integral so we can do that. Remember anything from integers or no?
+44:40 Hoor Alhasson: I think I do.
+44:43 Mateusz Kostrz: You do.
+44:43 Hoor Alhasson: Let's just don't, yeah. Maybe
+44:45 Mateusz Kostrz: So I was just kind of give you a quick intro to the to the theory. So basically, an integral is kind of like it's called an anti derivative because it's like it does the opposite thing. So, basically, if you have a function f of x, And you want to get to the To F prime of X, you have to find the derivative, right?
+45:08 Hoor Alhasson: Yeah.
+45:09 Mateusz Kostrz: so you take the derivative, then you get to get to F prime of X, but if you are at F prime of X and you want to go get to F of X then you have to find the integral.
+45:23 Hoor Alhasson: Oh, okay. Basically switching it back to its normal function.
+45:25 Mateusz Kostrz: Okay. Yeah, exactly. Exactly. So and the sign for integrals, is this like this kind of S It's like big s. We actually don't have it anywhere here but this big s is the
+45:34 Hoor Alhasson: Okay.
+45:37 Mateusz Kostrz: sign for integrals. So if you find the integral of F prime of X for example. Then the result of this is your function f of x. Okay.
+45:47 Hoor Alhasson: Okay. Yeah, that makes sense.
+45:49 Mateusz Kostrz: Yeah, and the rule for this is, let's say we had some function, like, would be easy like, maybe something like this. Let's say we have that and with integrals, very important thing here is that for again just for notation purposes, this means nothing more. You have to write here, DX? At the at the end of it to kind of state that the value the variable that you're interpreting is x. So but this is actually our function so, the way we solve an integral is,
+46:21 Hoor Alhasson: Yeah.
+46:23 Mateusz Kostrz: It's quite simple actually like you just mainly like one kind of formula that you that you use. It's called the power rule. And basically the idea is that if we have excellent power of three, then you have to raise the power by one power up. So it becomes three X to the power of four and you have to divide it by this new power. So by the, by four Okay.
+46:45 Hoor Alhasson: Oh yeah.
+46:46 Mateusz Kostrz: And same thing goes for the next one. So we have five x squared here. So it becomes 5 x. The power of 3, over the new Then you power so three.
+46:57 Hoor Alhasson: Okay.
+46:59 Mateusz Kostrz: Yeah.
+46:59 Hoor Alhasson: And that's how you solve it back to the Northern.
+47:01 Mateusz Kostrz: Yeah exactly. Exactly. Because actually you can test it now if we solve it
+47:03 Hoor Alhasson: Okay.
+47:06 Mateusz Kostrz: because now we found this, then technically if you find the derivative of this You should land back on this.
+47:16 Hoor Alhasson: Okay.
+47:17 Mateusz Kostrz: Yeah, because they are kind of the opposite. Actually, let's try to do it. So
+47:18 Hoor Alhasson: That makes sense.
+47:21 Mateusz Kostrz: can you try to find the derivative of this?
+47:24 Hoor Alhasson: Okay, so I because we converted it back to normal now, I have to do it as a derivative again, right?
+47:30 Mateusz Kostrz: You said four times three over four.
+47:31 Hoor Alhasson: Okay. so, Four times three over four. No. Does it like four times three over four but with the three it's like X to the power of 3.
+47:58 Mateusz Kostrz: Yep, good.
+47:58 Hoor Alhasson: About four times three extra power of three over four.
+48:08 Mateusz Kostrz: And the next one.
+48:08 Hoor Alhasson: and then, Three times. Five X to the power of 2 or 3.
+48:14 Mateusz Kostrz: Yep, exactly. So now as you can see, we can simplify this. So this will cancel out this will cancel out and we just have This.
+48:26 Hoor Alhasson: Oh, okay.
+48:28 Mateusz Kostrz: Which is the same, right? This is the same as this. Yeah. So that's that, that's
+48:30 Hoor Alhasson: Yeah.
+48:34 Mateusz Kostrz: how you, you know, that you integrated correctly, because you get the same thing. However, A one important rule about integrals is that when you finish your integral like we did with it here, right? We went from one to the other way that the integral here you have to add a so-called constant constant c. Usually, sometimes it's called d because you have to add this constant because, you know, that, with when you take the derivative back from it. So like, like we did here, you know, we took the derivative again, you know, constants disappear when you have, when you have a derivative, right? So when you take the derivative and you have a constant in there, then it just disappears right. After you took the derivative
+49:12 Hoor Alhasson: Yeah.
+49:13 Mateusz Kostrz: Yeah, I remember this this rule. Okay, so imagine that here, for example, our
+49:15 Hoor Alhasson: Yeah.
+49:17 Mateusz Kostrz: function was actually, you know, not this, but we had plus 12 over here just like a random number. It's not the case. But let's say, let's say we do so. Then if you take the derivative, you actually get the same thing, right? You actually still get this. Because 12 disappears anyway, so it doesn't change anything.
+49:34 Hoor Alhasson: Okay.
+49:35 Mateusz Kostrz: Yeah, doesn't make sense.
+49:37 Hoor Alhasson: Yeah.
+49:37 Mateusz Kostrz: So that's why if you're just taking the initial integral, you have to add this plus C in here. Over here. Because you don't know if something's gonna be there yet, so it could be plus 12
+49:49 Hoor Alhasson: Okay.
+49:49 Mateusz Kostrz: because you're, you know, if you take the derivative back like, it doesn't matter. So it can be plus 12, plus 50 plus 500 like you don't know. Okay. So at first, you have to add this plus c and then there's kind of a way to try to find if the C exists and if it dust and what is it? but, Initially, you have to assume that you have some C in there some constant. Okay?
+50:11 Hoor Alhasson: Okay, well, how do you find? How do you find out that we have a c? Like if there is a see, how do we find out that? We obviously
+50:17 Mateusz Kostrz: So there's oh there's always C but sometimes the C is zero so it doesn't affect anything, okay? And the way we find out actually it's try to solve this question 13 and then you kind of see. So Just read through it, and let's try to do per day.
+50:35 Hoor Alhasson: Okay.
+51:16 Hoor Alhasson: Okay. We find the expression for p in terms of x. So do we just Like 4p becomes 260.
+51:31 Mateusz Kostrz: No, it's so for for this first for, for part A because we don't deserve at the right. So we know this. Because you have dpdx. So this is an indication that this function here.
+51:39 Hoor Alhasson: Yeah.
+51:44 Mateusz Kostrz: Is the derivative right?
+51:46 Hoor Alhasson: Yeah.
+51:47 Mateusz Kostrz: This is really and we have to find an expression for p in terms of x. So, p in terms of x is just our normal function for p. So not that there but just the original function.
+51:55 Hoor Alhasson: Oh, so okay, so we have to find like the normal function of the basically integrated
+52:02 Mateusz Kostrz: Mm-hmm. Exactly. We have to find the integral.
+52:04 Hoor Alhasson: Okay. so, is it like About negative 1.6 x to the power of 2 over 2.
+52:25 Mateusz Kostrz: Yes, good. And what will happen to this?
+52:35 Hoor Alhasson: of that would X. Wait, 48. X to the power 1.
+52:42 Mateusz Kostrz: Yeah. Very good. Very good. Exactly, yeah. Exactly, perfect, perfect. Because of
+52:43 Hoor Alhasson: Over 1.
+52:49 Mateusz Kostrz: nothing like this. Because this is like extra power of zero here, right? So you have to increase
+52:54 Hoor Alhasson: Yeah.
+52:55 Mateusz Kostrz: the power and the divide the up very good. Yeah, and again, we have to have this plus C over here, right? You the integral
+53:02 Hoor Alhasson: Oh yeah, plus C.
+53:04 Mateusz Kostrz: and also on the, on the exam, you have to write that you did the integral of this, right?
+53:13 Hoor Alhasson: Oh, okay.
+53:13 Mateusz Kostrz: And here, you have great Dx. Okay, because yeah, for this like, you know, you need to kind of show how, you know this, right? So, you know this because you know, you need to find the integral. So you find this and then the integral of that is actually this. We can simplify it, but So, it'll be just
+53:28 Hoor Alhasson: Do I only write DX not DP over DX?
+53:31 Mateusz Kostrz: No, just the x. That's a good question. Just the x. So you only write d and then the kind of variable that you have here. So you have x here. So you have x if you had T or whatever k you would do, okay, or T?
+53:45 Hoor Alhasson: Okay.
+53:45 Mateusz Kostrz: To DT or DK. Okay.
+53:49 Hoor Alhasson: Yeah, well why do we not include DP?
+53:52 Mateusz Kostrz: Mmm. That's just that the notation you just need to show of what kind of. Variable, you are integrating, and that's it. Because actually the fact that you have P in here doesn't really matter, it could be, it could be anything.
+54:05 Hoor Alhasson: Okay, that makes sense then.
+54:07 Mateusz Kostrz: okay, so we just have this and then plus
+54:08 Hoor Alhasson: Okay.
+54:12 Mateusz Kostrz: 48x, and then plus c, right? And that's why the C here is very important and because now we need to find the c and the way you find the c is you have to, you have to know at least one point on this original function, to be able to find the C. Actually, in this case, we know, because, and that's usually how those questions are structured. They tell you that, in this case, the company makes a profit of 260,000 when they produce 15 electric cars, okay? And we know that x
+54:38 Mateusz Kostrz: is the number of cars. So basically know that one x is equal to 15. We know that then the profit. is equal to, and since the company, the profit P is already in thousands of dollars, so profit will just be to 268
+54:55 Hoor Alhasson: Yeah.
+54:56 Mateusz Kostrz: so we know this point so actually, now since we we know, so we know that our function p of x, Has the formula. That we just found before. so, Just this. Embassy right? We know this. So now what we can do is we can just plug this point and get c. So our profit is 260 so it becomes 260 Is equal to this. And now we know that our X is 15 right from here.
+55:27 Hoor Alhasson: Yeah.
+55:28 Mateusz Kostrz: So, we substituted as well. So, it becomes 15 squared, right? And then Plus. 48. X again, 15 and then pass C. And this just into your GDC and that's it. Into the market.
+55:44 Hoor Alhasson: Okay. Okay, that makes sense. Okay, let me just put this on my new Microsoft. I also include C, right?
+55:51 Mateusz Kostrz: yes, because now we have to find the sea so that's why we have to include
+55:55 Hoor Alhasson: Okay, are you?
+56:20 Hoor Alhasson: I got negative 280.
+56:23 Mateusz Kostrz: Could be let me double check, but should be fine. Should be fine. So that would be our C. And that's how you find see in general. That's that's the way to find it. You
+56:31 Hoor Alhasson: Okay.
+56:34 Mateusz Kostrz: need to have You need to know at least one point on your on your function. Then you plug it in. And that's it. Okay, so that's the way. And yep, you are right, is negative 280. So now we know that our function, p of x has the final Equation. Of. Just this. Minus two area.
+57:09 Hoor Alhasson: Sorry.
+57:11 Mateusz Kostrz: Yeah. So I'm just saying that this is finally equation, right?
+57:12 Hoor Alhasson: Oh yeah. Oh yeah. Okay, yeah, that makes sense. Yeah.
+57:16 Mateusz Kostrz: Yes. Makes us okay. So that's the answer to per day and I would do anything for Part B.
+57:49 Hoor Alhasson: so, the do I do two two functions where where, We do px but we substitute x with 30 and we can find the amount of profit. That they bring and then same thing with. So 30 and 50, but with different
+58:09 Mateusz Kostrz: Hm.
+58:14 Hoor Alhasson: functions.
+58:16 Mateusz Kostrz: What they mean with different functions?
+58:18 Hoor Alhasson: All right, we we have this to to the same functions just that we substitute x first 30 and x 450 for these two.
+58:27 Mateusz Kostrz: Yeah, exactly. Exactly.
+58:28 Hoor Alhasson: Then we can find. Okay.
+58:31 Mateusz Kostrz: Exactly.
+58:35 Hoor Alhasson: I'm just gonna solve it now.
+58:37 Mateusz Kostrz: Of.
+01:00:12 Hoor Alhasson: so for for 30, like, for 30 produced cars, I got 440,000.
+01:00:20 Mateusz Kostrz: So a decrease is right.
+01:00:21 Hoor Alhasson: And then for 50, I got 12. 0,000. Yeah.
+01:00:28 Mateusz Kostrz: And that's good. Okay, so let's see if we have Something more. Okay, let's do this one now.
+01:01:14 Hoor Alhasson: Okay, so For party today. Do we just Do dt, but instead of these like, two equals a quick basically substitute T with two.
+01:01:27 Mateusz Kostrz: Into our derivative function.
+01:01:31 Hoor Alhasson: I Oh no. We do you put a back into the normal function.
+01:01:37 Mateusz Kostrz: I don't know.
+01:01:37 Hoor Alhasson: No, I think we just keep it in the derivative no.
+01:01:40 Mateusz Kostrz: Why?
+01:01:43 Hoor Alhasson: Not sure. I think we just
+01:01:49 Mateusz Kostrz: What? So so we have to determine whether the profit is increasing or decreasing. So whenever you have stuff stuff like this, that you have to determine if the because we have the terminal, whether the profit is increasing, right? So the profit is the original profit function because this is derivative, right? So Whenever you have to determine whether your original function is increasing or decreasing realistically? The only way to do it is with the derivatives of this again, is this rule that, you know, when you have the derivative function, for example, your derivative function Is, is like this.
+01:02:22 Mateusz Kostrz: Okay, so this our derivative function, so then We know that everywhere here. Or original function is decreasing. And everywhere here. Our original function is increasing, right? This is one of those, one of those rules for derivatives.
+01:02:37 Hoor Alhasson: Yeah.
+01:02:42 Mateusz Kostrz: okay, so from here, from here, basically, what do we know is that We have the Derivative function and they ask us is when t is equal to 2. So for example, let's see that this is this t, I get this, just like an example. Like there's not that the same function but this will be profit, this will be time and it's a
+01:02:58 Hoor Alhasson: Yeah.
+01:03:02 Mateusz Kostrz: that this t is over here. This t is equal to 2 is over here. So then from here we would know that we are above zero so we would be increasing. Yeah. So
+01:03:12 Hoor Alhasson: Okay.
+01:03:12 Mateusz Kostrz: basically the only thing that we really need to do is what you said with two to plug it into the derivative, but I wanted to check if you free know, the other settings. So now I think you will know. So basically what you have to do is you just plug it into the derivative so you have three times. To squared. Minus 8 times 2? Yep. Yep. And we just find it. So, this will be to 12 minus 16, I think so. Minus 4. You can double check it, but it should be fine.
+01:03:47 Hoor Alhasson: Okay, okay.
+01:03:52 Mateusz Kostrz: so actually in this case it will not be what I drew But it will be well. Oh no. Okay. Just go back to this. So it did you get the same thing?
+01:04:08 Hoor Alhasson: No, I didn't put my calculator. I was just like looking. I was just around like processor for someone. Let me just put on the calculator.
+01:04:16 Mateusz Kostrz: Okay, did you process what's happening?
+01:04:20 Hoor Alhasson: a little
+01:04:23 Mateusz Kostrz: But doesn't make sense or no.
+01:04:25 Hoor Alhasson: E. Wait. Um it does make sense. Wait it makes sense but I don't know. Why it's not clicking, but wait.
+01:04:33 Mateusz Kostrz: So they ask us when T is equal to 2, it was increasing or decreasing, right? So Tease, let's say the t is equal to 2 over here. This is 2. So then you have to check. Where are you on the derivative function? If you are here, then you are increasing. If 2 was here, for example, you would maybe land here. So you would be decreasing, right? So just have to check whether you are in the increasing interval on the derivative, or the decreasing And that's it.
+01:05:02 Mateusz Kostrz: Because we know that the blue part is decreasing and the pink part is increasing, right?
+01:05:07 Hoor Alhasson: Yeah.
+01:05:08 Mateusz Kostrz: So that's why we just need to plug this value into the derivative and that's it.
+01:05:09 Hoor Alhasson: Okay. So okay, we have to keep it as a derivative or do.
+01:05:18 Mateusz Kostrz: Yes, that's the only way.
+01:05:20 Hoor Alhasson: So you keep it, okay? And then we put that there. So can I put that derivative into my calculator and see? Who is?
+01:05:29 Mateusz Kostrz: Yeah, you can. But in this case you can do it a lot. A lot faster by just plugging these two into the derivative like I did here. because then you get the result of this which is negative 4 which basically
+01:05:37 Hoor Alhasson: Oh yeah.
+01:05:41 Mateusz Kostrz: means that you have to
+01:05:43 Hoor Alhasson: That's decreasing.
+01:05:44 Mateusz Kostrz: Exactly because this means that we are actually in this scenario. So when t is equal to 2, you go down Oops, do it in blue, you go down. And you land somewhere here. In the negative territory, right?
+01:05:57 Hoor Alhasson: Okay. Yeah.
+01:06:01 Mateusz Kostrz: So that's it. So it's negative 4. So it's decreasing.
+01:06:04 Hoor Alhasson: So do does. Every question have has to be derivative or or if it states otherwise, like like when doing no how to, you know, convert the derivative into like Into like the normal. Normal function.
+01:06:25 Mateusz Kostrz: Well, when they ask you for it, right? For example, for part B, they ask you for it.
+01:06:30 Hoor Alhasson: Oh, okay. Okay. I understand now.
+01:06:37 Mateusz Kostrz: Yeah, makes sense. Okay. So try to try to solve this B.
+01:07:22 Mateusz Kostrz: Any idea how to do it.
+01:07:25 Hoor Alhasson: Yeah. So so wait, I I did for with because you did three times to the power To the power of two. I did, like, six squared like I first made them to like fun. Values instead of multiplication. So I can just integrate that. So that would be like Three times six. No no three times. Six three. Six to the power of three over over three.
+01:07:53 Mateusz Kostrz: Well, what happened to your tea?
+01:07:57 Hoor Alhasson: Oh, it was. Oh no. Cuz I was taking the answer the three times.
+01:08:01 Mateusz Kostrz: well, not the answer from a or would
+01:08:03 Hoor Alhasson: Two. Yeah. Yeah. For me.
+01:08:04 Mateusz Kostrz: Well, the answer for A has nothing to do with B.
+01:08:07 Hoor Alhasson: Okay.
+01:08:08 Mateusz Kostrz: This is a completely different different story. So the final expression for pt,
+01:08:08 Hoor Alhasson: so,
+01:08:11 Mateusz Kostrz: it just has to be in terms of t. So you just have to find the integral. Of 3T squared. Minus 80. And that's it.
+01:08:16 Hoor Alhasson: Okay. Okay. so, So do like three times. 3 over 3. 3 times 3 T's squared over 3.
+01:08:38 Mateusz Kostrz: No, three times. T to the power of 3 over 3.
+01:08:41 Hoor Alhasson: Oh yeah. Okay. Okay. And then for For 80, it's 80 squared over. Over to.
+01:08:57 Mateusz Kostrz: Yep, that's good. And then we have to do this plus C. And now, how would you find C?
+01:09:06 Hoor Alhasson: um, Doing substitute. T.
+01:09:10 Mateusz Kostrz: For what?
+01:09:13 Hoor Alhasson: Look for it. Oh no. Wait wait. So they said that professors 4,000. So do we put Or thousand equals 3T the power 3 over 3, minus eight T squared over 2 plus C. And then we put that new Microsoft
+01:09:33 Mateusz Kostrz: Yeah, but this will not work because you will still have TNC right as your unknowns. You can have just one
+01:09:37 Hoor Alhasson: Oh yeah.
+01:09:40 Mateusz Kostrz: But they tell you also that one year, after the company was founded the profit was 4,000, right? And t is the time since the company was founded. So then you
+01:09:48 Hoor Alhasson: Oh yeah.
+01:09:48 Mateusz Kostrz: have to be one To two ob1. And then we know that the profit would be for, So we would have four is equal to T the power of three because this will cancel out. This will also cancel out. so, minus 4t squared, Plus C and actually this T will become one. So we have four is equal to 1 to power of three minus 4 times, 1 squared plus C. Yeah, let's make sense.
+01:10:19 Hoor Alhasson: Yep. Oh yeah.
+01:10:21 Mateusz Kostrz: Okay. All right. Then we just solve it. I think we can actually solve it here because it should be quite easy. So we just have this. So our C will be good to seven. so, our expression for Pt Would be the perfect.
+01:10:38 Hoor Alhasson: But isn't it negative 3 not 7?
+01:10:42 Mateusz Kostrz: yeah, this would be negative 3 but then you have to put on the other side
+01:10:46 Hoor Alhasson: Oh yeah, that's true. Okay.
+01:10:49 Mateusz Kostrz: Yep. So that's our answer to this question. Okay.
+01:10:54 Hoor Alhasson: Okay. Okay, that makes sense.
+01:10:57 Mateusz Kostrz: Yeah. Okay all right cool cool. Then I will try to try to find some more questions. Send it to you to you later and actually we only have one more. Let's say subpart of this integration chapter and then we'll be done.
+01:11:11 Hoor Alhasson: Okay. Okay, that's worth another. We can move to past papers.
+01:11:14 Mateusz Kostrz: Yeah. I mean all of these are also past paper questions so it's not too bad but yeah then we'll just be solving just full on proper like full past papers, right?
+01:11:23 Hoor Alhasson: Yeah, yeah. Okay. Yeah, that makes sense.
+01:11:24 Mateusz Kostrz: Okay, awesome. Then we'll see you on Wednesday.
+01:11:27 Hoor Alhasson: Yeah.
+01:11:28 Mateusz Kostrz: Okay, thank you very much and have a good day. Bye.
+01:11:31 Hoor Alhasson: I think, thank you, but wait. Um, I have a question. Sorry about you said, the chance the transcript about the classes. I don't know where you could find it and the website like
+01:11:41 Mateusz Kostrz: All that so yeah, I would. Yeah, what I mentioned last time with with the transcript. So for now we only just kind of save them and we'll try to put it on the on the platform and like some nice way. The problem is that those transcripts are quite Rough, let's say because those trans like they're never really perfect, so sometimes the words are completely off or like, whatever. Some math terms, don't really work. So trying to find a way to kind of integrate it nicely on the
+01:12:04 Hoor Alhasson: oh,
+01:12:06 Mateusz Kostrz: platform because if we just put like the raw transcript, because transcript is just like words, right? Like says that video. It's just words and they don't
+01:12:12 Hoor Alhasson: Yeah.
+01:12:16 Mateusz Kostrz: Really. Look great.
+01:12:17 Hoor Alhasson: You don't catch? Yeah.
+01:12:18 Mateusz Kostrz: So yeah, we're trying to kind of yeah like we're basically the idea now as I
+01:12:19 Hoor Alhasson: They don't catch on the words.
+01:12:22 Mateusz Kostrz: would kind of try to find a way. To maybe extract the most meaningful part from the transcript and then we'll put it, put them on the, on the platform. But for now we have to find a way to do it. So we only kind of keep those transcripts for now and we're experimenting with different softwares to help us extract it.
+01:12:40 Hoor Alhasson: Okay. Yeah, that makes sense. All right,
+01:12:42 Mateusz Kostrz: But if we managed to find it find a way to put them on and then then you would just see them in your in your student panel there as well, okay?
+01:12:51 Hoor Alhasson: Okay. Yeah. Okay.
+01:12:52 Mateusz Kostrz: Okay, great. Great. Thank you so much. Have a good day. Bye.
+01:12:56 Hoor Alhasson: Thank you YouTube. Bye
+  

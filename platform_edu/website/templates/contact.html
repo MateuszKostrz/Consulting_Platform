@@ -1,0 +1,283 @@
+{% load static %}
+
+<!doctype html>
+
+<html
+  lang="en"
+  class="layout-navbar-fixed layout-menu-fixed layout-compact"
+  dir="ltr"
+  data-skin="default"
+  data-bs-theme="light"
+  data-assets-path="../../assets/"
+  data-template="vertical-menu-template">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>{{ site_name }} | Contact</title>
+
+    <meta name="description" content="" />
+
+    <link rel="icon" href="{% static 'website/images/platform_logo.svg' %}">
+    <link rel="alternate icon" href="{% static 'website/images/safari_logo2_prev_ui.png' %}" type="image/png">
+    <meta property="og:image" content="https://academy.edunade.com/static/website/images/Edunade_Vertical_Black_RGB.png">
+
+
+    {% include 'top_base.html' %}
+
+    <!-- endbuild -->
+
+    <!-- Page CSS -->
+    <link rel="stylesheet" href="{% static 'website/css/vendor/css/pages/pages-faq.css' %}" />
+
+
+    <!-- Helpers -->
+    <script type="text/javascript" src="{% static 'website/js/vendor/helpers.js' %}"></script>
+
+    <!--? Template customizer: To hide customizer set displayCustomizer value false in config.js. -->
+    <!-- <script type="text/javascript" src="{% static 'website/js/vendor/template-customizer.js' %}"></script> -->
+
+    <!--? Config: Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file. -->
+
+    <script type="text/javascript" src="{% static 'website/js/vendor/config.js' %}"></script>
+
+
+    <style>
+
+      /* Add more side margins only to the main content area, not footer */
+      .container-xxl {
+      max-width: 85%;
+      margin: 0 auto;
+      padding-left: 1rem;
+      padding-right: 1rem;
+      }
+
+
+      @media (max-width: 768px) {
+      .container-xxl {
+      max-width: 95%;
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+      }
+      }
+
+  </style>
+
+  
+  </head>
+
+  <body>
+    <!-- Layout wrapper -->
+    <div class="layout-wrapper layout-content-navbar">
+      <div class="layout-container">
+        <!-- Menu -->
+
+
+          {% include 'sidebar.html' %}
+
+          <!-- / Navbar -->
+
+          <!-- Content wrapper -->
+          <div class="content-wrapper">
+            <!-- Content -->
+            <div class="container-xxl flex-grow-1 container-p-y">
+
+
+              <div class="row my-2">
+                <div class="col-12 text-center my-2">
+                  <div class="badge bg-label-primary rounded-pill">Contact</div>
+                  <h4 class="my-2">Need help?</h4>
+                  <p class="mb-10">
+                    Use the form below to get in touch with us. We'll get back to you within 24 hours!
+                  </p>
+                </div>
+              </div>
+
+
+              <div class="row mb-6 gy-6">
+       
+                <div class="col-xl">
+                  <div class="card">
+    
+                    <div class="card-body">
+                      {% if success_message %}
+                        <div class="alert alert-success" role="alert">
+                          {{ success_message }}
+                        </div>
+                      {% endif %}
+                      {% if error_message %}
+                        <div class="alert alert-danger" role="alert">
+                          {{ error_message }}
+                        </div>
+                      {% endif %}
+                      <form method="post">
+                        {% csrf_token %}
+                        <div class="input-group input-group-merge mb-6">
+                          <span id="basic-icon-default-fullname2" class="input-group-text"
+                            ><i class="icon-base ri ri-user-line"></i
+                          ></span>
+                          <div class="form-floating form-floating-outline">
+                            <input
+                              type="text"
+                              class="form-control"
+                              id="basic-icon-default-fullname"
+                              name="name"
+                              placeholder="John Doe"
+                              aria-label="John Doe"
+                              aria-describedby="basic-icon-default-fullname2" />
+                            <label for="basic-icon-default-fullname">Full Name</label>
+                          </div>
+                        </div>
+   
+                        <div class="mb-6">
+                          <div class="input-group input-group-merge">
+                            <span class="input-group-text"><i class="icon-base ri ri-mail-line"></i></span>
+                            <div class="form-floating form-floating-outline">
+                              <input
+                                type="email"
+                                id="basic-icon-default-email"
+                                name="email"
+                                class="form-control"
+                                placeholder="john.doe@example.com"
+                                aria-label="john.doe@example.com"
+                                aria-describedby="basic-icon-default-email2" />
+                              <label for="basic-icon-default-email">Email</label>
+                            </div>
+      
+                          </div>
+
+                        </div>
+                        <div class="input-group input-group-merge mb-6">
+                          <span id="basic-icon-default-phone2" class="input-group-text"
+                            ><i class="icon-base ri ri-phone-fill"></i
+                          ></span>
+                          <div class="form-floating form-floating-outline">
+                            <input
+                              type="text"
+                              id="basic-icon-default-phone"
+                              name="phone"
+                              class="form-control phone-mask"
+                              placeholder="658 799 8941"
+                              aria-label="658 799 8941"
+                              aria-describedby="basic-icon-default-phone2" />
+                            <label for="basic-icon-default-phone">Phone Number</label>
+                          </div>
+                        </div>
+                        <div class="input-group input-group-merge mb-6">
+                          <span id="basic-icon-default-message2" class="input-group-text"
+                            ><i class="icon-base ri ri-chat-4-line"></i
+                          ></span>
+                          <div class="form-floating form-floating-outline">
+                            <textarea
+                              id="basic-icon-default-message"
+                              name="message"
+                              class="form-control"
+                              placeholder="Hi, do you offer help regarding scholarship application?"
+                              aria-label="Hi, do you offer help regarding scholarship application?"
+                              aria-describedby="basic-icon-default-message2"
+                              style="height: 60px"></textarea>
+                            <label for="basic-icon-default-message">Message</label>
+                          </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Send</button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+
+
+
+
+              
+              <!-- Contact -->
+              <div class="row my-6">
+                <div class="col-12 text-center my-6">
+  
+                  <h4 class="my-2">Prefer other forms of contact?</h4>
+                  <p class="mb-0">
+                   In that case, please use our contact details below. We'll answer you within 24 hours!
+                  </p>
+                </div>
+              </div>
+              <div class="row justify-content-center gap-sm-0 gap-6">
+                <div class="col-sm-6">
+                  <div class="p-6 rounded-4 bg-white d-flex align-items-center flex-column">
+                    <div class="avatar avatar-md">
+                      <a href="tel:+48663337793">
+                      <span class="avatar-initial bg-label-primary rounded-3">
+                        <i class="icon-base ri ri-phone-line icon-30px"></i>
+                      </span>
+                      </a>
+                    </div>
+                    <h5 class="mt-4 mb-1"><a class="text-heading" href="tel:+48663337793">+48 663 337 793</a></h5>
+                    <p class="mb-0">Call us or drop us a message on WhatsApp ✅</p>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="p-6 rounded-4 bg-white d-flex align-items-center flex-column">
+                    <div class="avatar avatar-md">
+                      <a href="mailto:contact@edunade.com">
+                      <span class="avatar-initial bg-label-primary rounded-3">
+                        <i class="icon-base ri ri-mail-line icon-30px"></i>
+                      </span>
+                      </a>
+                    </div>
+                    <h5 class="mt-4 mb-1"><a class="text-heading" href="mailto:contact@edunade.com">contact@edunade.com</a></h5>
+                    <p class="mb-0">We reply within 24 hours!</p>
+                  </div>
+                </div>
+              </div>
+              <!-- /Contact -->
+            </div>
+            <!-- / Content -->
+
+
+            <div class="content-backdrop fade"></div>
+          </div>
+          <!-- Content wrapper -->
+        </div>
+        <!-- / Layout page -->
+      </div>
+
+      <!-- Overlay -->
+      <div class="layout-overlay layout-menu-toggle"></div>
+
+      <!-- Drag Target Area To SlideIn Menu On Small Screens -->
+      <div class="drag-target"></div>
+    </div>
+    <!-- / Layout wrapper -->
+
+    <!-- Core JS -->
+
+    <!-- build:js assets/vendor/js/theme.js  -->
+
+    <script src="{% static 'website/js/vendor/libs/jquery/jquery.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/popper/popper.js' %}"></script>
+    <script src="{% static 'website/js/bootstrap.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/node-waves/node-waves.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/@algolia/autocomplete-js.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/pickr/pickr.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/perfect-scrollbar/perfect-scrollbar.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/hammer/hammer.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/i18n/i18n.js' %}"></script>
+
+    <script src="{% static 'website/js/vendor/menu.js' %}"></script>
+
+    <!-- endbuild -->
+
+    <!-- Vendors JS -->
+
+    <!-- Main JS -->
+
+    <script type="text/javascript" src="{% static 'website/js/main.js' %}"></script>
+
+    <script type="text/javascript" src="{% static 'website/js/vendors.min.js' %}"></script>
+
+    <!-- Page JS -->
+  </body>
+</html>

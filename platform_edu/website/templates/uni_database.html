@@ -1,0 +1,1547 @@
+{% load static %}
+
+
+<!doctype html>
+<!doctype html>
+
+<html
+  lang="en"
+  class="layout-navbar-fixed layout-menu-fixed layout-compact"
+  dir="ltr"
+  data-skin="default"
+  data-bs-theme="light"
+  data-assets-path="../../assets/"
+  data-template="vertical-menu-template">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>University Database | {{ site_name }}</title>
+
+    <meta name="description" content="" />
+
+    <link rel="icon" href="{% static 'website/images/platform_logo.svg' %}">
+    <link rel="alternate icon" href="{% static 'website/images/safari_logo2_prev_ui.png' %}" type="image/png">
+    <meta property="og:image" content="https://academy.edunade.com/static/website/images/Edunade_Vertical_Black_RGB.png">
+
+
+    {% include 'top_base.html' %}
+
+    <!-- endbuild -->
+
+    <!-- Page CSS -->
+
+    <style>
+      /* Force white background on sidebar */
+      .layout-menu {
+        background-color: #ffffff !important;
+      }
+
+                  /* Add more side margins only to the main content area, not footer */
+      .container-xxl {
+        max-width: 85%;
+        margin: 0 auto;
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+
+
+      @media (max-width: 768px) {
+        .container-xxl {
+          max-width: 95%;
+          padding-left: 1.5rem;
+          padding-right: 1.5rem;
+        }
+      }
+
+      .card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border-radius: 1rem;
+        overflow: hidden;
+      }
+
+      /* .card:hover {
+        transform: translateY(-4px) scale(1.01);
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+      } */
+
+      /* Make section subtitles dark grey */
+      h4 {
+        color: #6c757d !important;
+      }
+
+      /* Limit card text to 2 lines with ellipsis */
+      .card-text {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        line-height: 1.4;
+        max-height: 2.8em; /* 2 lines * 1.4 line-height */
+      }
+
+      .btn-danger:hover {
+        background-color: #c82333;
+        border-color: #bd2130;
+        transform: translateY(-1px);
+        box-shadow: 0 2px 4px rgba(220, 53, 69, 0.3);
+      }
+
+      /* Multi-select dropdown styles */
+      .dropdown-menu {
+        padding: 0.5rem 0;
+        z-index: 1060; /* Ensure dropdown appears above other elements */
+        width: auto !important; /* Override any width constraints */
+        overflow-x: auto; /* Enable horizontal scrolling */
+        max-width: 400px; /* Limit maximum width */
+        -webkit-overflow-scrolling: touch; /* Safari smooth scrolling */
+      }
+
+      /* Safari-specific scrollbar styling */
+      .dropdown-menu::-webkit-scrollbar {
+        height: 8px; /* Horizontal scrollbar height */
+        width: 8px; /* Vertical scrollbar width */
+      }
+
+      .dropdown-menu::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 4px;
+      }
+
+      .dropdown-menu::-webkit-scrollbar-thumb {
+        background: #c1c1c1;
+        border-radius: 4px;
+      }
+
+      .dropdown-menu::-webkit-scrollbar-thumb:hover {
+        background: #a8a8a8;
+      }
+
+      /* Specific styling for country dropdown */
+      #countryDropdown + .dropdown-menu {
+        min-width: 200px;
+        max-width: 400px;
+        width: auto !important;
+      }
+
+      .dropdown-item {
+        padding: 0.25rem 1rem;
+        white-space: nowrap; /* Prevent text wrapping */
+        overflow: hidden; /* Hide overflow text */
+        text-overflow: ellipsis; /* Show ... for long text */
+        min-width: 0; /* Allow flex shrinking */
+      }
+
+      .dropdown-item .form-check {
+        margin-bottom: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .dropdown-item .form-check-label {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 320px; /* Limit label width to allow for scrolling */
+        display: inline-block; /* Better Safari compatibility */
+        width: auto;
+        min-width: 0; /* Allow shrinking */
+      }
+
+      /* Safari fallback - force minimum width for scrolling */
+      @supports (-webkit-appearance: none) {
+        .dropdown-menu {
+          min-width: 200px !important;
+          width: max-content !important;
+          max-width: 400px !important;
+        }
+        
+        .dropdown-item {
+          width: max-content;
+          min-width: 200px;
+        }
+        
+        .dropdown-item .form-check-label {
+          white-space: nowrap !important;
+          overflow: visible !important;
+          text-overflow: unset !important;
+          max-width: none !important;
+        }
+      }
+
+      .dropdown-item:hover {
+        background-color: #f8f9fa;
+      }
+
+      /* Prevent dropdown from closing on checkbox click */
+      .dropdown-menu .form-check-input {
+        pointer-events: auto;
+      }
+
+      .dropdown-menu .dropdown-item {
+        cursor: pointer;
+      }
+
+      /* Fix dropdown overflow issues */
+      .filter-card .card-body {
+        overflow: visible !important;
+      }
+
+      /* Ensure row and col containers don't clip dropdowns */
+      .row.g-3 {
+        overflow: visible !important;
+      }
+
+      .col-md-3 {
+        overflow: visible !important;
+      }
+
+      /* Mobile-specific styles for university cards */
+      @media (max-width: 768px) {
+        /* Hide vertical separator on mobile */
+        .border-start.border-2 {
+          display: none !important;
+        }
+
+        /* Stack the card content vertically on mobile */
+        .card-body .row.align-items-center {
+          flex-direction: column;
+        }
+
+        /* Make the right side content use full width on mobile */
+        .card-body .row.align-items-center .col-md-5 {
+          width: 100% !important;
+          max-width: 100% !important;
+          margin-top: 1rem;
+        }
+
+        /* Make the left side content use full width on mobile */
+        .card-body .row.align-items-center .col-md-6 {
+          width: 100% !important;
+          max-width: 100% !important;
+          text-align: center;
+        }
+
+        /* Hide the separator column on mobile */
+        .card-body .row.align-items-center .col-md-1 {
+          display: none !important;
+        }
+
+        /* Better spacing for mobile grid items */
+        .card-body .row.g-3 .col-6 {
+          margin-bottom: 1rem;
+        }
+
+        /* Improve mobile button positioning */
+        .card-body .btn-primary {
+          margin-top: 1rem !important;
+        }
+      }
+
+      /* Tablet-specific adjustments */
+      @media (min-width: 769px) and (max-width: 991px) {
+        /* Adjust grid columns for tablet */
+        .card-body .row.g-3 .col-6 {
+          flex: 0 0 50%;
+          max-width: 50%;
+        }
+      }
+
+      /* Better dropdown positioning */
+      .dropdown {
+        position: relative;
+      }
+
+      /* Make filter button match the height of form elements */
+      .filter-button {
+        height: calc(2.5rem + 2px);
+        min-height: 2.9rem;
+        padding: 0.5rem 1rem;
+        font-size: 1rem;
+        font-weight: 500;
+      }
+
+      /* University card access control styles */
+      .university-card {
+        position: relative;
+      }
+
+      .university-card.locked {
+        opacity: 0.6;
+        pointer-events: none;
+      }
+
+      .university-card.locked::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(255, 255, 255, 0.8);
+        border-radius: 1rem;
+        backdrop-filter: blur(4px);
+        z-index: 1;
+      }
+
+      .university-card.locked .card-body {
+        filter: blur(4px);
+      }
+
+      .university-card.locked .btn-primary {
+        opacity: 0.5;
+        pointer-events: none;
+      }
+
+      .unlock-badge {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        padding: 0.5rem 1.25rem;
+        border-radius: 0.5rem;
+        font-size: 1.2rem;
+        font-weight: 500;
+        text-decoration: none;
+        z-index: 10;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        pointer-events: auto;
+        display: block;
+        text-align: center;
+        white-space: nowrap;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      }
+
+      .unlock-badge.lite {
+        background: #26c6f9;
+        color: #fff;
+      }
+
+      .unlock-badge.lite:hover {
+        background: #1fa8d4;
+        transform: translate(-50%, -50%) translateY(-2px);
+      }
+
+      .unlock-badge.premium {
+        background: #72e128;
+        color: #fff;
+      }
+
+      .unlock-badge.premium:hover {
+        background: #5bb020;
+        color: #fff;
+        transform: translate(-50%, -50%) translateY(-2px);
+      }
+
+    </style>
+
+    <!-- Helpers -->
+    <script type="text/javascript" src="{% static 'website/js/vendor/helpers.js' %}"></script>
+
+    <!--? Template customizer: To hide customizer set displayCustomizer value false in config.js. -->
+    <!-- <script type="text/javascript" src="{% static 'website/js/vendor/template-customizer.js' %}"></script> -->
+
+    <!--? Config: Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file. -->
+
+    <!-- <link rel="stylesheet" href="../../assets/vendor/libs/nouislider/nouislider.css" /> -->
+    <link rel="stylesheet" href="{% static 'website/css/vendor/libs/nouislider/nouislider.css' %}" />
+
+    <script type="text/javascript" src="{% static 'website/js/vendor/config.js' %}"></script>
+  </head>
+
+  <body>
+    <!-- Layout wrapper -->
+    <div class="layout-wrapper layout-content-navbar">
+      <div class="layout-container">
+        <!-- Menu -->
+
+        {% include 'sidebar.html' %}
+
+          <!-- / Navbar -->
+
+          <!-- Content wrapper -->
+          <div class="content-wrapper">
+            <!-- Content -->
+            <div class="container-xxl flex-grow-1 container-p-y">
+              <!-- Examples -->
+
+
+
+              <!-- Horizontal -->
+              <h3 class="pb-1 mb-6">University Database | {{ site_name }}</h3>
+
+              <!-- Filters Section -->
+              <div class="row mb-4">
+                <!-- All Filters Card -->
+                <div class="col-12">
+                  <div class="filter-card card">
+                    <div class="card-body">
+                      <div class="filter-title mb-4">Search & Filter Universities</div>
+                      <div class="row g-3">
+                        <!-- University Filter -->
+                        <div class="col-md-3">
+                          <label for="universityFilter" class="form-label">University</label>
+                          <div class="dropdown">
+                            <button class="form-select text-start" type="button" id="universityDropdown" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false" style="border: 1px solid #e0e6ed; background-color: #fff; cursor: pointer;">
+                              <span id="universityDropdownText">All Universities</span>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="universityDropdown" style="max-height: 300px; overflow-y: auto; overflow-x: auto; min-width: 200px; max-width: 400px;">
+                              <li>
+                                <div class="dropdown-item">
+                                  <div class="form-check">
+                                    <input class="form-check-input university-checkbox" type="checkbox" value="" id="allUniversities" onchange="toggleAllUniversities(this)">
+                                    <label class="form-check-label" for="allUniversities">
+                                      All Universities
+                                    </label>
+                                  </div>
+                                </div>
+                              </li>
+                              <li><hr class="dropdown-divider"></li>
+                              {% for university in unique_universities %}
+                              <li>
+                                <div class="dropdown-item">
+                                  <div class="form-check">
+                                    <input class="form-check-input university-checkbox" type="checkbox" value="{{ university }}" id="university_{{ forloop.counter }}" onchange="updateUniversitySelection()">
+                                    <label class="form-check-label" for="university_{{ forloop.counter }}">
+                                      {{ university }}
+                                    </label>
+                                  </div>
+                                </div>
+                              </li>
+                              {% endfor %}
+                            </ul>
+                          </div>
+                        </div>
+
+                        <!-- Country Filter -->
+                        <div class="col-md-3">
+                          <label for="countryFilter" class="form-label">Country</label>
+                          <div class="dropdown">
+                            <button class="form-select text-start" type="button" id="countryDropdown" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false" style="border: 1px solid #e0e6ed; background-color: #fff; cursor: pointer;">
+                              <span id="countryDropdownText">All Countries</span>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="countryDropdown" style="max-height: 300px; overflow-y: auto; overflow-x: auto; min-width: 200px; max-width: 400px;">
+                              <li>
+                                <div class="dropdown-item">
+                                  <div class="form-check">
+                                    <input class="form-check-input country-checkbox" type="checkbox" value="" id="allCountries" onchange="toggleAllCountries(this)">
+                                    <label class="form-check-label" for="allCountries">
+                                      All Countries
+                                    </label>
+                                  </div>
+                                </div>
+                              </li>
+                              <li><hr class="dropdown-divider"></li>
+                              {% for country in unique_countries %}
+                              <li>
+                                <div class="dropdown-item">
+                                  <div class="form-check">
+                                    <input class="form-check-input country-checkbox" type="checkbox" value="{{ country }}" id="country_{{ forloop.counter }}" onchange="updateCountrySelection()">
+                                    <label class="form-check-label" for="country_{{ forloop.counter }}">
+                                      {{ country }}
+                                    </label>
+                                  </div>
+                                </div>
+                              </li>
+                              {% endfor %}
+                            </ul>
+                          </div>
+                        </div>
+
+                        <!-- Discipline Filter -->
+                        <div class="col-md-3">
+                          <label for="disciplineFilter" class="form-label">Discipline</label>
+                          <div class="dropdown">
+                            <button class="form-select text-start" type="button" id="disciplineDropdown" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false" style="border: 1px solid #e0e6ed; background-color: #fff; cursor: pointer;">
+                              <span id="disciplineDropdownText">All Disciplines</span>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="disciplineDropdown" style="max-height: 300px; overflow-y: auto; overflow-x: auto; min-width: 200px; max-width: 400px;">
+                              <li>
+                                <div class="dropdown-item">
+                                  <div class="form-check">
+                                    <input class="form-check-input discipline-checkbox" type="checkbox" value="" id="allDisciplines" onchange="toggleAllDisciplines(this)">
+                                    <label class="form-check-label" for="allDisciplines">
+                                      All Disciplines
+                                    </label>
+                                  </div>
+                                </div>
+                              </li>
+                              <li><hr class="dropdown-divider"></li>
+                              {% for discipline in unique_disciplines %}
+                              <li>
+                                <div class="dropdown-item">
+                                  <div class="form-check">
+                                    <input class="form-check-input discipline-checkbox" type="checkbox" value="{{ discipline }}" id="discipline_{{ forloop.counter }}" onchange="updateDisciplineSelection()">
+                                    <label class="form-check-label" for="discipline_{{ forloop.counter }}">
+                                      {{ discipline }}
+                                    </label>
+                                  </div>
+                                </div>
+                              </li>
+                              {% endfor %}
+                            </ul>
+                          </div>
+                        </div>
+
+                        <!-- Filter Button -->
+                        <div class="col-md-3 d-flex flex-column justify-content-end">
+                          <button type="button" class="btn btn-primary btn-lg filter-button" onclick="applyFilters()">
+                            <i class="ri-search-line me-2"></i>Filter!
+                          </button>
+                        </div>
+
+                        <!-- Tuition Fee Slider -->
+                        <div class="col-12 mt-6">
+                          <label class="form-label">Tuition Fees (Annual)</label>
+                          <div class="tuition-slider-container mt-10">
+                            <div class="mb-4" id="slider-dynamic"></div>
+                          </div>
+                        </div>
+
+
+                  
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Active Filters Display -->
+              <div class="row mb-4" id="activeFiltersRow" style="display: none;">
+                <div class="col-12">
+                  <div class="d-flex align-items-center flex-wrap gap-2">
+                    <div id="activeFiltersContainer" class="d-flex flex-wrap gap-2">
+                      <!-- Active filter badges will be inserted here by JavaScript -->
+                    </div>
+                    <button type="button" class="btn btn-sm btn-danger ms-2" onclick="clearFilters()">
+                      <i class="ri-close-line me-1"></i>Clear All
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+
+              
+
+
+              <!-- Results Count -->
+              <div class="mb-12">
+                <small class="text-muted" id="resultsCount">
+                  {% if universities %}
+                    Total of {{ university_count }} universities. Showing {{ universities|length }} universities per page.
+                  {% else %}
+                    No universities found
+                  {% endif %}
+                </small>
+              </div>
+
+             
+              {% for university in universities %}
+              <div class="row mb-6">
+                <div class="col-md">
+                  <div class="card mb-2 university-card" data-access-level="{{ university.blurred|default:'no' }}">
+                    <div class="card-body py-3">
+                      <div class="row align-items-center">
+                        <!-- Left side: Program and university names -->
+                        <div class="col-md-6 d-flex flex-column justify-content-center">
+                          <div>
+                            <h5 class="mb-1 mt-2 fw-semibold">{{ university.program_name }}</h5>
+                            <h6 class="mb-0 text-muted">{{ university.uni_name }}</h6>
+                            <a href="{% if university.link != 'none' %}{{ university.link }}{% else %}#{% endif %}" class="btn btn-primary btn-sm mt-6" {% if university.link != 'none' %}target="_blank"{% endif %}>
+                              <i class="icon-base ri ri-external-link-line me-1"></i>
+                              Visit Programme
+                            </a>
+                          </div>
+                        </div>
+                        
+                        
+                        <!-- Vertical separator -->
+                        <div class="col-md-1 d-flex justify-content-center">
+                          <div class="border-start border-2" style="height: 80px;"></div>
+                        </div>
+                        
+                       <!-- Right side: Program information -->
+                      <div class="col-md-5 d-flex align-items-center justify-content-center">
+                        <div class="row g-3 w-100">
+                          
+                          <!-- IB Requirements -->
+                          <div class="col-6">
+                            <div class="d-flex flex-column align-items-center justify-content-center text-center h-100">
+                              <div class="avatar avatar-sm mx-auto mb-1">
+                                <span class="avatar-initial bg-label-info rounded">
+                                  <i class="icon-base ri ri-book-open-line icon-20px"></i>
+                                </span>
+                              </div>
+                              <h6 class="mb-0 mt-1 fw-semibold">IB: {{ university.ib_requirements|default:"N/A" }}</h6>
+                            </div>
+                          </div>
+
+                          <!-- Application Date -->
+                          <div class="col-6">
+                            <div class="d-flex flex-column align-items-center justify-content-center text-center h-100">
+                              <div class="avatar avatar-sm mx-auto mb-1">
+                                <span class="avatar-initial bg-label-warning rounded">
+                                  <i class="icon-base ri ri-calendar-line icon-20px"></i>
+                                </span>
+                              </div>
+                              <h6 class="mb-0 mt-1 fw-semibold">{{ university.country }}</h6>
+                            </div>
+                          </div>
+
+                          <!-- Tuition Fees -->
+                          <div class="col-6">
+                            <div class="d-flex flex-column align-items-center justify-content-center text-center h-100">
+                              <div class="avatar avatar-sm mx-auto mb-1">
+                                <span class="avatar-initial bg-label-success rounded">
+                                  <i class="icon-base ri ri-money-pound-circle-line icon-20px"></i>
+                                </span>
+                              </div>
+                              <h6 class="mb-0 mt-1 fw-semibold">
+                                {% if university.tuition_fee_euro > 0 %}
+                                  €{{ university.tuition_fee_euro|floatformat:0 }}
+                                {% else %}
+                                  {{ university.tuition_fee_original|default:"N/A" }}
+                                {% endif %}
+                              </h6>
+                            </div>
+                          </div>
+
+                          <!-- Duration -->
+                          <div class="col-6">
+                            <div class="d-flex flex-column align-items-center justify-content-center text-center h-100">
+                              <div class="avatar avatar-sm mx-auto mb-1">
+                                <span class="avatar-initial bg-label-secondary rounded">
+                                  <i class="icon-base ri ri-time-line icon-20px"></i>
+                                </span>
+                              </div>
+                              <h6 class="mb-0 mt-1 fw-semibold">{{ university.duration|default:"N/A" }}</h6>
+                            </div>
+                          </div>
+
+                        </div>
+                      </div>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {% empty %}
+              <div class="row mb-12">
+                <div class="col-md">
+                  <div class="card mb-2">
+                    <div class="card-body text-center py-5">
+                      <h5>No universities found</h5>
+                      <p class="text-muted">Try adjusting your search criteria.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+
+              <!-- Pagination -->
+              {% if page_obj.has_other_pages %}
+              <div class="row mt-4">
+                <div class="col-12">
+                  <nav aria-label="University pagination">
+                    <ul class="pagination justify-content-center">
+                      {% if page_obj.has_previous %}
+                        <li class="page-item">
+                          <a class="page-link pagination-link" href="#" data-page="{{ page_obj.previous_page_number }}">Previous</a>
+                        </li>
+                      {% endif %}
+                      
+                      {% for num in page_obj.paginator.page_range %}
+                        {% if page_obj.number == num %}
+                          <li class="page-item active">
+                            <span class="page-link">{{ num }}</span>
+                          </li>
+                        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                          <li class="page-item">
+                            <a class="page-link pagination-link" href="#" data-page="{{ num }}">{{ num }}</a>
+                          </li>
+                        {% endif %}
+                      {% endfor %}
+                      
+                      {% if page_obj.has_next %}
+                        <li class="page-item">
+                          <a class="page-link pagination-link" href="#" data-page="{{ page_obj.next_page_number }}">Next</a>
+                        </li>
+                      {% endif %}
+                    </ul>
+                  </nav>
+                </div>
+              </div>
+              {% endif %}
+
+              <!-- University count -->
+              <div class="row mt-3">
+                <div class="col-12 text-center">
+                  <small class="text-muted">
+                    Showing {{ page_obj.start_index }}-{{ page_obj.end_index }} of {{ university_count }} universities
+                  </small>
+                </div>
+              </div>
+            </div>
+             
+          
+
+            
+
+            <!-- Footer -->
+            <!-- {% include 'footer.html' %} -->
+            <!-- / Footer -->
+
+            <div class="content-backdrop fade"></div>
+          </div>
+          <!-- Content wrapper -->
+        </div>
+        <!-- / Layout page -->
+      </div>
+
+      <!-- Overlay -->
+      <div class="layout-overlay layout-menu-toggle"></div>
+
+      <!-- Drag Target Area To SlideIn Menu On Small Screens -->
+      <div class="drag-target"></div>
+    </div>
+    <!-- / Layout wrapper -->
+
+    <!-- Core JS -->
+
+    <!-- build:js assets/vendor/js/theme.js  -->
+
+    <script src="{% static 'website/js/vendor/libs/jquery/jquery.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/popper/popper.js' %}"></script>
+    <script src="{% static 'website/js/bootstrap.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/node-waves/node-waves.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/@algolia/autocomplete-js.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/pickr/pickr.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/perfect-scrollbar/perfect-scrollbar.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/hammer/hammer.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/i18n/i18n.js' %}"></script>
+
+    <script src="{% static 'website/js/vendor/menu.js' %}"></script>
+
+    <!-- endbuild -->
+
+    <!-- Vendors JS -->
+    <script src="{% static 'website/js/vendor/libs/masonry/masonry.js' %}"></script>
+
+    <script src="{% static 'website/js/vendor/libs/nouislider/nouislider.js' %}"></script>
+
+    <!-- Main JS -->
+
+
+    <script type="text/javascript" src="{% static 'website/js/main.js' %}"></script>
+
+    <!-- For the top header to work -->
+    <script type="text/javascript" src="{% static 'website/js/vendors.min.js' %}"></script>
+
+    <script type="text/javascript" src="{% static 'website/js/forms-sliders.js' %}"></script>
+
+
+    <!-- Page JS -->
+
+    <!-- University Database Filter JavaScript -->
+    <script>
+      function applyFilters() {
+        console.log('applyFilters function called');
+        const form = document.createElement('form');
+        form.method = 'GET';
+        form.action = window.location.pathname;
+
+        console.log('Starting university filter...');
+        try {
+          // University filter (multiple selection) - exclude the "All Universities" checkbox
+          const universityCheckboxes = document.querySelectorAll('.university-checkbox:not(#allUniversities)');
+          console.log('University checkboxes found:', universityCheckboxes.length);
+          
+          const selectedUniversities = [];
+          universityCheckboxes.forEach((checkbox, index) => {
+            console.log(`University checkbox ${index}: value="${checkbox.value}", checked=${checkbox.checked}, id=${checkbox.id}`);
+            if (checkbox.checked) {
+              selectedUniversities.push(checkbox.value);
+            }
+          });
+          
+          console.log('Selected universities array:', selectedUniversities);
+          if (selectedUniversities.length > 0) {
+            selectedUniversities.forEach(university => {
+              const input = document.createElement('input');
+              input.type = 'hidden';
+              input.name = 'uni_name';
+              input.value = university;
+              form.appendChild(input);
+              console.log(`Added university input: name="uni_name", value="${university}"`);
+            });
+          }
+          console.log('University filter processed successfully');
+        } catch (error) {
+          console.error('Error in university filter:', error);
+        }
+
+        console.log('Starting country filter...');
+        try {
+          // Country filter (multiple selection) - exclude the "All Countries" checkbox
+          const countryCheckboxes = document.querySelectorAll('.country-checkbox:not(#allCountries)');
+          console.log('Country checkboxes found:', countryCheckboxes.length);
+          console.log('All country checkboxes:', countryCheckboxes);
+          
+          const selectedCountries = [];
+          countryCheckboxes.forEach((checkbox, index) => {
+            console.log(`Checkbox ${index}: value="${checkbox.value}", checked=${checkbox.checked}, id=${checkbox.id}`);
+            if (checkbox.checked) {
+              selectedCountries.push(checkbox.value);
+            }
+          });
+          
+          console.log('Selected countries array:', selectedCountries);
+          if (selectedCountries.length > 0) {
+            selectedCountries.forEach(country => {
+              const input = document.createElement('input');
+              input.type = 'hidden';
+              input.name = 'country';
+              input.value = country;
+              form.appendChild(input);
+              console.log(`Added country input: name="country", value="${country}"`);
+            });
+          }
+          console.log('Country filter processed successfully');
+        } catch (error) {
+          console.error('Error in country filter:', error);
+        }
+
+
+
+        console.log('Starting discipline filter...');
+        try {
+          // Discipline filter (multiple selection) - exclude the "All Disciplines" checkbox
+          const disciplineCheckboxes = document.querySelectorAll('.discipline-checkbox:not(#allDisciplines)');
+          console.log('Discipline checkboxes found:', disciplineCheckboxes.length);
+          
+          const selectedDisciplines = [];
+          disciplineCheckboxes.forEach((checkbox, index) => {
+            console.log(`Discipline checkbox ${index}: value="${checkbox.value}", checked=${checkbox.checked}, id=${checkbox.id}`);
+            if (checkbox.checked) {
+              selectedDisciplines.push(checkbox.value);
+            }
+          });
+          
+          console.log('Selected disciplines array:', selectedDisciplines);
+          if (selectedDisciplines.length > 0) {
+            selectedDisciplines.forEach(discipline => {
+              const input = document.createElement('input');
+              input.type = 'hidden';
+              input.name = 'discipline';
+              input.value = discipline;
+              form.appendChild(input);
+              console.log(`Added discipline input: name="discipline", value="${discipline}"`);
+            });
+          }
+          console.log('Discipline filter processed successfully');
+        } catch (error) {
+          console.error('Error in discipline filter:', error);
+        }
+
+        // Tuition fee filters from noUiSlider
+        const dynamicSlider = document.getElementById('slider-dynamic');
+        if (dynamicSlider && dynamicSlider.noUiSlider) {
+          const values = dynamicSlider.noUiSlider.get();
+          if (values && values.length >= 2) {
+            const minTuition = Math.round(parseFloat(values[0].replace(/[£€,]/g, '')));
+            const maxTuition = Math.round(parseFloat(values[1].replace(/[£€,]/g, '')));
+            
+            // Debug output
+            console.log('Raw slider values:', values);
+            console.log('Parsed min tuition:', minTuition);
+            console.log('Parsed max tuition:', maxTuition);
+            
+            // Always add both tuition filters if they're different from default range
+            if (minTuition !== 0) {
+              const minInput = document.createElement('input');
+              minInput.type = 'hidden';
+              minInput.name = 'min_tuition';
+              minInput.value = minTuition;
+              form.appendChild(minInput);
+              console.log('Added min_tuition filter:', minTuition);
+            }
+            
+            if (maxTuition !== 80000) {
+              const maxInput = document.createElement('input');
+              maxInput.type = 'hidden';
+              maxInput.name = 'max_tuition';
+              maxInput.value = maxTuition;
+              form.appendChild(maxInput);
+              console.log('Added max_tuition filter:', maxTuition);
+            }
+          }
+        }
+
+        document.body.appendChild(form);
+        console.log('Form created with inputs:', form.innerHTML);
+        console.log('Form action:', form.action);
+        console.log('Form method:', form.method);
+        console.log('Submitting form...');
+        try {
+          form.submit();
+          console.log('Form submitted successfully');
+        } catch (error) {
+          console.error('Error submitting form:', error);
+        }
+      }
+
+      function clearFilters() {
+        // Clear university checkboxes
+        const universityCheckboxes = document.querySelectorAll('.university-checkbox');
+        universityCheckboxes.forEach(checkbox => {
+          checkbox.checked = false;
+        });
+        document.getElementById('allUniversities').checked = true;
+        updateUniversitySelection();
+        
+        // Clear country checkboxes
+        const countryCheckboxes = document.querySelectorAll('.country-checkbox');
+        countryCheckboxes.forEach(checkbox => {
+          checkbox.checked = false;
+        });
+        document.getElementById('allCountries').checked = true;
+        updateCountrySelection();
+
+        // Clear discipline checkboxes
+        const disciplineCheckboxes = document.querySelectorAll('.discipline-checkbox');
+        disciplineCheckboxes.forEach(checkbox => {
+          checkbox.checked = false;
+        });
+        document.getElementById('allDisciplines').checked = true;
+        updateDisciplineSelection();
+
+        // Reset noUiSlider to full range
+        const dynamicSlider = document.getElementById('slider-dynamic');
+        if (dynamicSlider && dynamicSlider.noUiSlider) {
+          dynamicSlider.noUiSlider.set([0, 80000]);
+        }
+
+        // Submit form to clear filters
+        window.location.href = window.location.pathname;
+      }
+
+      // Function to handle "All Countries" checkbox
+      function toggleAllCountries(allCheckbox) {
+        const countryCheckboxes = document.querySelectorAll('.country-checkbox:not(#allCountries)');
+        countryCheckboxes.forEach(checkbox => {
+          checkbox.checked = !allCheckbox.checked;
+        });
+        updateCountrySelection();
+      }
+
+      // Function to handle "All Universities" checkbox
+      function toggleAllUniversities(allCheckbox) {
+        const universityCheckboxes = document.querySelectorAll('.university-checkbox:not(#allUniversities)');
+        universityCheckboxes.forEach(checkbox => {
+          checkbox.checked = !allCheckbox.checked;
+        });
+        updateUniversitySelection();
+      }
+
+      // Function to handle "All Disciplines" checkbox
+      function toggleAllDisciplines(allCheckbox) {
+        const disciplineCheckboxes = document.querySelectorAll('.discipline-checkbox:not(#allDisciplines)');
+        disciplineCheckboxes.forEach(checkbox => {
+          checkbox.checked = !allCheckbox.checked;
+        });
+        updateDisciplineSelection();
+      }
+
+      // Function to update country selection display and handle logic
+      function updateCountrySelection() {
+        const allCountriesCheckbox = document.getElementById('allCountries');
+        const countryCheckboxes = document.querySelectorAll('.country-checkbox:not(#allCountries)');
+        const dropdownText = document.getElementById('countryDropdownText');
+        
+        const checkedCountries = [];
+        countryCheckboxes.forEach(checkbox => {
+          if (checkbox.checked) {
+            checkedCountries.push(checkbox.nextElementSibling.textContent.trim());
+          }
+        });
+
+        // Update dropdown text
+        if (checkedCountries.length === 0) {
+          allCountriesCheckbox.checked = true;
+          dropdownText.textContent = 'All Countries';
+        } else if (checkedCountries.length === 1) {
+          allCountriesCheckbox.checked = false;
+          dropdownText.textContent = checkedCountries[0];
+        } else {
+          allCountriesCheckbox.checked = false;
+          dropdownText.textContent = `${checkedCountries.length} Countries Selected`;
+        }
+      }
+
+      // Function to update university selection display and handle logic
+      function updateUniversitySelection() {
+        const allUniversitiesCheckbox = document.getElementById('allUniversities');
+        const universityCheckboxes = document.querySelectorAll('.university-checkbox:not(#allUniversities)');
+        const dropdownText = document.getElementById('universityDropdownText');
+        
+        const checkedUniversities = [];
+        universityCheckboxes.forEach(checkbox => {
+          if (checkbox.checked) {
+            checkedUniversities.push(checkbox.nextElementSibling.textContent.trim());
+          }
+        });
+
+        // Update dropdown text
+        if (checkedUniversities.length === 0) {
+          allUniversitiesCheckbox.checked = true;
+          dropdownText.textContent = 'All Universities';
+        } else if (checkedUniversities.length === 1) {
+          allUniversitiesCheckbox.checked = false;
+          dropdownText.textContent = checkedUniversities[0];
+        } else {
+          allUniversitiesCheckbox.checked = false;
+          dropdownText.textContent = `${checkedUniversities.length} Universities Selected`;
+        }
+      }
+
+      // Function to update discipline selection display and handle logic
+      function updateDisciplineSelection() {
+        const allDisciplinesCheckbox = document.getElementById('allDisciplines');
+        const disciplineCheckboxes = document.querySelectorAll('.discipline-checkbox:not(#allDisciplines)');
+        const dropdownText = document.getElementById('disciplineDropdownText');
+        
+        const checkedDisciplines = [];
+        disciplineCheckboxes.forEach(checkbox => {
+          if (checkbox.checked) {
+            checkedDisciplines.push(checkbox.nextElementSibling.textContent.trim());
+          }
+        });
+
+        // Update dropdown text
+        if (checkedDisciplines.length === 0) {
+          allDisciplinesCheckbox.checked = true;
+          dropdownText.textContent = 'All Disciplines';
+        } else if (checkedDisciplines.length === 1) {
+          allDisciplinesCheckbox.checked = false;
+          dropdownText.textContent = checkedDisciplines[0];
+        } else {
+          allDisciplinesCheckbox.checked = false;
+          dropdownText.textContent = `${checkedDisciplines.length} Disciplines Selected`;
+        }
+      }
+
+      // Set filter values from URL parameters on page load
+      document.addEventListener('DOMContentLoaded', function() {
+        const urlParams = new URLSearchParams(window.location.search);
+
+        // Handle multiple university selections from URL
+        const universityFilters = urlParams.getAll('uni_name');
+        if (universityFilters.length > 0) {
+          // Uncheck "All Universities"
+          document.getElementById('allUniversities').checked = false;
+          
+          // Check the selected universities
+          universityFilters.forEach(university => {
+            const universityCheckboxes = document.querySelectorAll('.university-checkbox:not(#allUniversities)');
+            universityCheckboxes.forEach(checkbox => {
+              if (checkbox.value === university) {
+                checkbox.checked = true;
+              }
+            });
+          });
+          updateUniversitySelection();
+        } else {
+          // Default to "All Universities" if no specific universities are selected
+          document.getElementById('allUniversities').checked = true;
+          updateUniversitySelection();
+        }
+
+        // Handle multiple country selections from URL
+        const countryFilters = urlParams.getAll('country');
+        if (countryFilters.length > 0) {
+          // Uncheck "All Countries"
+          document.getElementById('allCountries').checked = false;
+          
+          // Check the selected countries
+          countryFilters.forEach(country => {
+            const countryCheckboxes = document.querySelectorAll('.country-checkbox:not(#allCountries)');
+            countryCheckboxes.forEach(checkbox => {
+              if (checkbox.value === country) {
+                checkbox.checked = true;
+              }
+            });
+          });
+          updateCountrySelection();
+        } else {
+          // Default to "All Countries" if no specific countries are selected
+          document.getElementById('allCountries').checked = true;
+          updateCountrySelection();
+        }
+
+        // Handle multiple discipline selections from URL
+        const disciplineFilters = urlParams.getAll('discipline');
+        if (disciplineFilters.length > 0) {
+          // Uncheck "All Disciplines"
+          document.getElementById('allDisciplines').checked = false;
+          
+          // Check the selected disciplines
+          disciplineFilters.forEach(discipline => {
+            const disciplineCheckboxes = document.querySelectorAll('.discipline-checkbox:not(#allDisciplines)');
+            disciplineCheckboxes.forEach(checkbox => {
+              if (checkbox.value === discipline) {
+                checkbox.checked = true;
+              }
+            });
+          });
+          updateDisciplineSelection();
+        } else {
+          // Default to "All Disciplines" if no specific disciplines are selected
+          document.getElementById('allDisciplines').checked = true;
+          updateDisciplineSelection();
+        }
+
+        // Set tuition fee slider values
+        const minTuition = urlParams.get('min_tuition');
+        const maxTuition = urlParams.get('max_tuition');
+        const dynamicSlider = document.getElementById('slider-dynamic');
+        
+        if (dynamicSlider && dynamicSlider.noUiSlider && (minTuition || maxTuition)) {
+          const min = minTuition ? parseInt(minTuition) : 0;
+          const max = maxTuition ? parseInt(maxTuition) : 80000;
+          dynamicSlider.noUiSlider.set([min, max]);
+        }
+
+        // Call updateActiveFilters to show active filter badges
+        updateActiveFilters();
+        
+        // Also call it after a small delay to ensure page is fully loaded
+        setTimeout(function() {
+          updateActiveFilters();
+        }, 100);
+
+        // Prevent dropdown from closing when clicking on checkboxes
+        document.addEventListener('click', function(e) {
+          if (e.target.closest('.dropdown-menu') && e.target.type === 'checkbox') {
+            e.stopPropagation();
+          }
+        });
+
+        // Prevent dropdown from closing when clicking on labels within dropdown
+        document.querySelectorAll('.dropdown-menu .form-check-label').forEach(label => {
+          label.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const checkbox = this.previousElementSibling;
+            checkbox.click();
+          });
+        });
+      });
+
+      // Function to update tuition range display (legacy - keeping for compatibility)
+      function updateTuitionRange() {
+        // This function is no longer needed with noUiSlider but keeping for compatibility
+      }
+
+      // Function to update active filters display
+      function updateActiveFilters() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const activeFiltersContainer = document.getElementById('activeFiltersContainer');
+        const activeFiltersRow = document.getElementById('activeFiltersRow');
+        
+        // Clear existing filter badges
+        activeFiltersContainer.innerHTML = '';
+        
+        let hasActiveFilters = false;
+        
+        // Handle multiple university selections
+        const universityFilters = urlParams.getAll('uni_name');
+        if (universityFilters.length > 0) {
+          hasActiveFilters = true;
+          let universityText;
+          if (universityFilters.length === 1) {
+            universityText = universityFilters[0];
+          } else {
+            universityText = `${universityFilters.length} Universities Selected`;
+          }
+          const badge = createFilterBadge('University', universityText, 'uni_name');
+          activeFiltersContainer.appendChild(badge);
+        }
+
+        // Handle multiple discipline selections
+        const disciplineFilters = urlParams.getAll('discipline');
+        if (disciplineFilters.length > 0) {
+          hasActiveFilters = true;
+          let disciplineText;
+          if (disciplineFilters.length === 1) {
+            disciplineText = disciplineFilters[0];
+          } else {
+            disciplineText = `${disciplineFilters.length} Disciplines Selected`;
+          }
+          const badge = createFilterBadge('Discipline', disciplineText, 'discipline');
+          activeFiltersContainer.appendChild(badge);
+        }
+
+        // Handle multiple country selections
+        const countryFilters = urlParams.getAll('country');
+        if (countryFilters.length > 0) {
+          hasActiveFilters = true;
+          let countryText;
+          if (countryFilters.length === 1) {
+            countryText = countryFilters[0];
+          } else {
+            countryText = `${countryFilters.length} Countries Selected`;
+          }
+          const badge = createFilterBadge('Country', countryText, 'country');
+          activeFiltersContainer.appendChild(badge);
+        }
+        
+        // Check for tuition filter
+        const minTuition = urlParams.get('min_tuition');
+        const maxTuition = urlParams.get('max_tuition');
+        if (minTuition || maxTuition) {
+          hasActiveFilters = true;
+          const min = minTuition || '0';
+          const max = maxTuition || '80000';
+          const tuitionText = `€${parseInt(min).toLocaleString()} - €${parseInt(max).toLocaleString()}`;
+          const badge = createFilterBadge('Tuition', tuitionText, 'tuition');
+          activeFiltersContainer.appendChild(badge);
+        }
+        
+        // Show/hide the active filters section
+        activeFiltersRow.style.display = hasActiveFilters ? 'block' : 'none';
+      }
+      
+      // Function to create filter badge
+      function createFilterBadge(label, value, param) {
+        const badge = document.createElement('span');
+        
+        badge.className = 'badge d-flex align-items-center gap-1';
+        badge.style.fontSize = '0.8rem';
+        badge.style.padding = '0.5rem 0.75rem';
+        badge.style.borderRadius = '20px';
+        badge.style.backgroundColor = '#9295a1'; // --bs-gray-700
+        badge.style.color = 'white';
+        
+        badge.innerHTML = `
+          <span><strong>${label}:</strong> ${value}</span>
+          <button type="button" class="btn-close btn-close-white" style="font-size: 0.6rem;" onclick="removeFilter('${param}')" aria-label="Remove filter"></button>
+        `;
+        
+        return badge;
+      }
+      
+      // Function to remove individual filter
+      function removeFilter(param) {
+        const urlParams = new URLSearchParams(window.location.search);
+        
+        if (param === 'tuition') {
+          urlParams.delete('min_tuition');
+          urlParams.delete('max_tuition');
+          // Reset slider to full range
+          const dynamicSlider = document.getElementById('slider-dynamic');
+          if (dynamicSlider && dynamicSlider.noUiSlider) {
+            dynamicSlider.noUiSlider.set([0, 80000]);
+          }
+        } else if (param === 'country') {
+          // Remove all country parameters
+          urlParams.delete('country');
+          // Reset country checkboxes
+          const countryCheckboxes = document.querySelectorAll('.country-checkbox');
+          countryCheckboxes.forEach(checkbox => {
+            checkbox.checked = false;
+          });
+          document.getElementById('allCountries').checked = true;
+          updateCountrySelection();
+        } else if (param === 'uni_name') {
+          // Remove all university parameters
+          urlParams.delete('uni_name');
+          // Reset university checkboxes
+          const universityCheckboxes = document.querySelectorAll('.university-checkbox');
+          universityCheckboxes.forEach(checkbox => {
+            checkbox.checked = false;
+          });
+          document.getElementById('allUniversities').checked = true;
+          updateUniversitySelection();
+        } else if (param === 'discipline') {
+          // Remove all discipline parameters
+          urlParams.delete('discipline');
+          // Reset discipline checkboxes
+          const disciplineCheckboxes = document.querySelectorAll('.discipline-checkbox');
+          disciplineCheckboxes.forEach(checkbox => {
+            checkbox.checked = false;
+          });
+          document.getElementById('allDisciplines').checked = true;
+          updateDisciplineSelection();
+        }
+        
+        // Navigate to updated URL
+        const newUrl = window.location.pathname + (urlParams.toString() ? '?' + urlParams.toString() : '');
+        window.location.href = newUrl;
+      }
+
+      // Function to navigate to a specific page while preserving all current filters
+      function navigateToPage(pageNumber) {
+        const currentParams = new URLSearchParams(window.location.search);
+        
+        // Update or add the page parameter
+        currentParams.set('page', pageNumber);
+        
+        // Navigate to the new URL with all parameters preserved
+        const newUrl = window.location.pathname + '?' + currentParams.toString();
+        window.location.href = newUrl;
+      }
+
+      // Add event listeners for pagination links
+      document.addEventListener('DOMContentLoaded', function() {
+        // Add click handlers to pagination links
+        document.addEventListener('click', function(e) {
+          if (e.target.classList.contains('pagination-link')) {
+            e.preventDefault();
+            const pageNumber = e.target.getAttribute('data-page');
+            if (pageNumber) {
+              navigateToPage(pageNumber);
+            }
+          }
+        });
+      });
+    </script>
+
+    <style>
+      .filter-card {
+        min-width: 200px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        overflow: visible !important;
+      }
+
+      .filter-title {
+        font-weight: 600;
+        font-size: 0.875rem;
+        color: #6c757d;
+        margin-bottom: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .form-check-inline {
+        margin-right: 1rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .form-check-input:checked {
+        background-color: #7367f0;
+        border-color: #7367f0;
+      }
+
+      .form-select, .form-control {
+        border: 1px solid #e0e6ed;
+        border-radius: 6px;
+        font-size: 0.875rem;
+      }
+
+      .form-select:focus, .form-control:focus {
+        border-color: #7367f0;
+        box-shadow: 0 0 0 0.2rem rgba(115, 103, 240, 0.25);
+      }
+
+      #resultsCount {
+        font-size: 0.875rem;
+        color: #6c757d;
+      }
+
+      /* Dual Range Slider Styles */
+      .tuition-slider-container {
+        position: relative;
+        margin: 10px 0;
+      }
+
+      .range-slider {
+        position: relative;
+        height: 35px;
+      }
+
+      .range-slider input[type="range"] {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 5px;
+        -webkit-appearance: none;
+        appearance: none;
+        background: transparent;
+        pointer-events: none;
+      }
+
+      .range-slider input[type="range"]::-webkit-slider-track {
+        height: 5px;
+        background: #e0e6ed;
+        border-radius: 3px;
+      }
+
+      .range-slider input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        height: 20px;
+        width: 20px;
+        border-radius: 50%;
+        background: #7367f0;
+        border: 2px solid #ffffff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        cursor: pointer;
+        pointer-events: all;
+        margin-top: -8px;
+      }
+
+      .range-slider input[type="range"]::-moz-range-track {
+        height: 5px;
+        background: #e0e6ed;
+        border-radius: 3px;
+        border: none;
+      }
+
+      .range-slider input[type="range"]::-moz-range-thumb {
+        height: 20px;
+        width: 20px;
+        border-radius: 50%;
+        background: #7367f0;
+        border: 2px solid #ffffff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        cursor: pointer;
+        pointer-events: all;
+      }
+
+      .range-slider input[type="range"]:hover::-webkit-slider-thumb {
+        background: #5a52d5;
+        transform: scale(1.1);
+      }
+
+      .range-slider input[type="range"]:hover::-moz-range-thumb {
+        background: #5a52d5;
+        transform: scale(1.1);
+      }
+
+      /* Active Filter Badges Styles */
+      .badge {
+        border-radius: 20px;
+        font-weight: 500;
+        transition: all 0.2s ease;
+      }
+
+      .badge:hover {
+        filter: brightness(0.9);
+      }
+
+      .btn-close-white {
+        background-color: transparent;
+        border: none;
+        color: white;
+        opacity: 0.8;
+        transition: opacity 0.2s ease;
+        filter: drop-shadow(0 1px 1px rgba(0,0,0,0.3));
+      }
+
+      .btn-close-white:hover {
+        opacity: 1;
+        transform: scale(1.1);
+        filter: drop-shadow(0 1px 2px rgba(0,0,0,0.5));
+      }
+
+      /* Clear All Button Styles */
+      .btn-danger {
+        background-color: #dc3545;
+        border-color: #dc3545;
+        transition: all 0.2s ease;
+      }
+
+      .btn-danger:hover {
+        background-color: #c82333;
+        border-color: #bd2130;
+        transform: translateY(-1px);
+      }
+
+      /* Active Filters Row Styles */
+      #activeFiltersRow {
+        margin-bottom: 1rem;
+      }
+
+      @media (max-width: 768px) {
+        .filter-card {
+          min-width: 100%;
+          margin-bottom: 1rem;
+        }
+        
+        .d-flex.flex-wrap.gap-3 {
+          flex-direction: column;
+        }
+
+        .col-md-3 {
+          margin-bottom: 1rem;
+        }
+      }
+    </style>
+
+    <script>
+      // University card access control
+      document.addEventListener('DOMContentLoaded', function() {
+        const userType = '{{ request.session.user_type|default:"free" }}';
+        const alreadyRegistered = {{ request.session.already_registered|yesno:"true,false" }};
+        
+        console.log('User type:', userType, 'Already registered:', alreadyRegistered);
+        
+        // Get all university cards
+        const universityCards = document.querySelectorAll('.university-card');
+        
+        universityCards.forEach(card => {
+          const accessLevel = card.getAttribute('data-access-level');
+          let shouldLock = false;
+          let badgeType = '';
+          let badgeText = '';
+          let badgeLink = '';
+          
+          // Determine if card should be locked based on access level
+          if (accessLevel === 'registered' && !alreadyRegistered) {
+            shouldLock = true;
+            badgeType = 'lite';
+            badgeText = 'Lite (Free)';
+            badgeLink = '/register/';
+          } else if (accessLevel === 'premium' && userType !== 'premium') {
+            shouldLock = true;
+            badgeType = 'premium';
+            badgeText = 'Premium';
+            badgeLink = '/pricing/';
+          }
+          
+          if (shouldLock) {
+            // Add locked class
+            card.classList.add('locked');
+            
+            // Disable the "Visit Programme" button
+            const visitButton = card.querySelector('.btn-primary');
+            if (visitButton) {
+              visitButton.removeAttribute('href');
+              visitButton.setAttribute('href', '#');
+              visitButton.removeAttribute('target');
+              visitButton.style.cursor = 'default';
+              visitButton.onclick = function(e) {
+                e.preventDefault();
+                return false;
+              };
+            }
+            
+            // Add unlock badge
+            const badge = document.createElement('a');
+            badge.href = badgeLink;
+            badge.className = `unlock-badge ${badgeType}`;
+            badge.textContent = badgeText;
+            card.appendChild(badge);
+          }
+        });
+      });
+    </script>
+
+  </body>
+</html>

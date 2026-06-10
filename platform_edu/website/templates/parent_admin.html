@@ -1,0 +1,956 @@
+{% load static %}
+
+<!doctype html>
+
+<html
+  lang="en"
+  class="layout-navbar-fixed layout-menu-fixed layout-compact"
+  dir="ltr"
+  data-skin="default"
+  data-bs-theme="light"
+  data-assets-path="../../assets/"
+  data-template="vertical-menu-template">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+
+    <title>{{ site_name }} | Parent Admin</title>
+
+    <meta name="description" content="" />
+
+    <link rel="icon" href="{% static 'website/images/platform_logo.svg' %}">
+    <link rel="alternate icon" href="{% static 'website/images/safari_logo2_prev_ui.png' %}" type="image/png">
+    <meta property="og:image" content="https://academy.edunade.com/static/website/images/Edunade_Vertical_Black_RGB.png">
+
+
+    {% include 'top_base.html' %}
+
+    <!-- Page CSS -->
+    <link rel="stylesheet" href="{% static 'website/css/vendor/libs/apex-charts/apex-charts.css' %}" />
+    <link rel="stylesheet" href="{% static 'website/css/vendor/libs/swiper/swiper.css' %}" />
+
+    <!-- Page CSS -->
+    <link rel="stylesheet" href="{% static 'website/css/vendor/css/pages/cards-statistics.css' %}" />
+
+    <!-- Custom CSS to fix sidebar styling -->
+    <style>
+      /* Force white background on sidebar */
+      .layout-menu {
+        background-color: #ffffff !important;
+      }
+      
+    </style>
+
+    <!-- Helpers -->
+    <script type="text/javascript" src="{% static 'website/js/vendor/helpers.js' %}"></script>
+
+    <!--? Template customizer: To hide customizer set displayCustomizer value false in config.js. -->
+    <!-- <script type="text/javascript" src="{% static 'website/js/vendor/template-customizer.js' %}"></script> -->
+
+    <!--? Config: Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file. -->
+
+    <script type="text/javascript" src="{% static 'website/js/vendor/config.js' %}"></script>
+  </head>
+
+  <body>
+    <!-- Layout wrapper -->
+    <div class="layout-wrapper layout-content-navbar">
+      <div class="layout-container">
+        <!-- Menu -->
+
+        {% include 'sidebar.html' %}
+
+          <!-- / Navbar -->
+
+          <!-- Content wrapper -->
+          <div class="content-wrapper">
+            <!-- Content -->
+            <div class="container-xxl flex-grow-1 container-p-y">
+              <!-- Month Filter -->
+              <div class="mb-4">
+                <select class="form-select w-auto" id="monthFilter" style="padding-right: 2rem;">
+                  <option value="all">All Time</option>
+                  {% for month in available_months %}
+                    <option value="{{ month.value }}">{{ month.label }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              
+              <!-- Invoice List Widget -->
+
+              <div class="card mb-6">
+                <div class="card-widget-separator-wrapper">
+                  <div class="card-body card-widget-separator">
+                    <div class="row gy-4 gy-sm-1">
+                      <div class="col-sm-6 col-lg-3">
+                        <div
+                          class="d-flex justify-content-between align-items-start card-widget-1 border-end pb-4 pb-sm-0">
+                          <div>
+                            <h4 class="mb-0">{{ total_sessions|default:0 }}</h4>
+                            <p class="mb-0">Total Sessions</p>
+                          </div>
+                          <div class="avatar me-sm-6">
+                            <span class="avatar-initial rounded-3 bg-primary">
+                              <i class="icon-base ri ri-book-read-line text-white icon-26px"></i>
+                            </span>
+                          </div>
+                        </div>
+                        <hr class="d-none d-sm-block d-lg-none me-6" />
+                      </div>
+                      <div class="col-sm-6 col-lg-3">
+                        <div
+                          class="d-flex justify-content-between align-items-start card-widget-2 border-end pb-4 pb-sm-0">
+                          <div>
+                            <h4 class="mb-0">{{ completed_sessions|default:0 }}</h4>
+                            <p class="mb-0">Completed</p>
+                          </div>
+                          <div class="avatar me-lg-6">
+                            <span class="avatar-initial rounded-3 bg-success">
+                              <i class="icon-base ri ri-checkbox-circle-line text-white icon-26px"></i>
+                            </span>
+                          </div>
+                        </div>
+                        <hr class="d-none d-sm-block d-lg-none" />
+                      </div>
+                      <div class="col-sm-6 col-lg-3">
+                        <div
+                          class="d-flex justify-content-between align-items-start border-end pb-4 pb-sm-0 card-widget-3">
+                          <div>
+                            <h4 class="mb-0">{{ total_hours|default:0 }}h</h4>
+                            <p class="mb-0">Total Hours</p>
+                          </div>
+                          <div class="avatar me-sm-6">
+                            <span class="avatar-initial rounded-3 bg-info">
+                              <i class="icon-base ri ri-time-line text-white icon-26px"></i>
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-6 col-lg-3">
+                        <div class="d-flex justify-content-between align-items-start">
+                          <div>
+                            <h4 class="mb-0">{{ total_payment|default:"€0.00" }}</h4>
+                            <p class="mb-0">Total Payment</p>
+                          </div>
+                          <div class="avatar">
+                            <span class="avatar-initial rounded-3 bg-warning">
+                              <i class="icon-base ri ri-money-euro-circle-line text-white icon-26px"></i>
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Invoice List Table -->
+              <div class="card">
+                <div class="card-datatable table-responsive">
+                  <table class="invoice-list-table table">
+                      <thead>
+                        <tr>
+                          <th>Student Name</th>
+                          <th>Date</th>
+                          <th>Subject</th>
+                          <th>Tutor</th>
+                          <th>Hourly Rate</th>
+                          <th>Hours</th>
+                          <th>Status</th>
+                          <th>Homework</th>
+                          <th class="cell-fit">Materials</th>
+                        </tr>
+                      </thead>
+                    <tbody>
+                      {% for session in sessions %}
+                        <tr data-session-date="{{ session.session_time|date:'Y-m' }}">
+                          <td>
+                            <strong>{{ session.student_first_name }} {{ session.student_last_name }}</strong>
+                          </td>
+                          <td>
+                            <div>{{ session.session_time|date:"M d, Y" }}</div>
+                            <small class="text-muted">{{ session.session_time|time:"H:i" }}</small>
+                          </td>
+                          <td>
+                            <span class="badge bg-label-secondary">{{ session.get_subject_display }}</span>
+                          </td>
+                          <td>
+                            <strong>{{ session.tutor_first_name }} {{ session.tutor_last_name }}</strong>
+                          </td>
+                          <td>
+                            {% if session.hourly_rate %}
+                              <strong>{{ session.hourly_rate }}</strong>
+                            {% else %}
+                              <span class="text-muted">-</span>
+                            {% endif %}
+                          </td>
+                          <td>
+                            {% if session.hours_taught %}
+                              {{ session.hours_taught }}h
+                            {% else %}
+                              <span class="text-muted">-</span>
+                            {% endif %}
+                          </td>
+                          <td>
+                            {% if session.status == 'Completed' %}
+                              <span class="badge bg-label-success">{{ session.status }}</span>
+                            {% elif session.status == 'Upcoming' %}
+                              <span class="badge bg-label-warning">{{ session.status }}</span>
+                            {% elif session.status == 'Missed' %}
+                              <span class="badge bg-label-danger">{{ session.status }}</span>
+                            {% elif session.status == 'Cancelled' %}
+                              <span class="badge bg-label-secondary">{{ session.status }}</span>
+                            {% else %}
+                              <span class="badge bg-label-secondary">{{ session.status }}</span>
+                            {% endif %}
+                          </td>
+                          <td style="max-width: 200px;">
+                            {% if session.status == 'Upcoming' %}
+                              <span class="text-muted">-</span>
+                            {% elif session.homework_comments %}
+                              {{ session.homework_comments|truncatechars:80 }}
+                            {% else %}
+                              <span class="text-muted">No homework</span>
+                            {% endif %}
+                          </td>
+                          <td class="text-center">
+                            {% if session.status == 'Upcoming' %}
+                              <span class="text-muted">-</span>
+                            {% elif session.has_pdf %}
+                              <a href="{{ session.session_pdf.url }}" target="_blank" class="btn btn-sm btn-outline-primary" title="View Materials">
+                                <i class="icon-base ri ri-eye-line"></i>
+                              </a>
+                            {% else %}
+                              <span class="text-muted">None</span>
+                            {% endif %}
+                          </td>
+                        </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+            </div>
+
+
+
+
+
+                  
+            
+             <!-- Empty State for No Sessions -->
+             {% if not has_sessions %}
+               <div class="mt-8">
+                 <div class="row justify-content-center">
+                   <div class="col-12 col-md-6 col-lg-5">
+                     <div class="card h-100" style="background-color: #e8e1ff;">
+                       <div class="card-body d-flex flex-column justify-content-center text-start p-8">
+           
+                         <div class="d-flex align-items-center mb-3">
+                           <h2 class="mb-5 me-3" style="color: var(--tutoring-text-color, rgb(102, 1, 174)); font-size: 1.7rem; line-height: 1.2;">
+                             No tutoring sessions yet?
+                           </h2>
+                         </div>
+                         <p class="mb-2" style="font-size: 0.9rem; color: var(--tutoring-text-color, rgb(125, 62, 169));">
+                           You haven't had any tutoring sessions yet, but that can easily change!
+                         </p>
+
+                         <p class="mb-8" style="font-size: 0.9rem; color: var(--tutoring-text-color, rgb(125, 62, 169));">
+                           Our expert IB tutors boost grades on average by 25%, resulting in the average grade of 6.1 for our last year's students 📈
+                          </p>
+                         <div class="d-flex gap-2">
+                           <a href="{% url 'tutoring' %}" class="btn fw-semibold tutoring-btn-blue flex-fill" style="background-color: white; color: #7b48f9; border: none; transition: all 0.3s ease;">
+                             <i class="ri-information-line me-2"></i>
+                             Learn More
+                           </a>
+                           <a href="https://calendly.com/mati-kostrz/darmowa-konsultacja-clone" class="btn fw-semibold tutoring-btn-blue flex-fill" style="background-color: white; color: #7b48f9; border: none; transition: all 0.3s ease;">
+                             <i class="ri-calendar-line me-2"></i>
+                             Book Now
+                           </a>
+                         </div>
+                         
+                         <style>
+                           .tutoring-btn-blue:hover {
+                             background-color: #f8f9fa !important;
+                             transform: translateY(-1px);
+                             box-shadow: 0 4px 8px rgba(105, 108, 255, 0.3);
+                           }
+                           
+                           .tutoring-btn-blue:active {
+                             transform: translateY(0px);
+                             box-shadow: 0 2px 4px rgba(105, 108, 255, 0.2);
+                           }
+                         </style>
+                       </div>
+                     </div>
+                   </div>
+                 </div>
+               </div>
+             {% endif %}
+
+             <!-- Student Rulebook -->
+             {% if has_sessions %}
+             <div class="container-xxl flex-grow-1 container-p-y mt-10">
+               <div class="row my-2">
+                 <div class="col-12 text-center my-2">
+                  <hr class="my-4" style="border-top: 1px solid #9b9b9b;; margin: 0 auto;">
+                   <h4 class="my-2">Student Rulebook & Guidelines</h4>
+                   <p class="mb-0">
+                    A couple of important rules for your upcoming classes.
+                   </p>
+                 </div>
+               </div>
+ 
+               <div class="row mt-12">
+                 <!-- Navigation -->
+                 <div class="col-lg-3 col-md-4 col-12 mb-md-0 mb-4">
+                   <div class="d-flex justify-content-between flex-column nav-align-left mb-2 mb-md-0">
+                     <ul class="nav nav-pills flex-column flex-nowrap">
+                       <li class="nav-item">
+                         <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#payment">
+                           <i class="icon-base ri ri-bank-card-line icon-sm me-2"></i>
+                           <span class="align-middle">General</span>
+                         </button>
+                       </li>
+                       <li class="nav-item">
+                         <button class="nav-link" data-bs-toggle="tab" data-bs-target="#delivery">
+                           <i class="icon-base ri ri-discount-percent-line icon-sm me-2"></i>
+                           <span class="align-middle">Referrals & Discounts</span>
+                         </button>
+                       </li>
+
+                       <li class="nav-item">
+                         <button class="nav-link" data-bs-toggle="tab" data-bs-target="#product">
+                           <i class="icon-base ri ri-money-dollar-circle-line icon-sm me-2"></i>
+                           <span class="align-middle">Payments</span>
+                         </button>
+                       </li>
+ 
+               
+                     </ul>
+                     <div class="d-none d-md-block">
+                       <div class="mt-4 text-center">
+                         <img
+                           src="{% static 'website/images/faq/panel.png' %}"
+                           class="img-fluid"
+                           width="150"
+                           alt="FAQ Image" />
+                       </div>
+                     </div>
+                   </div>
+                 </div>
+                 <!-- /Navigation -->
+ 
+                 <!-- FAQ's -->
+                 <div class="col-lg-9 col-md-8 col-12">
+                   <div class="tab-content p-0">
+                     <div class="tab-pane fade show active" id="payment" role="tabpanel">
+                       <div class="d-flex mb-4 gap-4">
+                         <div class="avatar avatar-md">
+                           <div class="avatar-initial bg-label-primary rounded-4">
+                             <i class="icon-base ri ri-bank-card-line icon-30px"></i>
+                           </div>
+                         </div>
+                         <div>
+                           <h5 class="mb-0">
+                             <span class="align-middle">General</span>
+                           </h5>
+                           <span>Get help on issues related to general rules</span>
+                         </div>
+                       </div>
+ 
+                         <div id="accordionPayment" class="accordion">
+                           <div class="accordion-item active">
+                             <h2 class="accordion-header">
+                               <button
+                                 class="accordion-button"
+                                 type="button"
+                                 data-bs-toggle="collapse"
+                                 aria-expanded="true"
+                                 data-bs-target="#accordionDelivery-1"
+                                 aria-controls="accordionDelivery-1">
+                                 Late cancellation by the student
+                               </button>
+                             </h2>
+   
+                             <div id="accordionDelivery-1" class="accordion-collapse collapse show">
+                               <div class="accordion-body">
+                                 If a class is cancelled on the day it is scheduled, the student will be charged for the class, unless it is possible for the tutor to reschedule.
+                               </div>
+                             </div>
+                           </div>
+ 
+ 
+ 
+ 
+                         <div class="accordion-item">
+                           <h2 class="accordion-header">
+                             <button
+                               class="accordion-button collapsed"
+                               type="button"
+                               data-bs-toggle="collapse"
+                               data-bs-target="#accordionPayment-2"
+                               aria-controls="accordionPayment-2">
+                               Late cancellation by the tutor
+                             </button>
+                           </h2>
+                           <div id="accordionPayment-2" class="accordion-collapse collapse">
+                             <div class="accordion-body">
+                               If a class is cancelled last minute due to tutor's unavailability, then that class will cancel out with any missed class caused by the student. If not possible, a refund will be paid to the student. 
+                             </div>
+                           </div>
+                         </div>
+ 
+                         <div class="accordion-item">
+                           <h2 class="accordion-header">
+                             <button
+                               class="accordion-button collapsed"
+                               type="button"
+                               data-bs-toggle="collapse"
+                               data-bs-target="#accordionPayment-3"
+                               aria-controls="accordionPayment-3">
+                               Software requirements
+                             </button>
+                           </h2>
+                           <div id="accordionPayment-3" class="accordion-collapse collapse">
+                             <div class="accordion-body">
+                               The only piece of equipment a student needs is a laptop, stable internet connection and (preferably) a webcam, as we try to have as many face-to-face classes as possible.
+                             </div>
+                           </div>
+                         </div>
+ 
+ 
+                         <div class="accordion-item">
+                           <h2 class="accordion-header">
+                             <button
+                               class="accordion-button collapsed"
+                               type="button"
+                               data-bs-toggle="collapse"
+                               data-bs-target="#accordionPayment-4"
+                               aria-controls="accordionPayment-4">
+                               {{ site_name }}
+                             </button>
+                           </h2>
+                           <div id="accordionPayment-4" class="accordion-collapse collapse">
+                             <div class="accordion-body">
+                               All students receive full unlimited access to {{ site_name }} for free, for the time when classes take place.
+                             </div>
+                           </div>
+                         </div>
+ 
+                  
+                       </div>
+                     </div>
+                     <div class="tab-pane fade" id="delivery" role="tabpanel">
+                       <div class="d-flex mb-4 gap-4 align-items-center">
+                         <div class="avatar avatar-md">
+                           <span class="avatar-initial bg-label-primary rounded-4">
+                             <i class="icon-base ri ri-discount-percent-line icon-30px"></i>
+                           </span>
+                         </div>
+                         <div>
+                           <h5 class="mb-0">
+                             <span class="align-middle">Referrals & Discounts</span>
+                           </h5>
+                           <span>Learn about the bulk discounts and referral possibilities.</span>
+                         </div>
+                       </div>
+                       <div id="accordionDelivery" class="accordion">
+                         <div class="accordion-item active">
+                           <h2 class="accordion-header">
+                             <button
+                               class="accordion-button"
+                               type="button"
+                               data-bs-toggle="collapse"
+                               aria-expanded="true"
+                               data-bs-target="#accordionDelivery-1"
+                               aria-controls="accordionDelivery-1">
+                               Referrals
+                             </button>
+                           </h2>
+ 
+                           <div id="accordionDelivery-1" class="accordion-collapse collapse show">
+                             <div class="accordion-body">
+                               One free class is given for each successful referral, so for a student that completes a trial class and continues.
+                             </div>
+                           </div>
+                         </div>
+ 
+                         <div class="accordion-item">
+                           <h2 class="accordion-header">
+                             <button
+                               class="accordion-button collapsed"
+                               type="button"
+                               data-bs-toggle="collapse"
+                               data-bs-target="#accordionDelivery-2"
+                               aria-controls="accordionDelivery-2">
+                               Multiple hours discounts
+                             </button>
+                           </h2>
+                           <div id="accordionDelivery-2" class="accordion-collapse collapse">
+                             <div class="accordion-body">
+                               When more than 2 or more hours per week are purchased, a 10% discount is applied to the total price.
+                             </div>
+                           </div>
+                         </div>
+ 
+                         <div class="accordion-item">
+                           <h2 class="accordion-header">
+                             <button
+                               class="accordion-button collapsed"
+                               type="button"
+                               data-bs-toggle="collapse"
+                               data-bs-target="#accordionDelivery-3"
+                               aria-controls="accordionDelivery-3">
+                               Group discounts
+                             </button>
+                           </h2>
+                           <div id="accordionDelivery-3" class="accordion-collapse collapse">
+                             <div class="accordion-body">
+                               For 2-4 people groups, a 30-50% discount per person is applied. Thus, price per person is reduced on average by £15 per student per hour.
+                             </div>
+                           </div>
+                         </div>
+                         
+ 
+                         
+
+ 
+ 
+                       </div>
+                     </div>
+ 
+            
+                     <div class="tab-pane fade" id="product" role="tabpanel">
+                       <div class="d-flex mb-4 gap-4 align-items-center">
+                         <div class="avatar avatar-md">
+                           <span class="avatar-initial bg-label-primary rounded-4">
+                             <i class="icon-base ri ri-money-dollar-circle-line icon-30px"></i>
+                           </span>
+                         </div>
+                         <div>
+                           <h5 class="mb-0"><span class="align-middle">Payments</span></h5>
+                           <span>Everything related to payments for your classes.</span>
+                         </div>
+                       </div>
+                       <div id="accordionProduct" class="accordion">
+                         <div class="accordion-item active">
+                           <h2 class="accordion-header">
+                             <button
+                               class="accordion-button"
+                               type="button"
+                               data-bs-toggle="collapse"
+                               aria-expanded="true"
+                               data-bs-target="#accordionCancellation-1"
+                               aria-controls="accordionCancellation-1">
+                               Class tracking
+                             </button>
+                           </h2>
+ 
+                           <div id="accordionCancellation-1" class="accordion-collapse collapse show">
+                             <div class="accordion-body">
+                               All classes are tracked by the tutors and logged into the admin panel we are on right now. They are available for preview by students and parents at any time.
+                             </div>
+                           </div>
+                         </div>
+ 
+                         <div class="accordion-item">
+                           <h2 class="accordion-header">
+                             <button
+                               class="accordion-button collapsed"
+                               type="button"
+                               data-bs-toggle="collapse"
+                               data-bs-target="#accordionCancellation-2"
+                               aria-controls="accordionCancellation-2">
+                               Date of payments
+                             </button>
+                           </h2>
+                           <div id="accordionCancellation-2" class="accordion-collapse collapse">
+                             <div class="accordion-body">
+                               Payments are due at the start of each month. On the 5th of each month the system automatically sums up all classes which were logged into the panel. Then, they are double checked and payment links are sent out, so on most months by the 10th of each month all payments links are sent.
+                             </div>
+                           </div>
+                         </div>
+ 
+                         <div class="accordion-item">
+                           <h2 class="accordion-header">
+                             <button
+                               class="accordion-button collapsed"
+                               type="button"
+                               data-bs-toggle="collapse"
+                               aria-controls="accordionCancellation-3"
+                               data-bs-target="#accordionCancellation-3">
+                               Invoices and payment links
+                             </button>
+                           </h2>
+                           <div id="accordionCancellation-3" class="accordion-collapse collapse">
+                             <div class="accordion-body">
+                              Classes can be paid for via invoices or payment links. Invoices are sent in GBP but can be paid in any currency based on the exchange rate at the time of payment.
+                             </div>
+                           </div>
+                         </div>
+                       </div>
+                     </div>
+                   </div>
+                </div>
+                <!-- /FAQ's -->
+              </div>
+
+              <!-- Rules Acceptance -->
+              <div class="row mt-5">
+                <div class="col-12 d-flex justify-content-center">
+                  <div class="card" style="max-width: 600px; width: 100%;">
+                    <div class="card-body text-center">
+                      <div class="form-check mb-3 d-inline-block text-start" id="checkboxContainer">
+                        <input class="form-check-input" type="checkbox" id="rulesAcceptCheckbox">
+                        <label class="form-check-label" for="rulesAcceptCheckbox">
+                          I read and accept the Rules and Guidelines presented above
+                        </label>
+                      </div>
+                      <br>
+                      <button type="button" class="btn btn-primary" id="submitRulesBtn">
+                        Submit
+                        <span id="submitSpinner" class="spinner-border spinner-border-sm ms-2" role="status" aria-hidden="true" style="display: none;"></span>
+                      </button>
+                      <div id="acceptanceMessage" class="alert alert-success mt-3" style="display: none;">
+                        <strong>Rules and Guidelines are accepted.</strong> If you have any questions or would like to change your statement, please <a href="{% url 'contact' %}" class="alert-link">contact us here</a>.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+             {% endif %}
+              </div>
+         
+            <!-- / Content -->
+
+            <!-- Footer -->
+            {% include 'footer.html' %}
+            <!-- / Footer -->
+
+            <div class="content-backdrop fade"></div>
+          </div>
+        <!-- / Layout page -->
+      </div>
+
+      <!-- Overlay -->
+      <div class="layout-overlay layout-menu-toggle"></div>
+
+      <!-- Drag Target Area To SlideIn Menu On Small Screens -->
+      <div class="drag-target"></div>
+    </div>
+    <!-- / Layout wrapper -->
+
+    <!-- Core JS -->
+
+    <!-- build:js assets/vendor/js/theme.js  -->
+
+    <script src="{% static 'website/js/vendor/libs/jquery/jquery.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/popper/popper.js' %}"></script>
+    <script src="{% static 'website/js/bootstrap.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/node-waves/node-waves.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/@algolia/autocomplete-js.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/pickr/pickr.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/perfect-scrollbar/perfect-scrollbar.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/hammer/hammer.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/i18n/i18n.js' %}"></script>
+
+    <script src="{% static 'website/js/vendor/menu.js' %}"></script>
+
+    <!-- endbuild -->
+
+    <!-- Vendors JS -->
+    <script src="{% static 'website/js/vendor/libs/select2/select2.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/tagify/tagify.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/@form-validation/popular.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/@form-validation/bootstrap5.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/@form-validation/auto-focus.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/cleave-zen/cleave-zen.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/sweetalert2/sweetalert2.js' %}"></script>
+    
+    <!-- Main JS -->
+    <script type="text/javascript" src="{% static 'website/js/main.js' %}"></script>
+
+    <!-- Page JS -->
+    <script type="text/javascript" src="{% static 'website/js/pages-account-settings-account.js' %}"></script>
+
+        <!-- For the top header to work -->
+    <script type="text/javascript" src="{% static 'website/js/vendors.min.js' %}"></script>
+
+    <script>
+      // Parent Admin Panel JavaScript
+      document.addEventListener('DOMContentLoaded', function() {
+        console.log('Parent Admin Panel loaded');
+        
+        // Auto-dismiss alerts after 5 seconds (except acceptance message)
+        setTimeout(function() {
+          const alerts = document.querySelectorAll('.alert');
+          alerts.forEach(function(alert) {
+            // Don't dismiss the acceptance message
+            if (alert.id !== 'acceptanceMessage') {
+              const bsAlert = new bootstrap.Alert(alert);
+              bsAlert.close();
+            }
+          });
+        }, 5000);
+        
+        // Month filter functionality
+        const monthFilter = document.getElementById('monthFilter');
+        console.log('Month filter element:', monthFilter);
+        if (monthFilter) {
+          monthFilter.addEventListener('change', function() {
+            console.log('Month filter changed to:', this.value);
+            filterSessionsByMonth(this.value);
+          });
+          
+          // Auto-select the most recent month if available
+          const availableMonths = {{ available_months|safe }};
+          console.log('Available months:', availableMonths);
+          
+          // Use setTimeout to ensure DOM is fully ready
+          setTimeout(function() {
+            if (availableMonths && availableMonths.length > 0) {
+              // Get current month in YYYY-MM format
+              const now = new Date();
+              const currentMonth = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0');
+              console.log('Current month:', currentMonth);
+              
+              // Check if current month exists in available months
+              const currentMonthExists = availableMonths.some(month => month.value === currentMonth);
+              
+              if (currentMonthExists) {
+                monthFilter.value = currentMonth;
+                filterSessionsByMonth(currentMonth);
+              } else {
+                // If current month not available, use most recent month
+                monthFilter.value = availableMonths[0].value;
+                filterSessionsByMonth(availableMonths[0].value);
+              }
+            } else {
+              // If no months available, show all sessions
+              monthFilter.value = 'all';
+              filterSessionsByMonth('all');
+            }
+          }, 100);
+        }
+        
+        function filterSessionsByMonth(selectedMonth) {
+          const tableRows = document.querySelectorAll('tbody tr[data-session-date]');
+          let visibleCount = 0;
+          let completedCount = 0;
+          let totalHours = 0;
+          let totalPayment = 0;
+          
+          // Get currency symbol from backend
+          const currencySymbol = '{{ currency_symbol }}';
+          console.log('Currency symbol:', currencySymbol);
+          
+          console.log('Filtering by month:', selectedMonth);
+          console.log('Total rows found:', tableRows.length);
+          
+          tableRows.forEach(function(row) {
+            const sessionDate = row.getAttribute('data-session-date');
+            const shouldShow = selectedMonth === 'all' || sessionDate === selectedMonth;
+            
+            console.log('Row date:', sessionDate, 'Should show:', shouldShow);
+            
+            if (shouldShow) {
+              row.style.display = '';
+              visibleCount++;
+              
+              // Get all cell references once
+              const statusCell = row.cells[6]; // Status column (7th column, 0-indexed)
+              const hoursCell = row.cells[5]; // Hours column
+              const hourlyRateCell = row.cells[4]; // Hourly Rate column
+              
+              // Count completed sessions - look for the status badge in the status column
+              if (statusCell) {
+                const statusBadge = statusCell.querySelector('.badge');
+                if (statusBadge) {
+                  const statusText = statusBadge.textContent.trim();
+                  if (statusText === 'Completed') {
+                    completedCount++;
+                  }
+                }
+              }
+              
+              // Sum hours and calculate payment
+              
+              if (hoursCell) {
+                const hoursText = hoursCell.textContent.trim();
+                const hours = parseFloat(hoursText.replace('h', '')) || 0;
+                totalHours += hours;
+                
+                // Only calculate payment for completed and missed sessions
+                let shouldCalculatePayment = false;
+                if (statusCell) {
+                  const statusBadge = statusCell.querySelector('.badge');
+                  if (statusBadge) {
+                    const statusText = statusBadge.textContent.trim();
+                    if (statusText === 'Completed' || statusText === 'Missed') {
+                      shouldCalculatePayment = true;
+                    }
+                  }
+                }
+                
+                // Calculate payment for this session (only if completed or missed)
+                if (shouldCalculatePayment && hourlyRateCell) {
+                  const rateText = hourlyRateCell.textContent.trim();
+                  // Remove all currency symbols to get the numeric value
+                  const rate = parseFloat(rateText.replace(/[€£$zł]/g, '')) || 0;
+                  if (rate > 0 && hours > 0) {
+                    totalPayment += rate * hours;
+                  }
+                }
+              }
+            } else {
+              row.style.display = 'none';
+            }
+          });
+          
+          console.log('Filtered results:', { visibleCount, completedCount, totalHours, totalPayment });
+          
+          // Update statistics cards
+          updateStatistics(visibleCount, completedCount, totalHours, totalPayment);
+        }
+        
+        function updateStatistics(totalSessions, completedSessions, totalHours, totalPayment) {
+          console.log('Updating statistics:', { totalSessions, completedSessions, totalHours, totalPayment });
+          
+          // Update Total Sessions
+          const totalSessionsElement = document.querySelector('.row .col-sm-6.col-lg-3:first-child h4');
+          console.log('Total sessions element:', totalSessionsElement);
+          if (totalSessionsElement) {
+            totalSessionsElement.textContent = totalSessions;
+          }
+          
+          // Update Completed Sessions
+          const completedSessionsElement = document.querySelector('.row .col-sm-6.col-lg-3:nth-child(2) h4');
+          console.log('Completed sessions element:', completedSessionsElement);
+          if (completedSessionsElement) {
+            completedSessionsElement.textContent = completedSessions;
+          }
+          
+          // Update Total Hours
+          const totalHoursElement = document.querySelector('.row .col-sm-6.col-lg-3:nth-child(3) h4');
+          console.log('Total hours element:', totalHoursElement);
+          if (totalHoursElement) {
+            totalHoursElement.textContent = totalHours + 'h';
+          }
+          
+          // Update Total Payment
+          const totalPaymentElement = document.querySelector('.row .col-sm-6.col-lg-3:last-child h4');
+          console.log('Total payment element:', totalPaymentElement);
+          if (totalPaymentElement) {
+            const currencySymbol = '{{ currency_symbol }}';
+            totalPaymentElement.textContent = totalPayment.toFixed(2) + ' (' + currencySymbol + ')';
+          }
+        }
+        
+        // Rules and Guidelines Checkbox Logic
+        const rulesCheckbox = document.getElementById('rulesAcceptCheckbox');
+        const submitRulesBtn = document.getElementById('submitRulesBtn');
+        const submitSpinner = document.getElementById('submitSpinner');
+        const acceptanceMessage = document.getElementById('acceptanceMessage');
+        const checkboxContainer = document.getElementById('checkboxContainer');
+        const rulesAccepted = {{ rules_accepted|lower }};
+        
+        // If already accepted, show locked state
+        if (rulesAccepted) {
+          console.log('Rules already accepted, showing locked state');
+          if (rulesCheckbox) {
+            rulesCheckbox.checked = true;
+            rulesCheckbox.disabled = true;
+          }
+          if (submitRulesBtn) submitRulesBtn.style.display = 'none';
+          if (acceptanceMessage) {
+            acceptanceMessage.style.display = 'block';
+            console.log('Acceptance message shown for already accepted rules');
+          }
+        }
+        
+        if (submitRulesBtn && rulesCheckbox && !rulesAccepted) {
+          submitRulesBtn.onclick = function() {
+            if (!rulesCheckbox.checked) {
+              // Highlight only the checkbox
+              rulesCheckbox.style.outline = '3px solid #ffc107';
+              rulesCheckbox.style.outlineOffset = '2px';
+              rulesCheckbox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+              
+              // Shake animation
+              rulesCheckbox.style.animation = 'shake 0.5s';
+              setTimeout(function() {
+                rulesCheckbox.style.animation = '';
+              }, 500);
+            } else {
+              // Show loading spinner
+              if (submitSpinner) submitSpinner.style.display = 'inline-block';
+              submitRulesBtn.disabled = true;
+              
+              // Save to backend via AJAX
+              fetch('{% url "accept-tutoring-rules" %}', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'X-CSRFToken': '{{ csrf_token }}'
+                }
+              })
+              .then(response => response.json())
+              .then(data => {
+                // Hide spinner
+                if (submitSpinner) submitSpinner.style.display = 'none';
+                submitRulesBtn.disabled = false;
+                
+                if (data.success) {
+                  console.log('Success! Showing message...');
+                  // Lock checkbox and hide submit button
+                  rulesCheckbox.disabled = true;
+                  if (submitRulesBtn) submitRulesBtn.style.display = 'none';
+                  
+                  // Show and scroll to acceptance message
+                  if (acceptanceMessage) {
+                    acceptanceMessage.style.display = 'block';
+                    console.log('Message display set to block');
+                    // Scroll to message
+                    setTimeout(function() {
+                      acceptanceMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }, 100);
+                  }
+                  
+                  // Remove highlight if present
+                  rulesCheckbox.style.outline = 'none';
+                } else {
+                  alert('Error saving rules acceptance: ' + (data.error || 'Unknown error'));
+                }
+              })
+              .catch(error => {
+                console.error('Error:', error);
+                // Hide spinner
+                if (submitSpinner) submitSpinner.style.display = 'none';
+                submitRulesBtn.disabled = false;
+                alert('Error saving rules acceptance. Please try again.');
+              });
+            }
+          };
+          
+          // Remove highlight when ticked
+          rulesCheckbox.onchange = function() {
+            if (this.checked) {
+              rulesCheckbox.style.outline = 'none';
+            }
+          };
+        }
+      });
+    </script>
+    
+    <style>
+      @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+        20%, 40%, 60%, 80% { transform: translateX(5px); }
+      }
+    </style>
+  </body>
+</html>

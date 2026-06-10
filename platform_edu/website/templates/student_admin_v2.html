@@ -1,0 +1,597 @@
+{% load static %}
+
+<!doctype html>
+<html
+  lang="en"
+  class="layout-navbar-fixed layout-menu-fixed layout-compact"
+  dir="ltr"
+  data-skin="default"
+  data-bs-theme="light"
+  data-assets-path="../../assets/"
+  data-template="vertical-menu-template">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>{{ site_name }} | My Sessions</title>
+    <meta name="description" content="" />
+    <link rel="icon" href="{% static 'website/images/platform_logo.svg' %}">
+    <link rel="alternate icon" href="{% static 'website/images/safari_logo2_prev_ui.png' %}" type="image/png">
+    <meta property="og:image" content="https://academy.edunade.com/static/website/images/Edunade_Vertical_Black_RGB.png">
+
+    {% include 'top_base.html' %}
+    <link rel="stylesheet" href="{% static 'website/css/vendor/libs/apex-charts/apex-charts.css' %}" />
+    <link rel="stylesheet" href="{% static 'website/css/vendor/css/pages/cards-statistics.css' %}" />
+    <script type="text/javascript" src="{% static 'website/js/vendor/helpers.js' %}"></script>
+    <script type="text/javascript" src="{% static 'website/js/vendor/config.js' %}"></script>
+
+    <style>
+      .layout-menu { background-color: #ffffff !important; }
+
+      /* Modal */
+      .detail-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: #9e9e9e; margin-bottom: 2px; font-weight: 600; }
+      .detail-value { font-size: 0.92rem; color: #2f2b3d; }
+      .detail-block { margin-bottom: 1.1rem; }
+      .detail-divider { border-top: 1px solid #f0f0f0; margin: 1rem 0; }
+      .modal-session-header { background: linear-gradient(135deg, #696cff 0%, #8b88f8 100%); border-radius: 0.5rem 0.5rem 0 0; padding: 1.25rem 1.5rem; }
+      .badge-status-completed  { background: #e8f5e9; color: #388e3c; }
+      .badge-status-upcoming   { background: #fff8e1; color: #f57f17; }
+      .badge-status-missed     { background: #fce4ec; color: #c62828; }
+      .badge-status-cancelled  { background: #f5f5f5; color: #757575; }
+
+      /* Materials btn */
+      .btn-materials { border-radius: 20px; font-size: 0.8rem; padding: 0.25rem 0.75rem; }
+    </style>
+  </head>
+
+  <body>
+    <div class="layout-wrapper layout-content-navbar">
+      <div class="layout-container">
+        {% include 'sidebar.html' %}
+
+        <div class="content-wrapper">
+          <div class="container-xxl flex-grow-1 container-p-y">
+
+            <!-- Month Filter -->
+            <div class="mb-4">
+              <select class="form-select w-auto" id="monthFilter" style="padding-right: 2rem;">
+                <option value="all">All Time</option>
+                {% for month in available_months %}
+                  <option value="{{ month.value }}">{{ month.label }}</option>
+                {% endfor %}
+              </select>
+            </div>
+
+            <!-- Stats row (unchanged from original) -->
+            <div class="card mb-6">
+              <div class="card-widget-separator-wrapper">
+                <div class="card-body card-widget-separator">
+                  <div class="row gy-4 gy-sm-1">
+                    <div class="col-sm-6 col-lg-3">
+                      <div class="d-flex justify-content-between align-items-start card-widget-1 border-end pb-4 pb-sm-0">
+                        <div>
+                          <h4 class="mb-0">{{ total_sessions|default:0 }}</h4>
+                          <p class="mb-0">Total Sessions</p>
+                        </div>
+                        <div class="avatar me-sm-6">
+                          <span class="avatar-initial rounded-3 bg-primary">
+                            <i class="icon-base ri ri-book-read-line text-white icon-26px"></i>
+                          </span>
+                        </div>
+                      </div>
+                      <hr class="d-none d-sm-block d-lg-none me-6" />
+                    </div>
+                    <div class="col-sm-6 col-lg-3">
+                      <div class="d-flex justify-content-between align-items-start card-widget-2 border-end pb-4 pb-sm-0">
+                        <div>
+                          <h4 class="mb-0">{{ completed_sessions|default:0 }}</h4>
+                          <p class="mb-0">Completed</p>
+                        </div>
+                        <div class="avatar me-lg-6">
+                          <span class="avatar-initial rounded-3 bg-success">
+                            <i class="icon-base ri ri-checkbox-circle-line text-white icon-26px"></i>
+                          </span>
+                        </div>
+                      </div>
+                      <hr class="d-none d-sm-block d-lg-none" />
+                    </div>
+                    <div class="col-sm-6 col-lg-3">
+                      <div class="d-flex justify-content-between align-items-start border-end pb-4 pb-sm-0 card-widget-3">
+                        <div>
+                          <h4 class="mb-0">{{ total_hours|default:0 }}h</h4>
+                          <p class="mb-0">Total Hours</p>
+                        </div>
+                        <div class="avatar me-sm-6">
+                          <span class="avatar-initial rounded-3 bg-info">
+                            <i class="icon-base ri ri-time-line text-white icon-26px"></i>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-6 col-lg-3">
+                      <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                          <h4 class="mb-0">{{ upcoming_sessions|default:0 }}</h4>
+                          <p class="mb-0">Upcoming</p>
+                        </div>
+                        <div class="avatar">
+                          <span class="avatar-initial rounded-3 bg-warning">
+                            <i class="icon-base ri ri-calendar-schedule-line text-white icon-26px"></i>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Sessions Table -->
+            <div class="card">
+              <div class="card-datatable table-responsive">
+                <table class="invoice-list-table table">
+                  <thead>
+                    <tr>
+                      <th>Student</th>
+                      <th>Date</th>
+                      <th>Subject</th>
+                      <th>Tutor</th>
+                      <th>Hours</th>
+                      <th>Status</th>
+                      <th>Materials</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for session in sessions %}
+                    <tr data-session-date="{{ session.session_time|date:'Y-m' }}">
+
+                      <!-- Student -->
+                      <td>
+                        <span class="fw-semibold">{{ session.student_first_name }} {{ session.student_last_name }}</span>
+                      </td>
+
+                      <!-- Date (no time) -->
+                      <td>{{ session.session_time|date:"M d, Y" }}</td>
+
+                      <!-- Subject -->
+                      <td>
+                        <span class="badge bg-label-secondary">{{ session.get_subject_display }}</span>
+                      </td>
+
+                      <!-- Tutor -->
+                      <td>{{ session.tutor_first_name }} {{ session.tutor_last_name }}</td>
+
+                      <!-- Hours -->
+                      <td>
+                        {% if session.hours_taught %}{{ session.hours_taught }}h{% else %}<span class="text-muted">—</span>{% endif %}
+                      </td>
+
+                      <!-- Status -->
+                      <td>
+                        {% if session.status == 'Completed' %}
+                          <span class="badge badge-status-completed">Completed</span>
+                        {% elif session.status == 'Upcoming' %}
+                          <span class="badge badge-status-upcoming">Upcoming</span>
+                        {% elif session.status == 'Missed' %}
+                          <span class="badge badge-status-missed">Missed</span>
+                        {% else %}
+                          <span class="badge badge-status-cancelled">{{ session.status }}</span>
+                        {% endif %}
+                      </td>
+
+                      <!-- Materials -->
+                      <td>
+                        {% if session.has_pdf %}
+                          <a href="{{ session.session_pdf.url }}" target="_blank" class="btn btn-sm btn-outline-primary btn-materials">
+                            <i class="ri-file-pdf-line me-1"></i>View
+                          </a>
+                        {% else %}
+                          <span class="text-muted small">None</span>
+                        {% endif %}
+                      </td>
+
+                      <!-- Learn More -->
+                      <td>
+                        <button class="btn btn-sm btn-primary btn-materials"
+                          onclick="openSessionModal({{ session.id }})">
+                          Learn more
+                        </button>
+                      </td>
+
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Empty state -->
+            {% if not has_sessions %}
+            <div class="mt-8">
+              <div class="row justify-content-center">
+                <div class="col-12 col-md-6 col-lg-5">
+                  <div class="card h-100" style="background-color: #e8e1ff;">
+                    <div class="card-body d-flex flex-column justify-content-center text-start p-8">
+                      <h2 class="mb-5" style="color: rgb(102,1,174); font-size: 1.7rem; line-height: 1.2;">No tutoring sessions yet?</h2>
+                      <p class="mb-2" style="font-size: 0.9rem; color: rgb(125,62,169);">You haven't had any tutoring sessions yet, but that can easily change!</p>
+                      <p class="mb-8" style="font-size: 0.9rem; color: rgb(125,62,169);">Our expert IB tutors boost grades on average by 25%, resulting in the average grade of 6.1 for our last year's students 📈</p>
+                      <div class="d-flex gap-2">
+                        <a href="{% url 'tutoring' %}" class="btn fw-semibold flex-fill" style="background-color:white;color:#7b48f9;border:none;">
+                          <i class="ri-information-line me-2"></i>Learn More
+                        </a>
+                        <a href="https://calendly.com/mati-kostrz/darmowa-konsultacja-clone" class="btn fw-semibold flex-fill" style="background-color:white;color:#7b48f9;border:none;">
+                          <i class="ri-calendar-line me-2"></i>Book Now
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endif %}
+
+            <!-- Rulebook + acceptance (only when sessions exist) -->
+            {% if has_sessions %}
+            <div class="container-xxl flex-grow-1 container-p-y mt-10">
+              <div class="row my-2">
+                <div class="col-12 text-center my-2">
+                  <hr class="my-4" style="border-top:1px solid #9b9b9b;">
+                  <h4 class="my-2">Student Rulebook & Guidelines</h4>
+                  <p class="mb-0">A couple of important rules for your upcoming classes.</p>
+                </div>
+              </div>
+              <div class="row mt-12">
+                <div class="col-lg-3 col-md-4 col-12 mb-md-0 mb-4">
+                  <div class="d-flex justify-content-between flex-column nav-align-left mb-2 mb-md-0">
+                    <ul class="nav nav-pills flex-column flex-nowrap">
+                      <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#payment"><i class="icon-base ri ri-bank-card-line icon-sm me-2"></i>General</button></li>
+                      <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#delivery"><i class="icon-base ri ri-discount-percent-line icon-sm me-2"></i>Referrals & Discounts</button></li>
+                      <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#product"><i class="icon-base ri ri-money-dollar-circle-line icon-sm me-2"></i>Payments</button></li>
+                    </ul>
+                    <div class="d-none d-md-block mt-4 text-center">
+                      <img src="{% static 'website/images/faq/panel.png' %}" class="img-fluid" width="150" alt="FAQ" />
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-9 col-md-8 col-12">
+                  <div class="tab-content p-0">
+
+                    <div class="tab-pane fade show active" id="payment" role="tabpanel">
+                      <div class="d-flex mb-4 gap-4"><div class="avatar avatar-md"><div class="avatar-initial bg-label-primary rounded-4"><i class="icon-base ri ri-bank-card-line icon-30px"></i></div></div><div><h5 class="mb-0">General</h5><span>Get help on issues related to general rules</span></div></div>
+                      <div class="accordion" id="accordionPayment">
+                        <div class="accordion-item active"><h2 class="accordion-header"><button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#acc-g1" aria-expanded="true">Late cancellation by the student</button></h2><div id="acc-g1" class="accordion-collapse collapse show"><div class="accordion-body">If a class is cancelled on the day it is scheduled, the student will be charged for the class, unless it is possible for the tutor to reschedule.</div></div></div>
+                        <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#acc-g2">Late cancellation by the tutor</button></h2><div id="acc-g2" class="accordion-collapse collapse"><div class="accordion-body">If a class is cancelled last minute due to tutor's unavailability, then that class will cancel out with any missed class caused by the student. If not possible, a refund will be paid to the student.</div></div></div>
+                        <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#acc-g3">Software requirements</button></h2><div id="acc-g3" class="accordion-collapse collapse"><div class="accordion-body">The only piece of equipment a student needs is a laptop, stable internet connection and (preferably) a webcam.</div></div></div>
+                        <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#acc-g4">{{ site_name }}</button></h2><div id="acc-g4" class="accordion-collapse collapse"><div class="accordion-body">All students receive full unlimited access to {{ site_name }} for free, for the time when classes take place.</div></div></div>
+                      </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="delivery" role="tabpanel">
+                      <div class="d-flex mb-4 gap-4 align-items-center"><div class="avatar avatar-md"><span class="avatar-initial bg-label-primary rounded-4"><i class="icon-base ri ri-discount-percent-line icon-30px"></i></span></div><div><h5 class="mb-0">Referrals & Discounts</h5><span>Learn about bulk discounts and referral possibilities.</span></div></div>
+                      <div class="accordion">
+                        <div class="accordion-item active"><h2 class="accordion-header"><button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#acc-r1" aria-expanded="true">Referrals</button></h2><div id="acc-r1" class="accordion-collapse collapse show"><div class="accordion-body">One free class is given for each successful referral, so for a student that completes a trial class and continues.</div></div></div>
+                        <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#acc-r2">Multiple hours discounts</button></h2><div id="acc-r2" class="accordion-collapse collapse"><div class="accordion-body">When 2 or more hours per week are purchased, a 10% discount is applied to the total price.</div></div></div>
+                        <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#acc-r3">Group discounts</button></h2><div id="acc-r3" class="accordion-collapse collapse"><div class="accordion-body">For 2–4 people groups, a 30–50% discount per person is applied.</div></div></div>
+                      </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="product" role="tabpanel">
+                      <div class="d-flex mb-4 gap-4 align-items-center"><div class="avatar avatar-md"><span class="avatar-initial bg-label-primary rounded-4"><i class="icon-base ri ri-money-dollar-circle-line icon-30px"></i></span></div><div><h5 class="mb-0">Payments</h5><span>Everything related to payments for your classes.</span></div></div>
+                      <div class="accordion">
+                        <div class="accordion-item active"><h2 class="accordion-header"><button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#acc-p1" aria-expanded="true">Class tracking</button></h2><div id="acc-p1" class="accordion-collapse collapse show"><div class="accordion-body">All classes are tracked by the tutors and logged into the admin panel. They are available for preview by students and parents at any time.</div></div></div>
+                        <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#acc-p2">Date of payments</button></h2><div id="acc-p2" class="accordion-collapse collapse"><div class="accordion-body">Payments are due at the start of each month. On the 5th of each month the system automatically sums up all classes. Payment links are sent by the 10th of each month.</div></div></div>
+                        <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#acc-p3">Invoices and payment links</button></h2><div id="acc-p3" class="accordion-collapse collapse"><div class="accordion-body">Classes can be paid via invoices or payment links. Invoices are sent in GBP but can be paid in any currency based on the exchange rate at the time of payment.</div></div></div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+
+              <!-- Rules acceptance -->
+              <div class="row mt-5">
+                <div class="col-12 d-flex justify-content-center">
+                  <div class="card" style="max-width:600px;width:100%;">
+                    <div class="card-body text-center">
+                      <div class="form-check mb-3 d-inline-block text-start" id="checkboxContainer">
+                        <input class="form-check-input" type="checkbox" id="rulesAcceptCheckbox">
+                        <label class="form-check-label" for="rulesAcceptCheckbox">I read and accept the Rules and Guidelines presented above</label>
+                      </div>
+                      <br>
+                      <button type="button" class="btn btn-primary" id="submitRulesBtn">
+                        Submit
+                        <span id="submitSpinner" class="spinner-border spinner-border-sm ms-2" role="status" aria-hidden="true" style="display:none;"></span>
+                      </button>
+                      <div id="acceptanceMessage" class="alert alert-success mt-3" style="display:none;">
+                        <strong>Rules and Guidelines are accepted.</strong> If you have any questions, please <a href="{% url 'contact' %}" class="alert-link">contact us here</a>.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endif %}
+
+          </div>
+
+          {% include 'footer.html' %}
+          <div class="content-backdrop fade"></div>
+        </div>
+      </div>
+      <div class="layout-overlay layout-menu-toggle"></div>
+      <div class="drag-target"></div>
+    </div>
+
+    <!-- Session Detail Modal -->
+    <div class="modal fade" id="sessionDetailModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content border-0 shadow">
+          <div class="modal-session-header d-flex justify-content-between align-items-start">
+            <div>
+              <h5 class="text-white mb-1 fw-bold" id="modalSessionTitle">Session Details</h5>
+              <small class="text-white opacity-75" id="modalSessionSubtitle"></small>
+            </div>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body px-4 py-4">
+            <div class="row g-4" id="modalSessionBody">
+              <!-- filled by JS -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Session data for JS -->
+    <script>
+      const SESSION_DATA = {
+        {% for s in sessions %}
+        "{{ s.id }}": {
+          student:    "{{ s.student_first_name }} {{ s.student_last_name }}",
+          date:       "{{ s.session_time|date:'M d, Y' }}",
+          time:       "{{ s.session_time|time:'H:i' }}",
+          subject:    "{{ s.get_subject_display }}",
+          tutor:      "{{ s.tutor_first_name }} {{ s.tutor_last_name }}",
+          curriculum: "{% if s.student.curriculum %}{{ s.student.curriculum }}{% else %}—{% endif %}",
+          topic:      "{{ s.topic|default:"—"|escapejs }}",
+          notes:      "{{ s.notes|default:"—"|escapejs }}",
+          hours:      "{% if s.hours_taught %}{{ s.hours_taught }}h{% else %}—{% endif %}",
+          status:     "{{ s.status }}",
+          homework:   "{{ s.homework_comments|default:"No homework assigned"|escapejs }}",
+          materials:    {% if s.has_pdf %}"{{ s.session_pdf.url }}"{% else %}null{% endif %},
+          has_transcript: {% if s.session_transcript %}true{% else %}false{% endif %},
+          analysis_url: "{% url 'transcript-analysis' session_id=s.id %}"
+        }{% if not forloop.last %},{% endif %}
+        {% endfor %}
+      };
+    </script>
+
+    <!-- Core JS -->
+    <script src="{% static 'website/js/vendor/libs/jquery/jquery.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/popper/popper.js' %}"></script>
+    <script src="{% static 'website/js/bootstrap.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/node-waves/node-waves.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/perfect-scrollbar/perfect-scrollbar.js' %}"></script>
+    <script src="{% static 'website/js/vendor/menu.js' %}"></script>
+    <script src="{% static 'website/js/main.js' %}"></script>
+    <script src="{% static 'website/js/vendors.min.js' %}"></script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+
+      // ── Month filter ──────────────────────────────────────────────────────
+      const monthFilter = document.getElementById('monthFilter');
+      const tableRows   = document.querySelectorAll('tbody tr[data-session-date]');
+
+      function filterByMonth(val) {
+        let total = 0, completed = 0, hours = 0, upcoming = 0;
+        tableRows.forEach(row => {
+          const show = val === 'all' || row.dataset.sessionDate === val;
+          row.style.display = show ? '' : 'none';
+          if (!show) return;
+          total++;
+          const cells = row.cells;
+          // hours col index 4
+          const h = parseFloat(cells[4].textContent) || 0;
+          hours += h;
+          // status col index 5
+          const st = cells[5].textContent.trim();
+          if (st === 'Completed') completed++;
+          if (st === 'Upcoming')  upcoming++;
+        });
+        document.querySelector('.card-widget-1 h4').textContent = total;
+        document.querySelector('.card-widget-2 h4').textContent = completed;
+        document.querySelector('.card-widget-3 h4').textContent = hours + 'h';
+        const upcomingEl = document.querySelector('.row .col-sm-6.col-lg-3:last-child h4');
+        if (upcomingEl) upcomingEl.textContent = upcoming;
+      }
+
+      if (monthFilter) {
+        const firstOption = monthFilter.querySelector('option[value!="all"]');
+        if (firstOption) monthFilter.value = firstOption.value;
+        monthFilter.addEventListener('change', () => filterByMonth(monthFilter.value));
+        filterByMonth(monthFilter.value);
+      }
+
+      // ── Rules acceptance ──────────────────────────────────────────────────
+      const rulesAccepted = {{ rules_accepted|lower }};
+      const cb  = document.getElementById('rulesAcceptCheckbox');
+      const btn = document.getElementById('submitRulesBtn');
+      const msg = document.getElementById('acceptanceMessage');
+      const spin = document.getElementById('submitSpinner');
+
+      if (rulesAccepted && cb) {
+        cb.checked = true; cb.disabled = true;
+        if (btn) btn.style.display = 'none';
+        if (msg) msg.style.display = 'block';
+      }
+
+      if (btn && cb && !rulesAccepted) {
+        btn.onclick = function () {
+          if (!cb.checked) {
+            cb.style.outline = '3px solid #ffc107';
+            cb.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          } else {
+            spin.style.display = 'inline-block';
+            btn.disabled = true;
+            fetch('{% url "accept-tutoring-rules" %}', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', 'X-CSRFToken': '{{ csrf_token }}' }
+            })
+            .then(r => r.json())
+            .then(d => {
+              spin.style.display = 'none'; btn.disabled = false;
+              if (d.success) {
+                cb.disabled = true; btn.style.display = 'none';
+                msg.style.display = 'block';
+                msg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+              } else { alert('Error: ' + (d.error || 'Unknown')); }
+            })
+            .catch(() => { spin.style.display = 'none'; btn.disabled = false; alert('Error saving. Please try again.'); });
+          }
+        };
+        cb.onchange = () => { if (cb.checked) cb.style.outline = 'none'; };
+      }
+    });
+
+    // ── Session detail modal ────────────────────────────────────────────────
+    function openSessionModal(id) {
+      const s = SESSION_DATA[String(id)];
+      if (!s) return;
+
+      document.getElementById('modalSessionTitle').textContent   = s.student + ' — ' + s.subject;
+      document.getElementById('modalSessionSubtitle').textContent = s.date + (s.time ? ' · ' + s.time : '');
+
+      const statusClass = {
+        'Completed': 'badge-status-completed',
+        'Upcoming':  'badge-status-upcoming',
+        'Missed':    'badge-status-missed',
+        'Cancelled': 'badge-status-cancelled'
+      }[s.status] || 'badge-status-cancelled';
+
+      const materialsHtml = s.materials
+        ? `<a href="${s.materials}" target="_blank" class="btn btn-sm btn-outline-primary btn-materials"><i class="ri-file-pdf-line me-1"></i>View PDF</a>`
+        : `<span class="text-muted">None uploaded</span>`;
+
+      document.getElementById('modalSessionBody').innerHTML = `
+        <div class="col-md-6">
+          <div class="detail-block">
+            <div class="detail-label">Student</div>
+            <div class="detail-value fw-semibold">${s.student}</div>
+          </div>
+          <div class="detail-block">
+            <div class="detail-label">Subject</div>
+            <div class="detail-value">${s.subject}</div>
+          </div>
+          <div class="detail-block">
+            <div class="detail-label">Curriculum</div>
+            <div class="detail-value">${s.curriculum}</div>
+          </div>
+          <div class="detail-block">
+            <div class="detail-label">Tutor</div>
+            <div class="detail-value">${s.tutor}</div>
+          </div>
+          <div class="detail-block">
+            <div class="detail-label">Date & Time</div>
+            <div class="detail-value">${s.date}${s.time ? ' · ' + s.time : ''}</div>
+          </div>
+          <div class="detail-block">
+            <div class="detail-label">Hours</div>
+            <div class="detail-value">${s.hours}</div>
+          </div>
+          <div class="detail-block">
+            <div class="detail-label">Status</div>
+            <div class="detail-value"><span class="badge ${statusClass}">${s.status}</span></div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="detail-block">
+            <div class="detail-label">Topic</div>
+            <div class="detail-value fw-semibold">${s.topic}</div>
+          </div>
+          <div class="detail-divider"></div>
+          <div class="detail-block">
+            <div class="detail-label">Session Notes</div>
+            <div class="detail-value" style="white-space:pre-wrap;">${s.notes}</div>
+          </div>
+          <div class="detail-divider"></div>
+          <div class="detail-block">
+            <div class="detail-label">Homework</div>
+            <div class="detail-value" style="white-space:pre-wrap;">${s.homework}</div>
+          </div>
+          <div class="detail-divider"></div>
+          <div class="detail-block">
+            <div class="detail-label">Materials</div>
+            <div class="detail-value">${materialsHtml}</div>
+          </div>
+          ${s.has_transcript ? `
+          <div class="detail-divider"></div>
+          <div class="detail-block">
+            <div class="detail-label">Transcript Analysis</div>
+            <div class="detail-value">
+              <a href="${s.analysis_url}?autoanalyze=1" class="btn btn-sm btn-primary btn-analyse-transcript">
+                <i class="ri-sparkling-line me-1"></i>Analyse Transcript
+              </a>
+            </div>
+          </div>` : ''}
+        </div>
+      `;
+
+      new bootstrap.Modal(document.getElementById('sessionDetailModal')).show();
+    }
+    </script>
+
+    <style>
+      @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+        20%, 40%, 60%, 80% { transform: translateX(5px); }
+      }
+      /* Analysis loading overlay */
+      #analysisNavOverlay { animation: analysisOvFadeIn .25s ease-in-out; }
+      @keyframes analysisOvFadeIn { from{opacity:0} to{opacity:1} }
+      #analysisNavOverlay .sa-logo-wrap {
+        position:relative; width:200px; height:200px;
+      }
+      #analysisNavOverlay .sa-ring {
+        position:absolute; top:0; left:0; width:100%; height:100%;
+        animation: sa-rotate 1.5s linear infinite;
+      }
+      @keyframes sa-rotate { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+      #analysisNavOverlay .sa-ring svg { width:100%; height:100%; }
+      #analysisNavOverlay .sa-logo-inner {
+        position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+        width:140px; height:140px; display:flex; align-items:center; justify-content:center;
+      }
+      #analysisNavOverlay .sa-logo-inner img { width:120px; height:auto; }
+    </style>
+
+    <!-- Analysis loading overlay (shown when navigating to transcript analysis) -->
+    <div id="analysisNavOverlay" class="position-fixed top-0 start-0 w-100 h-100 d-none" style="background:#fff;z-index:9999;">
+      <div class="d-flex flex-column align-items-center justify-content-center h-100 gap-4">
+        <div class="sa-logo-wrap">
+          <div class="sa-ring">
+            <svg viewBox="0 0 200 200"><circle stroke="var(--bs-primary)" stroke-width="4" fill="transparent" stroke-dasharray="157.08" stroke-dashoffset="0" stroke-linecap="round" r="95" cx="100" cy="100"/></svg>
+          </div>
+          <div class="sa-logo-inner">
+            <img src="{% static 'website/images/platform_logo.svg' %}" alt="Edunade">
+          </div>
+        </div>
+        <div class="text-center">
+          <p class="fw-semibold text-muted mb-1">Analysing your transcript…</p>
+          <p class="text-muted small">This may take a few seconds</p>
+        </div>
+      </div>
+    </div>
+
+    <script>
+    // Analyse Transcript button — just open in new tab, no overlay on this page
+    document.addEventListener('click', function(e) {
+      const btn = e.target.closest('.btn-analyse-transcript');
+      if (!btn) return;
+      e.preventDefault();
+      window.open(btn.getAttribute('href'), '_blank');
+    });
+    </script>
+  </body>
+</html>

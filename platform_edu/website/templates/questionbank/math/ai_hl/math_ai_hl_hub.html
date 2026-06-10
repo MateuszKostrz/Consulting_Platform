@@ -1,0 +1,138 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Math AI HL Hub | {{ site_name }}</title>
+   <link rel="icon" href="{% static 'website/images/platform_logo.svg' %}">
+   <link rel="alternate icon" href="{% static 'website/images/safari_logo2_prev_ui.png' %}" type="image/png">
+   <meta property="og:image" content="https://academy.edunade.com/static/website/images/Edunade_Vertical_Black_RGB.png">
+
+   <!-- font awesome cdn link  -->
+   <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"> -->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+   <link href="https://fonts.googleapis.com/css?family=Nunito:400,700" rel="stylesheet">
+
+
+
+   <!-- custom css file link  -->
+   <link rel="stylesheet" href="{% static 'website/css/style.css' %}">
+
+      <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-L1D8KQ067N"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-L1D8KQ067N');
+</script>
+
+</head>
+<body>
+
+<header class="header">
+   {% include 'free_application_popup.html' %}
+   <section class="flex" id="blur_flex">
+
+      <a class="logo">Mathematics AI HL Hub - {{ site_name }}</a>
+      <div class="icons">
+         <div id="menu-btn" class="fas fa-bars"></div>
+         <div id="search-btn" class="fas fa-search"></div>
+         <div id="user-btn" class="fas fa-user"></div>
+         <div id="toggle-btn" class="fas fa-sun"></div>
+         <!-- <div id="toggle-btn">
+            <a href="profile.html" class="fas fa-sun">Log Out</a>
+         </div> -->
+         
+         
+      </div>
+
+      {% include 'common_header.html' %}
+
+
+      <div id="popup-premium-subscriptions" class="popup-register">
+         <div class="popup-premium-content">
+            <h2><strong>To go premium you first have to register!</strong></h2> 
+            <h2>But don't worry, it is free and takes around 20 seconds :)</h2>
+   
+            <h3>Click the button below to register</h3>
+            <a href="{% url 'start_page' %}">REGISTER</a>
+         </div>
+     </div>
+
+   </section>
+
+
+
+
+
+<section class="ib-hub">
+
+   <h1 class="heading" id="blur_heading">Mathematics AI HL</h1>
+ 
+   <h1 class="sub-heading" id="blur_subheading">Welcome to our hub for Math AI HL! You will find everything you need to ace your AI HL finals, incuding a detailed questionbank written by our expert tutors, explanations, answers to past papers, and many more!</h1>
+ 
+ 
+   <div class="box-container" id="blur_box_container">
+ 
+      <div class="box">
+        <img class="hub-image" src="{% static 'website/images/questionbank/logos/general/qb_logo.png' %}">
+        <h3 class="title">Questionbank</h3>
+        <p class="tutor">Check out our questionbank with hundreds of questions designed to imitate your actual exams!</p>
+        <a href="{% url 'math-ai-hl' %}" class="arrow-link">
+            <div class="circle">
+                <svg class="arrow-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="none" d="M0 0h24v24H0z"/><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+            </div>
+        </a>
+      </div>
+ 
+      <div class="box">
+        <img class="hub-image" src="{% static 'website/images/questionbank/logos/general/exams_logo.png' %}">
+        <h3 class="title">Exam Solutions by Year</h3>
+        <p class="tutor">We're currently in the process of editing the first batch of exams, so stay tuned ✅</p>
+        <a href="{% url 'math-ai-hl-past-papers' %}" class="arrow-link">
+         <!-- <a href="" class="arrow-link"> -->
+            <div class="circle">
+                <svg class="arrow-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="none" d="M0 0h24v24H0z"/><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+            </div>
+        </a>
+      </div>
+
+
+
+ 
+      <div class="box">
+         <img class="hub-image" src="{% static 'website/images/questionbank/logos/general/notes_logo.png' %}">
+         <h3 class="title">Exam Solutions by Topic</h3>
+         <p class="tutor">Be sure to also check out our answer videos divided for each topic to make revisions easier!</p>
+         <a href="{% url 'math-ai-hl-past-papers-topics' %}" class="arrow-link">
+             <div class="circle">
+                 <svg class="arrow-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="none" d="M0 0h24v24H0z"/><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+             </div>
+         </a>
+       </div>
+
+      
+ 
+ 
+ 
+  </div>
+ 
+ </section>
+
+
+
+
+<!-- custom js file link  -->
+<!-- <script src="js/script.js"></script> -->
+<script src="{% static 'website/js/script.js' %}"></script>
+<script src="{% static 'website/js/script_papers.js' %}"></script>
+
+   
+</body>
+</html>

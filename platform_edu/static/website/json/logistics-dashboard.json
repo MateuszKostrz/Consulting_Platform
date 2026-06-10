@@ -1,0 +1,14 @@
+{
+  "data": [
+    {"id": 1, "location": 468031, "start_city": "Cagnes-sur-Mer", "start_country": "France", "end_city": "Catania", "end_country": "Italy", "warnings": 1, "progress": 49},
+    {"id": 2, "location": 302781, "start_city": "Köln", "start_country": "Germany", "end_city": "Laspezia", "end_country": "Italy", "warnings": 4, "progress": 24},
+    {"id": 3, "location": 715822, "start_city": "Chambray-lès-Tours", "start_country": "France", "end_city": "Hamm", "end_country": "Germany", "warnings": 5, "progress": 7},
+    {"id": 4, "location": 451430, "start_city": "Berlin", "start_country": "Germany", "end_city": "Gelsenkirchen", "end_country": "Germany", "warnings": 1, "progress": 95},
+    {"id": 5, "location": 921577, "start_city": "Cergy-Pontoise", "start_country": "France", "end_city": "Berlin", "end_country": "Germany", "warnings": 1, "progress": 65},
+    {"id": 6, "location": 480957, "start_city": "Villefranche-sur-Saône", "start_country": "France", "end_city": "Halle", "end_country": "Germany", "warnings": 4, "progress": 55},
+    {"id": 7, "location": 330178, "start_city": "Mâcon", "start_country": "France", "end_city": "Bochum", "end_country": "Germany", "warnings": 2, "progress": 74},
+    {"id": 8, "location": 595525, "start_city": "Fullerton", "start_country": "USA", "end_city": "Lübeck", "end_country": "Germany", "warnings": 1, "progress": 100},
+    {"id": 9, "location": 182964, "start_city": "Saintes", "start_country": "France", "end_city": "Roma", "end_country": "Italy", "warnings": 5, "progress": 82},
+    {"id": 10, "location": 706085, "start_city": "Fort Wayne", "start_country": "USA", "end_city": "Mülheim an der Ruhr", "end_country": "Germany", "warnings": 5, "progress": 49}
+  ]
+}

@@ -1,0 +1,5 @@
+db.sqlite3
+.env
+virt2/
+# logs/
+rag_env/

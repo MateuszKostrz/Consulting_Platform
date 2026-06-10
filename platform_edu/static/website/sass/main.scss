@@ -1,0 +1,15 @@
+// main.scss
+
+@import 'icon/_feather';  // Adjust the path according to your directory structure
+
+// Your other styles
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+.example {
+    color: #333;
+}

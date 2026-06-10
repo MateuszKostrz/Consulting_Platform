@@ -1,0 +1,605 @@
+{% load static %}
+
+<!doctype html>
+<html
+  lang="en"
+  class="layout-navbar-fixed layout-menu-fixed layout-compact"
+  dir="ltr"
+  data-skin="default"
+  data-bs-theme="light"
+  data-assets-path="../../assets/"
+  data-template="vertical-menu-template">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>Edit History Questions | {{ site_name }}</title>
+
+    <meta name="description" content="" />
+
+    <link rel="icon" href="{% static 'website/images/platform_logo.svg' %}">
+    <link rel="alternate icon" href="{% static 'website/images/safari_logo2_prev_ui.png' %}" type="image/png">
+
+    {% include 'top_base.html' %}
+
+    <!-- Quill Editor CSS -->
+    <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
+
+    <style>
+      .container-xxl {
+        max-width: 90%;
+        margin: 0 auto;
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+
+      .question-list {
+        max-height: 600px;
+        overflow-y: auto;
+        border: 1px solid #e9ecef;
+        border-radius: 8px;
+      }
+
+      .question-item {
+        padding: 12px 16px;
+        border-bottom: 1px solid #e9ecef;
+        cursor: pointer;
+        transition: background-color 0.2s;
+      }
+
+      .question-item:hover {
+        background-color: #f8f9fa;
+      }
+
+      .question-item.active {
+        background-color: #e7e7ff;
+        border-left: 4px solid #696cff;
+      }
+
+      .question-item .question-title {
+        font-size: 14px;
+        color: #333;
+        margin-bottom: 4px;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+
+      .question-item .question-meta {
+        font-size: 12px;
+        color: #6c757d;
+      }
+
+      .editor-section {
+        background: white;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      }
+
+      .editor-label {
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 8px;
+        display: block;
+      }
+
+      .quill-editor {
+        height: 200px;
+        margin-bottom: 20px;
+      }
+
+      .quill-editor-small {
+        height: 120px;
+        margin-bottom: 20px;
+      }
+
+      .quill-editor-large {
+        height: 350px;
+        margin-bottom: 20px;
+      }
+
+      .form-control-custom {
+        border: 1px solid #d9dee3;
+        border-radius: 6px;
+        padding: 10px 14px;
+        width: 100%;
+        margin-bottom: 16px;
+      }
+
+      .form-control-custom:focus {
+        border-color: #696cff;
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(105, 108, 255, 0.1);
+      }
+
+      .btn-save {
+        background: #696cff;
+        color: white;
+        border: none;
+        padding: 12px 32px;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .btn-save:hover {
+        background: #5a5eff;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(105, 108, 255, 0.3);
+      }
+
+      .btn-save:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      .level-tabs {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 16px;
+      }
+
+      .level-tab {
+        padding: 8px 20px;
+        border: 2px solid #696cff;
+        border-radius: 6px;
+        background: white;
+        color: #696cff;
+        cursor: pointer;
+        font-weight: 600;
+        transition: all 0.2s;
+      }
+
+      .level-tab.active {
+        background: #696cff;
+        color: white;
+      }
+
+      .level-tab:hover:not(.active) {
+        background: #f0f0ff;
+      }
+
+      .chapter-filter {
+        margin-bottom: 16px;
+      }
+
+      .success-message {
+        background: #d4edda;
+        color: #155724;
+        padding: 12px 16px;
+        border-radius: 6px;
+        margin-bottom: 16px;
+        display: none;
+      }
+
+      .error-message {
+        background: #f8d7da;
+        color: #721c24;
+        padding: 12px 16px;
+        border-radius: 6px;
+        margin-bottom: 16px;
+        display: none;
+      }
+
+      .ql-toolbar.ql-snow {
+        border-radius: 6px 6px 0 0;
+      }
+
+      .ql-container.ql-snow {
+        border-radius: 0 0 6px 6px;
+      }
+
+      .form-row {
+        display: flex;
+        gap: 16px;
+        margin-bottom: 16px;
+      }
+
+      .form-row .form-group {
+        flex: 1;
+      }
+
+      select.form-control-custom {
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+        background-position: right 10px center;
+        background-repeat: no-repeat;
+        background-size: 20px;
+        padding-right: 40px;
+      }
+    </style>
+
+    <script type="text/javascript" src="{% static 'website/js/vendor/helpers.js' %}"></script>
+    <script type="text/javascript" src="{% static 'website/js/vendor/config.js' %}"></script>
+  </head>
+
+  <body>
+    <div class="layout-wrapper layout-content-navbar">
+      <div class="layout-container">
+        {% include 'sidebar.html' %}
+
+        <div class="content-wrapper">
+          <div class="container-xxl flex-grow-1 container-p-y">
+            
+            <h2 class="pb-1 mb-4">Edit History Questions</h2>
+
+            <div class="row">
+              <!-- Question List Panel -->
+              <div class="col-md-4">
+                <div class="editor-section">
+                  <h5 class="mb-3">Questions</h5>
+                  
+                  <!-- Level Tabs -->
+                  <div class="level-tabs">
+                    <button class="level-tab active" onclick="switchLevel('sl')">SL</button>
+                    <button class="level-tab" onclick="switchLevel('hl')">HL</button>
+                  </div>
+
+                  <!-- Chapter Filter -->
+                  <div class="chapter-filter">
+                    <select class="form-control-custom" id="chapterFilter" onchange="filterQuestions()">
+                      <option value="">All Chapters</option>
+                      <option value="emergence_democratic_states">Emergence and Development of Democratic States</option>
+                      <option value="authoritarian_states">Authoritarian States</option>
+                      <option value="causes_effects_wars">Causes and Effects of 20th Century Wars</option>
+                      <option value="cold_war">The Cold War</option>
+                      <option value="rights_protest">Rights and Protest</option>
+                      <option value="conflict_intervention">Conflict and Intervention</option>
+                      <option value="move_global_war">The Move to Global War</option>
+                      <option value="independence_movements">Independence Movements</option>
+                    </select>
+                  </div>
+
+                  <!-- Question List -->
+                  <div class="question-list" id="questionList">
+                    {% for q in sl_questions %}
+                    <div class="question-item sl-question" data-id="{{ q.id }}" data-chapter="{{ q.chapter }}" data-level="sl" onclick="loadQuestion({{ q.id }}, 'sl')">
+                      <div class="question-title">{{ q.title|truncatechars:100 }}</div>
+                      <div class="question-meta">{{ q.get_chapter_display }} • {{ q.difficulty }} • Paper {{ q.paper }}</div>
+                    </div>
+                    {% empty %}
+                    <div class="p-3 text-muted">No SL questions found.</div>
+                    {% endfor %}
+                    
+                    {% for q in hl_questions %}
+                    <div class="question-item hl-question" data-id="{{ q.id }}" data-chapter="{{ q.chapter }}" data-level="hl" onclick="loadQuestion({{ q.id }}, 'hl')" style="display: none;">
+                      <div class="question-title">{{ q.title|truncatechars:100 }}</div>
+                      <div class="question-meta">{{ q.get_chapter_display }} • {{ q.difficulty }} • Paper {{ q.paper }}</div>
+                    </div>
+                    {% empty %}
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+
+              <!-- Editor Panel -->
+              <div class="col-md-8">
+                <div class="editor-section">
+                  <div class="success-message" id="successMessage">Question saved successfully!</div>
+                  <div class="error-message" id="errorMessage">Error saving question.</div>
+
+                  <div id="editorPlaceholder" class="text-center text-muted py-5">
+                    <h5>Select a question from the list to edit</h5>
+                    <p>Click on any question to load it in the editor</p>
+                  </div>
+
+                  <div id="editorForm" style="display: none;">
+                    <input type="hidden" id="questionId">
+                    <input type="hidden" id="questionLevel">
+
+                    <!-- Title -->
+                    <label class="editor-label">Essay Question Title</label>
+                    <textarea class="form-control-custom" id="titleInput" rows="2" placeholder="Enter the essay question..."></textarea>
+
+                    <!-- Form Row: Command Term, Difficulty, Paper, Marks -->
+                    <div class="form-row">
+                      <div class="form-group">
+                        <label class="editor-label">Command Term</label>
+                        <select class="form-control-custom" id="commandTermSelect">
+                          <option value="evaluate">Evaluate</option>
+                          <option value="discuss">Discuss</option>
+                          <option value="analyze">Analyze</option>
+                          <option value="compare">Compare</option>
+                          <option value="compare_contrast">Compare and Contrast</option>
+                          <option value="examine">Examine</option>
+                          <option value="to_what_extent">To What Extent</option>
+                          <option value="assess">Assess</option>
+                          <option value="explain">Explain</option>
+                        </select>
+                      </div>
+                      <div class="form-group">
+                        <label class="editor-label">Difficulty</label>
+                        <select class="form-control-custom" id="difficultySelect">
+                          <option value="Easy">Easy</option>
+                          <option value="Medium">Medium</option>
+                          <option value="Hard">Hard</option>
+                        </select>
+                      </div>
+                      <div class="form-group">
+                        <label class="editor-label">Paper</label>
+                        <select class="form-control-custom" id="paperSelect">
+                          <option value="paper1">Paper 1</option>
+                          <option value="paper2">Paper 2</option>
+                          <option value="paper3">Paper 3</option>
+                        </select>
+                      </div>
+                      <div class="form-group">
+                        <label class="editor-label">Marks</label>
+                        <input type="text" class="form-control-custom" id="marksInput" placeholder="15">
+                      </div>
+                    </div>
+
+                    <!-- Form Row: Chapter, Type -->
+                    <div class="form-row">
+                      <div class="form-group">
+                        <label class="editor-label">Chapter</label>
+                        <select class="form-control-custom" id="chapterSelect">
+                          <option value="emergence_democratic_states">Emergence and Development of Democratic States</option>
+                          <option value="authoritarian_states">Authoritarian States</option>
+                          <option value="causes_effects_wars">Causes and Effects of 20th Century Wars</option>
+                          <option value="cold_war">The Cold War</option>
+                          <option value="rights_protest">Rights and Protest</option>
+                          <option value="conflict_intervention">Conflict and Intervention</option>
+                          <option value="move_global_war">The Move to Global War</option>
+                          <option value="independence_movements">Independence Movements</option>
+                        </select>
+                      </div>
+                      <div class="form-group">
+                        <label class="editor-label">Access Type</label>
+                        <select class="form-control-custom" id="typeSelect">
+                          <option value="free">Free</option>
+                          <option value="registered">Registered</option>
+                          <option value="premium">Premium</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <!-- Command Term Explanation -->
+                    <label class="editor-label">Command Term Explanation</label>
+                    <div id="explanationEditor" class="quill-editor-small"></div>
+
+                    <!-- Introduction -->
+                    <label class="editor-label">Introduction</label>
+                    <div id="introEditor" class="quill-editor"></div>
+
+                    <!-- Body -->
+                    <label class="editor-label">Body</label>
+                    <div id="bodyEditor" class="quill-editor-large"></div>
+
+                    <!-- Conclusion -->
+                    <label class="editor-label">Conclusion</label>
+                    <div id="conclusionEditor" class="quill-editor"></div>
+
+                    <!-- Save Button -->
+                    <div class="d-flex justify-content-end mt-4">
+                      <button class="btn-save" onclick="saveQuestion()" id="saveBtn">
+                        Save Changes
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Core JS -->
+    <script src="{% static 'website/js/vendor/libs/jquery/jquery.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/popper/popper.js' %}"></script>
+    <script src="{% static 'website/js/bootstrap.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/node-waves/node-waves.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/perfect-scrollbar/perfect-scrollbar.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/hammer/hammer.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/i18n/i18n.js' %}"></script>
+    <script src="{% static 'website/js/vendor/menu.js' %}"></script>
+    <script type="text/javascript" src="{% static 'website/js/main.js' %}"></script>
+    <script type="text/javascript" src="{% static 'website/js/vendors.min.js' %}"></script>
+
+    <!-- Quill Editor JS -->
+    <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
+
+    <script>
+      let currentLevel = 'sl';
+      let explanationEditor, introEditor, bodyEditor, conclusionEditor;
+
+      // Initialize Quill editors
+      document.addEventListener('DOMContentLoaded', function() {
+        const toolbarOptions = [
+          [{ 'header': [1, 2, 3, false] }],
+          ['bold', 'italic', 'underline'],
+          [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+          [{ 'indent': '-1'}, { 'indent': '+1' }],
+          ['link'],
+          ['clean']
+        ];
+
+        explanationEditor = new Quill('#explanationEditor', {
+          theme: 'snow',
+          modules: { toolbar: toolbarOptions },
+          placeholder: 'Enter command term explanation...'
+        });
+
+        introEditor = new Quill('#introEditor', {
+          theme: 'snow',
+          modules: { toolbar: toolbarOptions },
+          placeholder: 'Enter introduction...'
+        });
+
+        bodyEditor = new Quill('#bodyEditor', {
+          theme: 'snow',
+          modules: { toolbar: toolbarOptions },
+          placeholder: 'Enter body paragraphs...'
+        });
+
+        conclusionEditor = new Quill('#conclusionEditor', {
+          theme: 'snow',
+          modules: { toolbar: toolbarOptions },
+          placeholder: 'Enter conclusion...'
+        });
+      });
+
+      function switchLevel(level) {
+        currentLevel = level;
+        
+        // Update tab styles
+        document.querySelectorAll('.level-tab').forEach(tab => tab.classList.remove('active'));
+        event.target.classList.add('active');
+        
+        // Show/hide questions
+        document.querySelectorAll('.sl-question').forEach(q => q.style.display = level === 'sl' ? 'block' : 'none');
+        document.querySelectorAll('.hl-question').forEach(q => q.style.display = level === 'hl' ? 'block' : 'none');
+        
+        // Reset selection
+        document.querySelectorAll('.question-item').forEach(q => q.classList.remove('active'));
+        
+        // Apply filter
+        filterQuestions();
+      }
+
+      function filterQuestions() {
+        const chapter = document.getElementById('chapterFilter').value;
+        const questions = document.querySelectorAll(`.${currentLevel}-question`);
+        
+        questions.forEach(q => {
+          if (!chapter || q.dataset.chapter === chapter) {
+            q.style.display = 'block';
+          } else {
+            q.style.display = 'none';
+          }
+        });
+      }
+
+      function loadQuestion(id, level) {
+        // Highlight selected question
+        document.querySelectorAll('.question-item').forEach(q => q.classList.remove('active'));
+        event.currentTarget.classList.add('active');
+        
+        // Show loading state
+        document.getElementById('editorPlaceholder').style.display = 'none';
+        document.getElementById('editorForm').style.display = 'block';
+        document.getElementById('saveBtn').disabled = true;
+        document.getElementById('saveBtn').textContent = 'Loading...';
+        
+        // Fetch question data
+        fetch(`/api/history-question/${id}/?level=${level}`)
+          .then(response => response.json())
+          .then(data => {
+            if (data.error) {
+              alert('Error loading question: ' + data.error);
+              return;
+            }
+            
+            // Populate form
+            document.getElementById('questionId').value = data.id;
+            document.getElementById('questionLevel').value = level;
+            document.getElementById('titleInput').value = data.title || '';
+            document.getElementById('commandTermSelect').value = data.command_term || 'evaluate';
+            document.getElementById('difficultySelect').value = data.difficulty || 'Medium';
+            document.getElementById('paperSelect').value = data.paper || 'paper2';
+            document.getElementById('marksInput').value = data.marks || '15';
+            document.getElementById('chapterSelect').value = data.chapter || '';
+            document.getElementById('typeSelect').value = data.type || 'premium';
+            
+            // Set Quill editor contents
+            explanationEditor.root.innerHTML = data.explanation || '';
+            introEditor.root.innerHTML = data.intro || '';
+            bodyEditor.root.innerHTML = data.body || '';
+            conclusionEditor.root.innerHTML = data.conclusion || '';
+            
+            document.getElementById('saveBtn').disabled = false;
+            document.getElementById('saveBtn').textContent = 'Save Changes';
+          })
+          .catch(error => {
+            console.error('Error:', error);
+            alert('Error loading question');
+            document.getElementById('saveBtn').disabled = false;
+            document.getElementById('saveBtn').textContent = 'Save Changes';
+          });
+      }
+
+      function saveQuestion() {
+        const id = document.getElementById('questionId').value;
+        const level = document.getElementById('questionLevel').value;
+        
+        if (!id) {
+          alert('No question selected');
+          return;
+        }
+        
+        document.getElementById('saveBtn').disabled = true;
+        document.getElementById('saveBtn').textContent = 'Saving...';
+        document.getElementById('successMessage').style.display = 'none';
+        document.getElementById('errorMessage').style.display = 'none';
+        
+        const data = {
+          level: level,
+          title: document.getElementById('titleInput').value,
+          command_term: document.getElementById('commandTermSelect').value,
+          difficulty: document.getElementById('difficultySelect').value,
+          paper: document.getElementById('paperSelect').value,
+          marks: document.getElementById('marksInput').value,
+          chapter: document.getElementById('chapterSelect').value,
+          type: document.getElementById('typeSelect').value,
+          explanation: explanationEditor.root.innerHTML,
+          intro: introEditor.root.innerHTML,
+          body: bodyEditor.root.innerHTML,
+          conclusion: conclusionEditor.root.innerHTML
+        };
+        
+        fetch(`/api/history-question/${id}/update/`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCookie('csrftoken')
+          },
+          body: JSON.stringify(data)
+        })
+          .then(response => response.json())
+          .then(result => {
+            document.getElementById('saveBtn').disabled = false;
+            document.getElementById('saveBtn').textContent = 'Save Changes';
+            
+            if (result.success) {
+              document.getElementById('successMessage').style.display = 'block';
+              setTimeout(() => {
+                document.getElementById('successMessage').style.display = 'none';
+              }, 3000);
+            } else {
+              document.getElementById('errorMessage').textContent = result.error || 'Error saving question';
+              document.getElementById('errorMessage').style.display = 'block';
+            }
+          })
+          .catch(error => {
+            console.error('Error:', error);
+            document.getElementById('saveBtn').disabled = false;
+            document.getElementById('saveBtn').textContent = 'Save Changes';
+            document.getElementById('errorMessage').textContent = 'Error saving question';
+            document.getElementById('errorMessage').style.display = 'block';
+          });
+      }
+
+      function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+          const cookies = document.cookie.split(';');
+          for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+              cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+              break;
+            }
+          }
+        }
+        return cookieValue;
+      }
+    </script>
+  </body>
+</html>

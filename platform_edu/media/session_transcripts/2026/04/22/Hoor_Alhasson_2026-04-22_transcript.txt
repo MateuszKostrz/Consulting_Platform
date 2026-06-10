@@ -1,0 +1,723 @@
+# Meeting Transcription
+
+  Meeting started: 22/04/2026, 14:02:06
+  Duration: 95 minutes
+  Participants: Hoor Alhasson, Mateusz Kostrz
+
+  [View original transcript](https://app.tactiq.io/api/2/u/m/r/KBtjDxZccx9IlTjCbCm9?o=txt)
+
+    
+
+  
+
+  
+
+  ## Transcript
+
+  00:00 Mateusz Kostrz: so,
+01:56 Mateusz Kostrz: Hello.
+01:56 Hoor Alhasson: Hello. How are you?
+02:00 Mateusz Kostrz: Nine Good. What about you?
+02:03 Hoor Alhasson: I'm good.
+02:05 Mateusz Kostrz: Noise noise noise. All right. So we are starting a new chapter today, No.
+02:12 Hoor Alhasson: Yeah, calculus. Yeah.
+02:12 Mateusz Kostrz: because, Yes, yes, exactly. Exactly. Okay. So let's so let's started also, one more thing I wanted to ask you because we're trying to experiment with this, with this, new way of kind of giving you access to like stuff after after the class kind of
+02:25 Mateusz Kostrz: Hi, I'm transcribing this call with my Tactiq AI Extension. https://tactiq.io/r/transcribing
+02:27 Mateusz Kostrz: like, you know, better than the whiteboard because I think that is kind of
+02:28 Hoor Alhasson: Yeah.
+02:32 Mateusz Kostrz: useless. And yeah, basically need to try with kind of transcribing. The class. So that like, you'll kind of get like a PDF or like I would have a PDF of like, what was said during the class from which we could extract some some information. So yeah, so I just wanted to ask if that's fine with you kind of make those PDFs from from what we say during classes.
+02:53 Hoor Alhasson: That would be helpful, actually.
+02:55 Mateusz Kostrz: Okay. Okay. Awesome. Because we kind of trying to make this, like, kind of have to have those who have those pdfs. And then based on this, to kind of have on the platform like a more, you know, to kind of give you give, you automatically questions to, to do based on what was, what was said, during the class. That's the idea, realistically, I don't know if if This will kind of work before your your exams, but I will try.
+03:21 Hoor Alhasson: That's fine, it's okay. It's okay to give it a try because I already have like enough sources that would like help it extra. So I'm gonna give it. I'm gonna give it a try.
+03:29 Mateusz Kostrz: Okay, okay, awesome. Awesome. All right, so let's let's start. So the topic of calculus, there's basically two parts of this topic. Let me show you my screen. There is differentiation and integration. Do you remember any one of them?
+03:53 Hoor Alhasson: oh yeah, I think so I forgot how to not, not really buy just know that there's like a way of I don't know if it's integration where you change the Formula into something. I'm not sure.
+04:07 Mateusz Kostrz: Yeah, yeah. So for for both of them actually you you change the formula? Yeah. Just in a slightly slightly. Different different ways. So basically for the for differentiation or the way you also call it is derivatives, the way you change the formula is I would just kind of give you give you an example of how that how that how that looks. So we have a function for example like this where you have Um, let's say something like this.
+04:39 Mateusz Kostrz: Okay, so please standard function. So if you wanted to find a derivative of this, then what you do, The way you write it is, you do this prime this line here? And you, and you write it like that. And now basically, the idea is that you take every power and you bring it to the front. So this will be three times five, right? You, you bring the power to the front and then you have X squared, you have to decrease the power by one.
+05:05 Hoor Alhasson: Yeah. Oh, okay. Yeah. Oh yeah, I remember that.
+05:07 Mateusz Kostrz: You always decrease the problem. So now with the second term you write the plus and now this again goes here. so you have two times, two x, the power of 1
+05:16 Hoor Alhasson: Yeah.
+05:17 Mateusz Kostrz: Okay, because we decrease the power by one.
+05:20 Hoor Alhasson: Yeah, that makes sense.
+05:22 Mateusz Kostrz: Yep. So and this is just equal to 15. X squared plus 4x. Okay.
+05:31 Hoor Alhasson: Yeah.
+05:32 Mateusz Kostrz: That's, that's basically the way to, to find it. so, let's say you had
+05:37 Hoor Alhasson: Is that for a differentiation?
+05:38 Mateusz Kostrz: Sorry.
+05:40 Hoor Alhasson: This is for differentiation.
+05:41 Mateusz Kostrz: Yes, that's not the entire topic, of course. But let's say that's the way you
+05:42 Hoor Alhasson: Okay.
+05:46 Mateusz Kostrz: find derivative. So let's say, if we had a function Like this. Then what would be the derivative of this?
+05:57 Hoor Alhasson: So we'll do like three times 10 times x to the power of 2.
+06:03 Mateusz Kostrz: Mm-hmm.
+06:06 Hoor Alhasson: US four times four X to the power 3.
+06:10 Mateusz Kostrz: Yeah, good good. And if we had a function, Like this, for example.
+06:20 Hoor Alhasson: Would it be like one times five? Next.
+06:24 Mateusz Kostrz: Yes. So what? One times five X?
+06:28 Hoor Alhasson: Yeah, not four seven.
+06:30 Mateusz Kostrz: No, no this extent will not be here.
+06:33 Hoor Alhasson: oh,
+06:37 Mateusz Kostrz: Any ideas, what can it be?
+06:40 Hoor Alhasson: I have no idea.
+06:42 Mateusz Kostrz: So it's going to be actually except the power of Z because you have the power of one, right? So you put this one here. And it becomes x to the power of 0.
+06:51 Hoor Alhasson: Oh X to the Power Zero. Yeah.
+06:51 Mateusz Kostrz: The next. An extra power of zero is actually just one, so this is just equal to 5. Because also constant numbers like this one. They just disappear.
+06:58 Hoor Alhasson: Okay. Oh, so for seven just becomes.
+07:02 Mateusz Kostrz: In. So, if you
+07:05 Hoor Alhasson: Zero.
+07:06 Mateusz Kostrz: It becomes the area.
+07:08 Hoor Alhasson: Oh, okay, so it'd be like five plus zero.
+07:11 Mateusz Kostrz: Yeah, which is five.
+07:13 Hoor Alhasson: Okay. So any constant like in a derivative like in the differentiation form that I would just turn it into zero?
+07:21 Mateusz Kostrz: Yeah, or you just kind of skip it because it just disappears.
+07:25 Hoor Alhasson: Okay.
+07:25 Mateusz Kostrz: Okay. So, so that's that's how you find them. And derivatives, in general, this
+07:27 Hoor Alhasson: Yeah.
+07:32 Mateusz Kostrz: is kind of you very often. It's called a function of change and you kind of see it throughout throughout the questions because it's kind of how they refer to that in in. The question is too, and basically, the idea behind derivatives is if you want to grab them. Then basically, the idea is that that you have something like this. This is your function. Says some f of x function. So then with derivatives, you're able to find, which is so called tangent lines. So a tangent line, for example, is a line that will, for example, pass through here.
+08:07 Hoor Alhasson: Okay.
+08:08 Mateusz Kostrz: This is a tangent line and this is actually what derivatives kind of help you find. You can see it later in during questions. But Like, there's Infiniti of those because you can also have 800 line here, for example. 800 line here. And so on you can have them everywhere, right? So that's kind of the, the idea and the reason why this is a function of change the dirt, whatever. It was a function of changes because whenever you find those tangent lines, you kind of find how the function is changing, and this one specific point, okay? So for example, find here, that this function here is still increasing and then if you
+08:36 Hoor Alhasson: Okay.
+08:40 Mateusz Kostrz: go maybe here, Then you will find that the function here is decreasing, right? So here it's kind of starting to change and go down. So that's basically the idea that's why this is called the the function of change. And actually with those there will be a couple more things that you will need to need to know. But for now, let's start with this question here and we'll get there later.
+09:01 Hoor Alhasson: Okay. Let me just.
+09:26 Hoor Alhasson: So the constant rate is is this like like when they give us a constant rate of this thing? for us to build the function, or
+09:37 Mateusz Kostrz: What, what do you mean? I didn't quite get the question.
+09:41 Hoor Alhasson: The the it said, each side length or decrease at a constant rate at 0.2 millimeter.
+09:48 Mateusz Kostrz: Um, actually no, I mean, yeah, to to an extent but here you don't really have
+09:48 Hoor Alhasson: So, is that like what you just explained like the tangent?
+09:59 Mateusz Kostrz: any information to kind of build those tangents. So, basically here despite a is, does that? That's not really even a function. It's just like plugging some, some numbers. So it just means that when you put it in the water, like warm water, just decreases in size and then that's it.
+10:16 Hoor Alhasson: Okay. Okay. so, We're supposed to find the length.
+10:36 Mateusz Kostrz: Yes.
+10:37 Hoor Alhasson: In part AI, are we supposed to build the function first? Or.
+10:42 Mateusz Kostrz: Mmm, not really. Don't really need to do that.
+10:50 Hoor Alhasson: Okay. I'm not sure how to approach, what AI
+10:59 Mateusz Kostrz: So here we just need to. We know that at the start, this is just 10 millimeters. And then every second it decreases by 0.2. So after 20 seconds, it's just going to be 10 minus. 0.2 * 20. No.
+11:16 Hoor Alhasson: Oh yeah. So okay. so every second it'll decrease, 0.2 millimeters.
+11:27 Mateusz Kostrz: Yeah. Well, this is here now.
+11:29 Hoor Alhasson: yeah, and then And then you times that by 20. So you can okay.
+11:35 Mateusz Kostrz: Because you,
+11:36 Hoor Alhasson: Oh, okay, okay. Yeah. Yeah. Okay, that makes sense.
+11:42 Mateusz Kostrz: Yeah, so that's it.
+11:45 Hoor Alhasson: oh okay by the way, if it said like increase do I do 10 plus 0.2 Okay, that makes sense. Okay. So part right. So, do I go to my formula? Booklet, and find the volume of Cube.
+12:21 Mateusz Kostrz: You can do that.
+12:22 Hoor Alhasson: Which is length times width times height.
+12:25 Mateusz Kostrz: Yep.
+12:33 Hoor Alhasson: So there's like 10 times sometimes done.
+12:36 Mateusz Kostrz: Nope.
+12:42 Hoor Alhasson: The time. Times three.
+12:46 Mateusz Kostrz: Mmm, white. And
+12:49 Hoor Alhasson: Because that's like like times with times height.
+12:53 Mateusz Kostrz: yeah, but we have it after 20 seconds now
+12:53 Hoor Alhasson: trying to find the volume of Oh, after 20 seconds, I thought we're supposed to like first find the volume of the Of the sugar cube.
+13:05 Mateusz Kostrz: and the few days, I said that 20 seconds after now,
+13:10 Hoor Alhasson: oh, we're supposed to find a 20 seconds after so So, I'd like to be six times six times six.
+13:19 Mateusz Kostrz: Exactly.
+13:21 Hoor Alhasson: Okay. A stone is 16.
+13:28 Mateusz Kostrz: Yep. Yep. Yep. Okay.
+13:28 Hoor Alhasson: Millimeter square cubed.
+13:35 Mateusz Kostrz: So, let's go.
+13:55 Hoor Alhasson: Okay, so it says, find the derivative of VT. so that's like,
+14:07 Mateusz Kostrz: Exact.
+14:07 Hoor Alhasson: Oh wait. Oh no. Never Mind, so 1000 become zero.
+14:14 Mateusz Kostrz: Yeah basically, zero like it disappears, but yeah.
+14:25 Hoor Alhasson: wait, because I remember you said, When the thing because it said 60 T. does, the does tea disappear because it becomes zero
+14:38 Mateusz Kostrz: It's mmm. Exactly. Kind of. It becomes one.
+14:40 Hoor Alhasson: Okay. It becomes one area so it's like t to the power of 0.
+14:46 Mateusz Kostrz: Yeah.
+15:11 Mateusz Kostrz: so, do you get
+15:13 Hoor Alhasson: So I did zero. I did put on the calculator yet, but I did zero minus 1 times, 60. Which is 60. And one times 1.2, which is 1.2 T.
+15:29 Mateusz Kostrz: Right.
+15:31 Hoor Alhasson: For what for 1.2?
+15:33 Mateusz Kostrz: I mean, depends, if you put this minus here already before, but it's in total is
+15:34 Hoor Alhasson: Because I I got this confused two times 1.2. I've got two 2.4 T. Minus. Oh wait. Three times. Do I do three times in negative zero point? 0.008. Or is it just 0.008?
+16:06 Mateusz Kostrz: going to be minus 3 times 0.08. T squared, right?
+16:11 Hoor Alhasson: Okay. Yeah, so that's 0.
+16:14 Mateusz Kostrz: What we need one minus.
+16:16 Hoor Alhasson: Sorry.
+16:17 Mateusz Kostrz: You need one minus in there. I don't know if you already put one, but in total, there should be one.
+16:21 Hoor Alhasson: Yeah. Okay, so I got 0.024.
+16:27 Mateusz Kostrz: Mm-hmm.
+16:29 Hoor Alhasson: To the T to the power of 2.
+16:34 Mateusz Kostrz: Yep. So that's it.
+16:41 Hoor Alhasson: Yeah.
+16:42 Mateusz Kostrz: Good.
+16:43 Hoor Alhasson: Yeah.
+17:06 Hoor Alhasson: okay, so I replace The T with 20.
+17:12 Mateusz Kostrz: In which function.
+17:14 Hoor Alhasson: And the function, the derivative function.
+17:17 Mateusz Kostrz: Why the derivative function?
+17:20 Hoor Alhasson: Oh, never mind. The original.
+17:23 Mateusz Kostrz: Then why, you know?
+17:23 Hoor Alhasson: The original. Because that's the No idea.
+17:34 Mateusz Kostrz: And so he actually have to put it in the into the derivative function because we have the question about the range rate of change. That's what I told you about, how, derivatives are a function of change, remember this?
+17:46 Hoor Alhasson: Oh yeah.
+17:48 Mateusz Kostrz: well, when they ask you for To find the rate of change of something. You always have to plug it into the derivative if they simply asked you, what is the volume at? T is equal to 20. This is your normal normal volume function. If they ask you what is the change in volume at T20? Then this is your they're a bit of
+18:05 Hoor Alhasson: Okay, that makes sense then.
+18:07 Mateusz Kostrz: Okay, so we have to do.
+18:08 Hoor Alhasson: Okay.
+18:10 Mateusz Kostrz: Just this, right? So that's Just easy, right?
+18:16 Hoor Alhasson: Yeah. Okay. Let me just
+18:39 Hoor Alhasson: Let me check. I'll just put this in my calculator.
+18:42 Mateusz Kostrz: Hmm.
+19:10 Hoor Alhasson: so, I got negative 21.6
+19:13 Mateusz Kostrz: Okay.
+19:15 Hoor Alhasson: Was that correct?
+19:17 Mateusz Kostrz: I didn't put in a calculator but I guess I can just check it now but probably yes, you just replace this tea with 28.
+19:25 Hoor Alhasson: Yeah.
+19:26 Mateusz Kostrz: Yeah, that will be fine.
+19:30 Hoor Alhasson: Okay.
+19:31 Mateusz Kostrz: No. Okay, let's do the
+19:31 Hoor Alhasson: so, Okay. One sec.
+20:16 Hoor Alhasson: For that, for that part. I'm not Sure, what? the reason is,
+20:23 Mateusz Kostrz: now, this is more like, A kind of like, theoretical question. So it like, you know, maybe the the size
+20:28 Hoor Alhasson: Yeah.
+20:32 Mateusz Kostrz: of the, if you have a bigger, you know, cube of sugar, maybe do dissolve at a different rate, maybe we have warmer coffee or whatever it will be, it will dissolve deserve this all faster. So that's basically one of the one of the reasons or maybe if you know the temperature outside was warmer than it was also help. So it's kind of like a theoretical question.
+20:56 Hoor Alhasson: Okay, so I could just So, we Sorry, say again you said look at the temperature. Outside was warmer.
+21:04 Mateusz Kostrz: Yeah, I mean like there's we have to say one reason, right? And there's probably 20 different reasons that you could, you could mention because they're not mathematical reasons, they're just like kind of what will make sense, right? So Kind of like, what, what can affect the cube to dissolve at a different rate and
+21:19 Hoor Alhasson: Yeah.
+21:21 Mateusz Kostrz: probably if it's bigger, probably lose slower, maybe if it's, you know, cut into into small pieces, it will probably do so faster if the, the drink is warmer, it was also does all faster. So it's basically whatever. Is logical that you can come up with and it will work.
+21:38 Hoor Alhasson: Okay. So I could say like if the temperature is warmer Outside the cup or something.
+21:45 Mateusz Kostrz: yeah, you could also say that
+21:47 Hoor Alhasson: Okay. We got, that makes sense. although I had to like, To think of something theoretical. Thing for populous.
+21:58 Mateusz Kostrz: Sorry.
+22:00 Hoor Alhasson: if I had to like, say like, If this decreases then this the this increase, I don't know like something like
+22:05 Mateusz Kostrz: Oh no, this is not like a very calculus based question. Okay, let me find
+22:06 Hoor Alhasson: that. Okay.
+22:13 Mateusz Kostrz: something. Something different for. Okay, let's do this one.
+22:47 Hoor Alhasson: Okay. So we're trying to find the derivative derivative of That function.
+23:28 Hoor Alhasson: We have a fraction. So how do we approach this with a fraction?
+23:33 Mateusz Kostrz: Do you know this?
+23:33 Hoor Alhasson: Do it like flip the thing?
+23:35 Mateusz Kostrz: Yeah, how would you flip it?
+23:38 Hoor Alhasson: so, like I have no idea. I'm just, I remember, we have to flip it. I don't know how the answer would turn out.
+23:49 Mateusz Kostrz: Yeah. So do you know this rule that when you have one over X? This is equal to this.
+23:57 Hoor Alhasson: Oh yeah. So, that's gonna be like X to the power of
+24:00 Mateusz Kostrz: No. So or maybe another example, this is the same as this.
+24:04 Hoor Alhasson: Negative 128. Oh, so
+24:18 Mateusz Kostrz: Okay, so you just flip the you have the power of one. So you have this here you have two two. So you flip this and the top of the fraction stays as it was
+24:28 Hoor Alhasson: So, 128 x.
+24:32 Mateusz Kostrz: To the power of minus one.
+24:34 Hoor Alhasson: To the power minusing. Okay. Okay, can I write this down?
+24:41 Mateusz Kostrz: Yeah, of course. of course, actually for these questions in my opinion is usually best To write it like this. and then from this, find the derivative
+24:55 Hoor Alhasson: Okay. We give me a second. Let me just let my cat out. This can be once. God. Okay.
+25:36 Mateusz Kostrz: So, what's the idea?
+25:38 Hoor Alhasson: So I got I did like two times two times. Like from the, for the derivative, I did two times one. To the two times, one X to the power of one.
+25:46 Mateusz Kostrz: Uh-huh.
+25:52 Hoor Alhasson: Okay, I didn't do the second but I'm gonna do it now.
+25:56 Mateusz Kostrz: In the rules are the same.
+26:05 Hoor Alhasson: But wait, it's in negative. So do I do like don't like,
+26:12 Mateusz Kostrz: Think of the logic of those previous rules and the logic stays the same.
+26:19 Hoor Alhasson: Okay, so it's like negative 1 times 128.
+26:23 Mateusz Kostrz: Very good.
+26:25 Hoor Alhasson: Or is it 0? Oh, no negative. Or never mind.
+26:29 Mateusz Kostrz: And then what?
+26:36 Hoor Alhasson: X to the power of 0.
+26:41 Mateusz Kostrz: Why?
+26:43 Hoor Alhasson: Or the X to the power of negative 2. I'm not sure.
+26:47 Mateusz Kostrz: Negative 2.
+26:49 Hoor Alhasson: Yeah, I'm not sure.
+26:50 Mateusz Kostrz: It's gonna be the second one because you have to decrease the power by one. Always
+26:55 Hoor Alhasson: okay, but like, when a negative number
+26:55 Mateusz Kostrz: so, for negative one, you
+26:58 Hoor Alhasson: Okay. So a negative number when it decreases. It's kind of increases in number.
+27:02 Mateusz Kostrz: becomes more like,
+27:04 Hoor Alhasson: Yeah. Like you mean like negative one of the negative 2 that if we decrease it, and it's like it goes up by now. With negatives.
+27:12 Mateusz Kostrz: Yeah, I mean goes up by a negative number, right? So it's it's like, negative
+27:16 Hoor Alhasson: Yeah.
+27:18 Mateusz Kostrz: one minus one. Right?
+27:22 Hoor Alhasson: Yeah.
+27:22 Mateusz Kostrz: Which is negative 2. So that's why here, you have you have the power of minus 2.
+27:24 Hoor Alhasson: Okay.
+27:29 Mateusz Kostrz: So you have in the end. This right.
+27:37 Hoor Alhasson: Yeah.
+27:39 Mateusz Kostrz: So that is the answer.
+27:50 Hoor Alhasson: okay, so for this, We make, what's it called? This like the function as x like zero.
+28:00 Mateusz Kostrz: Mm-hmm.
+28:04 Hoor Alhasson: Okay. And then do we? Do it like rearrange.
+28:16 Mateusz Kostrz: Um, yeah.
+28:16 Hoor Alhasson: That is zero.
+28:18 Mateusz Kostrz: You can I mean there's there's a bunch of different ways in which you can
+28:19 Hoor Alhasson: That like, zero. Yeah.
+28:22 Mateusz Kostrz: because you have this equation, right?
+28:27 Hoor Alhasson: Yeah.
+28:29 Mateusz Kostrz: equals to zero, it
+28:31 Hoor Alhasson: Yeah.
+28:33 Mateusz Kostrz: so yeah, here Probably. Like every range would probably be fastest, but you could make mistakes quite easily. So I would say plotting it in the GDC would be that safe as option.
+28:46 Hoor Alhasson: Oh yeah. Okay. Like in the graph.
+28:51 Mateusz Kostrz: Yes.
+28:54 Hoor Alhasson: so be like, like in the, in my gdc, I do like If fx is like zero equals zero and then the other function is two x minus 128 x. To the power of negative 2.
+29:11 Mateusz Kostrz: No, just put this. Just put this as a function.
+29:15 Hoor Alhasson: Okay.
+29:16 Mateusz Kostrz: And find zero. So find the, the places where you cross the x-axis,
+29:22 Hoor Alhasson: Okay.
+29:44 Hoor Alhasson: So, it's okay. I'm going to like, Okay, can I trace it?
+29:53 Mateusz Kostrz: Yeah, yeah. Like I wouldn't say tracing is that best option? Your best option is to simply because you see that zeros, you see the Where you cut the x-axis. How many do you see?
+30:09 Hoor Alhasson: Yeah. How many toys silicon zeros?
+30:13 Mateusz Kostrz: Uh-huh.
+30:16 Hoor Alhasson: Like, what do you mean?
+30:19 Mateusz Kostrz: That because okay, so for like do something like this or something more.
+30:25 Hoor Alhasson: um, I didn't do the windows so might kind of looks Like it looks about right? And yours and mine. But like, mine just looks more. Zoomed in because I didn't do the window.
+30:34 Mateusz Kostrz: Okay. So what's your window? Let me see. Okay, no actually it's probably only one zero.
+30:42 Hoor Alhasson: Do I like, do I do it?
+30:42 Mateusz Kostrz: Interest. I I guess there's only one. Okay. Okay. Then there's one.
+30:49 Hoor Alhasson: Let's set for me like x equals zero.
+30:52 Mateusz Kostrz: Sorry.
+30:53 Hoor Alhasson: I mean, sorry X equals 4.
+30:56 Mateusz Kostrz: You get that, it equals four.
+30:59 Hoor Alhasson: Yep.
+31:00 Mateusz Kostrz: Let me see. Yeah, so that's it.
+31:10 Hoor Alhasson: Okay, I did like a Tracy. That's why.
+31:11 Mateusz Kostrz: Is it tracing?
+31:15 Hoor Alhasson: Yeah, like Chase the graph.
+31:18 Mateusz Kostrz: Okay. I mean I guess I guess that's also have the option to just find a zero right in your, in your graph. Doing on this option.
+31:26 Hoor Alhasson: I think I do a, it's like Wait.
+31:29 Mateusz Kostrz: So that's usually because when you trace, like, you just go with your array.
+31:34 Hoor Alhasson: Oh yeah. I found, yeah.
+31:36 Mateusz Kostrz: Yeah, so that's
+31:36 Hoor Alhasson: If I don't have the option,
+31:38 Mateusz Kostrz: You do it. Yeah you definitely. So this is usually a safer say for option to
+31:40 Hoor Alhasson: Yeah.
+31:43 Mateusz Kostrz: just do this because then it just does it for you but whatever, whatever works here, the answer is for so that's good. And now for the interpretation so Have you ever heard? Okay, so I'll just kind of tell you assume that you may maybe don't don't remember. So, derivatives are also useful to find stationary points and the stationary point is a minimum or a maximum of a function, okay? And the way that
+32:12 Hoor Alhasson: Okay.
+32:12 Mateusz Kostrz: you do it is you find the derivative and you have to equalize it to zero like which is it now Okay, so if you do it and if you get some answer, like we got this answer here.
+32:18 Hoor Alhasson: Okay.
+32:24 Mateusz Kostrz: so, this basically means that for x equals to 4 when you plot, Our. Because this was our function for the derivative right? It was something like this.
+32:36 Hoor Alhasson: Yeah.
+32:36 Mateusz Kostrz: yeah, this was as Prime of X. And basically what this means this x equals to 4 is that If you were to plot your original function. So this s of X that is prime, then, maybe it will look something like this. Maybe you look like like this on a different graph and here you would have this minimum point. Wait, actually, I do it kind of kind of off so let's say it would be somewhere here. This would be our S of X. And here it would have this minimum point. Which would be on this line where x is equal to 4.
+33:15 Mateusz Kostrz: Okay. So what this means is that when you equalize the derivative to zero, you
+33:15 Hoor Alhasson: Okay.
+33:20 Mateusz Kostrz: get some x, right? You get that x is equal to 4 in this case, or whatever. X is equal to 10. And this simply means that the derivative is cutting our x-axis here, okay? So that's basically what this means. But what does what this also means is that if you can go back to your original function, then this will be the point where we have the minimum or the maximum of that function.
+33:40 Hoor Alhasson: Okay.
+33:41 Mateusz Kostrz: Doesn't make sense.
+33:43 Hoor Alhasson: yeah, kind of sawyers like like when I come across a question, like it says, Interpret your answer, do I have to like, related back to the original
+33:54 Mateusz Kostrz: Yes. Yes you exactly. You have to really, maybe we'll be best if we just plot
+33:55 Hoor Alhasson: Original function.
+33:59 Mateusz Kostrz: it. Maybe you will see here. So here we have our derivative red.
+34:03 Hoor Alhasson: Yeah.
+34:04 Mateusz Kostrz: Is the function for the derivative. And if we plot The normal S of X. So we do. This. Over over X. Yeah, you see this now?
+34:21 Hoor Alhasson: Oh yeah.
+34:21 Mateusz Kostrz: This. So this is kind of what I drew here, right?
+34:22 Hoor Alhasson: Yeah.
+34:25 Mateusz Kostrz: That we also have this problem, but whatever, this doesn't matter. This is our local minimum. And that's why here is this will be on the same line. So if you kind of redraw this
+34:33 Hoor Alhasson: Oh, on the same line as the where the four is.
+34:37 Mateusz Kostrz: Yeah, exactly, exactly exactly. So if this is our derivative And if we draw, this function like that, for example, Then here we had this far, right?
+34:53 Hoor Alhasson: Yeah.
+34:54 Mateusz Kostrz: It'll be on the same line. as this minimum point here,
+34:59 Hoor Alhasson: Okay, that makes sense. Yeah.
+34:59 Mateusz Kostrz: Okay, so basically what this means, this x is equal to 4. This means that this will be the value. What do we have here square base? okay, so in this case, when we have this function, The original function. Then here. This x we have that this is square base. So this is let's say side Of the base. from the Question description and this is the surface area. Right. It has a surface area. So this is basically the formula for this.
+35:43 Mateusz Kostrz: So basically what this means is that when x is equal to 4, so when the side length of the base is equal to 4, then our surface area will be minimized.
+35:54 Hoor Alhasson: Okay.
+35:55 Mateusz Kostrz: That's the interpretation. so, when this is equal to 4, then this this at minimum, Okay.
+36:08 Hoor Alhasson: Okay, so okay, so the original function. Is the surface area that you're talking about, right? Except the surface area
+36:15 Mateusz Kostrz: Yes.
+36:16 Hoor Alhasson: would be minimized because when the derivative like, when the derivatives x is equal to 4, that's When the original function is minimized. Like the function, okay?
+36:27 Mateusz Kostrz: Yes.
+36:30 Hoor Alhasson: Okay, that makes it. Yeah.
+36:31 Mateusz Kostrz: Okay. Yeah. Kind of I mean think that's maybe do a more question, maybe we'll see it clear. But yeah but that's basically what we do say whenever Because we're very often. You have those minimizing and maximizing questions. They haven't quite often and for them, usually you take the derivative and you have to equalize it to zero because then when you do this means that you minimize or maximize your original function, okay?
+36:55 Hoor Alhasson: Okay, yeah, okay. Okay, that makes sense.
+36:59 Mateusz Kostrz: Okay. Okay, now let's do this one.
+37:49 Hoor Alhasson: Okay, so we put the
+37:51 Mateusz Kostrz: Remember those asymptotes?
+37:53 Hoor Alhasson: Yeah. Yeah. We put in the graph, right?
+38:01 Mateusz Kostrz: And no, not really.
+38:02 Hoor Alhasson: On the right rate. Never mind. It's like taking X squared, and 8. A squared over 8.
+38:12 Mateusz Kostrz: The, But what is that? What do you mean?
+38:15 Hoor Alhasson: For the vertical asymptote. I I'm trying to drive my memory because I did practice questions on this.
+38:22 Mateusz Kostrz: Yes. So remember what an asymptote is an asymptote is basically when you have A function. Like this. For example, the asymptote is a line that your function will never cross. So let's say it's going like this,
+38:39 Hoor Alhasson: Yeah.
+38:40 Mateusz Kostrz: Does Asymptote. And your function kind of be going next to it, right?
+38:44 Hoor Alhasson: Yeah.
+38:44 Mateusz Kostrz: And it will never cross it. So, that's it. That's the idea. So, basically a vertical asymptote, will be a value of x, for which your function can never happen.
+38:58 Hoor Alhasson: Okay, yeah, I remember.
+38:59 Mateusz Kostrz: Okay. so now any Any ideas how to go about this?
+39:07 Hoor Alhasson: So we don't we don't put on the ground, right?
+39:10 Mateusz Kostrz: No. This one is also for one point. So this is quite quite and let's say, A question which you don't really have to solve. Like you're just kind of fruit, look at it and you should get the answer somehow.
+39:24 Hoor Alhasson: Okay. I'm not sure if this is like the correct. Way. Because I don't know if it's, if it's for vertical, asymptote, but don't you take one of the The fractions. You take one of the fractions.
+39:44 Mateusz Kostrz: Yes. Yes, you usually do. So basically if we have a function like this Then. you have to think of kind of, like with, What value of X can never happen and I don't know if you remember but there's this rural mathematics that you can never divide by zero. That's usually kind of the thing you have to notice with vertical asymptotes. So since you can add divide by zero, then this means that for this part You can never have that. You have 16 divided by zero it.
+40:24 Hoor Alhasson: Yeah.
+40:24 Mateusz Kostrz: Because then we'll be a problem because then kind of like let's say mathematics in general stops to work, so this can never happen. So basically, from this, we know that our X can never be equal to 0, right? Because if it is that this function, this fraction is a problem, right?
+40:38 Hoor Alhasson: Yeah. Yeah.
+40:43 Mateusz Kostrz: so, since we know that x can never be equal to 0, then this means that this will be the point where we have our asymptote Because that's the definition of when asymptote.
+40:52 Hoor Alhasson: Okay, so that Yeah. so, it's like, x is the Okay, wait.
+41:01 Mateusz Kostrz: So this means that basically our asymptote. So this is very often a counterintuitive because we know that x can never be equal to 0, which means that our asymptote has to be there. So, our asymptote actually is that x is equal to zero.
+41:17 Hoor Alhasson: Okay. Oh, okay. But can never be zero.
+41:21 Mateusz Kostrz: Yeah, because Yes, when when asymptote is at zero, this means that your function will never cross it.
+41:29 Hoor Alhasson: Okay. Okay, that makes yeah. Now I remember. Yeah.
+41:36 Mateusz Kostrz: Okay.
+41:37 Hoor Alhasson: So the vertical asymptote is like x equals zero.
+41:40 Mateusz Kostrz: Yes.
+41:41 Hoor Alhasson: Okay. Yeah, that makes sense.
+41:46 Mateusz Kostrz: Okay. So, let's go.
+42:25 Hoor Alhasson: okay, so the derivative I did was 16 x to the power of negative 1.
+42:34 Mateusz Kostrz: Mmm - 16x, no.
+42:38 Hoor Alhasson: That it c minus. I'm not. Oh wait! Oh cuz when we flip it becomes minus.
+42:44 Mateusz Kostrz: Yeah, because our function now like will be best to flip it. So we best to write it like this, right?
+42:54 Hoor Alhasson: Yeah. Oh we don't flip eight either. Because I flipped it.
+42:58 Mateusz Kostrz: ah, Yeah, you can. I mean this doesn't really change much for you. You can you can so like you wrote it like this.
+43:09 Hoor Alhasson: no, I would suggest like Eight extra Power of Negative 2.
+43:16 Mateusz Kostrz: Oh no. No, this doesn't work like that. No, no. So only It only works from like the denominator of the, of the fraction. So, like x squared over 4. is not the same thing as for, Like this, this is not the case.
+43:36 Hoor Alhasson: Oh, okay. So
+43:38 Mateusz Kostrz: On the bottom of the function, you can. You can flip
+43:39 Hoor Alhasson: The house. Oh, okay. I just realized because it was In the bottom of the fraction, so it's only counts for when x is in the bottom of the function.
+43:54 Mateusz Kostrz: I mean you can always do it like this is just like usually it's not really useful.
+43:59 Hoor Alhasson: Okay.
+44:00 Mateusz Kostrz: so for, so for this, for example, This, I wouldn't do it like this because I think it just makes more difficult. So, like this, this you can just keep it like that. But this part, you should flip.
+44:14 Hoor Alhasson: Okay, so if x is in the top of a function, we don't have to really flip it.
+44:19 Mateusz Kostrz: Yeah, the thing is, like, you never really have to flip it. And you always kind of flip it, like, it's kind of up to you because it means the same thing, right? Like, it's as if you said like, I don't know that, like, two over four is the same thing as one over two because it's the same thing, right? So if you write this two or four, one over like this doesn't matter, it's just like, whichever one. You you prefer like usually on the exam you should, you should change it like that, you should, you know, kind of do this. But realistically for flipping flipping this part So, this 16x the power of minus 1.
+44:51 Mateusz Kostrz: If you can deal without it, then you don't have to do it but it makes it easier to solve derivatives like this.
+44:58 Hoor Alhasson: okay, okay, so I can just leave it then X squared to The X sorry, x squared over 8.
+45:04 Mateusz Kostrz: you can, you know, Your task is to find the derivative how you do it is up to you. If you want to flip it and it helps you flip it, if you don't want to flip it. And you you fine then don't.
+45:15 Hoor Alhasson: Okay. Okay, but it's different because like this because X is on top of the fraction, so it's different when they do it. Is different than the first fraction.
+45:27 Mateusz Kostrz: It's sorry. Yes, it's different.
+45:29 Hoor Alhasson: Like, when I do flip it. So that's going to be like You did like negative X? Squared. Or was it like X to the power of negative? Two, and then.
+45:45 Mateusz Kostrz: Well.
+45:45 Hoor Alhasson: It's I don't know. I don't know how you did it. The, the thing when you switched it to a derivative, the X squared. Yeah.
+45:52 Mateusz Kostrz: Oh, that the second one. So, do you want to flip it?
+45:57 Hoor Alhasson: Yeah, I just want to know how you can do it in case.
+45:59 Mateusz Kostrz: Okay, wait, will be the best. Way for me to. Okay. So If we had, when we had this for example, right? Did you know how this becomes this?
+46:14 Hoor Alhasson: Yeah.
+46:14 Mateusz Kostrz: So, if we now have this, Then basically, as you can see, the top of the fraction doesn't change, right?
+46:24 Hoor Alhasson: Yeah.
+46:25 Mateusz Kostrz: So this here we just have X squared from here, right? It doesn't change.
+46:30 Hoor Alhasson: Okay.
+46:33 Mateusz Kostrz: And here we have x and it became x, the power of minus 1. So now we have to take this 8 and to become a to the power of minus 1.
+46:43 Hoor Alhasson: Okay, okay. Oh, okay. Okay, that makes sense. Then that makes sense.
+46:48 Mateusz Kostrz: Yeah, so that's it.
+46:49 Hoor Alhasson: Yeah. Okay.
+46:51 Mateusz Kostrz: But my suggestion is don't do it.
+46:55 Hoor Alhasson: Okay. Wait, you keep it in the whiteboard, just just in case. Yeah. So the and so for part B, it's like 16 X.
+47:04 Mateusz Kostrz: Oh yeah.
+47:10 Hoor Alhasson: 16 x to the power of negative 1 plus x squared over 8.
+47:16 Mateusz Kostrz: But this is your derivative or what?
+47:19 Hoor Alhasson: Oh, no, no. Right? We I still need to like To new. Okay. Yes, that is not my derivative. So, it's like 1 times 16, negative 1 times 16.
+47:32 Mateusz Kostrz: Hmm.
+47:35 Hoor Alhasson: So, this is gonna be negative 16 x to the power of negative 2.
+47:39 Mateusz Kostrz: So here probably the best way would be to think about this, that this is one
+47:42 Hoor Alhasson: Plus, um, what how do I do the derivative of X 2 over 8.
+47:52 Mateusz Kostrz: over eight times X squared.
+47:56 Hoor Alhasson: Okay. So, it's gonna be two times. Two times one over eight. And then X to the power one.
+48:09 Mateusz Kostrz: Yep.
+48:12 Hoor Alhasson: Okay, wait, let me just
+48:14 Mateusz Kostrz: So that's it.
+48:23 Hoor Alhasson: Oh wait.
+48:27 Mateusz Kostrz: Yeah, and that's, that's basically it.
+48:29 Hoor Alhasson: Oh, okay. Okay.
+48:34 Mateusz Kostrz: Okay. Nice. So that's that's our derivative. And now for part c, another bit of of
+48:36 Hoor Alhasson: Yeah.
+48:43 Mateusz Kostrz: theory. So basically here we have to find the interval for which f of x is increasing, right? Not the derivative, but f of x. So There is another rule. So there's a couple of these rules so kind of can write it down somewhere on the, on the side of, you don't remember them. there is this rule with derivatives that if Let's say, for example, your derivative looks like this.
+49:13 Mateusz Kostrz: That this is the function for your, for your derivative. So basically, every interval where your derivative is below zero. So for example, here, This will be the interval and here. This will be the interval where your original function is decreasing. So whenever you're derivative below zero, then your original function is decreasing. Okay. And the same way if it is above zero. So here Then this means that your original function. Is increasing. Doesn't make sense.
+49:56 Hoor Alhasson: Yeah.
+50:00 Mateusz Kostrz: This is when this is decreasing, okay?
+50:03 Hoor Alhasson: okay, so with the function that crosses below Like when it goes to the negatives, that's what it's decreasing going. It's about the graph. It's like increasing
+50:12 Mateusz Kostrz: Yes, but it's when you're derivative is real zero.
+50:16 Hoor Alhasson: Okay.
+50:17 Mateusz Kostrz: so this pink line here, this is our derivative This is not our original f of X function.
+50:21 Hoor Alhasson: Okay.
+50:25 Mateusz Kostrz: Yeah, doesn't make sense. So, this is f prime opening. Those are two different
+50:27 Hoor Alhasson: Yeah.
+50:29 Mateusz Kostrz: functions. F prime of x and F of X.
+50:32 Hoor Alhasson: okay, and says, right down the interval, which
+50:35 Mateusz Kostrz: For which f of X is decreasing. And those questions are always like that. So
+50:36 Hoor Alhasson: If x is increasing.
+50:39 Mateusz Kostrz: because that's kind of the only way in which it makes sense, you find the derivative. Okay, let's that's maybe plotted. So be easier to understand if we put our derivative Where is it? Here, right? So this is what you found for our the red.
+50:58 Hoor Alhasson: Yeah.
+50:59 Mateusz Kostrz: So, if we plot this, Like so. Yeah, so we just plot it.
+51:17 Hoor Alhasson: Yeah.
+51:19 Mateusz Kostrz: And into zoom it in a bit. Okay, so we got something like that.
+51:31 Hoor Alhasson: so, we plot we plot one, it starts going above the derivative so like when it crosses
+51:40 Mateusz Kostrz: Yeah.
+51:40 Hoor Alhasson: Love the X. So like,
+51:42 Mateusz Kostrz: Yeah, so we get something like this, right? Did you get the same thing?
+51:45 Hoor Alhasson: Okay. Oh, I didn't plot it yet.
+51:48 Mateusz Kostrz: okay, but so let me just redraw this so you see So, our derivative function. Looks like this, right? so this is our derivative Okay.
+52:06 Hoor Alhasson: Yeah.
+52:08 Mateusz Kostrz: And we care about the interval, where our f of x, our original function is increasing, which means from what we did here is that we are looking for the places where our Derivative is about zero. So actually here, right? Because here we are above zero. Yeah.
+52:26 Hoor Alhasson: Yeah.
+52:31 Mateusz Kostrz: All the rest. We don't care about because everything else is below zero, right? so basically, we're doing to find To find this point. So we go here. We find it. This is our point x is equal to 4. Yeah, from here.
+52:58 Hoor Alhasson: Here we yeah, x is equal to 4.
+53:00 Mateusz Kostrz: Okay. And basically what this means is that our f of X is increasing. When x is bigger than 4. so, for all of those numbers here, Our function will be increasing.
+53:15 Hoor Alhasson: Okay. Oh, okay. Okay. That makes sense.
+53:21 Mateusz Kostrz: Yeah, so that's it. So that is it.
+53:26 Hoor Alhasson: That's kind of like related to not kind of like as a related to domain range.
+53:33 Mateusz Kostrz: Yeah. Kind of because you have those intervals, but not so much actually. Okay.
+53:41 Hoor Alhasson: Okay. Yeah. It's
+53:44 Mateusz Kostrz: Okay, let me find something.
+53:50 Hoor Alhasson: This both for integration and differentiation and just differentiation.
+53:52 Mateusz Kostrz: Yes. Yes. For both.
+53:54 Hoor Alhasson: Okay.
+53:56 Mateusz Kostrz: That's where I'm skipping through some. Okay, let's do this one and you will learn Some more theory. Are they should be able to do.
+54:07 Hoor Alhasson: Okay.
+54:37 Mateusz Kostrz: Well, actually didn't ask, but we're doing one and a half hours like straight, right? No, no breaks.
+54:42 Hoor Alhasson: Oh yeah.
+54:43 Mateusz Kostrz: Okay.
+54:44 Hoor Alhasson: We are.
+55:08 Hoor Alhasson: okay, so I got like, I got negative two plus X. Oh no, plus 6x to the power one.
+55:19 Mateusz Kostrz: Six. Oh wait, so we got come again. So again.
+55:24 Hoor Alhasson: So, I got negative 2. Plus 6 x to the power of one.
+55:29 Mateusz Kostrz: No.
+55:32 Hoor Alhasson: What's wrong?
+55:33 Mateusz Kostrz: This part is wrong.
+55:35 Hoor Alhasson: this is like, Three times three times. where because for two over X, I did like I'd like like I removed the fraction form. I did like two X negative one and then I did the derivative of that so I did like negative 1 times 2.
+55:57 Mateusz Kostrz: and then,
+56:00 Hoor Alhasson: Oh, Ray really. Next to the power of negative 2.
+56:04 Mateusz Kostrz: Yep, exactly.
+56:07 Hoor Alhasson: Then plus 6x to the power of what?
+56:10 Mateusz Kostrz: Yeah, and that's it.
+56:12 Hoor Alhasson: Yeah.
+56:14 Mateusz Kostrz: Nice. Okay. That's the answer to two part a. Yeah. With with those, those derivatives. Make sure to kind of remember about those fractions because it's quite easy to forget about it, but that's, that's fine. Okay, and now about these normal normal curves and tangent lines. So basically These questions happen quite often. So the idea is this Is that if you have a function, Let's say that. This is our function, for example, whatever and derivatives allow us to find those tangent lines. As I kind of briefly explained that the start So let's say we want to find this tangent line over here. Okay.
+56:58 Mateusz Kostrz: And very often you would have questions like for example, you know, find a derivative whatever. And then part B would be like find the equation of the tangent line at some point. Okay. And, and that's why, and that's kind of what we have here. But we have a
+57:11 Hoor Alhasson: Okay.
+57:15 Mateusz Kostrz: normal, not tangent, like, they are pretty much the same. So let's say that this is tangent. And let's say that this is the point, let's use this point that we have here. So let's say that, this is point one and two, Okay, because you always need to have them at a specific point because at every point they are different. So for example, you can have a tangent line here You can have a tangerine here.
+57:39 Mateusz Kostrz: You can have one here, you have them everywhere. Okay, so you always have to specify at which point you want to find it, because only, then you're able to really find it because if not, then they can be everywhere, okay?
+57:51 Hoor Alhasson: Okay.
+57:54 Mateusz Kostrz: So a talented like this this line. So this this is the tangent line.
+58:15 Hoor Alhasson: For a human rights over on like, do I know what the gradient is?
+58:26 Mateusz Kostrz: And a normal is basically the tangent line, but perpendicular to it. So normal goes like this. So this is the normal. So it's basically the same thing but you have to flip the gradient. Okay. Do you remember what grade end was? He yeah, so that's basically that's basically it. So for the gradient, So whenever you solve questions like this, there's a couple of steps you need to
+58:40 Hoor Alhasson: Okay.
+58:42 Mateusz Kostrz: follow. First of all, So let's just do this question that we have for, for part B, but let's imagine that we don't have find the equation of the normal, but we have find the
+58:49 Hoor Alhasson: Okay.
+58:52 Mateusz Kostrz: equation for the tangent. Okay. So to find the equation of the tangent at point one, two, so we have point one, two, And find tangent. Find Tangent Line. Let's forget about the second part of the question. Also.
+59:10 Hoor Alhasson: Yeah.
+59:15 Mateusz Kostrz: Okay, so we have to find the tangent line at point one, and two. Okay. so, 8009 is basically the where is this? A tangent line is basically just this black line here, right? This is our tangent line and As with every line, there is two steps in which, which you need to find this equation for the line. You need the point and you need gradient. Then you can find anything you want on that on the line because those are the only two conditions point you have pointed this one.
+59:33 Mateusz Kostrz: So that's the first condition. And the second one is degraded at the gradient, we don't have, because the gradient is what we get from the derivative. So derivative, as you said this rise overrun or whatever. You said, I don't really use this this. Let's say description, but this is also fine.
+59:45 Hoor Alhasson: Yeah.
+59:45 Mateusz Kostrz: Gradient, you get. So this is basically the same description as the derivative because gradient is the change, right? You have the change horizontal over change, change vertical, and that's the same thing as the derivative tells us. Okay? So that's why here we have to use the derivative and find the derivative at this specific point to find it's gradient. So if we find so derivative Derivative at point one and two. Will result in us getting the gradient at this point, gradient. So the slope.
+01:00:21 Mateusz Kostrz: So if we basically find F prime, and we have f prime of X. So we only care about the X points or one We have to find F prime of 1. So let's try to find it. So we have this so we put it in the GDC. So we have minus 2. Times 1 plus 6. Which is 4. So this means that this is our gradient, our gradient at point, 1 and 2 is equal to 4.
+01:00:53 Mateusz Kostrz: So basically what this means is it kind of looks actually how we do it. Is that we know that this tangent line will have a gradient of force, I would be kind of going up. Okay.
+01:01:03 Hoor Alhasson: Okay, wait.
+01:01:06 Mateusz Kostrz: And, and this allows us to find this tangent line already because To do it. You have this equation for the line in your booklet, right? Remember this one.
+01:01:17 Hoor Alhasson: Yeah, yeah. I do.
+01:01:21 Mateusz Kostrz: So you just need to plug it in here. So you have y, minus 2. Right? So we just plug this gradient for M. And we plug this point. This point for Y1 and X1.
+01:01:38 Hoor Alhasson: Okay. so, I only got the part when you did the equation but like for the gradient, I wasn't able to process a property, so like
+01:01:50 Mateusz Kostrz: So for this part, right?
+01:01:51 Hoor Alhasson: Oh yeah. Yeah, for the grade eight part because he said you're trying to find the gradient.
+01:01:58 Mateusz Kostrz: Yes. So sorry, so we have to find that the gradient and to find the gradient, we have to use the function for the derivative So you take your derivative and somebody tells you. So let's say let's say you have a derivative like, I don't know, whatever something like this. Okay, let's see that. This is your This is your derivative function, okay?
+01:02:26 Hoor Alhasson: Yeah.
+01:02:27 Mateusz Kostrz: and somebody asks, you Find. Find the gradient. Of this function at point two, and three. So we have point two and three And you have to find the gradient. Okay.
+01:02:44 Hoor Alhasson: Yeah.
+01:02:45 Mateusz Kostrz: so, the way that you do it, Is you have to plug this point into our derivative function, but when you plot it you only care about your ex Actually, you only care about this because that's the only thing you really need.
+01:02:58 Hoor Alhasson: So, you plot two.
+01:03:00 Mateusz Kostrz: Exactly. So we'll just do f prime of two. And you you put it in. So you get Two squared plus 4. So 8. So this means that at point 2 and 3 your gradient is equal to 8.
+01:03:17 Hoor Alhasson: Okay. oh, okay, so we use the derivative And plug in one of like, so we plug in x from that point that they gave us, we plug it next to that, derivative and find the gradient from it.
+01:03:29 Mateusz Kostrz: Yep, exactly.
+01:03:31 Hoor Alhasson: Okay. Okay, that makes sense. That makes sense.
+01:03:33 Mateusz Kostrz: So that's it. So that's it. So that's right here.
+01:03:36 Hoor Alhasson: And then, yeah.
+01:03:38 Mateusz Kostrz: So that's what we got this. Yeah.
+01:03:41 Hoor Alhasson: Yeah, so you plug in the gradient to the point to the equation of a line.
+01:03:47 Mateusz Kostrz: Exactly. Because then like, Because you eventually in this, essentially, this question, you have to find the equation of the line. If it's a tangent line, if it's normal line, doesn't matter. It is just some equation of the line.
+01:04:00 Hoor Alhasson: Okay.
+01:04:00 Mateusz Kostrz: And from definition for the equation of any line, whatever it is, you need two conditions, you need the gradient and you need the point. In this case, we were given the point from the question. So this we have the last thing that we were needing. We were needing was the gradient. So that's why we had to find like that.
+01:04:16 Hoor Alhasson: Okay. Okay, that makes sense.
+01:04:20 Mateusz Kostrz: And now we have both so we can just just, you know, use the equation for the line. Okay.
+01:04:27 Hoor Alhasson: Yeah. Okay. That makes it
+01:04:28 Mateusz Kostrz: So that will be it for that. However, we change this question a little bit to make this a little bit easier. And now actually the normal question tells us to find the normal, not not detangent. and the only difference in those questions because they're always very similar, is that Because like when you plug the point to the, to the derivative to get the gradient, right? Like kind of like we did here. Then you find the gradient of the tangent line.
+01:04:53 Hoor Alhasson: Yeah.
+01:04:55 Mateusz Kostrz: This is by default the tangent line, this is not the normal because the normal as I kind of showed you here, normal goes like this. So it's perpendicular to the tangent like so basically what this means if you
+01:05:03 Hoor Alhasson: Okay.
+01:05:06 Mateusz Kostrz: find the gradient of the tangent line then you have to flip it. Remember how we're flipping for perpendicular lines?
+01:05:11 Hoor Alhasson: Yeah.
+01:05:13 Mateusz Kostrz: So then you have to flip it, you have to flip it and then you get the gradient
+01:05:14 Hoor Alhasson: Yeah, I do.
+01:05:17 Mateusz Kostrz: for the normal line. So if this is the gradient for the tangent, Then for the normal. They do just be minus one over for it.
+01:05:27 Hoor Alhasson: Yeah, but like for questions like this.
+01:05:28 Mateusz Kostrz: Since.
+01:05:32 Hoor Alhasson: sorry, I can't go up a little, I think to the graph something Will it like, will it when we find the gradient with it? Always be default to tangent. Like, Is it the greeting gonna be defaulted tangent? Okay, so if it
+01:05:43 Mateusz Kostrz: Yes. Yes, always.
+01:05:46 Hoor Alhasson: asks us to, if it asks us in the question that we think they need the equation of the normal, then we have to What's called flip the gradient?
+01:05:56 Mateusz Kostrz: Yes, exactly.
+01:05:58 Hoor Alhasson: Okay, but if it said tangent, we just keep it the same way because that's the
+01:06:00 Mateusz Kostrz: Yes.
+01:06:01 Hoor Alhasson: default gradient, okay? That makes sense.
+01:06:02 Mateusz Kostrz: Yeah, exactly exactly. So that's why. Here says our gradient is negative 1 over 4. We have the equation. For again, equation for the line, which is 0.12. So we have Negative 1 over 4. We have this, right?
+01:06:22 Hoor Alhasson: Okay. Okay, that makes sense. Oh, and then Oh wait.
+01:06:25 Mateusz Kostrz: Yeah, and now we have to multiply it out. We cannot leave it like this. So can you try to multiply it out?
+01:06:30 Hoor Alhasson: Yeah, so it's plus no no. First you do X. No no. You do negative 1 over 4 times, x, a negative 1 over 4 times, negative 1.
+01:06:44 Mateusz Kostrz: Mm-hmm.
+01:06:45 Hoor Alhasson: So, wait a minute. so, that's gonna be like, Negative one. Over four X. Plus 1 over 4.
+01:07:12 Mateusz Kostrz: Yes. Yes.
+01:07:15 Hoor Alhasson: And then and then you do plus one for the constant. You don't do it for the gradient, right?
+01:07:23 Mateusz Kostrz: You deserve what?
+01:07:24 Hoor Alhasson: Let me plus two, sorry. Plus two for the the constant, not the gradient.
+01:07:31 Mateusz Kostrz: What? So thank you. Very put this two on the other side. Mm-hmm.
+01:07:35 Hoor Alhasson: Yeah.
+01:07:41 Mateusz Kostrz: So you get something like this, okay? And that's almost the answer. However, here is, you can see they, you know, what this this z means.
+01:07:51 Hoor Alhasson: Z are not. Is that like real numbers?
+01:07:53 Mateusz Kostrz: Yeah. It means integers.
+01:07:59 Hoor Alhasson: Oh yeah, right.
+01:08:00 Mateusz Kostrz: So, integers is basically like that, it cannot be a fraction, so it can be like five, seven, 15, Whatever, but it cannot be like, 2.2, okay? And here we have two fractions. As you can see here, And here, right?
+01:08:15 Hoor Alhasson: Yeah.
+01:08:15 Mateusz Kostrz: So we have to somehow get rid of them. Any idea how we could do that?
+01:08:21 Hoor Alhasson: Oh wait, we have to get rid of the fracture of two. Times one over four.
+01:08:28 Mateusz Kostrz: but,
+01:08:32 Hoor Alhasson: So, there's a four times two plus one. Or.
+01:08:41 Mateusz Kostrz: Still a fraction. No.
+01:08:44 Hoor Alhasson: oh, I, I don't know to
+01:08:52 Mateusz Kostrz: Mmm. So in those questions. What do we have to do? Is we have to always multiply it by something because in this case, as you can see, if you multiply it by 4, Then these fractions will disappear because this four will just go away, right? Because we multiplying by far so it will cancel out.
+01:09:09 Hoor Alhasson: Yes. So we're supposed to do that.
+01:09:10 Mateusz Kostrz: So if you move all of this by four you will get four. Why is equal to minus X? And I think this times four will give you 9 Because this is 225. Yeah. So this will be 9.
+01:09:27 Hoor Alhasson: Okay.
+01:09:29 Mateusz Kostrz: Okay, you see how this happened.
+01:09:30 Hoor Alhasson: so, Yeah, so we so we can get rid of the four ingredients.
+01:09:37 Mateusz Kostrz: Mmm. Well, is that like we're getting rid of the four? We're just kind of changing the equation to not have this for Because we just we multiplied everything by four, right?
+01:09:45 Hoor Alhasson: Okay. Yeah.
+01:09:49 Mateusz Kostrz: So we're just trying to get rid of the fraction.
+01:09:53 Hoor Alhasson: Okay.
+01:09:55 Mateusz Kostrz: Doesn't make sense.
+01:09:55 Hoor Alhasson: Okay. Yeah. Yeah. So that make it okay, so we got rid of the fraction but then we'll have to get rid of the four in the white.
+01:10:04 Mateusz Kostrz: No, no, it's fine. It's fine, it's fine. Because like four is fine for as an integer, right? So it's okay.
+01:10:09 Hoor Alhasson: Yeah.
+01:10:10 Mateusz Kostrz: So you can keep it like this.
+01:10:12 Hoor Alhasson: We could keep it in the Y.
+01:10:14 Mateusz Kostrz: Yeah, like you see here how Every coefficient next to x and y can be an integer. So if it's for 45, doesn't matter as long as it's not a fraction, it's okay. Because there's
+01:10:25 Hoor Alhasson: Okay, but that's only base for this question, right?
+01:10:28 Mateusz Kostrz: Yes. Yes. Exactly.
+01:10:30 Hoor Alhasson: Only for discussion. So it's as long as it's not a fraction, it can take a number can be and next to any What's it called? Like, it could be next to wire X.
+01:10:43 Mateusz Kostrz: Yeah. They have specifically tell you that they're looking for only for integers
+01:10:45 Hoor Alhasson: Okay. But that's only for this question, right? I mean, only for this, this type of this type of question like this part of the question.
+01:10:56 Mateusz Kostrz: but they do happen quite often actually.
+01:11:00 Hoor Alhasson: Okay, so then I have to keep like four, why we don't have to get rid of before.
+01:11:04 Mateusz Kostrz: No, because like you can't like I mean is that the thing that I give you try to get rid of it? Then something else would become a fraction. so,
+01:11:12 Hoor Alhasson: Okay, okay.
+01:11:13 Mateusz Kostrz: Like, you know, at some point you have to decide like here, they wanted us to decide for integers. So that's why we kept like this. They wanted to get keep fractions and we could keep that the top one. And now as you can see, we have to equalize it all to zero. So we best to just put those two on the other side. So we do four. Why Plus x minus 9 is equal to 0.
+01:11:35 Hoor Alhasson: Okay. Okay, that makes something.
+01:11:38 Mateusz Kostrz: Yeah.
+01:11:39 Hoor Alhasson: Oh, it has to be equal to zero right? Because. Okay. Okay. I deserve to do it
+01:11:42 Mateusz Kostrz: You see this?
+01:11:43 Hoor Alhasson: that way. Yeah.
+01:11:46 Mateusz Kostrz: So that's it.
+01:11:47 Hoor Alhasson: Okay, that makes sense. But
+01:11:49 Mateusz Kostrz: No. Okay. So, let's try to find. Do we have some more tangent lines here or no? Oh, we do nice. Okay, let's do this one.
+01:12:04 Hoor Alhasson: All right. Now, please zoom in a little for this question.
+01:13:06 Hoor Alhasson: Up for three X. Let me three over X. Sorry. Well, I was called. I converted it to like Because I didn't do it fraction form. I did like three X to the power negative 1.
+01:13:20 Mateusz Kostrz: Mmm.
+01:13:22 Hoor Alhasson: But then to turn into a derivative, you'd have to do like negative one times three. So that's gonna be okay. Like Three negative three X to the power of negative 2.
+01:13:34 Mateusz Kostrz: Yep, very good.
+01:13:35 Hoor Alhasson: But then because it has a negative and like the equation, it says, minus does that equal to others? Does that make it like plus 3x?
+01:13:44 Mateusz Kostrz: Yeah, exactly exactly. Very good, very good. So what will be your final answer?
+01:13:45 Hoor Alhasson: Okay. So, there's gonna be like, two, two x to the power of 1, plus 3x to the power of negative 2.
+01:13:56 Mateusz Kostrz: Yep, very good. Nice, this one was tricky, very nice.
+01:14:01 Hoor Alhasson: Okay. Would be obviously. Finding the gradient. This is
+01:14:13 Mateusz Kostrz: hmm, this is Actually, pretty much the same thing we did before. So, try to try to think of the way we did it before and just the previous question.
+01:14:24 Hoor Alhasson: Okay.
+01:15:22 Hoor Alhasson: So the gradient is 5.
+01:15:26 Mateusz Kostrz: How did you do it?
+01:15:28 Hoor Alhasson: so, I got like I took the derivative equation and I replaced exit 1.
+01:15:36 Mateusz Kostrz: Nice, exactly. Very nice. Mmm,
+01:15:39 Hoor Alhasson: And then yeah, I just solved it, I got five.
+01:15:43 Mateusz Kostrz: Yeah, that's perfect.
+01:15:45 Hoor Alhasson: Okay. See. Um, wait. Foresee. Do I have to put this at the calculator?
+01:16:09 Mateusz Kostrz: Yeah, not really in the calculator. Let me think. And I'm going to power out. Okay, actually probably maybe putting it because this one's a bit more tricky. So first of all, can you maybe try to find this tangent line? That they talked about you.
+01:16:34 Hoor Alhasson: Tangent line. Oh, right. So we have to do the equation of a line. Right. Okay.
+01:17:50 Hoor Alhasson: Okay, I got Y equals 5 x. Minus 3.
+01:17:57 Mateusz Kostrz: I got -7 but I just did it very quickly once again. No minus 7 now.
+01:18:12 Hoor Alhasson: I did like, Oh, never mind.
+01:18:13 Mateusz Kostrz: Because you have minus 2 here. It'll be y, minus minus now.
+01:18:18 Hoor Alhasson: Yeah, I did. I did. Oh, y plus two because I added both minus but then wait. It minus five. Oh, I didn't do. I did plus do, that's why. So yeah, it's mine seven. Yeah.
+01:18:37 Mateusz Kostrz: Hmm. Okay, so now let's try to plot those two. So let's try to plot f of x and this So, let's try to put it in our GDC to see how it looks.
+01:18:46 Hoor Alhasson: Okay.
+01:18:53 Mateusz Kostrz: Because this question can be a bit tricky. The three over X. And you do five X minus 7. Aha. I'm going to zoom it in probably. Okay, did you get the same thing as me?
+01:19:27 Hoor Alhasson: Oh wait, what? Yeah, I did. But what were your windows again?
+01:19:33 Mateusz Kostrz: I just did this.
+01:19:38 Hoor Alhasson: Okay.
+01:19:40 Mateusz Kostrz: Okay, did you get the same?
+01:19:43 Hoor Alhasson: Yeah, I did.
+01:19:44 Mateusz Kostrz: okay, so now when we graph, it actually probably the best way would be to graph it Because I the answer here will be one because the question this question actually parties a little bit different than what we did before.
+01:19:59 Hoor Alhasson: Well, I think I got the same thing. Wait, let me
+01:19:59 Mateusz Kostrz: so,
+01:20:03 Hoor Alhasson: That's fine.
+01:20:20 Mateusz Kostrz: Notifications, something something let me see. No, I think you're Why do you have extra power of minus 2? Oh, because you put the derivative oh no, we have to put the original function.
+01:20:36 Hoor Alhasson: and this isn't it, like Oh, okay, okay.
+01:20:42 Mateusz Kostrz: You see the question here that are tangent to ff of X not F prime.
+01:20:48 Hoor Alhasson: that's, I mean, just redo that.
+01:20:54 Mateusz Kostrz: Yeah, okay, so this is our
+01:21:21 Hoor Alhasson: And we can see how close Calculator looks. Okay, yeah I got I got the same them.
+01:21:34 Mateusz Kostrz: The point. Negative. So this is point. One and negative two. So we have this tangent line, basically goes like this, right?
+01:21:48 Hoor Alhasson: Yeah.
+01:21:49 Mateusz Kostrz: Let's say someone like this. So, this is this. l, so that the tangent line and now they ask us how many parallel lines are there That are that are tangent to to F of X. So, parallel lines, you know what it means?
+01:22:05 Hoor Alhasson: yeah, like lines are
+01:22:07 Mateusz Kostrz: To have the same gradient. That's the same, right? So parallel line to L could
+01:22:07 Hoor Alhasson: Like equal to each other. Yeah.
+01:22:11 Mateusz Kostrz: be something like this. Right, and could be something like this. And here, as we can see, the only more possible parallel line that will be tangent, will be one more. And it will be somewhere here. It will go like this.
+01:22:28 Hoor Alhasson: Okay.
+01:22:31 Mateusz Kostrz: Okay, because then everything else. I give you Joe it here for example, then it's not tangent anymore. Because tangent has to just cross it here at this, at this one point. And here, it's kind of like crossing through it, right?
+01:22:45 Hoor Alhasson: Yeah.
+01:22:45 Mateusz Kostrz: So this is not tangent anymore and anywhere else like here. Also know, here, also know And here also no, right because all of them will be crossing through it.
+01:22:54 Hoor Alhasson: so, so, we're just trying to, like, put their parent in lines, where the lights are like,
+01:23:02 Mateusz Kostrz: When it's just touching it once.
+01:23:03 Hoor Alhasson: Parallel. And Okay.
+01:23:06 Mateusz Kostrz: Just kind of because all of those tangent lines. So like a tangent line is not this at this point because a tangent line has to be going just next to it. So we'll be going like this here. Okay, it cannot 209 cannot cannot pass through your function, okay?
+01:23:19 Hoor Alhasson: Okay. Yeah. Okay, that makes sense.
+01:23:24 Mateusz Kostrz: And I think here probably the easiest justification is to just draw the graph and just show it.
+01:23:32 Hoor Alhasson: Draw the graph on pipei.
+01:23:36 Mateusz Kostrz: For part. You have to judge. You have to justify your answer, right?
+01:23:37 Hoor Alhasson: Sorry for party. Yeah so we have we can forget. So when it is just why answer we can just draw the graph if we can.
+01:23:46 Mateusz Kostrz: Yeah, it's also fine.
+01:23:48 Hoor Alhasson: Okay.
+01:23:50 Mateusz Kostrz: The very often and answering with a graph is quite an, quite, an easy. Easy way to solve a question, okay.
+01:23:58 Hoor Alhasson: Okay.
+01:23:59 Mateusz Kostrz: Okay, let's see. We can find something more.
+01:24:02 Hoor Alhasson: But what, when the when the question says, justify your answer. It's like It's like, we have to prove prove it, right? We don't have to like it's nothing written.
+01:24:15 Mateusz Kostrz: Yeah, yes, I mean yeah, like it can be written. It can be proven mathematically can proven on the graph, you have to prove it and the way you do it is up to
+01:24:22 Hoor Alhasson: Okay.
+01:24:23 Mateusz Kostrz: you.
+01:24:25 Hoor Alhasson: Okay.
+01:24:26 Mateusz Kostrz: Okay.
+01:24:28 Hoor Alhasson: Yeah.
+01:24:28 Mateusz Kostrz: All right. Let me see if we got something more. Interesting here. Okay, I think you can start. Let's start with this one. Maybe finish it later, but let's try to start because this is a very typical example for those derivative questions on paper too.
+01:24:54 Hoor Alhasson: Okay.
+01:25:33 Hoor Alhasson: For the the part, like the end of the part that says, the length of the park, but the end of that sentence, the one that says like three X and 300, do they do, they mean, like, not not below three knob of 300.
+01:25:50 Mateusz Kostrz: Mm-hmm.
+01:25:51 Hoor Alhasson: Okay.
+01:26:46 Hoor Alhasson: How. Okay, wait. part a, I like It says that the length is x. We're supposed to find X.
+01:26:59 Mateusz Kostrz: The length of the of the park is, is X and doing the length of the garden. So the smaller rectangle,
+01:27:05 Hoor Alhasson: Oh yeah. Oh okay. No, really.
+01:27:24 Mateusz Kostrz: So it's just going to be X minus 3 now. Because we have one 1.5 here and 1.5 here.
+01:27:33 Hoor Alhasson: Oh yeah. Oh okay right. Oh, okay.
+01:27:39 Mateusz Kostrz: This.
+01:28:11 Hoor Alhasson: um, would it be like 3x. 3x. I have no idea how to do that expression.
+01:28:22 Mateusz Kostrz: How did you get 3x?
+01:28:26 Hoor Alhasson: Oh, I added 1.5. like the whole Thing. With the whole length.
+01:28:33 Mateusz Kostrz: Okay, maybe maybe will be easier to do it like this one second. so, To find the, the width of the garden. So we basically looking For. This is the width of the garden, right?
+01:28:50 Hoor Alhasson: Yep.
+01:28:51 Mateusz Kostrz: The length we found here. That this was X minus 3, right?
+01:28:57 Hoor Alhasson: Yeah.
+01:28:58 Mateusz Kostrz: And now we have to find this so the, the pink line over here. Okay. And for this since we don't really know this because if we know this then
+01:29:04 Hoor Alhasson: Okay.
+01:29:08 Mateusz Kostrz: it would just do whatever distance minus 4 and it will be that. But in this case, we don't know. So we kind of have to look at what other additional information we have. And we know that the park has a total area of 1,200. So the park is this big rectangle, right? So this
+01:29:23 Hoor Alhasson: Yeah.
+01:29:23 Mateusz Kostrz: This is the garden here and this is the park. okay, so 1,200 Has to be equal to X multiplied by this. Let's say some w over here. Let's call it W who replaces in a second, okay,
+01:29:40 Hoor Alhasson: Okay.
+01:29:42 Mateusz Kostrz: so, we know That this is equal to this, right?
+01:29:49 Hoor Alhasson: Yeah.
+01:29:51 Mateusz Kostrz: Okay.
+01:29:51 Hoor Alhasson: Okay. Yeah.
+01:29:53 Mateusz Kostrz: Yeah, that makes sense.
+01:29:54 Hoor Alhasson: Yeah. Wait, but like some extra individually, like the whole length, you're
+01:29:59 Mateusz Kostrz: Okay.
+01:29:59 Hoor Alhasson: talking about, right?
+01:30:01 Mateusz Kostrz: X from here.
+01:30:02 Hoor Alhasson: Oh yeah.
+01:30:03 Mateusz Kostrz: Okay.
+01:30:05 Hoor Alhasson: Okay. Oh, okay. That's right.
+01:30:08 Mateusz Kostrz: So now we can rearrange it slightly. And have that W. So the width is equal to This right.
+01:30:17 Hoor Alhasson: Yeah.
+01:30:19 Mateusz Kostrz: Okay. And that's basically almost it because now since we have the W, so since we have here we have this. Now the last thing we really need is we need to subtract for so this And this because this is also too. So, our W of the garden. Will be equal to. This minus 4. Because this is the W of the park.
+01:30:48 Hoor Alhasson: Okay.
+01:30:49 Mateusz Kostrz: Does it make sense?
+01:30:50 Hoor Alhasson: Yeah. Oh yeah right. Okay, -4 because we're just trying to find the Garden. The width of the garden.
+01:30:57 Mateusz Kostrz: yeah, so this Because we found W which is this. So is bigger.
+01:31:03 Hoor Alhasson: Okay.
+01:31:04 Mateusz Kostrz: Okay.
+01:31:06 Hoor Alhasson: Okay. Yeah, that makes sense. That
+01:31:08 Mateusz Kostrz: Yeah, makes sense. All right, yeah. So with with this question you can try to try to finish it then you kind of get to the part of derivatives I think this A3 is still not derivative, and then it starts to become derivatives. So, yeah. So you can you can try to try to finish this and I will try to find some more questions from derivatives. I don't think there's that many left.
+01:31:31 Mateusz Kostrz: But but I'll definitely find something. So, I'll send over to and for now let me screenshot this and send it to you right now. Okay.
+01:31:40 Hoor Alhasson: Yeah. Okay. Um Do you think the derivative questions will pop up a lot in the exam like
+01:31:46 Mateusz Kostrz: Yes.
+01:31:46 Hoor Alhasson: paperwork or paper too? A lot, right?
+01:31:49 Mateusz Kostrz: I mean, I don't know a lot, but I would definitely like for 100%. You will have something
+01:31:56 Hoor Alhasson: Yeah, for sure. Just like because I remember like, back then in my, my old exam, most like, most of the question was incorporated with functions and like, Like actually I think all of the questions were incorporated with functions.
+01:32:14 Mateusz Kostrz: Yeah, because function is a massive chapter, but also functions that to some extent functions is also derivatives, right? So, it's, you know, kind of depends how you how you look at it, but I would be shocked if you didn't have anything from derivatives.
+01:32:28 Hoor Alhasson: Okay, okay.
+01:32:30 Mateusz Kostrz: Okay.
+01:32:30 Hoor Alhasson: That makes sense. And yeah.
+01:32:32 Mateusz Kostrz: Okay, awesome. Awesome. Then I send it to you, I'll send some more questions and we'll see you Sunday.
+  

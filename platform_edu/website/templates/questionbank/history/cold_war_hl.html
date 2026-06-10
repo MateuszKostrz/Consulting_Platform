@@ -1,0 +1,310 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Academy - Questionbank</title>
+
+   <!-- font awesome cdn link  -->
+   <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"> -->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+   <!-- custom css file link  -->
+   <link rel="stylesheet" href="{% static 'website/css/style.css' %}">
+
+
+
+</head>
+<body>
+
+<header class="header">
+   
+   <section class="flex" id="blur_flex">
+
+      <a href="home.html" class="logo">History HL Questionbank</a>
+      <div class="icons">
+         <div id="menu-btn" class="fas fa-bars"></div>
+         <div id="search-btn" class="fas fa-search"></div>
+         <div id="user-btn" class="fas fa-user"></div>
+         <div id="toggle-btn" class="fas fa-sun"></div>
+         <!-- <div id="toggle-btn">
+            <a href="profile.html" class="fas fa-sun">Log Out</a>
+         </div> -->
+         
+         
+      </div>
+
+      {% include 'common_header.html' %}
+
+
+<section class="home-grid" id="blur_home_grid">
+   {% if updated_creds %}
+
+   <div>
+      <div id="hideMe">
+         <h2 class="message">You have successfully updated your profile. Log in again to see the changes.</h2>
+      </div>
+   </div>
+   
+   {% endif %}
+
+
+   {% if premium_member and already_user %}
+
+   <h1 class="heading" id="blur_heading">The Cold War</h1>
+
+</section>
+
+
+
+      <div id="popup_short_ans1" class="popup">
+         <h1>Short Answer</h1>
+            <ul>
+               <li>Stalin implemented expansionist Policies in Eastern Europe that inflamed the situation between the US and the USSR.</li>
+               <li>Stalin’s occupation of Eastern Europe forced America to react.</li>
+               <li>Stalin’s Berlin Blockade inflamed the tensions between the US and the USSR.</li>
+               <li>Stalin’s Division of Germany was a manifestation of power.</li>
+               <li>Stalin’s push for Atomic Bomb led to the beginning of an arms race.</li>
+               <li>Stalin's Leadership Style was a factor igniting the Cold War.</li>
+               <li><strong>Counter argument:</strong> There have been many factors that led to the Cold War.</li>
+             </ul>
+         <a href="#/" onclick="short_ans1()">Close</a>
+      </div>
+
+      <div id="popup_answer1" class="popup">
+         <h1>Detailed Answer</h1>
+         <ul>
+            <li><strong>Stalin implemented expansionist Policies in Eastern Europe that inflamed the situation between the US and the USSR:</strong> Stalin's pursuit of a buffer zone in Eastern Europe was a major contributing factor. He established communist satellite states in countries like Poland, Hungary, Czechoslovakia, and East Germany. This expansion directly challenged the Western powers and contributed to a sense of encirclement, raising tensions between the US and the USSR.</li>
+            <li><strong>Stalin’s occupation of Eastern Europe forced America to react:</strong> The Red Army's occupation and control of Eastern European nations created a power vacuum that was filled by Soviet influence. This occupation not only violated agreements made at the Yalta and Potsdam conferences but also undermined the sovereignty of these nations, leading to a perceived threat by the West.</li>
+            <li><strong>Stalin’s Berlin Blockade inflamed the tensions between the US and the USSR:</strong> Stalin's decision to blockade West Berlin in 1948 was a significant provocation. The Berlin Blockade prompted the Berlin Airlift by the Western powers, illustrating the growing hostility between the Soviet Union and the United States. Stalin's willingness to employ such tactics exacerbated tensions.</li>
+            <li><strong>Stalin’s Division of Germany was a manifestation of power:</strong> Stalin's role in dividing Germany into East and West was a crucial factor. The division of Germany was a clear manifestation of the post-war power struggle, leading to the creation of two separate German states and the eventual construction of the Berlin Wall in 1961.</li>
+            <li><strong>Stalin’s push for an Atomic Bomb led to the beginning of an arms race:</strong> The Soviet Union's successful development of an atomic bomb in 1949 further intensified the Cold War. This nuclear parity with the United States added a dangerous dimension to the conflict, as both superpowers possessed the capability to mutually destroy each other.</li>
+            <li><strong>Stalin's Leadership Style was a factor igniting the Cold War:</strong> Stalin's leadership style, characterized by paranoia, secrecy, and mistrust, contributed to the climate of suspicion and fear during the early years of the Cold War. His unpredictable behaviour made it difficult for Western leaders to engage in meaningful diplomacy.</li>
+            <li><strong>Counter argument:</strong> There have been many factors that led to the Cold War. There exist various historical and geopolitical reasons that made the situation the way it was. Also, it can be stated that regardless of who was the leader of the USSR, it is likely that the policies would not have been different simply due to the geopolitical situation. Thus, it can be stated that while other factors also played a role in causing the Cold War, Stalin's actions and policies were undeniably significant in heightening tensions between the United States and the Soviet Union.</li>
+         </ul>
+         <a href="#/" onclick="answer1()">Close</a>
+      </div>
+
+
+      <div id="popup_short_ans2" class="popup">
+         <h1>Short Answer</h1>
+            <ul>
+               <li>Yalta led to the Division of Germany that laid the grounds for the Cold War power-division.</li>
+               <li>Yalta led to the organisation of Cold War spheres of influence.</li>
+               <li>Yalta failed to Address Future Disputes between the US and the USSR.</li>
+               <li><strong>Counter argument:</strong> There have been many factors that led to the Cold War.</li>
+             </ul>
+         <a href="#/" onclick="short_ans2()">Close</a>
+      </div>
+
+      <div id="popup_answer2" class="popup">
+         <h1>Detailed Answer</h1>
+         <ul>
+            <li><strong>Yalta led to the Division of Germany that laid grounds for the Cold War power-division:</strong> One of the key outcomes of the Yalta Conference was the agreement to divide Germany into zones of occupation, with the United States, the Soviet Union, the United Kingdom, and France each occupying a portion of the country. While this division was initially meant to be temporary, it sowed the seeds for the later division of Germany into East and West, leading to the creation of East Germany under Soviet influence and West Germany under Western influence, which became a focal point of Cold War tension.</li>
+            <li><strong>Yalta led to the organisation of Cold War spheres of influence:</strong> Yalta essentially recognized the Soviet sphere of influence in Eastern Europe, with the Western powers acknowledging the Soviets' historical and security interests in the region. This recognition legitimized Soviet dominance over Eastern European countries, causing concerns in the West about Soviet expansionism and the violation of self-determination for those nations.</li>
+            <li><strong>Yalta failed to Address Future Disputes between the US and the USSR:</strong> While the Yalta Conference aimed to address the immediate concerns of the post-war period, it did not effectively address the deeper ideological and geopolitical differences between the Western Allies and the Soviet Union. The conference left many important issues, such as the future of Poland and the establishment of a post-war international organization (the United Nations), unresolved, contributing to future disputes and misunderstandings.</li>
+            <li><strong>Counter argument:</strong> There have been many factors that led to the Cold War, nonetheless Yalta stands out as one of the most important as it laid the grounds and organised the political theatre for the future conflict between the US and the USSR. Yalta was not the only event that led to the Cold War, but it led to the establishment of Soviet-dominated regimes in Eastern Europe, and the failure to address core differences and concerns between the Western Allies and the Soviet Union. These outcomes created a foundation of distrust and competition that would later define the Cold War era. Thus, the extent to which Yalta contributed to the Cold War can be considered significant.</li>
+         </ul>
+         <a href="#/" onclick="answer2()">Close</a>
+      </div>
+
+
+      <div id="popup_short_ans3" class="popup">
+         <h1>Short Answer</h1>
+            <ul>
+               <li>Détente led to arms control.</li>
+               <li>Détente led to the de-escalation of proxy conflicts.</li>
+               <li>Détente led to increased diplomatic communication.</li>
+               <br>
+               <p><strong>Nonetheless:</strong></p>
+               <br>
+               <li>The trust was still limited.</li>
+               <li>Détente had a temporary nature.</li>
+               <li>Détente was not without its limitations.</li>
+             </ul>
+         <a href="#/" onclick="short_ans3()">Close</a>
+      </div>
+
+      <div id="popup_answer3" class="popup">
+         <h1>Detailed Answer</h1>
+         <ul>
+            <li><strong>Détente led to arms Control:</strong> Détente witnessed significant progress in arms control agreements. The Strategic Arms Limitation Talks (SALT) treaties in the early 1970s were crucial in limiting the nuclear arms race. These agreements set ceilings on the number of strategic nuclear delivery systems and warheads, reducing the risk of an all-out nuclear conflict.</li>
+            <li><strong>Détente led to De-Escalation in Proxy Conflicts:</strong> During Détente, there was a decrease in the intensity of proxy conflicts in various parts of the world, including Vietnam and the Middle East. Both superpowers showed restraint in getting directly involved in these conflicts, which reduced the risk of a direct confrontation.</li>
+            <li><strong>Détente Increased Diplomatic Communication:</strong> Détente led to increased diplomatic exchanges and negotiations between the United States and the Soviet Union. This communication was essential for building trust and preventing misunderstandings.</li>
+            <br>
+            <p><strong>Nonetheless:</strong></p>
+            <br>
+            <li><strong>Limited Trust:</strong> While there was a reduction in tensions, deep-seated mistrust between the superpowers persisted. Both nations still viewed each other as ideological rivals and continued to compete in various ways, such as through the arms race and ideological conflicts in the Third World.</li>
+            <li><strong>Temporary Nature:</strong> Détente was a relatively short-lived period of détente, lasting roughly from the late 1960s to the late 1970s. It came to an end with the onset of the Second Cold War in the late 1970s.</li>
+            <li><strong>Violation of Agreements:</strong> Détente was not without violations and challenges. The Soviet invasion of Afghanistan in 1979 and the U.S. response of boycotting the 1980 Summer Olympics in Moscow demonstrated that the superpowers were not always on the same page.</li>
+            <li><strong>Conclusion:</strong> In conclusion, Détente did lead to some improvements in relations between the superpowers, particularly in terms of arms control and reduced confrontation in proxy conflicts. However, it was a temporary and limited improvement in relations, as the underlying competition and mistrust persisted. Détente served as a valuable pause in the Cold War, but it did not fundamentally resolve the deeper issues that fuelled the superpower rivalry.</li>
+   
+         </ul>
+         <a href="#/" onclick="answer3()">Close</a>
+      </div>
+
+      <div id="popup_short_ans4" class="popup">
+         <h1>Short Answer</h1>
+            <ul>
+               <li>Economic Inefficiency and Decline in the Eastern Block led to the decline of Soviet Power in the region.</li>
+               <li>Economic discontent and disparity with the West led to social discontent and revolutionary moods in the Eastern Block.</li>
+               <li>Economic inefficiency in the Eastern Block led to Perestroika and Glasnost.</li>
+             </ul>
+         <a href="#/" onclick="short_ans4()">Close</a>
+      </div>
+
+      <div id="popup_answer4" class="popup">
+         <h1>Detailed Answer</h1>
+         <ul>
+            <li><strong>Economic Inefficiency and Decline in the Eastern Block led to the decline of Soviet Power in the region:</strong></li>
+            <br>
+            <p>Poland: The economic crisis in Poland in the 1980s, marked by severe inflation, debt, and labour strikes (e.g., the Solidarity movement), challenged the authority of the communist government and led to a shift in political power.</p>
+            <br>
+            <p>Hungary: Economic difficulties in Hungary contributed to political reforms and the transition to a multi-party system. The country's open border with Austria in 1989 was a significant step toward the eventual fall of the Iron Curtain.</p>
+            <br>
+            <li><strong>Economic discontent and disparity with the West led to social discontent and revolutionary moods in the Eastern Block:</strong> The standard of living in many Eastern European countries was significantly lower than in the West. This economic disparity, coupled with a lack of consumer goods and freedoms, created discontent among the populace and fuelled a desire for change. Chronic shortages of essential goods and long queues for basic products were common in Eastern Bloc countries. This bred frustration and disillusionment with the socialist system.</li>
+            <li><strong>Economic inefficiency in the Eastern Block led to Perestroika and Glasnost:</strong> Soviet leader Mikhail Gorbachev introduced perestroika (economic restructuring) and glasnost (political openness) in an attempt to revitalize the Soviet economy and reduce political repression. These reforms inadvertently allowed for greater freedom of expression, which emboldened dissidents and opposition movements in the Eastern Bloc.</li>
+            <li><strong>Conclusion:</strong> In conclusion, economic problems within the Communist bloc significantly contributed to the end of the Cold War. The economic inefficiency, discontent among citizens, and the impact of reforms in the Soviet Union and Eastern European countries played a pivotal role in undermining the stability and sustainability of the socialist system. These economic challenges weakened the political authority of the Communist governments, created opportunities for political change, and ultimately contributed to the collapse of the Iron Curtain and the end of the Cold War.</li>
+         </ul>
+         <a href="#/" onclick="answer4()">Close</a>
+      </div>
+
+
+      <div id="popup_short_ans5" class="popup">
+         <h1>Short Answer</h1>
+            <ul>
+               <li>Gorbachev’s Policy of Glasnost and Perestroika led to the openness and restructuring of the Soviet Union.</li>
+               <li>Gorbachev’s reduced the nuclear arms race.</li>
+               <li>Gorbachev shifted Soviet Foreign Policy.</li>
+               <li>Gorbachev introduced The Soviet Non-Intervention Policy.</li>
+               <li><strong>Counter argument:</strong> Gorbachev’s policies were only one of the reasons.</li>
+             </ul>
+         <a href="#/" onclick="short_ans5()">Close</a>
+      </div>
+
+      <div id="popup_answer5" class="popup">
+         <h1>Detailed Answer</h1>
+         <ul>
+            <li><strong>Gorbachev’s Policy of Glasnost and Perestroika led to the openness and restructuring of the Soviet Union:</strong> Gorbachev introduced the policies of glasnost (political openness) and perestroika (economic restructuring) in the Soviet Union. These reforms aimed to revitalize the Soviet economy, reduce political repression, and promote greater transparency. Glasnost allowed for increased freedom of speech and the press, enabling criticism of the government, and fostering an atmosphere of greater political openness. This had a profound impact on Soviet society, leading to increased public awareness and demands for political change.</li>
+            <li><strong>Gorbachev’s reduced the nuclear arms race:</strong> Gorbachev engaged in negotiations with the United States to reduce nuclear weapons. The Intermediate-Range Nuclear Forces Treaty (INF) in 1987 and the Strategic Arms Reduction Treaty (START) in 1991 led to significant reductions in nuclear arsenals on both sides. These agreements reduced the risk of a catastrophic nuclear conflict.</li>
+            <li><strong>Gorbachev shifted Soviet Foreign Policy:</strong> Gorbachev adopted a new approach to foreign policy, emphasizing cooperation with the West and non-interference in the affairs of Eastern European countries. This marked a departure from the previous Soviet policy of maintaining control over Eastern European satellite states through military intervention, as seen in Hungary (1956) and Czechoslovakia (1968). Gorbachev's willingness to work with Western leaders, including U.S. Presidents Ronald Reagan and George H.W. Bush, contributed to a reduction in tensions and the building of trust between the superpowers. His personal rapport with these leaders facilitated diplomatic negotiations.</li>
+            <li><strong>Gorbachev introduced The Soviet Non-Intervention Policy:</strong> Gorbachev's decision not to use military force to suppress the political changes in Eastern Europe, such as the fall of the Berlin Wall in 1989 and the collapse of communist regimes in Eastern European countries, marked a significant departure from past Soviet policies. This non-intervention approach allowed for peaceful transitions of power in Eastern Europe.</li>
+            <br>
+            <p><strong>Nonetheless:</strong></p>
+            <br>
+            <li><strong>Gorbachev’s policies were only one of the reasons:</strong> Gorbachev’s influence on the ending of the Cold War was very significant, although it can be argued that at that time, the Soviet economy, state and military was such a low level, that whatever Gorbachev tried to do, the end of the Soviet Union was coming.</li>
+         </ul>
+         <a href="#/" onclick="answer5()">Close</a>
+      </div>
+
+
+
+
+      <section id="math-questions">
+
+
+         <div class="container_full" id="blur_container">
+        
+                  <div class="container">
+                     <div class="screenshot">
+                        <h2>1. To what extent was Stalin responsible for causing the Cold War?</h2>
+                     </div>
+                     <div class="additional-text">
+                        <h3>Answers and Explanations</h3>
+
+                        <div class="more-btn">
+                           <a href="#/" onclick="short_ans1()" class="inline-option-btn">short answers</a>
+                       </div>
+                        <div class="more-btn">
+                           <a href="#/" onclick="answer1()" class="inline-option-btn">explanations</a>
+                       </div>
+      
+                     </div>
+                  </div>
+
+
+                  <div class="container">
+                     <div class="screenshot">
+                        <h2>2. For what reasons, and to what extent, did the Yalta Conference of February 1945 contribute to the origins of the Cold War?</h2>
+                     </div>
+                     <div class="additional-text">
+                        <h3>Answers and Explanations</h3>
+                        <div class="more-btn">
+                           <a href="#/" onclick="short_ans2()" class="inline-option-btn">short answers</a>
+                       </div>
+                        <div class="more-btn">
+                           <a href="#/" onclick="answer2()" class="inline-option-btn">explanations</a>
+                       </div>
+                     </div>
+                  </div>
+
+                  <div class="container">
+                     <div class="screenshot">
+                        <h2>3. To what extent did Détente improve relations between the superpowers?</h2>
+                     </div>
+                     <div class="additional-text">
+                        <h3>Answers and Explanations</h3>
+                        <div class="more-btn">
+                           <a href="#/" onclick="short_ans3()" class="inline-option-btn">short answers</a>
+                       </div>
+                        <div class="more-btn">
+                           <a href="#/" onclick="answer3()" class="inline-option-btn">explanations</a>
+                       </div>
+                     </div>
+                  </div>
+
+                  <div class="container">
+                     <div class="screenshot">
+                        <h2>4. To what extent did economic problems in the Communist bloc bring about the end of the Cold War?</h2>
+                     </div>
+                     <div class="additional-text">
+                        <h3>Answers and Explanations</h3>
+                        <div class="more-btn">
+                           <a href="#/" onclick="short_ans4()" class="inline-option-btn">short answers</a>
+                       </div>
+                        <div class="more-btn">
+                           <a href="#/" onclick="answer4()" class="inline-option-btn">explanations</a>
+                       </div>
+                     </div>
+                  </div>
+
+                  <div class="container">
+                     <div class="screenshot">
+                        <h2>5. To what extent was Gorbachev responsible for bringing about the end of the Cold War?</h2>
+                     </div>
+                     <div class="additional-text">
+                        <h3>Answers and Explanations</h3>
+                        <div class="more-btn">
+                           <a href="#/" onclick="short_ans5()" class="inline-option-btn">short answers</a>
+                       </div>
+                        <div class="more-btn">
+                           <a href="#/" onclick="answer5()" class="inline-option-btn">explanations</a>
+                       </div>
+                     </div>
+                  </div>
+      
+         </div>
+
+
+         {% elif already_user %}
+
+         <h1 class="not-registered">You have to be <a href="{% url 'subscriptions' %}">PREMIUM</a> to have access to this!</h1>
+         
+         {% else %}
+         
+         <h1 class="not-registered">You have to be a PREMIUM user to have access to this, and also, first you have to <a href="{% url 'start_page' %}">REGISTER</a>!</h1>
+         
+         {% endif %}
+
+<!-- custom js file link  -->
+<!-- <script src="js/script.js"></script> -->
+<script src="{% static 'website/js/script.js' %}"></script>
+<script src="{% static 'website/js/script_papers.js' %}"></script>
+
+
+   
+</body>
+</html>

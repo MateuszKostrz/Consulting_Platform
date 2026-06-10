@@ -1,0 +1,1464 @@
+{% load static %}
+
+<!doctype html>
+
+<html
+  lang="en"
+  class="layout-navbar-fixed layout-menu-fixed layout-compact"
+  dir="ltr"
+  data-skin="default"
+  data-bs-theme="light"
+  data-assets-path="../../assets/"
+  data-template="vertical-menu-template">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>Past Papers Exam Builder | {{ site_name }}</title>
+
+    <meta name="description" content="" />
+
+    <link rel="icon" href="{% static 'website/images/platform_logo.svg' %}">
+    <link rel="alternate icon" href="{% static 'website/images/safari_logo2_prev_ui.png' %}" type="image/png">
+    <meta property="og:image" content="https://academy.edunade.com/static/website/images/Edunade_Vertical_Black_RGB.png">
+
+    {% include 'top_base.html' %}
+
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    
+    <!-- PDF.js for rendering PDFs without download capability -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    
+    <!-- noUiSlider for question slider -->
+    <link rel="stylesheet" href="{% static 'website/css/vendor/libs/nouislider/nouislider.css' %}" />
+
+    <style>
+      /* Force white background on sidebar */
+      .layout-menu {
+        background-color: #ffffff !important;
+      }
+
+      .container-xxl {
+        max-width: 85%;
+        margin: 0 auto;
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+
+      @media (max-width: 768px) {
+        .container-xxl {
+          max-width: 95%;
+          padding-left: 1.5rem;
+          padding-right: 1.5rem;
+        }
+      }
+
+      .card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border-radius: 1rem;
+        overflow: hidden;
+      }
+
+      /* Dropdown styles from exam builder */
+      .dropdown-menu {
+        padding: 0.5rem 0;
+        z-index: 1060;
+        width: auto !important;
+        overflow-x: auto;
+        max-width: 400px;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .dropdown-item {
+        padding: 0.25rem 1rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        min-width: 0;
+      }
+
+      .dropdown-item .form-check {
+        margin-bottom: 0;
+      }
+
+      .dropdown-item .form-check-label {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 320px;
+        display: inline-block;
+      }
+
+      .dropdown-item:hover {
+        background-color: #f8f9fa;
+      }
+
+      .filter-button {
+        height: calc(2.5rem + 2px);
+        min-height: 2.9rem;
+        padding: 0.5rem 1rem;
+        font-size: 1rem;
+        font-weight: 500;
+      }
+
+      .filter-card {
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+      }
+
+      .filter-card .card-body {
+        overflow: visible !important;
+      }
+
+      .filter-card .row {
+        overflow: visible !important;
+      }
+
+      .filter-card .col-md-3 {
+        overflow: visible !important;
+      }
+
+      .dropdown-menu {
+        z-index: 1050 !important;
+      }
+
+      .filter-title {
+        font-weight: 600;
+        font-size: 0.875rem;
+        color: #6c757d;
+        margin-bottom: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .dropdown-menu .form-check-input:checked {
+        background-color: #696cff !important;
+        border-color: #696cff !important;
+      }
+
+      .dropdown-menu .form-check-input:focus {
+        border-color: #696cff !important;
+        box-shadow: 0 0 0 0.2rem rgba(105, 108, 255, 0.25) !important;
+      }
+
+      .form-select, .form-control {
+        border: 1px solid #e0e6ed;
+        border-radius: 6px;
+        font-size: 0.875rem;
+      }
+
+      .form-select:focus, .form-control:focus {
+        border-color: #7367f0;
+        box-shadow: 0 0 0 0.2rem rgba(115, 103, 240, 0.25);
+      }
+
+      .spinner-border {
+        display: none;
+        width: 1.2rem;
+        height: 1.2rem;
+        margin-left: 0.5rem;
+        vertical-align: middle;
+      }
+
+      .spinner-border.show {
+        display: inline-block;
+      }
+
+      .info-box {
+        background: #e8f4fd;
+        border-left: 4px solid #2196F3;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        margin-top: 1rem;
+        font-size: 0.9rem;
+        color: #333;
+      }
+
+      .info-box strong {
+        color: #1976D2;
+      }
+
+      @media (max-width: 768px) {
+        .filter-card {
+          margin-bottom: 1rem;
+        }
+      }
+      
+      /* Question slider styling */
+      #slider-questions {
+        margin: 40px 0 50px 0;
+      }
+
+      
+      .noUi-tooltip {
+        font-size: 14px;
+      }
+    </style>
+
+    <!-- Helpers -->
+    <script type="text/javascript" src="{% static 'website/js/vendor/helpers.js' %}"></script>
+    <script type="text/javascript" src="{% static 'website/js/vendor/config.js' %}"></script>
+  </head>
+
+  <body>
+    <!-- Layout wrapper -->
+    <div class="layout-wrapper layout-content-navbar">
+      <div class="layout-container">
+        <!-- Menu -->
+        {% include 'sidebar.html' %}
+
+        <!-- Content wrapper -->
+        <div class="content-wrapper">
+          <!-- Content -->
+          <div class="container-xxl flex-grow-1 container-p-y" style="overflow: visible !important;">
+
+            <!-- Page Title -->
+            <h3 class="pb-1 mb-6">Past Papers Exam Builder | {{ site_name }}</h3>
+
+            <!-- Filters Section -->
+            <div class="row mb-4" style="overflow: visible !important;">
+              <div class="col-12" style="overflow: visible !important;">
+                <div class="filter-card card" style="overflow: visible !important;">
+                  <div class="card-body" style="overflow: visible !important;">
+                    <p>Generate PDFs of past paper questions filtered by subject, paper, and chapter.</p>
+                    <p style="font-weight: 700;">Perfect for focused revision and practice!</p>
+                    <p>Select your filters below and click "Generate PDF" to create your custom question sheet. Happy studying!</p>
+                    
+                    <hr style="margin-bottom: 3rem;">
+                    
+                    <div class="filter-title mb-6" style="font-size: 1rem;">Create your own exam!</div>
+                    
+                    <!-- Row 1: Subject, Paper, Chapters -->
+                    <div class="row g-3" style="overflow: visible !important;">
+                      <!-- Subject Selection -->
+                      <div class="col-md-4" style="overflow: visible !important;">
+                        <label for="subjectFilter" class="form-label">Subject</label>
+                        <div class="dropdown">
+                          <button class="form-select text-start" type="button" id="subjectDropdown" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false" style="border: 1px solid #e0e6ed; background-color: #fff; cursor: pointer;">
+                            <span id="subjectDropdownText">Select a subject</span>
+                          </button>
+                          <div id="subjectErrorMessage" style="display: none; color: #ff4d4f; font-size: 0.875rem; margin-top: 0.25rem;">
+                            Please select a subject
+                          </div>
+                          <ul class="dropdown-menu" aria-labelledby="subjectDropdown" style="max-height: 300px; overflow-y: auto; overflow-x: auto; min-width: 200px; max-width: 400px;">
+                            <li>
+                              <div class="dropdown-item">
+                                <div class="form-check">
+                                  <input class="form-check-input subject-radio" type="radio" name="subject" value="ai_sl" id="subject_ai_sl" onchange="updateSubjectSelection()">
+                                  <label class="form-check-label" for="subject_ai_sl">
+                                    Math AI SL
+                                  </label>
+                                </div>
+                              </div>
+                            </li>
+                            <li>
+                              <div class="dropdown-item">
+                                <div class="form-check">
+                                  <input class="form-check-input subject-radio" type="radio" name="subject" value="ai_hl" id="subject_ai_hl" onchange="updateSubjectSelection()">
+                                  <label class="form-check-label" for="subject_ai_hl">
+                                    Math AI HL
+                                  </label>
+                                </div>
+                              </div>
+                            </li>
+                            <li>
+                              <div class="dropdown-item">
+                                <div class="form-check">
+                                  <input class="form-check-input subject-radio" type="radio" name="subject" value="aa_sl" id="subject_aa_sl" onchange="updateSubjectSelection()">
+                                  <label class="form-check-label" for="subject_aa_sl">
+                                    Math AA SL
+                                  </label>
+                                </div>
+                              </div>
+                            </li>
+                            <li>
+                              <div class="dropdown-item">
+                                <div class="form-check">
+                                  <input class="form-check-input subject-radio" type="radio" name="subject" value="aa_hl" id="subject_aa_hl" onchange="updateSubjectSelection()">
+                                  <label class="form-check-label" for="subject_aa_hl">
+                                    Math AA HL
+                                  </label>
+                                </div>
+                              </div>
+                            </li>
+                            <li>
+                              <div class="dropdown-item">
+                                <div class="form-check">
+                                  <input class="form-check-input subject-radio" type="radio" name="subject" value="physics_sl" id="subject_physics_sl" onchange="updateSubjectSelection()">
+                                  <label class="form-check-label" for="subject_physics_sl">
+                                    Physics SL
+                                  </label>
+                                </div>
+                              </div>
+                            </li>
+                            <li>
+                              <div class="dropdown-item">
+                                <div class="form-check">
+                                  <input class="form-check-input subject-radio" type="radio" name="subject" value="physics_hl" id="subject_physics_hl" onchange="updateSubjectSelection()">
+                                  <label class="form-check-label" for="subject_physics_hl">
+                                    Physics HL
+                                  </label>
+                                </div>
+                              </div>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+
+                      <!-- Paper Selection -->
+                      <div class="col-md-4" style="overflow: visible !important;">
+                        <label for="paperFilter" class="form-label">Paper</label>
+                        <div class="dropdown">
+                          <button class="form-select text-start" type="button" id="paperDropdown" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false" style="border: 1px solid #e0e6ed; background-color: #fff; cursor: pointer;" disabled>
+                            <span id="paperDropdownText">Select a paper</span>
+                          </button>
+                          <ul class="dropdown-menu" aria-labelledby="paperDropdown" style="max-height: 300px; overflow-y: auto; overflow-x: auto; min-width: 200px; max-width: 400px;">
+                            <li>
+                              <div class="dropdown-item">
+                                <div class="form-check">
+                                  <input class="form-check-input paper-radio" type="radio" name="paper" value="all" id="paper_all" onchange="updatePaperSelection()">
+                                  <label class="form-check-label" for="paper_all">
+                                    All Papers
+                                  </label>
+                                </div>
+                              </div>
+                            </li>
+                            <li>
+                              <div class="dropdown-item">
+                                <div class="form-check">
+                                  <input class="form-check-input paper-radio" type="radio" name="paper" value="1" id="paper_1" onchange="updatePaperSelection()">
+                                  <label class="form-check-label" for="paper_1">
+                                    Paper 1
+                                  </label>
+                                </div>
+                              </div>
+                            </li>
+                            <li>
+                              <div class="dropdown-item">
+                                <div class="form-check">
+                                  <input class="form-check-input paper-radio" type="radio" name="paper" value="2" id="paper_2" onchange="updatePaperSelection()">
+                                  <label class="form-check-label" for="paper_2">
+                                    Paper 2
+                                  </label>
+                                </div>
+                              </div>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+
+                      <!-- Chapter Selection (Multi-select) -->
+                      <div class="col-md-4" style="overflow: visible !important;">
+                        <label for="chapterFilter" class="form-label">Chapters</label>
+                        <div class="dropdown">
+                          <button class="form-select text-start" type="button" id="chapterDropdown" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false" style="border: 1px solid #e0e6ed; background-color: #fff; cursor: pointer;" disabled>
+                            <span id="chapterDropdownText">Select chapters</span>
+                          </button>
+                          <ul class="dropdown-menu" aria-labelledby="chapterDropdown" id="chapterDropdownMenu" style="max-height: 300px; overflow-y: auto; overflow-x: auto; min-width: 200px; max-width: 400px;">
+                            <!-- Chapters will be populated dynamically -->
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Row 2: Videos, Markscheme, Generate -->
+                    <div class="row g-3 mt-2" style="overflow: visible !important;">
+                      <!-- Videos Selection -->
+                      <div class="col-md-4" style="overflow: visible !important;">
+                        <label for="videosFilter" class="form-label">Videos</label>
+                        <div class="dropdown">
+                          <button class="form-select text-start" type="button" id="videosDropdown" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false" style="border: 1px solid #e0e6ed; background-color: #fff; cursor: pointer;" disabled>
+                            <span id="videosDropdownText">All questions</span>
+                          </button>
+                          <ul class="dropdown-menu" aria-labelledby="videosDropdown" style="max-height: 300px; overflow-y: auto; overflow-x: auto; min-width: 200px; max-width: 400px;">
+                            <li>
+                              <div class="dropdown-item">
+                                <div class="form-check">
+                                  <input class="form-check-input videos-radio" type="radio" name="videos" value="all" id="videos_all" onchange="updateVideosSelection()" checked>
+                                  <label class="form-check-label" for="videos_all">All questions</label>
+                                </div>
+                              </div>
+                            </li>
+                            <li>
+                              <div class="dropdown-item">
+                                <div class="form-check">
+                                  <input class="form-check-input videos-radio" type="radio" name="videos" value="with_videos" id="videos_with" onchange="updateVideosSelection()">
+                                  <label class="form-check-label" for="videos_with">Only questions with videos</label>
+                                </div>
+                              </div>
+                            </li>
+                            <li>
+                              <div class="dropdown-item">
+                                <div class="form-check">
+                                  <input class="form-check-input videos-radio" type="radio" name="videos" value="without_videos" id="videos_without" onchange="updateVideosSelection()">
+                                  <label class="form-check-label" for="videos_without">Only questions without videos</label>
+                                </div>
+                              </div>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+
+                      <!-- Markscheme Selection -->
+                      <div class="col-md-4" style="overflow: visible !important;">
+                        <label for="markschemeDropdown" class="form-label">Markscheme</label>
+                        <div class="dropdown">
+                          <button class="form-select text-start" type="button" id="markschemeDropdown" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false" style="border: 1px solid #e0e6ed; background-color: #fff; cursor: pointer;" disabled>
+                            <span id="markschemeDropdownText">Questions only</span>
+                          </button>
+                          <ul class="dropdown-menu" aria-labelledby="markschemeDropdown" style="max-height: 300px; overflow-y: auto; overflow-x: auto; min-width: 200px; max-width: 400px;">
+                            <li>
+                              <div class="dropdown-item">
+                                <div class="form-check">
+                                  <input class="form-check-input markscheme-radio" type="radio" name="markscheme" value="questions_only" id="markscheme_questions_only" onchange="updateMarkschemeSelection()" checked>
+                                  <label class="form-check-label" for="markscheme_questions_only">Questions only</label>
+                                </div>
+                              </div>
+                            </li>
+                            <li>
+                              <div class="dropdown-item">
+                                <div class="form-check">
+                                  <input class="form-check-input markscheme-radio" type="radio" name="markscheme" value="markscheme_only" id="markscheme_only" onchange="updateMarkschemeSelection()">
+                                  <label class="form-check-label" for="markscheme_only">Markscheme only</label>
+                                </div>
+                              </div>
+                            </li>
+                            <li>
+                              <div class="dropdown-item">
+                                <div class="form-check">
+                                  <input class="form-check-input markscheme-radio" type="radio" name="markscheme" value="include_both" id="markscheme_both" onchange="updateMarkschemeSelection()">
+                                  <label class="form-check-label" for="markscheme_both">Include both</label>
+                                </div>
+                              </div>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+
+                      <!-- Generate Button -->
+                      <div class="col-md-4 d-flex flex-column justify-content-end">
+                        <button 
+                          id="generateBtn" 
+                          class="btn btn-primary"
+                          style="height: calc(2.5rem + 2px); min-height: 2.9rem;"
+                          onclick="generatePDF()"
+                          disabled>
+                          Generate PDF
+                          <span class="spinner-border spinner-border-sm" role="status" id="loadingSpinner"></span>
+                        </button>
+                      </div>
+                    </div>
+
+                    <!-- Question Limit Slider -->
+                    <div class="row g-3 mt-4">
+                      <div class="col-12">
+                        <label class="form-label d-flex align-items-center gap-2">
+                          <span>Number of questions to include</span>
+                          <i class="fas fa-info-circle text-muted"
+                             data-bs-toggle="tooltip"
+                             data-bs-placement="right"
+                             title="Select the maximum number of questions to include in your PDF. If fewer questions are available for your selection, all will be included."
+                             style="cursor: help;"></i>
+                        </label>
+                        <div class="mt-2">
+                          <div id="slider-questions"></div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <p class="text-muted mt-3 mb-0" style="font-size: 0.875rem;">
+                      Keep in mind that still not all papers are filled in, so for some selections markschemes or specific time zones may not be available. We're doing our best to get them all in as soon as we can!
+                    </p>
+
+                    <!-- Status Messages -->
+                    <div id="statusMessage" class="mt-3"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Generated Exams Section -->
+            <div class="row mt-6" id="saved-exams-section">
+              <div class="col-12">
+                <h4 class="mb-4">Generated Exams</h4>
+                <div class="card">
+                  <div class="card-body">
+                    <div id="saved-exams-list">
+                      <div class="text-center text-muted">
+                        <i class="ri-loader-line"></i> Loading...
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Delete Confirmation Modal -->
+            <div class="modal fade" id="deleteExamModal" tabindex="-1" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title">Delete Exam</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <p>Are you sure you want to delete this exam? This action cannot be undone.</p>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger" id="confirmDeleteExam">Delete</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="content-backdrop fade"></div>
+        </div>
+        <!-- Content wrapper -->
+      </div>
+      <!-- / Layout page -->
+    </div>
+
+    <!-- PDF Preview Modal for Premium Non-Tutors (No Download) -->
+    <div class="modal fade" id="pdfPreviewModal" tabindex="-1" aria-labelledby="pdfPreviewModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header" style="background-color: #323639; color: white; padding: 0.5rem 1rem;">
+            <div class="d-flex align-items-center gap-3 w-100">
+              <h6 class="modal-title mb-0" id="pdfPreviewModalLabel" style="color: white;">PDF Preview</h6>
+              <div class="d-flex align-items-center gap-2 ms-auto" id="zoomControls">
+                <button type="button" class="btn btn-sm" onclick="zoomOut()" style="background-color: #474b4f; color: white; border: none; padding: 0.25rem 0.5rem;">
+                  <i class="fas fa-search-minus"></i>
+                </button>
+                <span id="zoomLevel" style="color: white; font-size: 0.875rem; min-width: 50px; text-align: center;">100%</span>
+                <button type="button" class="btn btn-sm" onclick="zoomIn()" style="background-color: #474b4f; color: white; border: none; padding: 0.25rem 0.5rem;">
+                  <i class="fas fa-search-plus"></i>
+                </button>
+              </div>
+              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+          </div>
+          <div class="modal-body" style="height: 80vh; overflow: auto; background-color: #525659; padding: 20px;">
+            <!-- PDF.js Canvas Container for Premium Non-Tutors -->
+            <div id="pdfCanvasContainer" style="text-align: center;"></div>
+            <!-- IFrame for Tutors/Admins -->
+            <iframe id="pdfIframeViewer" style="width: 100%; height: 100%; border: none; display: none;"></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Overlay -->
+    <div class="layout-overlay layout-menu-toggle"></div>
+
+    <!-- Drag Target Area To SlideIn Menu On Small Screens -->
+    <div class="drag-target"></div>
+
+    <!-- Core JS -->
+    <script src="{% static 'website/js/vendor/libs/jquery/jquery.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/popper/popper.js' %}"></script>
+    <script src="{% static 'website/js/bootstrap.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/node-waves/node-waves.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/@algolia/autocomplete-js.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/pickr/pickr.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/perfect-scrollbar/perfect-scrollbar.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/hammer/hammer.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/i18n/i18n.js' %}"></script>
+    <script src="{% static 'website/js/vendor/menu.js' %}"></script>
+    <script type="text/javascript" src="{% static 'website/js/main.js' %}"></script>
+    <script type="text/javascript" src="{% static 'website/js/vendors.min.js' %}"></script>
+    
+    <!-- noUiSlider for question limit slider -->
+    <script src="{% static 'website/js/vendor/libs/nouislider/nouislider.js' %}"></script>
+
+    <!-- PDF Generator JavaScript -->
+    <script>
+      // User info
+      const isTutor = {{ is_tutor|yesno:"true,false" }};
+      
+      // Chapter options for each subject
+      const subjectChapters = {
+        'ai_sl': [
+          ['number_skills', 'Number Skills'],
+          ['seq_series', 'Sequences & Series'],
+          ['systems_of_equations', 'Systems of Linear Equations'],
+          ['linear_equations_graphs', 'Linear Equations & Graphs'],
+          ['application_of_functions', 'Application of Functions'],
+          ['properties_of_functions', 'Properties of Functions'],
+          ['trigonometry', 'Trigonometry'],
+          ['voronoi_diagrams', 'Voronoi Diagrams'],
+          ['descriptive_statistics', 'Descriptive Statistics'],
+          ['bivariate_statistics', 'Bivariate Statistics'],
+          ['probability', 'Probability'],
+          ['distributions', 'Distributions'],
+          ['geometry_shapes', 'Geometry of 3D Shapes'],
+          ['hypothesis_testing', 'Hypothesis Testing'],
+          ['differentiation', 'Differentiation'],
+          ['integration', 'Integration']
+        ],
+        'ai_hl': [
+          ['number_skills', 'Number Skills'],
+          ['seq_series', 'Sequences & Series'],
+          ['complex_numbers', 'Complex Numbers'],
+          ['matrices', 'Matrices'],
+          ['systems_of_equations', 'Systems of Linear Equations'],
+          ['linear_equations_graphs', 'Linear Equations & Graphs'],
+          ['application_of_functions', 'Application of Functions'],
+          ['properties_of_functions', 'Properties of Functions'],
+          ['function_transformations', 'Function Transformations'],
+          ['trigonometry', 'Trigonometry'],
+          ['trigonometric_functions', 'Trigonometric Functions'],
+          ['gemoetric_transformations', 'Geometric Transformations'],
+          ['voronoi_diagrams', 'Voronoi Diagrams'],
+          ['vectors', 'Vectors'],
+          ['graph_theory', 'Graph Theory'],
+          ['descriptive_statistics', 'Descriptive Statistics'],
+          ['bivariate_statistics', 'Bivariate Statistics'],
+          ['probability', 'Probability'],
+          ['distributions', 'Distributions'],
+          ['geometry_shapes', 'Geometry of 3D Shapes'],
+          ['hypothesis_testing', 'Hypothesis Testing'],
+          ['confidence_intervals', 'Estimations & Confidence Intervals'],
+          ['differentiation', 'Differentiation'],
+          ['integration', 'Integration'],
+          ['differential_equations', 'Differential Equations'],
+          ['kinematics', 'Kinematics']
+        ],
+        'aa_sl': [
+          ['seq_series', 'Sequences & Series'],
+          ['exp_and_logs', 'Exponentials and Logarithms'],
+          ['binomial_expansion', 'Binomial Expansion'],
+          ['proofs', 'Proofs'],
+          ['properties_of_functions', 'Properties of Functions'],
+          ['quadratic_functions', 'Quadratic Functions'],
+          ['rational_functions', 'Rational Functions'],
+          ['exp_and_logs_functions', 'Exponential and Logarithmic Functions'],
+          ['function_transformations', 'Function Transformations'],
+          ['geometry', 'Geometry'],
+          ['trig_functions', 'Trigonometric Functions'],
+          ['statistics', 'Statistics'],
+          ['bivariate_stats', 'Bivariate Statistics'],
+          ['probability', 'Probability'],
+          ['distributions', 'Distributions'],
+          ['integral_calculus', 'Integral Calculus'],
+          ['differential_calculus', 'Differential Calculus'],
+          ['kinematics', 'Kinematics']
+        ],
+        'aa_hl': [
+          ['seq_series', 'Sequences & Series'],
+          ['exp_and_logs', 'Exponentials and Logarithms'],
+          ['binomial_expansion', 'Binomial Expansion'],
+          ['proofs', 'Proofs'],
+          ['counting_principles', 'Counting Principles'],
+          ['complex_numbers', 'Complex Numbers'],
+          ['systems_of_equations', 'Systems of Equations'],
+          ['properties_of_functions', 'Properties of Functions'],
+          ['quadratic_functions', 'Quadratic Functions'],
+          ['rational_functions', 'Rational Functions'],
+          ['exp_and_logs_functions', 'Exponential and Logarithmic Functions'],
+          ['function_transformations', 'Function Transformations'],
+          ['polynomials', 'Polynomials'],
+          ['mod_inequalities', 'Mod & Inequalities'],
+          ['geometry', 'Geometry'],
+          ['trig_functions', 'Trigonometric Functions'],
+          ['vectors', 'Vectors'],
+          ['statistics', 'Statistics'],
+          ['bivariate_stats', 'Bivariate Statistics'],
+          ['probability', 'Probability'],
+          ['distributions', 'Distributions'],
+          ['integral_calculus', 'Integral Calculus'],
+          ['differential_calculus', 'Differential Calculus']
+        ],
+        'physics_sl': [
+          ['kinematics', 'Kinematics'],
+          ['forces_and_momentum', 'Forces and Momentum'],
+          ['work_energy_power', 'Work, Energy, and Power'],
+          ['thermal_energy', 'Thermal Energy'],
+          ['greenhouse_effect', 'Greenhouse Effect'],
+          ['ideal_gas_model', 'Ideal Gas Model'],
+          ['electric_circuits', 'Electric Circuits'],
+          ['simple_harmonic_motion', 'Simple Harmonic Motion'],
+          ['wave_model', 'Wave Model'],
+          ['wave_phenomena', 'Wave Phenomena'],
+          ['standing_waves', 'Standing Wave and Resonance'],
+          ['doppler_effect', 'Doppler Effect'],
+          ['gravitational_fields', 'Gravitational Fields'],
+          ['electric_magnetic_fields', 'Electric and Magnetic Fields'],
+          ['motion_in_fields', 'Motion in Electromagnetic Fields'],
+          ['structure_atom', 'Structure of the Atom'],
+          ['radioactive_decay', 'Radioactive Decay'],
+          ['fission', 'Fission'],
+          ['fusion_and_stars', 'Fusion and Stars']
+        ],
+        'physics_hl': [
+          ['kinematics', 'Kinematics'],
+          ['forces_and_momentum', 'Forces and Momentum'],
+          ['work_energy_power', 'Work, Energy, and Power'],
+          ['rigid_body_mechanics', 'Rigid Body Mechanics'],
+          ['galilean_and_special_relativity', 'Galilean and Special Relativity'],
+          ['thermal_energy', 'Thermal Energy'],
+          ['greenhouse_effect', 'Greenhouse Effect'],
+          ['ideal_gas_model', 'Ideal Gas Model'],
+          ['thermodynamics', 'Thermodynamics'],
+          ['electric_circuits', 'Electric Circuits'],
+          ['simple_harmonic_motion', 'Simple Harmonic Motion'],
+          ['wave_model', 'Wave Model'],
+          ['wave_phenomena', 'Wave Phenomena'],
+          ['standing_waves', 'Standing Wave and Resonance'],
+          ['doppler_effect', 'Doppler Effect'],
+          ['gravitational_fields', 'Gravitational Fields'],
+          ['electric_magnetic_fields', 'Electric and Magnetic Fields'],
+          ['motion_in_fields', 'Motion in Electromagnetic Fields'],
+          ['induction', 'Induction'],
+          ['structure_atom', 'Structure of the Atom'],
+          ['quantum_physics', 'Quantum Physics'],
+          ['radioactive_decay', 'Radioactive Decay'],
+          ['fission', 'Fission'],
+          ['fusion_and_stars', 'Fusion and Stars']
+        ]
+      };
+
+      let selectedSubject = null;
+      let selectedPaper = null;
+      let selectedChapters = []; // Changed to array for multiple chapters
+      let selectedQuestionLimit = 10; // Default number of questions
+      let markschemeMode = 'questions_only';
+      let includeVideosFilter = 'all';
+
+      // Function to update paper options based on subject
+      function updatePaperOptions(subject) {
+        const paperDropdownMenu = document.querySelector('#paperDropdown + .dropdown-menu');
+        
+        // Check if it's a physics subject
+        const isPhysics = subject === 'physics_sl' || subject === 'physics_hl';
+        
+        if (isPhysics) {
+          // Physics papers: Paper 1A, Paper 1B, Paper 2 only
+          paperDropdownMenu.innerHTML = `
+            <li>
+              <div class="dropdown-item">
+                <div class="form-check">
+                  <input class="form-check-input paper-radio" type="radio" name="paper" value="1A" id="paper_1a" onchange="updatePaperSelection()">
+                  <label class="form-check-label" for="paper_1a">
+                    Paper 1A
+                  </label>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="dropdown-item">
+                <div class="form-check">
+                  <input class="form-check-input paper-radio" type="radio" name="paper" value="1B" id="paper_1b" onchange="updatePaperSelection()">
+                  <label class="form-check-label" for="paper_1b">
+                    Paper 1B
+                  </label>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="dropdown-item">
+                <div class="form-check">
+                  <input class="form-check-input paper-radio" type="radio" name="paper" value="2" id="paper_2" onchange="updatePaperSelection()">
+                  <label class="form-check-label" for="paper_2">
+                    Paper 2
+                  </label>
+                </div>
+              </div>
+            </li>
+          `;
+        } else {
+          // Math papers: All, Paper 1, Paper 2
+          paperDropdownMenu.innerHTML = `
+            <li>
+              <div class="dropdown-item">
+                <div class="form-check">
+                  <input class="form-check-input paper-radio" type="radio" name="paper" value="all" id="paper_all" onchange="updatePaperSelection()">
+                  <label class="form-check-label" for="paper_all">
+                    All Papers
+                  </label>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="dropdown-item">
+                <div class="form-check">
+                  <input class="form-check-input paper-radio" type="radio" name="paper" value="1" id="paper_1" onchange="updatePaperSelection()">
+                  <label class="form-check-label" for="paper_1">
+                    Paper 1
+                  </label>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="dropdown-item">
+                <div class="form-check">
+                  <input class="form-check-input paper-radio" type="radio" name="paper" value="2" id="paper_2" onchange="updatePaperSelection()">
+                  <label class="form-check-label" for="paper_2">
+                    Paper 2
+                  </label>
+                </div>
+              </div>
+            </li>
+          `;
+        }
+      }
+
+      // Subject selection handler
+      function updateSubjectSelection() {
+        const subjectRadios = document.querySelectorAll('.subject-radio');
+        const dropdownText = document.getElementById('subjectDropdownText');
+        const paperDropdown = document.getElementById('paperDropdown');
+        const chapterDropdown = document.getElementById('chapterDropdown');
+        const videosDropdown = document.getElementById('videosDropdown');
+        const markschemeDropdown = document.getElementById('markschemeDropdown');
+        const generateBtn = document.getElementById('generateBtn');
+        
+        let selectedText = 'Select Subject';
+        subjectRadios.forEach(radio => {
+          if (radio.checked) {
+            selectedSubject = radio.value;
+            selectedText = radio.nextElementSibling.textContent.trim();
+            
+            // Update paper options based on subject
+            updatePaperOptions(selectedSubject);
+            
+            // Enable paper select
+            paperDropdown.disabled = false;
+            
+            // Reset paper selection
+            selectedPaper = null;
+            document.getElementById('paperDropdownText').textContent = 'Select Paper';
+            
+            // Populate chapters
+            populateChapters(selectedSubject);
+            
+            // Enable chapter select
+            chapterDropdown.disabled = false;
+            // Enable videos select
+            videosDropdown.disabled = false;
+            // Enable markscheme select
+            markschemeDropdown.disabled = false;
+            
+            // Reset chapter selection
+            selectedChapters = [];
+            document.getElementById('chapterDropdownText').textContent = 'Select Chapters';
+            // Reset videos selection
+            includeVideosFilter = 'all';
+            document.getElementById('videosDropdownText').textContent = 'All questions';
+            const videosAll = document.getElementById('videos_all');
+            if (videosAll) videosAll.checked = true;
+            // Reset markscheme selection
+            markschemeMode = 'questions_only';
+            document.getElementById('markschemeDropdownText').textContent = 'Questions only';
+            const markschemeDefault = document.getElementById('markscheme_questions_only');
+            if (markschemeDefault) markschemeDefault.checked = true;
+          }
+        });
+        
+        dropdownText.textContent = selectedText;
+        
+        // Reset paper and chapter
+        selectedPaper = null;
+        selectedChapter = null;
+        document.getElementById('paperDropdownText').textContent = 'Select Paper';
+        document.getElementById('chapterDropdownText').textContent = 'Select Chapter';
+        document.querySelectorAll('.paper-radio').forEach(r => r.checked = false);
+        
+        // Disable generate button
+        generateBtn.disabled = true;
+      }
+
+      // Videos selection handler
+      function updateVideosSelection() {
+        const videosRadios = document.querySelectorAll('.videos-radio');
+        const dropdownText = document.getElementById('videosDropdownText');
+        let selectedText = 'All questions';
+        videosRadios.forEach(radio => {
+          if (radio.checked) {
+            includeVideosFilter = radio.value;
+            selectedText = radio.nextElementSibling.textContent.trim();
+          }
+        });
+        dropdownText.textContent = selectedText;
+      }
+
+      // Markscheme selection handler
+      function updateMarkschemeSelection() {
+        const markschemeRadios = document.querySelectorAll('.markscheme-radio');
+        const dropdownText = document.getElementById('markschemeDropdownText');
+        let selectedText = 'Questions only';
+        markschemeRadios.forEach(radio => {
+          if (radio.checked) {
+            markschemeMode = radio.value;
+            selectedText = radio.nextElementSibling.textContent.trim();
+          }
+        });
+        dropdownText.textContent = selectedText;
+      }
+
+      // Paper selection handler
+      function updatePaperSelection() {
+        const paperRadios = document.querySelectorAll('.paper-radio');
+        const dropdownText = document.getElementById('paperDropdownText');
+        const generateBtn = document.getElementById('generateBtn');
+        
+        let selectedText = 'Select Paper';
+        paperRadios.forEach(radio => {
+          if (radio.checked) {
+            selectedPaper = radio.value;
+            selectedText = radio.nextElementSibling.textContent.trim();
+          }
+        });
+        
+        dropdownText.textContent = selectedText;
+        checkFormComplete();
+      }
+
+      // Populate chapters based on subject
+      function populateChapters(subject) {
+        const chapterDropdownMenu = document.getElementById('chapterDropdownMenu');
+        chapterDropdownMenu.innerHTML = '';
+        
+        const chapters = subjectChapters[subject] || [];
+        chapters.forEach(([code, name]) => {
+          const li = document.createElement('li');
+          li.innerHTML = `
+            <div class="dropdown-item">
+              <div class="form-check">
+                <input class="form-check-input chapter-checkbox" type="checkbox" value="${code}" id="chapter_${code}" onchange="updateChapterSelection()">
+                <label class="form-check-label" for="chapter_${code}">${name}</label>
+              </div>
+            </div>
+          `;
+          chapterDropdownMenu.appendChild(li);
+        });
+      }
+
+      // Chapter selection handler (multi-select)
+      function updateChapterSelection() {
+        const chapterCheckboxes = document.querySelectorAll('.chapter-checkbox');
+        const dropdownText = document.getElementById('chapterDropdownText');
+        
+        selectedChapters = [];
+        let selectedNames = [];
+        
+        chapterCheckboxes.forEach(checkbox => {
+          if (checkbox.checked) {
+            selectedChapters.push(checkbox.value);
+            selectedNames.push(checkbox.nextElementSibling.textContent.trim());
+          }
+        });
+        
+        if (selectedChapters.length === 0) {
+          dropdownText.textContent = 'Select Chapters';
+        } else if (selectedChapters.length === 1) {
+          dropdownText.textContent = selectedNames[0];
+        } else {
+          dropdownText.textContent = `${selectedChapters.length} chapters selected`;
+        }
+        
+        checkFormComplete();
+      }
+
+      // Check if all selections are made
+      function checkFormComplete() {
+        const generateBtn = document.getElementById('generateBtn');
+        generateBtn.disabled = !(selectedSubject && selectedPaper && selectedChapters.length > 0);
+      }
+
+      // Generate PDF function
+      async function generatePDF() {
+        if (!selectedSubject || !selectedPaper || selectedChapters.length === 0) {
+          showMessage('Please select subject, paper, and at least one chapter', 'warning');
+          return;
+        }
+
+        const generateBtn = document.getElementById('generateBtn');
+        const spinner = document.getElementById('loadingSpinner');
+        const statusMessage = document.getElementById('statusMessage');
+
+        // Get display names
+        const subjectName = document.querySelector('.subject-radio:checked').nextElementSibling.textContent.trim();
+        const paperName = document.querySelector('.paper-radio:checked').nextElementSibling.textContent.trim();
+        
+        // Get selected chapter names for display
+        const selectedChapterElements = document.querySelectorAll('.chapter-checkbox:checked');
+        const chapterNames = Array.from(selectedChapterElements).map(el => el.nextElementSibling.textContent.trim());
+        const chapterDisplayText = chapterNames.length === 1 ? chapterNames[0] : `${chapterNames.length} chapters`;
+
+        // Disable button and show loading
+        generateBtn.disabled = true;
+        spinner.classList.add('show');
+        statusMessage.innerHTML = '';
+
+        try {
+          showMessage(`Generating your PDF, it may take a few seconds!`, 'info');
+
+          const response = await fetch('/past-papers/math-ai-sl/generate-pdf/', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-CSRFToken': getCookie('csrftoken')
+            },
+            body: JSON.stringify({ 
+              subject: selectedSubject,
+              paper: selectedPaper,
+              chapters: selectedChapters,  // Send array of chapters
+              question_limit: selectedQuestionLimit,  // Send question limit
+              markscheme_mode: markschemeMode,
+              include_videos: includeVideosFilter
+            })
+          });
+
+          console.log('Response status:', response.status);
+          console.log('Response content-type:', response.headers.get('content-type'));
+
+          if (!response.ok) {
+            // Clone the response so we can read it multiple times if needed
+            const clonedResponse = response.clone();
+            let errorMessage = 'Failed to generate PDF';
+            
+            try {
+              const errorData = await response.json();
+              console.error('Error response from server:', errorData);
+              if (errorData.debug) {
+                console.log('DEBUG INFO:', errorData.debug);
+              }
+              errorMessage = errorData.error || errorMessage;
+            } catch (e) {
+              // Not JSON, probably HTML error page
+              try {
+                const errorText = await clonedResponse.text();
+                console.error('Server returned non-JSON error:', errorText.substring(0, 500));
+                errorMessage = `Server error (${response.status}). Check console for details.`;
+              } catch (e2) {
+                console.error('Could not read error response:', e2);
+              }
+            }
+            throw new Error(errorMessage);
+          }
+
+          // Get the PDF blob
+          const blob = await response.blob();
+          const url = window.URL.createObjectURL(blob);
+          
+          console.log('isTutor value:', isTutor);
+          console.log('User can download:', isTutor);
+          
+          if (isTutor) {
+            // Tutors/Admins: Direct download
+            console.log('Downloading PDF for tutor/admin');
+            const a = document.createElement('a');
+            a.href = url;
+            const filename = `${subjectName.replace(/\s+/g, '_')}_${paperName.replace(/\s+/g, '_')}_${chapterDisplayText.replace(/\s+/g, '_')}_Questions.pdf`;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            
+            showMessage(`PDF generated successfully! Download should start automatically.`, 'success');
+            
+            // Cleanup URL after a delay
+            setTimeout(() => {
+              window.URL.revokeObjectURL(url);
+            }, 100);
+          } else {
+            // Premium non-tutors see preview modal with PDF.js (no download)
+            console.log('Loading PDF in canvas for premium user');
+            const iframe = document.getElementById('pdfIframeViewer');
+            const canvasContainer = document.getElementById('pdfCanvasContainer');
+            const zoomControls = document.getElementById('zoomControls');
+            
+            // Show canvas, hide iframe, show zoom controls
+            iframe.style.display = 'none';
+            canvasContainer.style.display = 'block';
+            zoomControls.style.display = 'flex';
+            
+            // Show modal
+            const modal = new bootstrap.Modal(document.getElementById('pdfPreviewModal'));
+            modal.show();
+            
+            // Load PDF using PDF.js (prevents download)
+            loadPDFPreview(url);
+            
+            showMessage(`PDF preview opened!`, 'success');
+            
+            // Cleanup URL when modal is closed
+            document.getElementById('pdfPreviewModal').addEventListener('hidden.bs.modal', function () {
+              window.URL.revokeObjectURL(url);
+              canvasContainer.innerHTML = '';
+            }, { once: true });
+          }
+          
+          // Re-enable button after 2 seconds
+          setTimeout(() => {
+            generateBtn.disabled = false;
+          }, 2000);
+          
+          // Reload saved exams after successful generation
+          setTimeout(() => {
+            loadSavedExams();
+          }, 1000);
+        } catch (error) {
+          console.error('Error generating PDF:', error);
+          showMessage(`Error: ${error.message}`, 'danger');
+          generateBtn.disabled = false;
+        } finally {
+          // Hide loading spinner
+          spinner.classList.remove('show');
+        }
+      }
+
+      // Helper function to show messages
+      function showMessage(message, type) {
+        const statusMessage = document.getElementById('statusMessage');
+        statusMessage.innerHTML = `
+          <div class="alert alert-${type} alert-dismissible fade show" role="alert">
+            ${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        `;
+      }
+
+      // Load saved exams
+      async function loadSavedExams() {
+        try {
+          const response = await fetch('/saved-exams/');
+          const data = await response.json();
+          
+          const container = document.getElementById('saved-exams-list');
+          const section = document.getElementById('saved-exams-section');
+          
+          if (!data.exams || data.exams.length === 0) {
+            // Show empty state message
+            container.innerHTML = `
+              <div class="text-center text-muted py-5">
+                <p class="mt-3 mb-0">No exams generated yet.</p>
+                <br>
+                <p class="small">Create an exam using the form above to get started!</p>
+              </div>
+            `;
+            return;
+          }
+          
+          // Check if user is tutor/admin
+          const isTutor = {% if is_tutor %}true{% else %}false{% endif %};
+          const buttonText = isTutor ? 'Download' : 'Preview';
+          const buttonIcon = isTutor ? 'ri-download-line' : 'ri-eye-line';
+          
+          let html = '<div class="list-group">';
+          data.exams.forEach(exam => {
+            // Format chapters display - show first chapter or count if multiple
+            let chaptersDisplay = '';
+            if (exam.chapter_names && exam.chapter_names.length > 0) {
+              if (exam.chapter_names.length === 1) {
+                // Show first chapter name
+                const chapterName = exam.chapter_names[0];
+                chaptersDisplay = chapterName.length > 20 ? chapterName.substring(0, 20) + '...' : chapterName;
+              } else {
+                chaptersDisplay = `${exam.chapter_names.length} chapters`;
+              }
+            } else if (exam.chapters && exam.chapters.length > 0) {
+              // Fallback to chapter codes if names not available
+              if (exam.chapters.length === 1) {
+                const chapterCode = exam.chapters[0];
+                chaptersDisplay = chapterCode.length > 20 ? chapterCode.substring(0, 20) + '...' : chapterCode;
+              } else {
+                chaptersDisplay = `${exam.chapters.length} chapters`;
+              }
+            }
+            
+            // Format paper display
+            let paperDisplay = exam.paper === 'all' ? 'All Papers' : `Paper ${exam.paper}`;
+            
+            html += `
+              <div class="list-group-item d-flex justify-content-between align-items-center">
+                <div>
+                  <h6 class="mb-1">${exam.created_at}</h6>
+                  <small class="text-muted">${exam.subject} • ${paperDisplay} • ${chaptersDisplay} • ${exam.question_count} questions</small>
+                </div>
+                <div class="btn-group">
+                  <button class="btn btn-sm btn-outline-primary" onclick="downloadSavedExam(${exam.id})" id="download-btn-${exam.id}">
+                    <i class="${buttonIcon} me-1"></i> ${buttonText}
+                  </button>
+                  <button class="btn btn-sm btn-outline-danger" onclick="deleteSavedExam(${exam.id})">
+                    <i class="ri-delete-bin-line me-1"></i> Delete
+                  </button>
+                </div>
+              </div>
+            `;
+          });
+          html += '</div>';
+          
+          container.innerHTML = html;
+        } catch (error) {
+          console.error('Error loading saved exams:', error);
+        }
+      }
+
+      // Download saved exam
+      function downloadSavedExam(examId) {
+        // Check if user is tutor/admin (can download) or premium (preview only)
+        const isTutor = {% if is_tutor %}true{% else %}false{% endif %};
+        
+        // Get the button and show loading state
+        const button = document.getElementById(`download-btn-${examId}`);
+        const originalHTML = button.innerHTML;
+        button.disabled = true;
+        button.innerHTML = '<span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span> Loading...';
+        
+        if (isTutor) {
+          // Download directly
+          window.location.href = `/download-saved-exam/${examId}/`;
+          // Re-enable button after a delay
+          setTimeout(() => {
+            button.disabled = false;
+            button.innerHTML = originalHTML;
+          }, 2000);
+        } else {
+          // Preview in modal
+          fetch(`/download-saved-exam/${examId}/`)
+            .then(response => {
+              if (!response.ok) {
+                throw new Error('Failed to load PDF');
+              }
+              return response.blob();
+            })
+            .then(blob => {
+              const url = window.URL.createObjectURL(blob);
+              loadPDFPreview(url);
+              
+              const modal = new bootstrap.Modal(document.getElementById('pdfPreviewModal'));
+              modal.show();
+              
+              // Re-enable button
+              button.disabled = false;
+              button.innerHTML = originalHTML;
+              
+              // Cleanup when modal closes
+              document.getElementById('pdfPreviewModal').addEventListener('hidden.bs.modal', function () {
+                window.URL.revokeObjectURL(url);
+              }, { once: true });
+            })
+            .catch(error => {
+              console.error('Error loading PDF preview:', error);
+              showMessage('Error loading PDF preview', 'danger');
+              button.disabled = false;
+              button.innerHTML = originalHTML;
+            });
+        }
+      }
+
+      // Delete saved exam
+      let examToDelete = null;
+      
+      function deleteSavedExam(examId) {
+        // Store exam ID and show modal
+        examToDelete = examId;
+        const modal = new bootstrap.Modal(document.getElementById('deleteExamModal'));
+        modal.show();
+      }
+
+      // Handle delete confirmation
+      document.addEventListener('DOMContentLoaded', function() {
+        const confirmDeleteBtn = document.getElementById('confirmDeleteExam');
+        if (confirmDeleteBtn) {
+          confirmDeleteBtn.addEventListener('click', async function() {
+            if (!examToDelete) return;
+            
+            try {
+              const response = await fetch(`/delete-saved-exam/${examToDelete}/`, {
+                method: 'DELETE',
+                headers: {
+                  'X-CSRFToken': getCookie('csrftoken')
+                }
+              });
+              
+              const data = await response.json();
+              
+              // Hide modal
+              const modal = bootstrap.Modal.getInstance(document.getElementById('deleteExamModal'));
+              modal.hide();
+              
+              if (data.success) {
+                showMessage('Exam deleted successfully', 'success');
+                loadSavedExams(); // Reload the list
+              } else {
+                showMessage('Error deleting exam', 'danger');
+              }
+              
+              examToDelete = null;
+            } catch (error) {
+              console.error('Error deleting exam:', error);
+              showMessage('Error deleting exam', 'danger');
+              examToDelete = null;
+            }
+          });
+        }
+      });
+
+      // Helper function to get CSRF token
+      function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+          const cookies = document.cookie.split(';');
+          for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+              cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+              break;
+            }
+          }
+        }
+        return cookieValue;
+      }
+
+      // Load saved exams on page load
+      document.addEventListener('DOMContentLoaded', function() {
+        loadSavedExams();
+
+        // Enable Bootstrap tooltips
+        const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        tooltipTriggerList.forEach(function (tooltipTriggerEl) {
+          new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+
+        // ... rest of DOMContentLoaded code ...
+        // Initialize question limit slider
+        const questionSlider = document.getElementById('slider-questions');
+        if (questionSlider && typeof noUiSlider !== 'undefined') {
+          noUiSlider.create(questionSlider, {
+            start: [10],
+            connect: [true, false],
+            range: {
+              'min': 5,
+              'max': 50
+            },
+            step: 1,  // Changed from 5 to 1 for single question selection
+            tooltips: true,
+            format: {
+              to: function(value) {
+                return Math.round(value) + ' questions';
+              },
+              from: function(value) {
+                return Number(value.replace(' questions', ''));
+              }
+            }
+          });
+          
+          // Update selected question limit when slider changes
+          questionSlider.noUiSlider.on('update', function(values, handle) {
+            selectedQuestionLimit = Math.round(parseFloat(values[0].replace(' questions', '')));
+          });
+        }
+
+        // Prevent dropdown from closing when clicking inside dropdown-item
+        document.querySelectorAll('.dropdown-menu .dropdown-item').forEach(item => {
+          item.addEventListener('click', function(e) {
+            // Don't close dropdown when clicking on the item itself
+            e.stopPropagation();
+          });
+        });
+
+        // Handle radio button changes and close dropdown after selection
+        document.querySelectorAll('.dropdown-menu input[type="radio"]').forEach(radio => {
+          radio.addEventListener('change', function(e) {
+            // Allow the change event to propagate
+            // Close the dropdown after a short delay to allow the selection to register
+            setTimeout(() => {
+              const dropdown = this.closest('.dropdown');
+              if (dropdown) {
+                const dropdownToggle = dropdown.querySelector('[data-bs-toggle="dropdown"]');
+                if (dropdownToggle) {
+                  const bsDropdown = bootstrap.Dropdown.getInstance(dropdownToggle);
+                  if (bsDropdown) {
+                    bsDropdown.hide();
+                  }
+                }
+              }
+            }, 100);
+          });
+        });
+      });
+
+      // PDF.js Preview - Prevents downloading
+      let pdfDoc = null;
+      let currentScale = 1.5;
+      const minScale = 0.5;
+      const maxScale = 4.0;
+      const scaleStep = 0.25;
+
+      // Configure PDF.js worker
+      pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+      async function loadPDFPreview(url) {
+        try {
+          const loadingTask = pdfjsLib.getDocument(url);
+          pdfDoc = await loadingTask.promise;
+          
+          // Render all pages
+          await renderAllPages();
+          updateZoomDisplay();
+        } catch (error) {
+          console.error('Error loading PDF:', error);
+          document.getElementById('pdfCanvasContainer').innerHTML = '<p class="text-white">Error loading PDF preview.</p>';
+        }
+      }
+
+      async function renderAllPages() {
+        const container = document.getElementById('pdfCanvasContainer');
+        container.innerHTML = ''; // Clear existing canvases
+        
+        for (let pageNum = 1; pageNum <= pdfDoc.numPages; pageNum++) {
+          const page = await pdfDoc.getPage(pageNum);
+          const viewport = page.getViewport({ scale: currentScale });
+          
+          // Create canvas for this page
+          const canvas = document.createElement('canvas');
+          canvas.style.display = 'block';
+          canvas.style.margin = '10px auto';
+          canvas.style.boxShadow = '0 4px 8px rgba(0,0,0,0.5)';
+          canvas.style.backgroundColor = 'white';
+          const context = canvas.getContext('2d');
+          canvas.height = viewport.height;
+          canvas.width = viewport.width;
+          
+          // Render PDF page into canvas context
+          const renderContext = {
+            canvasContext: context,
+            viewport: viewport
+          };
+          await page.render(renderContext).promise;
+          
+          container.appendChild(canvas);
+        }
+      }
+
+      function zoomIn() {
+        if (currentScale < maxScale) {
+          currentScale += scaleStep;
+          renderAllPages();
+          updateZoomDisplay();
+        }
+      }
+
+      function zoomOut() {
+        if (currentScale > minScale) {
+          currentScale -= scaleStep;
+          renderAllPages();
+          updateZoomDisplay();
+        }
+      }
+
+      function updateZoomDisplay() {
+        document.getElementById('zoomLevel').textContent = Math.round(currentScale * 100) + '%';
+      }
+
+    </script>
+
+  </body>
+</html>

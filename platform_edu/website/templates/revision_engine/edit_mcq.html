@@ -1,0 +1,398 @@
+{% load static %}
+<!doctype html>
+<html lang="en"
+  class="layout-navbar-fixed layout-menu-fixed layout-compact"
+  dir="ltr" data-skin="default" data-bs-theme="light"
+  data-assets-path="../../assets/" data-template="vertical-menu-template">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"/>
+  <title>Edit MCQ – Q{{ question.id }} | Edunade</title>
+  <link rel="icon" href="{% static 'website/images/platform_logo.svg' %}">
+  {% include 'top_base.html' %}
+  <link rel="stylesheet" href="{% static 'website/css/questionbank.css' %}"/>
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['\\(','\\)'],['$','$']], displayMath: [['\\[','\\]'],['$$','$$']] },
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" defer></script>
+  <style>
+    .container-xxl { max-width: 94%; margin: 0 auto; }
+    .ref-panel { font-size: 0.85rem; line-height: 1.7; background: var(--bs-tertiary-bg); border-radius: 0.5rem; padding: 1rem; max-height: 420px; overflow-y: auto; }
+    .sq-card { border: 1px solid var(--bs-border-color); border-radius: 0.5rem; padding: 1.2rem; margin-bottom: 1rem; background: #fff; position: relative; }
+    .sq-card h6 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--bs-secondary); margin-bottom: 0.75rem; }
+    .opt-row { display: grid; grid-template-columns: 32px 1fr 80px; gap: 0.5rem; align-items: center; margin-bottom: 0.4rem; }
+    .opt-label-badge { width: 28px; height: 28px; border-radius: 50%; background: var(--bs-secondary-bg); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.82rem; }
+    .save-flash { font-size: 0.8rem; display: none; margin-left: 0.5rem; }
+
+    /* ── Drag & reorder ── */
+    .drag-handle {
+      cursor: grab; color: #aaa; padding: 2px 6px 2px 0;
+      font-size: 1.1rem; line-height: 1;
+      flex-shrink: 0;
+    }
+    .drag-handle:active { cursor: grabbing; }
+    .sq-card.drag-over {
+      border: 2px dashed #696cff;
+      background: #f0f0ff;
+    }
+    .sq-card.dragging { opacity: 0.4; }
+
+    /* ── Order buttons ── */
+    .order-btns { display: flex; flex-direction: column; gap: 1px; }
+    .order-btn {
+      background: none; border: 1px solid #ddd; border-radius: 4px;
+      width: 24px; height: 24px; display: flex; align-items: center; justify-content: center;
+      cursor: pointer; color: #666; font-size: 0.75rem; padding: 0;
+      transition: background .1s, border-color .1s;
+    }
+    .order-btn:hover { background: #696cff; border-color: #696cff; color: #fff; }
+    .order-btn:disabled { opacity: 0.25; cursor: default; }
+
+    /* ── Order saved toast ── */
+    #order-toast {
+      position: fixed; bottom: 1.5rem; right: 1.5rem;
+      background: #2e7d32; color: #fff; padding: .55rem 1.1rem;
+      border-radius: 8px; font-size: .82rem; font-weight: 600;
+      display: none; z-index: 9999; box-shadow: 0 4px 16px rgba(0,0,0,.2);
+    }
+  </style>
+</head>
+<body>
+<div class="layout-wrapper layout-content-navbar">
+<div class="layout-container">
+  {% include 'sidebar.html' %}
+  <div class="content-wrapper">
+  <div class="container-xxl flex-grow-1 container-p-y">
+
+    <div class="d-flex align-items-center gap-3 mb-4 flex-wrap">
+      <h2 class="mb-0">Edit MCQ — Q{{ question.id }}</h2>
+      <span class="badge bg-secondary">{{ question.chapter }}</span>
+      <span class="badge {% if question.difficulty == 'Easy' %}bg-success{% elif question.difficulty == 'Hard' %}bg-danger{% else %}bg-warning text-dark{% endif %}">{{ question.difficulty }}</span>
+      <a href="{% url 'revision-engine' %}" class="btn btn-sm btn-outline-secondary ms-auto">← Back to Engine</a>
+    </div>
+
+    <div class="row g-4">
+
+      <!-- Left: Reference -->
+      <div class="col-md-5">
+        <h6 class="text-muted text-uppercase mb-2" style="font-size:0.75rem;letter-spacing:0.05em;">Question (reference)</h6>
+        <div class="ref-panel mb-3">{{ question.question|safe }}</div>
+        <h6 class="text-muted text-uppercase mb-2" style="font-size:0.75rem;letter-spacing:0.05em;">Mark Scheme (reference)</h6>
+        <div class="ref-panel">{{ question.answer|safe }}</div>
+      </div>
+
+      <!-- Right: Editor -->
+      <div class="col-md-7">
+        <div class="d-flex align-items-center gap-2 mb-3 flex-wrap">
+          <h5 class="mb-0">Sub-questions</h5>
+          <span class="text-muted small ms-1">Drag <i class="ri-draggable"></i> or use ▲▼ to reorder</span>
+          <button class="btn btn-sm btn-primary ms-auto" onclick="addSubQuestion()">+ Add part</button>
+        </div>
+
+        <div id="sq-list">
+          {% for sq in subquestions %}
+          <div class="sq-card"
+               id="sqcard-{{ sq.id }}"
+               data-sqid="{{ sq.id }}"
+               draggable="true">
+
+            <div class="d-flex align-items-center gap-2 mb-2">
+              <span class="drag-handle" title="Drag to reorder">
+                <i class="ri-draggable"></i>
+              </span>
+
+              <h6 class="mb-0">Part {{ sq.part_label|upper|default:"—" }}</h6>
+
+              <!-- Up / Down buttons -->
+              <div class="order-btns ms-1">
+                <button class="order-btn" title="Move up" onclick="moveCard(this, -1)">▲</button>
+                <button class="order-btn" title="Move down" onclick="moveCard(this, 1)">▼</button>
+              </div>
+
+              <button class="btn btn-sm btn-outline-danger ms-auto" onclick="deleteSubQuestion({{ sq.id }})">Delete</button>
+            </div>
+
+            <div class="mb-2">
+              <label class="form-label" style="font-size:0.8rem;">Part label (a / b / c / blank)</label>
+              <input type="text" class="form-control form-control-sm sq-label" value="{{ sq.part_label }}" maxlength="5">
+            </div>
+            <div class="mb-3">
+              <label class="form-label" style="font-size:0.8rem;">Sub-question text (LaTeX ok)</label>
+              <textarea class="form-control form-control-sm sq-text" rows="2">{{ sq.question_text }}</textarea>
+            </div>
+            <h6>Options</h6>
+            {% for label in "ABCD" %}
+            {% for opt in sq.options.all %}{% if opt.label == label %}
+            <div class="opt-row">
+              <div class="opt-label-badge">{{ label }}</div>
+              <input type="text" class="form-control form-control-sm opt-text" data-label="{{ label }}" value="{{ opt.option_text }}">
+              <div class="form-check ms-1">
+                <input class="form-check-input opt-correct" type="radio" name="correct-{{ sq.id }}"
+                       data-label="{{ label }}" {% if opt.is_correct %}checked{% endif %}>
+                <label class="form-check-label" style="font-size:0.78rem;">Correct</label>
+              </div>
+            </div>
+            {% endif %}{% endfor %}
+            {% endfor %}
+            <div class="d-flex align-items-center mt-3">
+              <button class="btn btn-sm btn-primary" onclick="saveSubQuestion({{ sq.id }})">Save</button>
+              <span class="save-flash text-success" id="flash-{{ sq.id }}">Saved ✓</span>
+            </div>
+          </div>
+          {% empty %}
+          <div id="empty-msg" class="text-muted small">No sub-questions yet. Click "+ Add part" to start.</div>
+          {% endfor %}
+        </div>
+      </div>
+
+    </div>
+  </div>
+  </div>
+</div>
+</div>
+
+<div id="order-toast">✓ Order saved</div>
+
+<script src="{% static 'website/js/vendor/libs/jquery/jquery.js' %}"></script>
+<script src="{% static 'website/js/vendor/libs/popper/popper.js' %}"></script>
+<script src="{% static 'website/js/bootstrap.js' %}"></script>
+<script src="{% static 'website/js/vendor/libs/node-waves/node-waves.js' %}"></script>
+<script src="{% static 'website/js/vendor/libs/perfect-scrollbar/perfect-scrollbar.js' %}"></script>
+<script src="{% static 'website/js/vendor/menu.js' %}"></script>
+<script src="{% static 'website/js/main.js' %}"></script>
+<script src="{% static 'website/js/vendors.min.js' %}"></script>
+
+<script>
+const QUESTION_ID   = {{ question.id }};
+const SAVE_URL      = "{% url 'revision-engine-save-subquestion' %}";
+const DELETE_URL    = "{% url 'revision-engine-delete-subquestion' %}";
+const REORDER_URL   = "{% url 'revision-engine-reorder-subquestions' %}";
+
+function getCookie(name) {
+  let v = null;
+  document.cookie.split(';').forEach(c => {
+    c = c.trim();
+    if (c.startsWith(name + '=')) v = decodeURIComponent(c.slice(name.length + 1));
+  });
+  return v;
+}
+
+// ── Build a new blank sub-question card ──────────────────────────────────
+function buildCard(sqId, partLabel, text) {
+  const id = sqId || ('new-' + Date.now());
+  return `
+  <div class="sq-card" id="sqcard-${id}" data-sqid="${sqId || ''}" draggable="true">
+    <div class="d-flex align-items-center gap-2 mb-2">
+      <span class="drag-handle" title="Drag to reorder"><i class="ri-draggable"></i></span>
+      <h6 class="mb-0">New part</h6>
+      <div class="order-btns ms-1">
+        <button class="order-btn" title="Move up" onclick="moveCard(this, -1)">▲</button>
+        <button class="order-btn" title="Move down" onclick="moveCard(this, 1)">▼</button>
+      </div>
+      <button class="btn btn-sm btn-outline-danger ms-auto" onclick="deleteSubQuestion(null, 'sqcard-${id}')">Delete</button>
+    </div>
+    <div class="mb-2">
+      <label class="form-label" style="font-size:0.8rem;">Part label (a / b / c / blank)</label>
+      <input type="text" class="form-control form-control-sm sq-label" value="${partLabel || ''}" maxlength="5">
+    </div>
+    <div class="mb-3">
+      <label class="form-label" style="font-size:0.8rem;">Sub-question text (LaTeX ok)</label>
+      <textarea class="form-control form-control-sm sq-text" rows="2">${text || ''}</textarea>
+    </div>
+    <h6>Options</h6>
+    ${['A','B','C','D'].map(lbl => `
+    <div class="opt-row">
+      <div class="opt-label-badge">${lbl}</div>
+      <input type="text" class="form-control form-control-sm opt-text" data-label="${lbl}" value="">
+      <div class="form-check ms-1">
+        <input class="form-check-input opt-correct" type="radio" name="correct-${id}" data-label="${lbl}">
+        <label class="form-check-label" style="font-size:0.78rem;">Correct</label>
+      </div>
+    </div>`).join('')}
+    <div class="d-flex align-items-center mt-3">
+      <button class="btn btn-sm btn-primary" onclick="saveSubQuestion(null, 'sqcard-${id}')">Save</button>
+      <span class="save-flash text-success" id="flash-${id}">Saved ✓</span>
+    </div>
+  </div>`;
+}
+
+function addSubQuestion() {
+  document.getElementById('empty-msg')?.remove();
+  const html = buildCard(null, '', '');
+  const list = document.getElementById('sq-list');
+  list.insertAdjacentHTML('beforeend', html);
+  // attach drag events to the new card
+  attachDragEvents(list.lastElementChild);
+}
+
+// ── Save ─────────────────────────────────────────────────────────────────
+function saveSubQuestion(sqId, cardId) {
+  const card = sqId
+    ? document.getElementById('sqcard-' + sqId)
+    : document.getElementById(cardId);
+
+  const partLabel   = card.querySelector('.sq-label').value.trim();
+  const questionText= card.querySelector('.sq-text').value.trim();
+  const options     = [];
+
+  card.querySelectorAll('.opt-row').forEach(row => {
+    const lbl       = row.querySelector('.opt-text').dataset.label;
+    const text      = row.querySelector('.opt-text').value.trim();
+    const isCorrect = row.querySelector('.opt-correct').checked;
+    options.push({ label: lbl, text, is_correct: isCorrect });
+  });
+
+  fetch(SAVE_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'X-CSRFToken': getCookie('csrftoken') },
+    body: JSON.stringify({
+      question_id:    QUESTION_ID,
+      subquestion_id: sqId || null,
+      part_label:     partLabel,
+      question_text:  questionText,
+      order:          0,
+      options,
+    }),
+  })
+  .then(r => r.json())
+  .then(data => {
+    if (data.success) {
+      if (!sqId) {
+        card.dataset.sqid = data.subquestion_id;
+        card.id = 'sqcard-' + data.subquestion_id;
+        card.querySelector('.btn-outline-danger').setAttribute('onclick', `deleteSubQuestion(${data.subquestion_id})`);
+        card.querySelector('.btn-primary').setAttribute('onclick', `saveSubQuestion(${data.subquestion_id})`);
+        const flashEl = card.querySelector('.save-flash');
+        flashEl.id = 'flash-' + data.subquestion_id;
+      }
+      const flash = card.querySelector('.save-flash');
+      flash.style.display = 'inline';
+      setTimeout(() => { flash.style.display = 'none'; }, 2500);
+    } else {
+      alert('Error: ' + (data.error || 'unknown'));
+    }
+  })
+  .catch(e => alert('Network error: ' + e));
+}
+
+// ── Delete ───────────────────────────────────────────────────────────────
+function deleteSubQuestion(sqId, cardId) {
+  if (!confirm('Delete this sub-question?')) return;
+  if (sqId) {
+    fetch(DELETE_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-CSRFToken': getCookie('csrftoken') },
+      body: JSON.stringify({ subquestion_id: sqId }),
+    })
+    .then(r => r.json())
+    .then(data => {
+      if (data.success) document.getElementById('sqcard-' + sqId).remove();
+      else alert('Error deleting');
+    });
+  } else {
+    document.getElementById(cardId).remove();
+  }
+}
+
+// ── Reorder helpers ──────────────────────────────────────────────────────
+function saveOrder() {
+  const ids = Array.from(document.querySelectorAll('#sq-list .sq-card'))
+    .map(c => c.dataset.sqid)
+    .filter(id => id && !id.startsWith('new-') && id !== '')
+    .map(Number)
+    .filter(n => !isNaN(n) && n > 0);
+
+  if (!ids.length) return;
+
+  console.log('[MCQ] Saving order:', ids);
+
+  fetch(REORDER_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'X-CSRFToken': getCookie('csrftoken') },
+    body: JSON.stringify({ ordered_ids: ids }),
+  })
+  .then(r => {
+    if (!r.ok) {
+      return r.text().then(t => { throw new Error('HTTP ' + r.status + ': ' + t.slice(0, 200)); });
+    }
+    return r.json();
+  })
+  .then(data => {
+    if (data.success) {
+      const toast = document.getElementById('order-toast');
+      toast.style.display = 'block';
+      setTimeout(() => { toast.style.display = 'none'; }, 2200);
+      console.log('[MCQ] Order saved OK');
+    } else {
+      alert('Order save error: ' + (data.error || JSON.stringify(data)));
+    }
+  })
+  .catch(e => {
+    console.error('[MCQ] saveOrder failed:', e);
+    alert('Could not save order: ' + e.message);
+  });
+}
+
+// ── Up / Down arrow buttons ──────────────────────────────────────────────
+function moveCard(btn, direction) {
+  const card = btn.closest('.sq-card');
+  const list = document.getElementById('sq-list');
+  const cards = Array.from(list.querySelectorAll('.sq-card'));
+  const idx = cards.indexOf(card);
+  const target = cards[idx + direction];
+  if (!target) return;
+
+  if (direction === -1) {
+    list.insertBefore(card, target);
+  } else {
+    list.insertBefore(target, card);
+  }
+  saveOrder();
+}
+
+// ── Drag and drop ────────────────────────────────────────────────────────
+let dragSrc = null;
+
+function attachDragEvents(card) {
+  card.addEventListener('dragstart', function (e) {
+    dragSrc = this;
+    this.classList.add('dragging');
+    e.dataTransfer.effectAllowed = 'move';
+  });
+  card.addEventListener('dragend', function () {
+    this.classList.remove('dragging');
+    document.querySelectorAll('.sq-card').forEach(c => c.classList.remove('drag-over'));
+    saveOrder();
+  });
+  card.addEventListener('dragover', function (e) {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    if (this !== dragSrc) {
+      document.querySelectorAll('.sq-card').forEach(c => c.classList.remove('drag-over'));
+      this.classList.add('drag-over');
+    }
+  });
+  card.addEventListener('drop', function (e) {
+    e.preventDefault();
+    if (this === dragSrc) return;
+    const list = document.getElementById('sq-list');
+    const cards = Array.from(list.querySelectorAll('.sq-card'));
+    const srcIdx  = cards.indexOf(dragSrc);
+    const destIdx = cards.indexOf(this);
+    if (srcIdx < destIdx) {
+      list.insertBefore(dragSrc, this.nextSibling);
+    } else {
+      list.insertBefore(dragSrc, this);
+    }
+    this.classList.remove('drag-over');
+  });
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+  document.querySelectorAll('.sq-card').forEach(attachDragEvents);
+});
+</script>
+</body>
+</html>

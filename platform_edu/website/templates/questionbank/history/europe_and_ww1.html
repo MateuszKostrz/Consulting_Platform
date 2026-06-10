@@ -1,0 +1,235 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Academy - Questionbank</title>
+
+   <!-- font awesome cdn link  -->
+   <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"> -->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+   <!-- custom css file link  -->
+   <link rel="stylesheet" href="{% static 'website/css/style.css' %}">
+
+
+
+</head>
+<body>
+
+<header class="header">
+   
+   <section class="flex" id="blur_flex">
+
+      <a href="home.html" class="logo">History SL Questionbank</a>
+      <div class="icons">
+         <div id="menu-btn" class="fas fa-bars"></div>
+         <div id="search-btn" class="fas fa-search"></div>
+         <div id="user-btn" class="fas fa-user"></div>
+         <div id="toggle-btn" class="fas fa-sun"></div>
+         <!-- <div id="toggle-btn">
+            <a href="profile.html" class="fas fa-sun">Log Out</a>
+         </div> -->
+         
+         
+      </div>
+
+      {% include 'common_header.html' %}
+
+
+<section class="home-grid" id="blur_home_grid">
+   {% if updated_creds %}
+
+   <div>
+      <div id="hideMe">
+         <h2 class="message">You have successfully updated your profile. Log in again to see the changes.</h2>
+      </div>
+   </div>
+   
+   {% endif %}
+
+
+   {% if already_user %}
+   
+
+   <h1 class="heading" id="blur_heading">Europe and the First World War (1871–1918)</h1>
+
+</section>
+
+      <div id="popup_short_ans1" class="popup">
+         <h1>Short Answer</h1>
+            <ul>
+               <li>Blank check made war feasible for Austria-Hungary.</li>
+               <li>Blank check led to the rapid escalation.</li>
+               <li>Blank checks increased diplomatic isolation.</li>
+               <li>Nonetheless, granting the blank cheque without the already established alliance system and the tense situation would not cause the war on its own.</li>
+             </ul>
+         <a href="#/" onclick="short_ans1()">Close</a>
+      </div>
+
+      <div id="popup_answer1" class="popup">
+         <h1>Detailed Answer</h1>
+         <ul>
+            <li><strong>Blank check made war feasible for Austria-Hungary:</strong> The "blank check" was a diplomatic assurance offered by Germany to Austria-Hungary, promising full and unconditional support for any action the latter might take. This assurance emboldened Austria-Hungary to take a hardliner stance against Serbia following the assassination of Archduke Franz Ferdinand. The blank check provided Austria-Hungary with a sense of security, as it was assumed that Germany would back its decisions militarily. This emboldened Austria-Hungary to present an aggressive ultimatum to Serbia, containing demands that Serbia was unlikely to fully accept, setting the stage for a conflict.</li>
+            <li><strong>Blank cheque led to the rapid escalation:</strong> With Germany's backing, Austria-Hungary's demands escalated, and the diplomatic crisis quickly escalated into a military standoff. As tensions heightened, the blank check effectively removed any incentive for Austria-Hungary to seek a peaceful resolution or compromise, pushing the situation toward war.</li>
+            <li><strong>Blank Cheque increased diplomatic Isolation:</strong> The blank check significantly limited diplomatic options for de-escalation. As Austria-Hungary moved closer to war, diplomatic avenues for resolving the crisis peacefully became narrower, ultimately contributing to the breakdown of diplomacy and the outbreak of World War I in July 1914.</li>
+            <li><strong>Nonetheless, granting the blank cheque without the already established alliance system and the tense situation would not cause the war on its own:</strong> The blank check given by Germany to Austria-Hungary was just one of several contributing factors that led to the outbreak of World War I. The war's origins are complex and multifaceted, involving a combination of long-term structural issues, alliances, militarism, nationalism, and other immediate triggers. The blank check is a significant event, but it's essential to consider it in conjunction with other factors to gain a comprehensive understanding of why the war broke out.</li>
+          </ul>
+         <a href="#/" onclick="answer1()">Close</a>
+      </div>
+
+
+      <div id="popup_short_ans2" class="popup">
+         <h1>Short Answer</h1>
+            <ul>
+               <li>Alliances entangled countries in a war when Archduke was assassinated.</li>
+               <li>Alliances created a fake sense of security.</li>
+               <li>Alliances contributed to an arms race that increased tensions.</li>
+               <li>Alliances diminished the possibility of diplomatic solutions.</li>
+             </ul>
+         <a href="#/" onclick="short_ans2()">Close</a>
+      </div>
+
+      <div id="popup_answer2" class="popup">
+         <h1>Detailed Answer</h1>
+         <ul>
+            <li><strong>Alliances entangled countries in war, when Archduke was assassinated:</strong> The Triple Alliance, consisting of Germany, Austria-Hungary, and Italy, and the Triple Entente, composed of France, Russia, and the United Kingdom, created a web of interlocking commitments. If one member of an alliance was attacked, the others were obliged to come to their aid. This entanglement meant that a localized conflict could quickly escalate into a broader, multinational war as each alliance rallied to support its members. When a crisis or conflict occurred, the alliance system meant that multiple countries were quickly drawn into the situation. This chain reaction effect amplified the scale of conflicts, making them harder to control or de-escalate. It also increased the likelihood of miscalculation and rapid mobilization of forces.</li>
+            <li><strong>Alliances created a fake sense of security:</strong> The alliances were initially designed to provide security to their members by creating a balance of power. However, these alliances also led to a false sense of security, as countries believed that they could engage in riskier behaviours knowing they had powerful allies to back them up. This emboldened certain countries to take more aggressive stances in diplomatic disputes.</li>
+            <li><strong>Alliances contributed to an arms race that increased tensions:</strong> The existence of alliances contributed to an arms race among major powers. As one country increased its military capabilities, others felt compelled to do the same to maintain their position within the alliance system. The above-mentioned arms race further heightened tensions and mistrust among nations.</li>
+            <li><strong>Alliances diminished the possibility of diplomatic solutions:</strong> The alliances were relatively rigid and inflexible, leaving little room for diplomatic manoeuvring. This lack of flexibility limited options for a peaceful resolution, pushing countries towards military actions as tensions escalated.</li>
+         </ul>
+         <a href="#/" onclick="answer2()">Close</a>
+      </div>
+
+
+      <div id="popup_short_ans3" class="popup">
+         <h1>Short Answer</h1>
+            <ul>
+               <li>Germany’s aggressive imperialistic policy was one of the direct causes of the war.</li>
+               <li>Germany’s blank cheque contributed to the outbreak and escalation of the conflict.</li>
+               <li>Nonetheless, Germany’s policies and actions were only one of the multiple reasons. To sum up, Germany’s role in the outbreak of World War II can be considered significant, but not the only reason for the outbreak of the conflict.</li>
+             </ul>
+         <a href="#/" onclick="short_ans3()">Close</a>
+      </div>
+
+      <div id="popup_answer3" class="popup">
+         <h1>Detailed Answer</h1>
+         <ul>
+            <li><strong>Germany’s aggressive imperialistic policy was one of the direct causes of war:</strong> Germany's attempts to expand its influence sometimes came across as aggressive or dismissive of other powers' interests. This was evident in its interventions in the Moroccan crises, where its assertive approach increased tensions with France and the UK. Germany's growing power and assertive policies created a sense of unease among other major powers. This fear and distrust contributed to the entanglement of alliances, where countries formed alliances to counterbalance Germany's perceived aggression. Germany's imperial ambitions and militaristic policies at times ran counter to diplomatic efforts for peace and cooperation. This misalignment hindered diplomatic solutions and increased the risk of conflicts escalating.</li>
+            <li><strong>Germany’s blank cheque contributed to the outbreak and escalation of the conflict:</strong> Blank Check and Unconditional Support: Germany's "blank check" assurance to Austria-Hungary in July 1914 signalled unwavering support for any action the latter might take against Serbia. This encouraged Austria-Hungary to take a harsh stance and issue an ultimatum that Serbia found difficult to fully accept, leading to a crisis that rapidly escalated.</li>
+            <li><strong>Nonetheless,</strong> Germany’s policy was only one of the reasons. The war's origins are complex and multifaceted, involving a combination of long-term structural issues, alliances, militarism, nationalism, and other immediate triggers. Taking all the factors into account, it can be stated that significant event, but it's essential to consider it in conjunction with other factors to gain a comprehensive understanding of why the war broke out.</li>
+         </ul>
+         <a href="#/" onclick="answer3()">Close</a>
+      </div>
+
+      <div id="popup_short_ans4" class="popup">
+         <h1>Short Answer</h1>
+            <ul>
+               <li>The Brest-Litovsk treaty withdraw Russia from war and changed the strategic course of the war.</li>
+               <li>The treaty led to internal instability in Germany, further weakening the nation.</li>
+               <li>The treaty ultimately strengthened the ally’s determination.</li>
+             </ul>
+         <a href="#/" onclick="short_ans4()">Close</a>
+      </div>
+
+      <div id="popup_answer4" class="popup">
+         <h1>Detailed Answer</h1>
+         <ul>
+            <li><strong>Brest-Litovsk treaty withdraw Russia from war and changed the strategic course of war:</strong> Russia’s withdrawal allowed the Central Powers to concentrate their efforts on the Western Front and the remaining Entente powers. With Russia's withdrawal, the Central Powers gained a considerable strategic advantage. They could redeploy troops from the Eastern Front to reinforce their positions on the Western Front, where they faced the main force of the Entente powers. The exit of Russia significantly altered the balance of power in Europe. It removed one of the major Entente powers from the conflict and weakened the military capabilities of the alliance. This imbalance affected the dynamics of negotiations and strategies for the remaining powers. While the Treaty of Brest-Litovsk provided short-term benefits to the Central Powers, their overall situation deteriorated over time. Military defeats, economic hardships, and internal unrest within the Central Powers gradually weakened their positions.</li>
+            <li><strong>The treaty led to internal instability in Germany:</strong> The harsh terms of the Treaty of Brest-Litovsk contributed to internal unrest in the territories affected by the treaty. Civil unrest, particularly in Germany, further destabilized the Central Powers and weakened their ability to continue the war effort.</li>
+            <li><strong>The treaty ultimately strengthened the ally’s determination:</strong> The German offensives fuelled the resolve of the Allied powers, who recognized the urgency of countering the Central Powers' advances. The offensives led to heightened cooperation among the Allies and a renewed commitment to the war effort.</li>
+          </ul>
+         <a href="#/" onclick="answer4()">Close</a>
+      </div>
+
+
+
+
+      <section id="math-questions">
+
+
+         <div class="container_full" id="blur_container">
+        
+                  <div class="container">
+                     <div class="screenshot">
+                        <h2>1. To what extent did the blank check given by Germany to Austria-Hungary contribute to escalating tensions in Europe and eventually sparking the First World War in July 1914?</h2>
+                     </div>
+                     <div class="additional-text">
+                        <h3>Answers and Explanations</h3>
+
+                        <div class="more-btn">
+                           <a href="#/" onclick="short_ans1()" class="inline-option-btn">short answers</a>
+                       </div>
+                        <div class="more-btn">
+                           <a href="#/" onclick="answer1()" class="inline-option-btn">explanations</a>
+                       </div>
+      
+                     </div>
+                  </div>
+
+
+                  <div class="container">
+                     <div class="screenshot">
+                        <h2>2. How did the complex system of alliances, including the Triple Alliance and the Triple Entente, contribute to the outbreak of World War I?</h2>
+                     </div>
+                     <div class="additional-text">
+                        <h3>Answers and Explanations</h3>
+                        <div class="more-btn">
+                           <a href="#/" onclick="short_ans2()" class="inline-option-btn">short answers</a>
+                       </div>
+                        <div class="more-btn">
+                           <a href="#/" onclick="answer2()" class="inline-option-btn">explanations</a>
+                       </div>
+                     </div>
+                  </div>
+
+                  <div class="container">
+                     <div class="screenshot">
+                        <h2>3. To what extent can Germany be blamed for the outbreak of World War I?</h2>
+                     </div>
+                     <div class="additional-text">
+                        <h3>Answers and Explanations</h3>
+                        <div class="more-btn">
+                           <a href="#/" onclick="short_ans3()" class="inline-option-btn">short answers</a>
+                       </div>
+                        <div class="more-btn">
+                           <a href="#/" onclick="answer3()" class="inline-option-btn">explanations</a>
+                       </div>
+                     </div>
+                  </div>
+
+                  <div class="container">
+                     <div class="screenshot">
+                        <h2>4. Analyse the impact of the Brest-Litovsk treaty on the ending of World War I.</h2>
+                     </div>
+                     <div class="additional-text">
+                        <h3>Answers and Explanations</h3>
+                        <div class="more-btn">
+                           <a href="#/" onclick="short_ans4()" class="inline-option-btn">short answers</a>
+                       </div>
+                        <div class="more-btn">
+                           <a href="#/" onclick="answer4()" class="inline-option-btn">explanations</a>
+                       </div>
+                     </div>
+                  </div>
+      
+         </div>
+
+         {% else %}
+
+         <h1 class="not-registered">You have to be <a href="{% url 'start_page' %}">REGISTERED</a> to have access to this!</h1>
+   
+         {% endif %}
+
+<!-- custom js file link  -->
+<!-- <script src="js/script.js"></script> -->
+<script src="{% static 'website/js/script.js' %}"></script>
+<script src="{% static 'website/js/script_papers.js' %}"></script>
+
+
+   
+</body>
+</html>

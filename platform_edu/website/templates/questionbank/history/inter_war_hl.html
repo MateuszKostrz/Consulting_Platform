@@ -1,0 +1,281 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Academy - Questionbank</title>
+
+   <!-- font awesome cdn link  -->
+   <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"> -->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+   <!-- custom css file link  -->
+   <link rel="stylesheet" href="{% static 'website/css/style.css' %}">
+
+
+
+</head>
+<body>
+
+<header class="header">
+   
+   <section class="flex" id="blur_flex">
+
+      <a href="home.html" class="logo">History HL Questionbank</a>
+      <div class="icons">
+         <div id="menu-btn" class="fas fa-bars"></div>
+         <div id="search-btn" class="fas fa-search"></div>
+         <div id="user-btn" class="fas fa-user"></div>
+         <div id="toggle-btn" class="fas fa-sun"></div>
+         <!-- <div id="toggle-btn">
+            <a href="profile.html" class="fas fa-sun">Log Out</a>
+         </div> -->
+         
+         
+      </div>
+
+      {% include 'common_header.html' %}
+
+
+
+<section class="home-grid" id="blur_home_grid">
+   {% if updated_creds %}
+
+   <div>
+      <div id="hideMe">
+         <h2 class="message">You have successfully updated your profile. Log in again to see the changes.</h2>
+      </div>
+   </div>
+   
+   {% endif %}
+
+   
+   {% if premium_member and already_user %}   
+
+   <h1 class="heading" id="blur_heading">Inter-war domestic developments in European states (1918–1939)</h1>
+
+</section>
+
+      <div id="popup_short_ans1" class="popup">
+         <h1>Short Answer</h1>
+            <ul>
+               <li>Political instability and polarization in Spain.</li>
+               <li>Social and economic inequality.</li>
+               <li>Regional nationalism and autonomy.</li>
+             </ul>
+         <a href="#/" onclick="short_ans1()">Close</a>
+      </div>
+
+      <div id="popup_answer1" class="popup">
+         <h1>Detailed Answer</h1>
+         <ul>
+            <li><strong>Political Instability and Polarization:</strong> Spain experienced a history of political instability with shifting alliances, weak governments, and a struggle for power between various factions. This polarization was exacerbated by ideological differences, particularly between republicans and monarchists, as well as between left-wing and right-wing groups. The inability to find common ground and compromise contributed to the escalation of tensions.</li>
+            <li><strong>Social and Economic Inequality:</strong> Spain's socioeconomic landscape was characterized by stark inequalities. The landed aristocracy and wealthy elites held considerable power and privilege, while the majority of the population faced poverty, unemployment, and limited access to education and social services. These disparities created a sense of injustice and resentment among the working class and rural poor.</li>
+            <li><strong>Regional Nationalism and Autonomy:</strong> Spain consisted of various regions with distinct cultures, languages, and historical grievances. Some regions, like Catalonia and the Basque Country, sought greater autonomy and even independence from the central government in Madrid. The struggle for regional identity and autonomy fueled tensions with the central authority and contributed to the broader political turmoil.</li>
+          </ul>
+         <a href="#/" onclick="answer1()">Close</a>
+      </div>
+
+
+      <div id="popup_short_ans2" class="popup">
+         <h1>Short Answer</h1>
+            <ul>
+               <li>Hitler’s regime (1933-1939) was characterised by a single-party rule, centralisation of power and suppression of opposition.</li>
+               <li>Hitler’s regime (1933-1939) was characterised by the cult of personality.</li>
+               <li>Hitler’s regime (1933-1939) had complete control over media and propaganda.</li>
+               <li>Hitler’s regime (1933-1939) engaged in various Totalitarian Policies.</li>
+               <li>Nonetheless, there were certain important aspects of the Nazi regime that were not controlled in a totalitarian fashion – economy or cultural institutions.</li>
+             </ul>
+         <a href="#/" onclick="short_ans2()">Close</a>
+      </div>
+
+      <div id="popup_answer2" class="popup">
+         <h1>Detailed Answer</h1>
+         <ul>
+            <li><strong>Hitler’s regime (1933-1939) was characterised by a single-party rule, centralisation of power and suppression of Opposition:</strong> Hitler's Nazi Party (NSDAP) effectively eliminated political opposition and established a single-party rule. The Enabling Act of 1933 gave Hitler the authority to enact laws without parliamentary approval, effectively dismantling democratic institutions. Opposition parties were banned, and the Gestapo, the Nazi secret police, brutally suppressed dissent, arresting, and imprisoning political opponents. Hitler centralized power within his government and administration. Key institutions were merged or placed under Nazi control, eroding checks and balances. The SS (Schutzstaffel) and the Gestapo gained immense power, often operating above the law. Hitler's appointment as Chancellor and President consolidated executive authority, and he dominated key decision-making processes. Those are typical features of totalitarian states.</li>
+            <li><strong>Hitler’s regime (1933-1939) was characterised by the cult of personality:</strong> Typically for totalitarian regimes, Hitler’s cult of personality was a central feature of his regime. He was portrayed as the infallible leader and the embodiment of the German people's aspirations. Propaganda emphasized his role as the "Führer" (leader) and conveyed an image of him as a charismatic and authoritative figure, making his personal decisions synonymous with the will of the nation.</li>
+            <li><strong>Hitler’s regime (1933-1939) had complete control over Media and Propaganda:</strong> The Nazi regime exercised tight control over the media, shaping public opinion through extensive propaganda efforts. Joseph Goebbels, the Reich Minister of Propaganda, ensured that all forms of media promoted Nazi ideology and glorified Hitler. Newspapers, films, radio broadcasts, and other forms of communication were used to disseminate Nazi propaganda and manipulate public perception.</li>
+            <li><strong>Hitler’s regime (1933-1939) engaged in various Totalitarian Policies:</strong> The Nazi regime implemented policies that targeted perceived enemies of the state, particularly Jews, as well as other minority groups. The Nuremberg Laws of 1935 restricted the rights of Jews, leading to widespread discrimination. The establishment of concentration camps and the brutal actions of the SS demonstrated the regime's willingness to use extreme violence to achieve its goals.</li>
+            <li><strong>Nonetheless, there were certain important aspects of the Nazi regime that were not controlled in a totalitarian fashion – economy or cultural institutions: </strong> The German economy remained influenced by traditional capitalist structures and interests. While the regime exerted significant control over economic policies, it did not completely abolish private ownership or market mechanisms. Moreover, some cultural and intellectual spheres retained a degree of autonomy. Although Nazi authorities attempted to control cultural production and artistic expression, not all artists and intellectuals succumbed to ideological pressures.</li>
+          </ul>
+         <a href="#/" onclick="answer2()">Close</a>
+      </div>
+
+
+      <div id="popup_short_ans3" class="popup">
+         <h1>Short Answer</h1>
+            <ul>
+               <li>Great Depression led to economic Hardship and unemployment.</li>
+               <li>The socio-economic conditions caused by the Great Depression contributed to the rise of Extremist Parties.</li>
+               <li>The great depression led to the loss of Faith in Liberal Democracy.</li>
+               <li>The great depression increased Scapegoating and Nationalism.</li>
+             </ul>
+         <a href="#/" onclick="short_ans3()">Close</a>
+      </div>
+
+      <div id="popup_answer3" class="popup">
+         <h1>Detailed Answer</h1>
+         <ul>
+            <li><strong>Great Depression led to economic Hardship and unemployment:</strong> The economic collapse during the Great Depression led to widespread unemployment, poverty, and economic instability across Europe. Mass unemployment and severe poverty left a large segment of the population disillusioned with the existing political and economic systems. This desperation provided fertile ground for radical ideologies that promised solutions to economic woes. The economic crisis disrupted social structures and heightened social tensions. As traditional norms were challenged and social inequalities became more apparent, people were more open to radical ideologies that promised to upend the existing order. This polarization and societal unrest contributed to the appeal of ideologies that claimed to offer a radical transformation of society.</li>
+            <li><strong>The socio-economic conditions caused by the Great Depression contributed to the rise of Extremist Parties:</strong> The economic hardship and disillusionment with traditional politics paved the way for the rise of extremist parties on both ends of the political spectrum. Right-wing fascist movements and left-wing socialist and communist parties gained traction by promising radical solutions to the economic crisis. Parties like the Nazi Party in Germany and the Communist Party in various European countries found support among those seeking radical change.</li>
+            <li><strong>The great depression led to the loss of Faith in Liberal Democracy:</strong> The inability of liberal democratic governments to effectively address the economic crisis eroded public confidence in the political establishment. Many people perceived mainstream political parties as ineffective and out of touch with their needs. This disillusionment opened the door for extremist parties and ideologies that positioned themselves as alternatives to the status quo.</li>
+            <li><strong>The great depression increased Scapegoating and Nationalism:</strong> The economic turmoil provided an environment conducive to scapegoating and the manipulation of nationalist sentiments. Extremist leaders and parties often blamed minority groups, immigrants, and other nations for the economic hardships, creating an "us versus them" mentality. This fueled the rise of xenophobic and nationalist ideologies, which promised to protect national interests and restore economic stability.</li>
+          </ul>
+         <a href="#/" onclick="answer3()">Close</a>
+      </div>
+
+      <div id="popup_short_ans4" class="popup">
+         <h1>Short Answer</h1>
+            <ul>
+               <li>Legacy of World War I.</li>
+               <li>Economic instability and discontent.</li>
+               <li>Weak Democratic institutions.</li>
+               <li>Improved Propaganda methods and mass communication.</li>
+               <li>Nationalism and Identity Crisis.</li>
+             </ul>
+         <a href="#/" onclick="short_ans4()">Close</a>
+      </div>
+
+      <div id="popup_answer4" class="popup">
+         <h1>Detailed Answer</h1>
+         <ul>
+            <li><strong>Legacy of World War I:</strong> The aftermath of World War I left Europe in a state of political, economic, and social turmoil. The war had caused immense destruction, loss of life, and economic devastation. The resulting disillusionment and resentment towards the pre-war order created an environment in which radical ideologies promising change and revitalization gained traction.</li>
+            <li><strong>Economic Instability and Discontent:</strong> The economic upheaval following World War I, compounded by the Great Depression in the 1930s, led to widespread unemployment, poverty, and social unrest. People were disillusioned with traditional economic systems and political parties that seemed incapable of addressing their hardships. Totalitarian leaders promised stability and economic recovery through state-controlled economies and ambitious public works projects.</li>
+            <li><strong>Weak Democratic Institutions:</strong> The fragility of democratic institutions in many European countries made them susceptible to authoritarian takeovers. In some cases, newly formed democracies struggled to establish legitimacy and stability, while in others, established democracies were weakened by internal divisions and political polarization. This provided opportunities for authoritarian leaders to exploit these weaknesses and present themselves as strong and capable leaders.</li>
+            <li><strong>Improved Propaganda Methods and Mass Communication:</strong> The rise of mass media, including newspapers, radio, and cinema, enabled the dissemination of propaganda on an unprecedented scale. Totalitarian regimes effectively used these mediums to control information, shape public opinion, and cultivate a sense of national unity. Propaganda was a powerful tool in creating a cult of personality around leaders and promoting the regime's ideologies.</li>
+            <li><strong>Nationalism and Identity Crises:</strong> The disintegration of empires after World War I and the redrawing of borders often led to identity crises and the search for a new sense of national identity. Totalitarian regimes exploited these sentiments, promoting nationalism as a unifying force and promising to restore the nation's past glory. This was particularly evident in cases like Nazi Germany, where Adolf Hitler sought to revive a sense of racial and national superiority.</li>
+          </ul>
+         <a href="#/" onclick="answer4()">Close</a>
+      </div>
+
+      <div id="popup_short_ans5" class="popup">
+         <h1>Short Answer</h1>
+            <ul>
+               <li>The treaty led to territorial Disputes and the redrawing of Borders.</li>
+               <li>The treaty established the War Guilt, restrictions, and Reparations.</li>
+               <li>The Treaty of Versailles led to the establishment of the League of Nations and new diplomacy that shaped the landscape.</li>
+             </ul>
+         <a href="#/" onclick="short_ans5()">Close</a>
+      </div>
+
+      <div id="popup_answer5" class="popup">
+         <h1>Detailed Answer</h1>
+         <ul>
+            <li><strong>The treaty led to territorial Disputes and redrawing of Borders:</strong> The treaty redrew the map of Europe, dismantling empires such as the Austro-Hungarian and Ottoman Empires. New nations were created, and borders were redrawn based on the principle of self-determination. However, the territorial changes often left various ethnic and cultural groups unsatisfied, leading to simmering tensions and territorial disputes that contributed to later conflicts.</li>
+            <li><strong>The treaty established the War Guilt, Restrictions, and Reparations:</strong> The treaty assigned blame for the war to Germany and its allies, imposing heavy reparations on Germany for war damages. These reparations caused economic hardship and social unrest in Germany, undermining the stability of the Weimar Republic. The treaty imposed significant military restrictions on Germany, reducing its armed forces and prohibiting the possession of offensive weapons and military technologies. While intended to prevent future aggression, these restrictions contributed to a sense of military weakness and vulnerability in Germany. This perception was exploited by militaristic and expansionist ideologies seeking to restore national pride and power. The perception of humiliation and injustice fuelled resentment and nationalist sentiments, which paved the way for radical ideologies like Nazism.</li>
+            <li><strong>The Treaty of Versailles led to the establishment of the League of Nations and new diplomacy that shaped the landscape:</strong> The League of Nations was established as a means to prevent future conflicts through collective security and diplomacy. However, its effectiveness was limited, as major powers like the United States and the Soviet Union did not join or fully support it. The League's inability to prevent aggressive actions by rising totalitarian regimes undermined its credibility and contributed to the erosion of diplomatic solutions.</li>
+          </ul>
+         <a href="#/" onclick="answer5()">Close</a>
+      </div>
+
+
+
+      <section id="math-questions">
+
+
+         <div class="container_full" id="blur_container">
+        
+                  <div class="container">
+                     <div class="screenshot">
+                        <h2>1. Evaluate the main reasons for the outbreak of the Spanish Civil War.</h2>
+                     </div>
+                     <div class="additional-text">
+                        <h3>Answers and Explanations</h3>
+
+                        <div class="more-btn">
+                           <a href="#/" onclick="short_ans1()" class="inline-option-btn">short answers</a>
+                       </div>
+                        <div class="more-btn">
+                           <a href="#/" onclick="answer1()" class="inline-option-btn">explanations</a>
+                       </div>
+      
+                     </div>
+                  </div>
+
+
+                  <div class="container">
+                     <div class="screenshot">
+                        <h2>2. To what extent had Hitler established a totalitarian state before the outbreak of the
+                           Second World War?</h2>
+                     </div>
+                     <div class="additional-text">
+                        <h3>Answers and Explanations</h3>
+                        <div class="more-btn">
+                           <a href="#/" onclick="short_ans2()" class="inline-option-btn">short answers</a>
+                       </div>
+                        <div class="more-btn">
+                           <a href="#/" onclick="answer2()" class="inline-option-btn">explanations</a>
+                       </div>
+                     </div>
+                  </div>
+
+                  <div class="container">
+                     <div class="screenshot">
+                        <h2>3. In what ways and to what extent did the Great Depression contribute to the rise of radical political ideologies and movements in Europe?</h2>
+                     </div>
+                     <div class="additional-text">
+                        <h3>Answers and Explanations</h3>
+                        <div class="more-btn">
+                           <a href="#/" onclick="short_ans3()" class="inline-option-btn">short answers</a>
+                       </div>
+                        <div class="more-btn">
+                           <a href="#/" onclick="answer3()" class="inline-option-btn">explanations</a>
+                       </div>
+                     </div>
+                  </div>
+
+                  <div class="container">
+                     <div class="screenshot">
+                        <h2>4. Analyse the key factors that contributed to the rise of totalitarian regimes in Europe between 1918 and 1939.</h2>
+                     </div>
+                     <div class="additional-text">
+                        <h3>Answers and Explanations</h3>
+                        <div class="more-btn">
+                           <a href="#/" onclick="short_ans4()" class="inline-option-btn">short answers</a>
+                       </div>
+                        <div class="more-btn">
+                           <a href="#/" onclick="answer4()" class="inline-option-btn">explanations</a>
+                       </div>
+                     </div>
+                  </div>
+      
+                  <div class="container">
+                     <div class="screenshot">
+                        <h2>5. What role did the Treaty of Versailles play in shaping the political landscape of Europe in the aftermath of World War I?</h2>
+                     </div>
+                     <div class="additional-text">
+                        <h3>Answers and Explanations</h3>
+                        <div class="more-btn">
+                           <a href="#/" onclick="short_ans5()" class="inline-option-btn">short answers</a>
+                       </div>
+                        <div class="more-btn">
+                           <a href="#/" onclick="answer5()" class="inline-option-btn">explanations</a>
+                       </div>
+                     </div>
+                  </div>
+      
+      
+         </div>
+
+         {% elif already_user %}
+
+         <h1 class="not-registered">You have to be <a href="{% url 'subscriptions' %}">PREMIUM</a> to have access to this!</h1>
+         
+         {% else %}
+         
+         <h1 class="not-registered">You have to be a PREMIUM user to have access to this, and also, first you have to <a href="{% url 'start_page' %}">REGISTER</a>!</h1> 
+         
+         {% endif %}
+
+<!-- custom js file link  -->
+<!-- <script src="js/script.js"></script> -->
+<script src="{% static 'website/js/script.js' %}"></script>
+<script src="{% static 'website/js/script_papers.js' %}"></script>
+
+
+   
+</body>
+</html>

@@ -1,0 +1,19 @@
+{% load static %}
+
+<div id="consultationPopup" class="free-cons-popup">
+    <div class="popup-content">
+        <!-- Photo and text container -->
+        <div class="popup-header">
+            <div class="popup-photo">
+              <img src="{% static 'website/images/webinars/fiorella.jpg' %}" alt="">
+            </div>
+            <div class="popup-text">
+                <p><strong>Schedule a FREE class 🤝</strong></p>
+                <p>Tutors with 7s in AA SL!</p>
+            </div>
+        </div>
+        <!-- Button -->
+        <button class="popup-btn" onclick="redirectToConsultation()">Claim Now</button>
+        <span class="popup-close" onclick="closePopup()">&times;</span>
+    </div>
+</div>

@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Welcome to [Platform Name]</title>
+    <style>
+      /* Basic, email-friendly styles (keeps things subtle) */
+      body { background-color: #f6f7fb; margin: 0; padding: 24px; font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; color: #111827; }
+      .container { max-width: 640px; margin: 0 auto; background: #ffffff; border-radius: 12px; box-shadow: 0 6px 18px rgba(17,24,39,0.06); overflow: hidden; }
+      .inner { padding: 28px; }
+      h1 { margin: 0 0 8px 0; font-size: 22px; font-weight: 600; color: #0f172a; }
+      p { margin: 0 0 16px 0; line-height: 1.5; color: #374151; }
+      .muted { color: #6b7280; font-size: 13px; }
+      .button-wrap { text-align: center; margin: 20px 0 8px; }
+      .btn { display: inline-block; text-decoration: none; padding: 12px 20px; border-radius: 10px; font-weight: 600; background: #2563eb; color: #fff; }
+      .footer { border-top: 1px solid #eef2ff; padding: 18px 28px; display:flex; align-items:center; justify-content:space-between; gap:16px; }
+      .socials { display:flex; gap:10px; align-items:center; }
+      .socials a { display:inline-flex; width:36px; height:36px; align-items:center; justify-content:center; text-decoration:none; border-radius:8px; background:#f3f4f6; }
+      .small { font-size:12px; color:#6b7280; }
+      @media (max-width:520px){ .inner{padding:20px} h1{font-size:20px} }
+    </style>
+  </head>
+  <body>
+    <!-- Preheader (some email clients show this as preview) -->
+    <span style="display:none;max-height:0;overflow:hidden;">Welcome to Edunade Academy — tips to get you started.</span>
+
+    <div class="container" role="article" aria-label="Welcome email">
+      <div class="inner">
+        <h1>Welcome to <span style="color:#2563eb">Edunade Academy</span> 👋</h1>
+        <br>
+        <p>We're thrilled to see you here among 50,000 other IB students! Here’s a quick guide to help you get started and make the most out of your account.</p>
+        <br>
+        <p><strong>Our core functionalities include:</strong></p>
+        <p>- 3000+ exam-style questions created only by certified teachers and tutors<br>- 400+ hours of past paper recordings<br>- 15,000+ programmes in our university database<br>- AI feedback for our questions<br>- lots and lots more!</p>
+
+        <div class="button-wrap">
+          <a href="https://academy.edunade.com/home" class="btn">Go to your dashboard</a>
+        </div>
+
+  
+      </div>
+
+      <div class="footer">
+        <div>
+          <div class="small">Questions? Reply to this email and we will get back within 24 hours!</div>
+          <div class="small" style="margin-top:6px">© <span id="year">2025</span> Edunade Academy</div>
+        </div>
+
+        <div class="socials" aria-label="Social links">
+          <!-- Twitter -->
+          <a href="https://www.instagram.com/_edunade_/" title="Instagram" aria-label="Instagram">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M7 2C4.24 2 2 4.24 2 7v10c0 2.76 2.24 5 5 5h10c2.76 0 5-2.24 5-5V7c0-2.76-2.24-5-5-5H7zm8 3a1 1 0 110 2 1 1 0 010-2zm-5 1a5 5 0 100 10 5 5 0 000-10zm0 2a3 3 0 110 6 3 3 0 010-6z" fill="#111827"/>
+            </svg>
+            </a>
+            
+            <!-- Facebook -->
+            <a href="https://www.facebook.com/Slowak.Michael/" title="Facebook" aria-label="Facebook">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 5 3.66 9.12 8.44 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.23.2 2.23.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99C18.34 21.12 22 17 22 12z" fill="#111827"/>
+            </svg>
+            </a>
+            
+            <!-- YouTube -->
+            <a href="https://www.youtube.com/@_edunade_" title="YouTube" aria-label="YouTube">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M23.5 6.2a2.84 2.84 0 0 0-2-2C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.5.7a2.84 2.84 0 0 0-2 2A29.66 29.66 0 0 0 0 12a29.66 29.66 0 0 0 .5 5.8 2.84 2.84 0 0 0 2 2C4.5 20.5 12 20.5 12 20.5s7.5 0 9.5-.7a2.84 2.84 0 0 0 2-2A29.66 29.66 0 0 0 24 12a29.66 29.66 0 0 0-.5-5.8zM9.75 15.5V8.5l6 3.5-6 3.5z" fill="#111827"/>
+            </svg>
+            </a>
+        </div>
+      </div>
+    </div>
+
+  </body>
+</html>

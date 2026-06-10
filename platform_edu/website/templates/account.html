@@ -1,0 +1,565 @@
+{% load static %}
+
+<!doctype html>
+
+<html
+  lang="en"
+  class="layout-navbar-fixed layout-menu-fixed layout-compact"
+  dir="ltr"
+  data-skin="default"
+  data-bs-theme="light"
+  data-assets-path="../../assets/"
+  data-template="vertical-menu-template">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+
+    <title>{{ site_name }} | User Account</title>
+
+    <meta name="description" content="" />
+
+    <link rel="icon" href="{% static 'website/images/platform_logo.svg' %}">
+    <link rel="alternate icon" href="{% static 'website/images/safari_logo2_prev_ui.png' %}" type="image/png">
+    <meta property="og:image" content="https://academy.edunade.com/static/website/images/Edunade_Vertical_Black_RGB.png">
+
+
+    {% include 'top_base.html' %}
+
+    <!-- Page CSS -->
+    <link rel="stylesheet" href="{% static 'website/css/vendor/libs/apex-charts/apex-charts.css' %}" />
+    <link rel="stylesheet" href="{% static 'website/css/vendor/libs/swiper/swiper.css' %}" />
+
+    <!-- Page CSS -->
+    <link rel="stylesheet" href="{% static 'website/css/vendor/css/pages/cards-statistics.css' %}" />
+
+    <!-- Custom CSS to fix sidebar styling -->
+    <style>
+      /* Force white background on sidebar */
+      .layout-menu {
+        background-color: #ffffff !important;
+      }
+      
+      /* Avatar selection styling */
+      .avatar-option {
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+        position: relative;
+      }
+      
+      .avatar-option:hover {
+        transform: translateY(-2px) scale(1.05);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      }
+      
+      .avatar-option.selected-avatar {
+        transform: scale(1.1);
+      }
+      
+      .avatar-option.selected-avatar::after {
+        content: '✓';
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        background: #7367f0;
+        color: white;
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        font-size: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+      }
+      
+      .avatar-selection {
+        margin-top: 1rem;
+      }
+    </style>
+
+    <!-- Helpers -->
+    <script type="text/javascript" src="{% static 'website/js/vendor/helpers.js' %}"></script>
+
+    <!--? Template customizer: To hide customizer set displayCustomizer value false in config.js. -->
+    <!-- <script type="text/javascript" src="{% static 'website/js/vendor/template-customizer.js' %}"></script> -->
+
+    <!--? Config: Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file. -->
+
+    <script type="text/javascript" src="{% static 'website/js/vendor/config.js' %}"></script>
+  </head>
+
+  <body>
+    <!-- Layout wrapper -->
+    <div class="layout-wrapper layout-content-navbar">
+      <div class="layout-container">
+        <!-- Menu -->
+
+        {% include 'sidebar.html' %}
+
+          <!-- / Navbar -->
+
+          <!-- Content wrapper -->
+          <div class="content-wrapper">
+            <!-- Content -->
+            <div class="container-xxl flex-grow-1 container-p-y">
+              {% if user_type == 'none' %}
+                <div class="row">
+                  <div class="col-12">
+                    <div class="card">
+                      <div class="card-body text-center py-5">
+                        <!-- <div class="mb-4">
+                          <i class="icon-base ri ri-lock-line icon-72px text-warning"></i>
+                        </div> -->
+                        <h4 class="mb-2 text-warning">Access Restricted</h4>
+                        <p class="mb-10">You need to create an account to access this page.</p>
+                        <div class="d-flex justify-content-center gap-2">
+                          <a href="{% url 'login' %}" class="btn btn-primary">
+                            <i class="icon-base ri ri-login-box-line me-2"></i>Login
+                          </a>
+                          <a href="{% url 'home' %}" class="btn btn-outline-secondary">
+                            <i class="icon-base ri ri-home-line me-2"></i>Go Home
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              {% else %}
+              <div class="row">
+                <div class="col-md-12">
+                  {% if user_type != 'none' %}
+                  <div class="nav-align-top">
+                    <ul class="nav nav-pills flex-column flex-md-row mb-6 gap-2 gap-lg-0">
+                      <li class="nav-item">
+                        <a class="nav-link active" href="{% url 'account' %}"
+                          ><i class="icon-base ri ri-group-line icon-sm me-2"></i> Account</a
+                        >
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="{% url 'security' %}"
+                          ><i class="icon-base ri ri-lock-line icon-sm me-2"></i> Security</a
+                        >
+                      </li>
+                      {% if current_theme != 'apex' and current_theme != 'topibtutors' %}
+                      <li class="nav-item">
+                        <a class="nav-link" href="{% url 'subscription' %}"
+                          ><i class="icon-base ri ri-bookmark-line icon-sm me-2"></i> Subscription</a
+                        >
+                      </li>
+
+                      <li class="nav-item">
+                        <a class="nav-link" href="{% url 'pricing' %}"
+                          ><i class="icon-base ri ri-money-dollar-circle-line icon-sm me-2"></i> Pricing</a
+                        >
+                      {% endif %}
+                    </ul>
+                  </div>
+                  {% endif %}
+                  <div class="card mb-6">
+                    <!-- Account -->
+                    <div class="card-body">
+                      <div class="d-flex align-items-start align-items-sm-center gap-6">
+                        <img
+                          src="{% static 'website/images/avatars/' %}{{ user_avatar }}"
+                          alt="user-avatar"
+                          class="d-block w-px-100 h-px-100 rounded-4"
+                          id="uploadedAvatar" />
+                        <div class="button-wrapper">
+                    
+                          <!-- Avatar Selection -->
+                          <div class="avatar-selection">
+                            <small class="fw-medium d-block mb-2">Which avatar best describes you? Pick one and save changes!</small>
+                            <div class="d-flex align-items-center avatar-group">
+                              <div class="avatar me-2 avatar-option pull-up" data-avatar="avatar1.png">
+                                <img src="{% static 'website/images/avatars/avatar1.png' %}" alt="Avatar 1" class="rounded-circle" />
+                              </div>
+                              <div class="avatar me-2 avatar-option pull-up" data-avatar="avatar2.png">
+                                <img src="{% static 'website/images/avatars/avatar2.png' %}" alt="Avatar 2" class="rounded-circle" />
+                              </div>
+                              <div class="avatar me-2 avatar-option pull-up" data-avatar="avatar3.png">
+                                <img src="{% static 'website/images/avatars/avatar3.png' %}" alt="Avatar 3" class="rounded-circle" />
+                              </div>
+                              <div class="avatar me-2 avatar-option pull-up" data-avatar="avatar4.png">
+                                <img src="{% static 'website/images/avatars/avatar4.png' %}" alt="Avatar 4" class="rounded-circle" />
+                              </div>
+
+
+                              <div class="avatar me-2 avatar-option pull-up" data-avatar="avatar6.png">
+                                <img src="{% static 'website/images/avatars/avatar6.png' %}" alt="Avatar 6" class="rounded-circle" />
+                              </div>
+
+                              <div class="avatar me-2 avatar-option pull-up" data-avatar="avatar7.png">
+                                <img src="{% static 'website/images/avatars/avatar7.png' %}" alt="Avatar 7" class="rounded-circle" />
+                              </div>
+
+                              <div class="avatar avatar-option pull-up" data-avatar="avatar8.png">
+                                <img src="{% static 'website/images/avatars/avatar8.png' %}" alt="Avatar 8" class="rounded-circle" />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card-body pt-0">
+                      <form id="formAccountSettings" method="POST" action="{% url 'account' %}">
+                        {% csrf_token %}
+                        <!-- Hidden field for avatar selection -->
+                        <input type="hidden" id="selectedAvatar" name="avatar" value="{{ user_avatar }}" />
+                        <div class="row mt-1 g-5">
+                          <div class="col-md-6 form-control-validation">
+                            <div class="form-floating form-floating-outline">
+                              <input
+                                class="form-control"
+                                type="text"
+                                id="firstName"
+                                name="firstName"
+                                value="{{ user_first_name }}"
+                                autofocus />
+                              <label for="firstName">First Name</label>
+                            </div>
+                          </div>
+                          <div class="col-md-6 form-control-validation">
+                            <div class="form-floating form-floating-outline">
+                              <input class="form-control" type="text" name="lastName" id="lastName" value="{{ user_last_name }}" />
+                              <label for="lastName">Last Name</label>
+                            </div>
+                          </div>
+                          <!-- <div class="col-md-6">
+                            <div class="form-floating form-floating-outline">
+                              <input
+                                class="form-control"
+                                type="text"
+                                id="email"
+                                name="email"
+                                value="{{ user_email }}"
+                                placeholder="{{ user_email }}" />
+                              <label for="email">E-mail</label>
+                            </div>
+                          </div> -->
+                          <!-- <div class="col-md-6">
+                            <div class="form-floating form-floating-outline">
+                              <input
+                                type="text"
+                                class="form-control"
+                                id="organization"
+                                name="organization"
+                                value="American School of Warsaw" />
+                              <label for="organization">School Name</label>
+                            </div>
+                          </div>
+                        
+                          <div class="col-md-6">
+                            <div class="form-floating form-floating-outline">
+                              <input class="form-control" type="text" id="state" name="state" value="Poland" />
+                              <label for="state">Country</label>
+                            </div>
+                          </div> -->
+
+                          <div class="col-md-6">
+                            <div class="form-floating form-floating-outline">
+                              <input
+                                type="text"
+                                class="form-control"
+                                id="organization"
+                                name="organization"
+                                value="{{ user_school_name }}" />
+                              <label for="organization">School Name</label>
+                            </div>
+                          </div>
+
+                          <div class="col-md-6">
+                            <div class="form-floating form-floating-outline">
+                              <select id="curriculum" name="curriculum" class="form-select">
+                                <option value="IB" {% if user_curriculum == "IB" %}selected{% endif %}>IB</option>
+                                <option value="A-Levels" {% if user_curriculum == "A-Levels" %}selected{% endif %}>A-Levels</option>
+                                <option value="SAT" {% if user_curriculum == "SAT" %}selected{% endif %}>SAT / ACT</option>
+                                <option value="Other" {% if user_curriculum == "Other" %}selected{% endif %}>Other</option>
+                              </select>
+                              <label for="curriculum">Curriculum</label>
+                            </div>
+                          </div>
+
+
+
+                          <div class="col-md-6">
+                            <div class="form-floating form-floating-outline">
+                              <select id="exam_session" name="exam_session" class="form-select">
+                                <option value="May25" {% if user_exam_session == "May2025" %}selected{% endif %}>May/June 2025</option>
+                                <option value="Nov25" {% if user_exam_session == "Nov2025" %}selected{% endif %}>November 2025</option>
+                                <option value="May26" {% if user_exam_session == "May2026" %}selected{% endif %}>May/June 2026</option>
+                                <option value="Nov26" {% if user_exam_session == "Nov2026" %}selected{% endif %}>November 2026</option>
+                                <option value="Other" {% if user_exam_session == "Other" %}selected{% endif %}>Other</option>
+                                <option value="NotApplicable" {% if user_exam_session == "NotApplicable" %}selected{% endif %}>Not Applicable</option>
+                              </select>
+                              <label for="exam_session">Exam Session</label>
+                            </div>
+                          </div>
+                          
+                
+                          <div class="col-md-6">
+                            <div class="form-floating form-floating-outline">
+                              {% if user_occupation == 'AdminExternal' %}
+                              <input type="text" class="form-control" value="Administrator" disabled>
+                              <input type="hidden" name="occupation" value="AdminExternal">
+                              <label>Occupation</label>
+                              {% else %}
+                              <select id="occupation" name="occupation" class="form-select">
+                                <option value="Student" {% if user_student_type == "Student" %}selected{% endif %}>Student</option>
+                                <option value="Teacher" {% if user_student_type == "Teacher" %}selected{% endif %}>Teacher</option>
+                                <option value="Coordinator" {% if user_student_type == "Coordinator" %}selected{% endif %}>Coordinator</option>
+                                <option value="Parent" {% if user_student_type == "Parent" %}selected{% endif %}>Parent</option>
+                                <option value="Other" {% if user_student_type == "Other" %}selected{% endif %}>Other</option>
+                              </select>
+                              <label for="occupation">Occupation</label>
+                              {% endif %}
+                            </div>
+                          </div>
+  
+   
+
+                        </div>
+                        <div class="mt-6">
+                          <button type="submit" class="btn btn-primary me-3">Save changes</button>
+                          <button type="button" class="btn btn-outline-secondary" id="resetForm">Reset</button>
+                        </div>
+                      </form>
+                    </div>
+                    <!-- /Account -->
+                  </div>
+
+                  <!-- Referral Code Activation -->
+                  <!-- <div class="card mb-6">
+                    <h5 class="card-header">Referral Code</h5>
+                    <div class="card-body">
+                      {% if is_premium_user %}
+                        <div class="alert alert-info" role="alert">
+                          <i class="icon-base ri ri-information-line me-2"></i>
+                          You are already a premium member. Referral codes can only be used by non-premium users.
+                        </div>
+                      {% else %}
+                        <p class="mb-4">Have a referral code from a friend? Activate it here and you'll both get 1 month of premium access for free!</p>
+                        <form id="referralActivationForm">
+                          {% csrf_token %}
+                          <div class="row">
+                            <div class="col-md-8 mb-3">
+                              <div class="form-floating form-floating-outline">
+                                <input
+                                  type="text"
+                                  class="form-control"
+                                  id="referralCode"
+                                  name="referral_code"
+                                  placeholder="Enter referral code"
+                                  maxlength="12"
+                                  {% if user_referral_code_used %}disabled{% endif %} />
+                                <label for="referralCode">Referral Code</label>
+                              </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                              <button 
+                                type="submit" 
+                                class="btn btn-primary w-100 h-100"
+                                id="activateBtn"
+                                {% if user_referral_code_used %}disabled{% endif %}>
+                                Activate
+                              </button>
+                            </div>
+                          </div>
+                          <div id="referralMessage" class="mt-3"></div>
+                          {% if user_referral_code_used %}
+                          <div class="alert alert-success mt-3" role="alert">
+                            You have already activated a referral code.
+                          </div>
+                          {% endif %}
+                        </form>
+                      {% endif %}
+                    </div>
+                  </div> -->
+                </div>
+              </div>
+              {% endif %}
+            </div>
+            <!-- / Content -->
+
+      <!-- Footer -->
+      {% include 'footer.html' %}
+      <!-- / Footer -->
+
+            <div class="content-backdrop fade"></div>
+          </div>
+          <!-- Content wrapper -->
+        </div>
+        <!-- / Layout page -->
+      </div>
+
+      <!-- Overlay -->
+      <div class="layout-overlay layout-menu-toggle"></div>
+
+      <!-- Drag Target Area To SlideIn Menu On Small Screens -->
+      <div class="drag-target"></div>
+    </div>
+    <!-- / Layout wrapper -->
+
+    <!-- Core JS -->
+
+    <!-- build:js assets/vendor/js/theme.js  -->
+
+    <script src="{% static 'website/js/vendor/libs/jquery/jquery.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/popper/popper.js' %}"></script>
+    <script src="{% static 'website/js/bootstrap.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/node-waves/node-waves.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/@algolia/autocomplete-js.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/pickr/pickr.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/perfect-scrollbar/perfect-scrollbar.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/hammer/hammer.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/i18n/i18n.js' %}"></script>
+
+    <script src="{% static 'website/js/vendor/menu.js' %}"></script>
+
+    <!-- endbuild -->
+
+    <!-- Vendors JS -->
+    <script src="{% static 'website/js/vendor/libs/select2/select2.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/tagify/tagify.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/@form-validation/popular.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/@form-validation/bootstrap5.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/@form-validation/auto-focus.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/cleave-zen/cleave-zen.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/sweetalert2/sweetalert2.js' %}"></script>
+    
+    <!-- Main JS -->
+    <script type="text/javascript" src="{% static 'website/js/main.js' %}"></script>
+
+    <!-- Page JS -->
+    <script type="text/javascript" src="{% static 'website/js/pages-account-settings-account.js' %}"></script>
+
+        <!-- For the top header to work -->
+    <script type="text/javascript" src="{% static 'website/js/vendors.min.js' %}"></script>
+
+    <script>
+      // Reset form to current session values (not stored values)
+      document.getElementById('resetForm').addEventListener('click', function() {
+        // Get current values from Django template variables each time reset is clicked
+        document.getElementById('firstName').value = "{{ user_first_name }}";
+        document.getElementById('lastName').value = "{{ user_last_name }}";
+        document.getElementById('organization').value = "{{ user_school_name }}";
+        document.getElementById('curriculum').value = "{{ user_curriculum }}";
+        document.getElementById('exam_session').value = "{{ user_exam_session }}";
+        // Only reset occupation if element exists (not for AdminExternal users)
+        var occupationField = document.getElementById('occupation');
+        if (occupationField) {
+          occupationField.value = "{{ user_student_type }}";
+        }
+        
+        // Reset avatar selection
+        document.getElementById('selectedAvatar').value = "{{ user_avatar }}";
+        document.getElementById('uploadedAvatar').src = "{% static 'website/images/avatars/' %}{{ user_avatar }}";
+        updateSelectedAvatar("{{ user_avatar }}");
+      });
+
+      // Avatar selection functionality
+      document.addEventListener('DOMContentLoaded', function() {
+        const avatarOptions = document.querySelectorAll('.avatar-option');
+        const uploadedAvatar = document.getElementById('uploadedAvatar');
+        const selectedAvatarInput = document.getElementById('selectedAvatar');
+        
+        // Set initial selected state
+        updateSelectedAvatar("{{ user_avatar }}");
+        
+        avatarOptions.forEach(function(option) {
+          option.addEventListener('click', function() {
+            const avatarName = this.getAttribute('data-avatar');
+            
+            // Update main avatar image
+            uploadedAvatar.src = "{% static 'website/images/avatars/' %}" + avatarName;
+            
+            // Update hidden input
+            selectedAvatarInput.value = avatarName;
+            
+            // Update visual selection
+            updateSelectedAvatar(avatarName);
+          });
+        });
+        
+        function updateSelectedAvatar(selectedAvatar) {
+          avatarOptions.forEach(function(option) {
+            if (option.getAttribute('data-avatar') === selectedAvatar) {
+              option.classList.add('selected-avatar');
+            } else {
+              option.classList.remove('selected-avatar');
+            }
+          });
+        }
+        
+        // Make updateSelectedAvatar available globally for reset function
+        window.updateSelectedAvatar = updateSelectedAvatar;
+      });
+
+      // Referral code activation
+      document.getElementById('referralActivationForm')?.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const form = this;
+        const messageDiv = document.getElementById('referralMessage');
+        const activateBtn = document.getElementById('activateBtn');
+        const referralCodeInput = document.getElementById('referralCode');
+        
+        // Get form data
+        const formData = new FormData(form);
+        
+        // Disable button during request
+        activateBtn.disabled = true;
+        activateBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Activating...';
+        
+        // Send AJAX request
+        fetch('{% url "activate-referral-code" %}', {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+          }
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            messageDiv.innerHTML = `
+              <div class="alert alert-success" role="alert">
+                ${data.message}
+              </div>
+            `;
+            // Disable the form after successful activation
+            referralCodeInput.disabled = true;
+            activateBtn.disabled = true;
+            activateBtn.innerHTML = 'Activated';
+            
+            // Refresh page after 2 seconds
+            setTimeout(() => {
+              window.location.reload();
+            }, 2000);
+          } else {
+            messageDiv.innerHTML = `
+              <div class="alert alert-danger" role="alert">
+                ${data.error}
+              </div>
+            `;
+            // Re-enable button
+            activateBtn.disabled = false;
+            activateBtn.innerHTML = 'Activate';
+          }
+        })
+        .catch(error => {
+          messageDiv.innerHTML = `
+            <div class="alert alert-danger" role="alert">
+              An error occurred. Please try again.
+            </div>
+          `;
+          // Re-enable button
+          activateBtn.disabled = false;
+          activateBtn.innerHTML = '<i class="icon-base ri ri-check-line me-2"></i>Activate';
+        });
+      });
+    </script>
+  </body>
+</html>

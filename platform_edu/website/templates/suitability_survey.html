@@ -1,0 +1,976 @@
+{% load static %}
+
+
+<!doctype html>
+
+<html
+  lang="en"
+  class="layout-navbar-fixed layout-menu-fixed layout-compact"
+  dir="ltr"
+  data-skin="default"
+  data-bs-theme="light"
+  data-assets-path="../../assets/"
+  data-template="vertical-menu-template">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>Suitability Survey | {{ site_name }}</title>
+
+
+    <link rel="icon" href="{% static 'website/images/platform_logo.svg' %}">
+    <link rel="alternate icon" href="{% static 'website/images/safari_logo2_prev_ui.png' %}" type="image/png">
+    <meta property="og:image" content="https://academy.edunade.com/static/website/images/Edunade_Vertical_Black_RGB.png">
+
+
+    <meta name="description" content="" />
+
+    {% include 'top_base.html' %}
+    <!-- endbuild -->
+
+    <!-- Page CSS -->
+
+    <style>
+      /* Force white background on sidebar */
+      
+      /* Add more side margins only to the main content area, not footer */
+      .main-content-area {
+        max-width: 85%;
+        margin: 0 auto;
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+
+
+      .main-content-area h5 {
+        font-weight: 400;
+      }
+      
+      @media (max-width: 768px) {
+        .main-content-area {
+          max-width: 95%;
+          padding-left: 1.5rem;
+          padding-right: 1.5rem;
+        }
+      }
+
+      /* SVG Progress Circle Styles */
+      .svg-progress-container {
+        position: relative;
+        width: 120px;
+        height: 120px;
+        margin: 0 auto;
+      }
+
+      .progress-svg {
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+
+      .progress-circle {
+        stroke-dasharray: 314; /* 2 * π * 50 */
+        stroke-dashoffset: 314;
+        transition: stroke-dashoffset 2s ease-out;
+      }
+
+      .progress-text {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+      }
+
+      .progress-percentage {
+        font-size: 24px;
+        font-weight: 700;
+        margin: 0;
+        line-height: 1;
+      }
+
+      .progress-label {
+        font-size: 14px;
+        color: #666;
+        margin-top: 2px;
+      }
+
+      /* Remove shadow from university cards and add border */
+      .tab-content .card {
+        box-shadow: none !important;
+        border: 1.5px solid #d6d6d6;
+      }
+
+    
+    </style>
+
+    <!-- Helpers -->
+    <script type="text/javascript" src="{% static 'website/js/vendor/helpers.js' %}"></script>
+
+    <!--? Template customizer: To hide customizer set displayCustomizer value false in config.js. -->
+    <!-- <script type="text/javascript" src="{% static 'website/js/vendor/template-customizer.js' %}"></script> -->
+
+    <!--? Config: Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file. -->
+
+    <script type="text/javascript" src="{% static 'website/js/vendor/config.js' %}"></script>
+  </head>
+
+  <body>
+    <!-- Layout wrapper -->
+    <div class="layout-wrapper layout-content-navbar">
+      <div class="layout-container">
+        <!-- Menu -->
+
+        {% include 'sidebar.html' %}
+
+          <!-- / Navbar -->
+
+          <!-- Content wrapper -->
+          <div class="content-wrapper">
+            <!-- Content -->
+            <div class="container-xxl flex-grow-1 container-p-y">
+              <!-- Examples -->
+
+              <!-- Main content area with custom padding -->
+              <div class="main-content-area">
+                <!-- Horizontal -->
+                <h2 class="pb-1 mb-12">Suitability Survey | {{ site_name }}</h2>
+
+
+                {% if not_registered %}
+                <h5 class="mb-3">
+                    This feature is only available for registered users. You can register by clicking <a href="{% url 'register' %}">here</a>. 
+        
+                </h5>
+
+                <h5 class="mb-6">
+    
+                  Already have an account? <a href="{% url 'login' %}">Sign in here</a>.
+              </h5>
+
+                {% elif no_results %}
+                <h5 class="mb-6">
+                    It seems like you have not yet taken the survey. You can do so by clicking on this <a href="https://forms.fillout.com/t/itxLqXFXhNus?email={{ email }}" target="_blank">link.</a>
+                </h5>
+
+                {% else %}
+
+
+                <h5 class="mb-10">
+                  Thank you for taking the survey! Hope you enjoyed it 🥳 Your results are below:</a>
+              </h5>
+
+
+
+              <div class="w-100 mb-12">
+                <div class="card overflow-hidden">
+                  <div class="row g-0">
+                    <!-- Left side - Big image -->
+                    <div class="col-6">
+                      <img class="w-100" src="{{ first_image }}" alt="Course image" style="object-fit: cover; height: 100%; min-height: 200px;" />
+                    </div>
+                    
+                    <!-- Right side - Content -->
+                    <div class="col-6">
+                      <div class="card-body d-flex flex-column justify-content-center p-8">
+                        <!-- Main content -->
+                        <div>
+                          <h5 class="card-title mb-4">Your course: {{ first_place }}</h5>
+                          <h6 class="card-title mb-4">Score: {{ first_score }}%</h6>
+                          <p class="card-text text-muted">
+                           {{ first_description }}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+              <h5 class="mb-5">
+                The top 3 matches for your profile are:</a>
+            </h5>
+                <!-- Three Progress Cards Row -->
+                <div class="row mb-12">
+                  <!-- Card 1: Academic Readiness -->
+                  <div class="col-12 col-md-4">
+                    <div class="card h-100">
+                                             <div class="card-body text-center pt-5">
+                         <!-- Custom Progress Circle -->
+                         <div class="d-flex justify-content-center mb-4">
+                           <div class="svg-progress-container" data-target="{{ first_score }}">
+                             <svg width="120" height="120" class="progress-svg">
+                               <circle cx="60" cy="60" r="50" fill="none" stroke="#e9ecef" stroke-width="10"/>
+                               <circle cx="60" cy="60" r="50" fill="none" stroke="#7367f0" stroke-width="10" 
+                                       class="progress-circle" stroke-linecap="round"
+                                       transform="rotate(-90 60 60)"/>
+                             </svg>
+                             <div class="progress-text">
+                               <div class="progress-percentage">{{ first_score }}%</div>
+                    
+                             </div>
+                           </div>
+                         </div>
+                         <!-- Card Content -->
+                         <div>
+                           <h5 class="card-title mb-3">{{ first_place }}</h5>
+                           <p class="text-muted mb-0">{{ first_description }}</p>
+                         </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Card 2: Career Alignment -->
+                  <div class="col-12 col-md-4">
+                    <div class="card h-100">
+                                             <div class="card-body text-center pt-5">
+                         <!-- Custom Progress Circle -->
+                         <div class="d-flex justify-content-center mb-4">
+                           <div class="svg-progress-container" data-target="{{ second_score }}">
+                             <svg width="120" height="120" class="progress-svg">
+                               <circle cx="60" cy="60" r="50" fill="none" stroke="#e9ecef" stroke-width="10"/>
+                               <circle cx="60" cy="60" r="50" fill="none" stroke="#28c76f" stroke-width="10" 
+                                       class="progress-circle" stroke-linecap="round"
+                                       transform="rotate(-90 60 60)"/>
+                             </svg>
+                             <div class="progress-text">
+                               <div class="progress-percentage">{{ second_score }}%</div>
+    
+                             </div>
+                           </div>
+                         </div>
+                         <!-- Card Content -->
+                         <div>
+                           <h5 class="card-title mb-3">{{ second_place }}</h5>
+                           <p class="text-muted mb-0">{{ second_description }}</p>
+                         </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Card 3: Program Compatibility -->
+                  <div class="col-12 col-md-4">
+                    <div class="card h-100">
+                                             <div class="card-body text-center pt-5">
+                         <!-- Custom Progress Circle -->
+                         <div class="d-flex justify-content-center mb-4">
+                           <div class="svg-progress-container" data-target="{{ third_score }}">
+                             <svg width="120" height="120" class="progress-svg">
+                               <circle cx="60" cy="60" r="50" fill="none" stroke="#e9ecef" stroke-width="10"/>
+                               <circle cx="60" cy="60" r="50" fill="none" stroke="#ff9f43" stroke-width="10" 
+                                       class="progress-circle" stroke-linecap="round"
+                                       transform="rotate(-90 60 60)"/>
+                             </svg>
+                             <div class="progress-text">
+                               <div class="progress-percentage">{{ third_score }}%</div>
+                     
+                             </div>
+                           </div>
+                         </div>
+                         <!-- Card Content -->
+                         <div>
+                           <h5 class="card-title mb-3">{{ third_place }}</h5>
+                           <p class="text-muted mb-0">{{ third_description }}</p>
+                         </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+                <h5 class="mb-5 mt-5">
+                  Here are some example courses that you could be interested in:</a>
+                </h5>
+
+                <div class="row mb-12 g-6">
+                  <div class="col-md-12">
+                    <div class="card">
+                      <div class="card-header px-0 pt-0">
+                        <div class="nav-align-top">
+                          <ul class="nav nav-tabs" role="tablist">
+                            <li class="nav-item">
+                              <button
+                                type="button"
+                                class="nav-link active"
+                                role="tab"
+                                data-bs-toggle="tab"
+                                data-bs-target="#discipline-first"
+                                aria-controls="discipline-first"
+                                aria-selected="true">
+                                {{ first_place }}
+                              </button>
+                            </li>
+                            <li class="nav-item">
+                              <button
+                                type="button"
+                                class="nav-link"
+                                role="tab"
+                                data-bs-toggle="tab"
+                                data-bs-target="#discipline-second"
+                                aria-controls="discipline-second"
+                                aria-selected="false">
+                                {{ second_place }}
+                              </button>
+                            </li>
+                            <li class="nav-item">
+                              <button
+                                type="button"
+                                class="nav-link"
+                                role="tab"
+                                data-bs-toggle="tab"
+                                data-bs-target="#discipline-third"
+                                aria-controls="discipline-third"
+                                aria-selected="false">
+                                {{ third_place }}
+                              </button>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                      <div class="card-body">
+                        <div class="tab-content p-0">
+                          <!-- First Discipline Tab -->
+                          <div class="tab-pane fade show active" id="discipline-first" role="tabpanel">
+           
+                            <div class="table-responsive">
+                              <table class="table table-hover">
+                                <thead>
+                                  <tr>
+                                    <th>Degree Name</th>
+                                    <th>Description</th>
+                                    <th>Career Opportunities</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {% for degree in first_degrees %}
+                                  <tr>
+                                    <td><strong>{{ degree.name }}</strong></td>
+                                    <td>{{ degree.description }}</td>
+                                    <td>{{ degree.jobs }}</td>
+                                  </tr>
+                                  {% empty %}
+                                  <tr>
+                                    <td colspan="3" class="text-center text-muted">No degree information available for {{ first_place }}</td>
+                                  </tr>
+                                  {% endfor %}
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                          
+                          <!-- Second Discipline Tab -->
+                          <div class="tab-pane fade" id="discipline-second" role="tabpanel">
+                
+                            <div class="table-responsive">
+                              <table class="table table-hover">
+                                <thead>
+                                  <tr>
+                                    <th>Degree Name</th>
+                                    <th>Description</th>
+                                    <th>Career Opportunities</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {% for degree in second_degrees %}
+                                  <tr>
+                                    <td><strong>{{ degree.name }}</strong></td>
+                                    <td>{{ degree.description }}</td>
+                                    <td>{{ degree.jobs }}</td>
+                                  </tr>
+                                  {% empty %}
+                                  <tr>
+                                    <td colspan="3" class="text-center text-muted">No degree information available for {{ second_place }}</td>
+                                  </tr>
+                                  {% endfor %}
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                          
+                          <!-- Third Discipline Tab -->
+                          <div class="tab-pane fade" id="discipline-third" role="tabpanel">
+           
+                            <div class="table-responsive">
+                              <table class="table table-hover">
+                                <thead>
+                                  <tr>
+                                    <th>Degree Name</th>
+                                    <th>Description</th>
+                                    <th>Career Opportunities</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {% for degree in third_degrees %}
+                                  <tr>
+                                    <td><strong>{{ degree.name }}</strong></td>
+                                    <td>{{ degree.description }}</td>
+                                    <td>{{ degree.jobs }}</td>
+                                  </tr>
+                                  {% empty %}
+                                  <tr>
+                                    <td colspan="3" class="text-center text-muted">No degree information available for {{ third_place }}</td>
+                                  </tr>
+                                  {% endfor %}
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+        
+                </div>
+                <!--/ Navigation -->
+
+
+                <h5 class="mb-5 mt-5">
+                 And below you can find a variety of universities that perfectly match your profile 🤝</a>
+                </h5>
+                <!-- University Recommendations Section -->
+                <div class="row mb-10">
+                  <div class="col-12">
+                    <div class="card">
+                      <div class="card-header">
+                        <div class="nav-align-top">
+                          <ul class="nav nav-tabs" role="tablist">
+                            <li class="nav-item">
+                              <button
+                                type="button"
+                                class="nav-link active"
+                                role="tab"
+                                data-bs-toggle="tab"
+                                data-bs-target="#universities-first"
+                                aria-controls="universities-first"
+                                aria-selected="true">
+                                {{ first_place }} Universities
+                              </button>
+                            </li>
+                            <li class="nav-item">
+                              <button
+                                type="button"
+                                class="nav-link"
+                                role="tab"
+                                data-bs-toggle="tab"
+                                data-bs-target="#universities-second"
+                                aria-controls="universities-second"
+                                aria-selected="false">
+                                {{ second_place }} Universities
+                              </button>
+                            </li>
+                            <li class="nav-item">
+                              <button
+                                type="button"
+                                class="nav-link"
+                                role="tab"
+                                data-bs-toggle="tab"
+                                data-bs-target="#universities-third"
+                                aria-controls="universities-third"
+                                aria-selected="false">
+                                {{ third_place }} Universities
+                              </button>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                      <div class="card-body">
+                        <div class="tab-content p-0">
+                          <!-- First Discipline Universities Tab -->
+                          <div class="tab-pane fade show active" id="universities-first" role="tabpanel">
+                            {% if business_unis %}
+                              <div id="business-unis-container">
+                                {% for university in business_unis %}
+                                <div class="row mb-6 business-uni-card" data-index="{{ forloop.counter0 }}" {% if forloop.counter0 >= 10 %}style="display: none;"{% endif %}>
+                                  <div class="col-md">
+                                    <div class="card mb-2">
+                                      <div class="card-body py-3">
+                                        <div class="row align-items-center">
+                                          <!-- Left side: Program and university names -->
+                                          <div class="col-md-6 d-flex flex-column justify-content-center">
+                                            <div>
+                                              <h5 class="mb-1 mt-2 fw-semibold">{{ university.program_name }}</h5>
+                                              <h6 class="mb-0 text-muted">{{ university.uni_name }}</h6>
+                                              <a href="{% if university.link != 'none' %}{{ university.link }}{% else %}#{% endif %}" class="btn btn-primary btn-sm mt-6" {% if university.link != 'none' %}target="_blank"{% endif %}>
+                                                <i class="icon-base ri ri-external-link-line me-1"></i>
+                                                Visit Programme
+                                              </a>
+                                            </div>
+                                          </div>
+                                          
+                                          <!-- Vertical separator -->
+                                          <div class="col-md-1 d-flex justify-content-center">
+                                            <div class="border-start border-2" style="height: 80px;"></div>
+                                          </div>
+                                          
+                                         <!-- Right side: Program information -->
+                                        <div class="col-md-5 d-flex align-items-center justify-content-center">
+                                          <div class="row g-3 w-100">
+                                            
+                                            <!-- IB Requirements -->
+                                            <div class="col-6">
+                                              <div class="d-flex flex-column align-items-center justify-content-center text-center h-100">
+                                                <div class="avatar avatar-sm mx-auto mb-1">
+                                                  <span class="avatar-initial bg-label-info rounded">
+                                                    <i class="icon-base ri ri-book-open-line icon-20px"></i>
+                                                  </span>
+                                                </div>
+                                                <h6 class="mb-0 mt-1 fw-semibold">IB: {{ university.ib_requirements|default:"N/A" }}</h6>
+                                              </div>
+                                            </div>
+
+                                            <!-- Country -->
+                                            <div class="col-6">
+                                              <div class="d-flex flex-column align-items-center justify-content-center text-center h-100">
+                                                <div class="avatar avatar-sm mx-auto mb-1">
+                                                  <span class="avatar-initial bg-label-warning rounded">
+                                                    <i class="icon-base ri ri-calendar-line icon-20px"></i>
+                                                  </span>
+                                                </div>
+                                                <h6 class="mb-0 mt-1 fw-semibold">{{ university.country }}</h6>
+                                              </div>
+                                            </div>
+
+                                            <!-- Tuition Fees -->
+                                            <div class="col-6">
+                                              <div class="d-flex flex-column align-items-center justify-content-center text-center h-100">
+                                                <div class="avatar avatar-sm mx-auto mb-1">
+                                                  <span class="avatar-initial bg-label-success rounded">
+                                                    <i class="icon-base ri ri-money-pound-circle-line icon-20px"></i>
+                                                  </span>
+                                                </div>
+                                                <h6 class="mb-0 mt-1 fw-semibold">
+                                                  {% if university.tuition_fee_euro > 0 %}
+                                                    €{{ university.tuition_fee_euro|floatformat:0 }}
+                                                  {% else %}
+                                                    {{ university.tuition_fee_original|default:"N/A" }}
+                                                  {% endif %}
+                                                </h6>
+                                              </div>
+                                            </div>
+
+                                            <!-- Duration -->
+                                            <div class="col-6">
+                                              <div class="d-flex flex-column align-items-center justify-content-center text-center h-100">
+                                                <div class="avatar avatar-sm mx-auto mb-1">
+                                                  <span class="avatar-initial bg-label-secondary rounded">
+                                                    <i class="icon-base ri ri-time-line icon-20px"></i>
+                                                  </span>
+                                                </div>
+                                                <h6 class="mb-0 mt-1 fw-semibold">{{ university.duration|default:"N/A" }}</h6>
+                                              </div>
+                                            </div>
+
+                                          </div>
+                                        </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                {% endfor %}
+                              </div>
+                              
+                              <!-- Load More Button -->
+                              {% if business_unis|length > 10 %}
+                              <div class="text-center mt-4" id="load-more-container">
+                                <button type="button" class="btn btn-outline-primary" id="load-more-business" onclick="loadMoreBusinessUnis()">
+                                  <!-- <i class="icon-base ri ri-add-line me-1"></i> -->
+                                  Load more! ({{ business_unis|length|add:"-10" }} remaining)
+                                </button>
+                              </div>
+                              {% endif %}
+                            {% else %}
+                              <div class="text-center text-muted py-4">
+                                <p>No universities found for {{ first_place }} based on your survey criteria.</p>
+                              </div>
+                            {% endif %}
+                          </div>
+                          
+                          <!-- Second Discipline Universities Tab -->
+                          <div class="tab-pane fade" id="universities-second" role="tabpanel">
+                            {% if economics_unis %}
+                              <div id="economics-unis-container">
+                                {% for university in economics_unis %}
+                                <div class="row mb-6 economics-uni-card" data-index="{{ forloop.counter0 }}" {% if forloop.counter0 >= 10 %}style="display: none;"{% endif %}>
+                                  <div class="col-md">
+                                    <div class="card mb-2">
+                                      <div class="card-body py-3">
+                                        <div class="row align-items-center">
+                                          <!-- Left side: Program and university names -->
+                                          <div class="col-md-6 d-flex flex-column justify-content-center">
+                                            <div>
+                                              <h5 class="mb-1 mt-2 fw-semibold">{{ university.program_name }}</h5>
+                                              <h6 class="mb-0 text-muted">{{ university.uni_name }}</h6>
+                                              <a href="{% if university.link != 'none' %}{{ university.link }}{% else %}#{% endif %}" class="btn btn-primary btn-sm mt-6" {% if university.link != 'none' %}target="_blank"{% endif %}>
+                                                <i class="icon-base ri ri-external-link-line me-1"></i>
+                                                Visit Programme
+                                              </a>
+                                            </div>
+                                          </div>
+                                          
+                                          <!-- Vertical separator -->
+                                          <div class="col-md-1 d-flex justify-content-center">
+                                            <div class="border-start border-2" style="height: 80px;"></div>
+                                          </div>
+                                          
+                                         <!-- Right side: Program information -->
+                                        <div class="col-md-5 d-flex align-items-center justify-content-center">
+                                          <div class="row g-3 w-100">
+                                            
+                                            <!-- IB Requirements -->
+                                            <div class="col-6">
+                                              <div class="d-flex flex-column align-items-center justify-content-center text-center h-100">
+                                                <div class="avatar avatar-sm mx-auto mb-1">
+                                                  <span class="avatar-initial bg-label-info rounded">
+                                                    <i class="icon-base ri ri-book-open-line icon-20px"></i>
+                                                  </span>
+                                                </div>
+                                                <h6 class="mb-0 mt-1 fw-semibold">IB: {{ university.ib_requirements|default:"N/A" }}</h6>
+                                              </div>
+                                            </div>
+
+                                            <!-- Country -->
+                                            <div class="col-6">
+                                              <div class="d-flex flex-column align-items-center justify-content-center text-center h-100">
+                                                <div class="avatar avatar-sm mx-auto mb-1">
+                                                  <span class="avatar-initial bg-label-warning rounded">
+                                                    <i class="icon-base ri ri-calendar-line icon-20px"></i>
+                                                  </span>
+                                                </div>
+                                                <h6 class="mb-0 mt-1 fw-semibold">{{ university.country }}</h6>
+                                              </div>
+                                            </div>
+
+                                            <!-- Tuition Fees -->
+                                            <div class="col-6">
+                                              <div class="d-flex flex-column align-items-center justify-content-center text-center h-100">
+                                                <div class="avatar avatar-sm mx-auto mb-1">
+                                                  <span class="avatar-initial bg-label-success rounded">
+                                                    <i class="icon-base ri ri-money-pound-circle-line icon-20px"></i>
+                                                  </span>
+                                                </div>
+                                                <h6 class="mb-0 mt-1 fw-semibold">
+                                                  {% if university.tuition_fee_euro > 0 %}
+                                                    €{{ university.tuition_fee_euro|floatformat:0 }}
+                                                  {% else %}
+                                                    {{ university.tuition_fee_original|default:"N/A" }}
+                                                  {% endif %}
+                                                </h6>
+                                              </div>
+                                            </div>
+
+                                            <!-- Duration -->
+                                            <div class="col-6">
+                                              <div class="d-flex flex-column align-items-center justify-content-center text-center h-100">
+                                                <div class="avatar avatar-sm mx-auto mb-1">
+                                                  <span class="avatar-initial bg-label-secondary rounded">
+                                                    <i class="icon-base ri ri-time-line icon-20px"></i>
+                                                  </span>
+                                                </div>
+                                                <h6 class="mb-0 mt-1 fw-semibold">{{ university.duration|default:"N/A" }}</h6>
+                                              </div>
+                                            </div>
+
+                                          </div>
+                                        </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                {% endfor %}
+                              </div>
+                              
+                              <!-- Load More Button -->
+                              {% if economics_unis|length > 10 %}
+                              <div class="text-center mt-4" id="load-more-economics-container">
+                                <button type="button" class="btn btn-outline-primary" id="load-more-economics" onclick="loadMoreEconomicsUnis()">
+                                  Load more! ({{ economics_unis|length|add:"-10" }} remaining)
+                                </button>
+                              </div>
+                              {% endif %}
+                            {% else %}
+                              <div class="text-center text-muted py-4">
+                                <p>No universities found for {{ second_place }} based on your survey criteria.</p>
+                              </div>
+                            {% endif %}
+                          </div>
+                          
+                          <!-- Third Discipline Universities Tab -->
+                          <div class="tab-pane fade" id="universities-third" role="tabpanel">
+                            {% if law_unis %}
+                              <div id="law-unis-container">
+                                {% for university in law_unis %}
+                                <div class="row mb-6 law-uni-card" data-index="{{ forloop.counter0 }}" {% if forloop.counter0 >= 10 %}style="display: none;"{% endif %}>
+                                  <div class="col-md">
+                                    <div class="card mb-2">
+                                      <div class="card-body py-3">
+                                        <div class="row align-items-center">
+                                          <!-- Left side: Program and university names -->
+                                          <div class="col-md-6 d-flex flex-column justify-content-center">
+                                            <div>
+                                              <h5 class="mb-1 mt-2 fw-semibold">{{ university.program_name }}</h5>
+                                              <h6 class="mb-0 text-muted">{{ university.uni_name }}</h6>
+                                              <a href="{% if university.link != 'none' %}{{ university.link }}{% else %}#{% endif %}" class="btn btn-primary btn-sm mt-6" {% if university.link != 'none' %}target="_blank"{% endif %}>
+                                                <i class="icon-base ri ri-external-link-line me-1"></i>
+                                                Visit Programme
+                                              </a>
+                                            </div>
+                                          </div>
+                                          
+                                          <!-- Vertical separator -->
+                                          <div class="col-md-1 d-flex justify-content-center">
+                                            <div class="border-start border-2" style="height: 80px;"></div>
+                                          </div>
+                                          
+                                         <!-- Right side: Program information -->
+                                        <div class="col-md-5 d-flex align-items-center justify-content-center">
+                                          <div class="row g-3 w-100">
+                                            
+                                            <!-- IB Requirements -->
+                                            <div class="col-6">
+                                              <div class="d-flex flex-column align-items-center justify-content-center text-center h-100">
+                                                <div class="avatar avatar-sm mx-auto mb-1">
+                                                  <span class="avatar-initial bg-label-info rounded">
+                                                    <i class="icon-base ri ri-book-open-line icon-20px"></i>
+                                                  </span>
+                                                </div>
+                                                <h6 class="mb-0 mt-1 fw-semibold">IB: {{ university.ib_requirements|default:"N/A" }}</h6>
+                                              </div>
+                                            </div>
+
+                                            <!-- Country -->
+                                            <div class="col-6">
+                                              <div class="d-flex flex-column align-items-center justify-content-center text-center h-100">
+                                                <div class="avatar avatar-sm mx-auto mb-1">
+                                                  <span class="avatar-initial bg-label-warning rounded">
+                                                    <i class="icon-base ri ri-calendar-line icon-20px"></i>
+                                                  </span>
+                                                </div>
+                                                <h6 class="mb-0 mt-1 fw-semibold">{{ university.country }}</h6>
+                                              </div>
+                                            </div>
+
+                                            <!-- Tuition Fees -->
+                                            <div class="col-6">
+                                              <div class="d-flex flex-column align-items-center justify-content-center text-center h-100">
+                                                <div class="avatar avatar-sm mx-auto mb-1">
+                                                  <span class="avatar-initial bg-label-success rounded">
+                                                    <i class="icon-base ri ri-money-pound-circle-line icon-20px"></i>
+                                                  </span>
+                                                </div>
+                                                <h6 class="mb-0 mt-1 fw-semibold">
+                                                  {% if university.tuition_fee_euro > 0 %}
+                                                    €{{ university.tuition_fee_euro|floatformat:0 }}
+                                                  {% else %}
+                                                    {{ university.tuition_fee_original|default:"N/A" }}
+                                                  {% endif %}
+                                                </h6>
+                                              </div>
+                                            </div>
+
+                                            <!-- Duration -->
+                                            <div class="col-6">
+                                              <div class="d-flex flex-column align-items-center justify-content-center text-center h-100">
+                                                <div class="avatar avatar-sm mx-auto mb-1">
+                                                  <span class="avatar-initial bg-label-secondary rounded">
+                                                    <i class="icon-base ri ri-time-line icon-20px"></i>
+                                                  </span>
+                                                </div>
+                                                <h6 class="mb-0 mt-1 fw-semibold">{{ university.duration|default:"N/A" }}</h6>
+                                              </div>
+                                            </div>
+
+                                          </div>
+                                        </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                {% endfor %}
+                              </div>
+                              
+                              <!-- Load More Button -->
+                              {% if law_unis|length > 10 %}
+                              <div class="text-center mt-4" id="load-more-law-container">
+                                <button type="button" class="btn btn-outline-primary" id="load-more-law" onclick="loadMoreLawUnis()">
+                                  Load more! ({{ law_unis|length|add:"-10" }} remaining)
+                                </button>
+                              </div>
+                              {% endif %}
+                            {% else %}
+                              <div class="text-center text-muted py-4">
+                                <p>No universities found for {{ third_place }} based on your survey criteria.</p>
+                              </div>
+                            {% endif %}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Retake Survey Section -->
+                <div class="row mt-12 mb-8">
+                  <div class="col-12">
+                    <div class="card">
+                      <div class="card-body text-center py-8">
+        
+                        <h4 class="mb-3">Want to explore more career paths?</h4>
+                        <p class="text-muted mb-5">
+                          Your interests and goals might change over time. Feel free to retake the survey to discover new opportunities and get updated recommendations tailored to your current preferences.
+                        </p>
+                        <a href="https://forms.fillout.com/t/itxLqXFXhNus?email={{ email }}" target="_blank" class="btn btn-primary btn-lg">
+                          <i class="icon-base ri ri-file-list-3-line me-2"></i>
+                          Take Survey Again
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {% endif %}
+
+            
+
+            <div class="content-backdrop fade"></div>
+          </div>
+          <!-- Content wrapper -->
+        </div>
+        <!-- / Layout page -->
+      </div>
+
+      <!-- Overlay -->
+      <div class="layout-overlay layout-menu-toggle"></div>
+
+      <!-- Drag Target Area To SlideIn Menu On Small Screens -->
+      <div class="drag-target"></div>
+    </div>
+    <!-- / Layout wrapper -->
+
+    <!-- Core JS -->
+
+    <!-- build:js assets/vendor/js/theme.js  -->
+
+    <script src="{% static 'website/js/vendor/libs/jquery/jquery.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/popper/popper.js' %}"></script>
+    <script src="{% static 'website/js/bootstrap.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/node-waves/node-waves.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/@algolia/autocomplete-js.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/pickr/pickr.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/perfect-scrollbar/perfect-scrollbar.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/hammer/hammer.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/i18n/i18n.js' %}"></script>
+
+    <script src="{% static 'website/js/vendor/menu.js' %}"></script>
+
+    <!-- endbuild -->
+
+    <!-- Vendors JS -->
+    <script src="{% static 'website/js/vendor/libs/masonry/masonry.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/apex-charts/apexcharts.js' %}"></script>
+
+    <!-- Main JS -->
+    <script type="text/javascript" src="{% static 'website/js/main.js' %}"></script>
+
+    <!-- For the top header to work -->
+    <script type="text/javascript" src="{% static 'website/js/vendors.min.js' %}"></script>
+
+    <!-- Page JS -->
+    <script type="text/javascript" src="{% static 'website/js/app-academy-dashboard.js' %}"></script>
+    
+    <!-- SVG Progress Circle Animation -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(() => {
+          const progressContainers = document.querySelectorAll('.svg-progress-container');
+          
+          progressContainers.forEach(container => {
+            const targetPercentage = parseInt(container.getAttribute('data-target'));
+            const progressCircle = container.querySelector('.progress-circle');
+            
+            // Calculate stroke-dashoffset for the percentage
+            const circumference = 314; // 2 * π * 50
+            const offset = circumference - (targetPercentage / 100) * circumference;
+            
+            // Animate the progress
+            progressCircle.style.strokeDashoffset = offset;
+          });
+        }, 500);
+      });
+
+      // Load More Universities functionality
+      function loadMoreBusinessUnis() {
+        const hiddenCards = document.querySelectorAll('.business-uni-card[style*="display: none"]');
+        const loadMoreBtn = document.getElementById('load-more-business');
+        const loadMoreContainer = document.getElementById('load-more-container');
+        
+        // Show next 10 cards
+        let shown = 0;
+        for (let i = 0; i < hiddenCards.length && shown < 10; i++) {
+          hiddenCards[i].style.display = '';
+          shown++;
+        }
+        
+        // Update remaining count
+        const remainingCards = document.querySelectorAll('.business-uni-card[style*="display: none"]').length;
+        
+        if (remainingCards > 0) {
+          loadMoreBtn.innerHTML = `Load more! (${remainingCards} remaining)`;
+        } else {
+          // Hide the load more button if no more cards
+          loadMoreContainer.style.display = 'none';
+        }
+      }
+
+      function loadMoreEconomicsUnis() {
+        const hiddenCards = document.querySelectorAll('.economics-uni-card[style*="display: none"]');
+        const loadMoreBtn = document.getElementById('load-more-economics');
+        const loadMoreContainer = document.getElementById('load-more-economics-container');
+        
+        // Show next 10 cards
+        let shown = 0;
+        for (let i = 0; i < hiddenCards.length && shown < 10; i++) {
+          hiddenCards[i].style.display = '';
+          shown++;
+        }
+        
+        // Update remaining count
+        const remainingCards = document.querySelectorAll('.economics-uni-card[style*="display: none"]').length;
+        
+        if (remainingCards > 0) {
+          loadMoreBtn.innerHTML = `Load more! (${remainingCards} remaining)`;
+        } else {
+          // Hide the load more button if no more cards
+          loadMoreContainer.style.display = 'none';
+        }
+      }
+
+      function loadMoreLawUnis() {
+        const hiddenCards = document.querySelectorAll('.law-uni-card[style*="display: none"]');
+        const loadMoreBtn = document.getElementById('load-more-law');
+        const loadMoreContainer = document.getElementById('load-more-law-container');
+        
+        // Show next 10 cards
+        let shown = 0;
+        for (let i = 0; i < hiddenCards.length && shown < 10; i++) {
+          hiddenCards[i].style.display = '';
+          shown++;
+        }
+        
+        // Update remaining count
+        const remainingCards = document.querySelectorAll('.law-uni-card[style*="display: none"]').length;
+        
+        if (remainingCards > 0) {
+          loadMoreBtn.innerHTML = `Load more! (${remainingCards} remaining)`;
+        } else {
+          // Hide the load more button if no more cards
+          loadMoreContainer.style.display = 'none';
+        }
+      }
+    </script>
+  </body>
+</html>

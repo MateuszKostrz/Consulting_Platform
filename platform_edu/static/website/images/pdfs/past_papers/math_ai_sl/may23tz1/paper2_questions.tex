@@ -1,0 +1,217 @@
+% This LaTeX document needs to be compiled with XeLaTeX.
+\documentclass[10pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{ucharclasses}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true, linkcolor=blue, filecolor=magenta, urlcolor=cyan,}
+\urlstyle{same}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage[version=4]{mhchem}
+\usepackage{stmaryrd}
+\usepackage{graphicx}
+\usepackage[export]{adjustbox}
+\graphicspath{ {./images/} }
+\usepackage{bbold}
+\usepackage{polyglossia}
+\usepackage{fontspec}
+\setmainlanguage{spanish}
+\setotherlanguages{french, hindi, english}
+\IfFontExistsTF{Noto Serif Devanagari}
+{\newfontfamily\hindifont{Noto Serif Devanagari}}
+{\IfFontExistsTF{Kohinoor Devanagari}
+  {\newfontfamily\hindifont{Kohinoor Devanagari}}
+  {\IfFontExistsTF{Devanagari MT}
+    {\newfontfamily\hindifont{Devanagari MT}}
+    {\IfFontExistsTF{Lohit Devanagari}
+      {\newfontfamily\hindifont{Lohit Devanagari}}
+      {\IfFontExistsTF{FreeSerif}
+        {\newfontfamily\hindifont{FreeSerif}}
+        {\newfontfamily\hindifont{Arial Unicode MS}}
+}}}}
+\IfFontExistsTF{CMU Serif}
+{\newfontfamily\lgcfont{CMU Serif}}
+{\IfFontExistsTF{DejaVu Sans}
+  {\newfontfamily\lgcfont{DejaVu Sans}}
+  {\newfontfamily\lgcfont{Georgia}}
+}
+\setDefaultTransitions{\lgcfont}{}
+\setTransitionsForDevanagari{\hindifont}{\rmfamily}
+
+\title{Mathematics: applications and interpretation Standard level \\
+ Paper 2 }
+
+\author{}
+\date{}
+
+
+\begin{document}
+\maketitle
+© International Baccalaureate Organization 2023
+
+All rights reserved. No part of this product may be reproduced in any form or by any electronic or mechanical means, including information storage and retrieval systems, without the prior written permission from the IB. Additionally, the license tied with this product prohibits use of any selected files or extracts from this product. Use by third parties, including but not limited to publishers, private teachers, tutoring or study services, preparatory schools, vendors operating curriculum mapping services or teacher resource digital platforms and app developers, whether fee-covered or not, is prohibited and is a criminal offense.
+
+More information on how to request written permission in the form of a license can be obtained from \href{https://ibo.org/become-an-ib-school/ib-publishing/licensing/applying-for-alicense/}{https://ibo.org/become-an-ib-school/ib-publishing/licensing/applying-for-alicense/}.\\
+© Organisation du Baccalauréat International 2023
+
+Tous droits réservés. Aucune partie de ce produit ne peut être reproduite sous quelque forme ni par quelque moyen que ce soit, électronique ou mécanique, y compris des systèmes de stockage et de récupération d'informations, sans l'autorisation écrite préalable de l'IB. De plus, la licence associée à ce produit interdit toute utilisation de tout fichier ou extrait sélectionné dans ce produit. L'utilisation par des tiers, y compris, sans toutefois s'y limiter, des éditeurs, des professeurs particuliers, des services de tutorat ou d'aide aux études, des établissements de préparation à l'enseignement supérieur, des fournisseurs de services de planification des programmes d'études, des gestionnaires de plateformes pédagogiques en ligne, et des développeurs d'applications, moyennant paiement ou non, est interdite et constitue une infraction pénale.
+
+Pour plus d'informations sur la procédure à suivre pour obtenir une autorisation écrite sous la forme d'une licence, rendez-vous à l'adresse \href{https://ibo.org/become-an-ib-school/}{https://ibo.org/become-an-ib-school/} ib-publishing/licensing/applying-for-a-license/.\\
+© Organización del Bachillerato Internacional, 2023
+
+Todos los derechos reservados. No se podrá reproducir ninguna parte de este producto de ninguna forma ni por ningún medio electrónico o mecánico, incluidos los sistemas de almacenamiento y recuperación de información, sin la previa autorización por escrito del IB. Además, la licencia vinculada a este producto prohíbe el uso de todo archivo o fragmento seleccionado de este producto. El uso por parte de terceros -lo que incluye, a título enunciativo, editoriales, profesores particulares, servicios de apoyo académico o ayuda para el estudio, colegios preparatorios, desarrolladores de aplicaciones y entidades que presten servicios de planificación curricular u ofrezcan recursos para docentes mediante plataformas digitales-, ya sea incluido en tasas o no, está prohibido y constituye un delito.
+
+En este enlace encontrará más información sobre cómo solicitar una autorización por escrito en forma de licencia: \href{https://ibo.org/become-an-ib-school/ib-publishing/licensing/}{https://ibo.org/become-an-ib-school/ib-publishing/licensing/} applying-for-a-license/.
+
+9 May 2023\\
+Zone A afternoon | Zone B morning | Zone C afternoon
+
+1 hour 30 minutes
+
+\section*{Instructions to candidates}
+\begin{itemize}
+  \item Do not open this examination paper until instructed to do so.
+  \item A graphic display calculator is required for this paper.
+  \item Answer all the questions in the answer booklet provided.
+  \item Unless otherwise stated in the question, all numerical answers should be given exactly or correct to three significant figures.
+  \item A clean copy of the mathematics: applications and interpretation formula booklet is required for this paper.
+  \item The maximum mark for this examination paper is [80 marks].
+\end{itemize}
+
+Blank page
+
+Answer all questions in the answer booklet provided. Please start each question on a new page. Full marks are not necessarily awarded for a correct answer with no working. Answers must be supported by working and/or explanations. Solutions found from a graphic display calculator should be supported by suitable working. For example, if graphs are used to find a solution, you should sketch these as part of your answer. Where an answer is incorrect, some marks may be given for a correct method, provided this is shown by written working. You are therefore advised to show all working.
+
+\begin{enumerate}
+  \item \hspace{0pt} [Maximum mark: 15]
+\end{enumerate}
+
+The mean annual temperatures for Earth, recorded at fifty-year intervals, are shown in the table.
+
+\begin{center}
+\begin{tabular}{|l|c|c|c|c|c|c|c|}
+\hline
+Year (x) & 1708 & 1758 & 1808 & 1858 & 1908 & 1958 & 2008 \\
+\hline
+Temperature ${ }^{\circ} \mathbf{C ( y )}$ & 8.73 & 9.22 & 9.10 & 9.12 & 9.13 & 9.45 & 9.76 \\
+\hline
+\end{tabular}
+\end{center}
+
+Tami creates a linear model for this data by finding the equation of the straight line passing through the points with coordinates $(1708,8.73)$ and $(1958,9.45)$.\\
+(a) Calculate the gradient of the straight line that passes through these two points.\\
+(b) (i) Interpret the meaning of the gradient in the context of the question.\\
+(ii) State appropriate units for the gradient.\\
+(c) Find the equation of this line giving your answer in the form $y=m x+c$.\\
+(d) Use Tami's model to estimate the mean annual temperature in the year 2000.
+
+Thandizo uses linear regression to obtain a model for the data.\\
+(e) (i) Find the equation of the regression line $y$ on $x$.\\
+(ii) Find the value of $r$, the Pearson's product-moment correlation coefficient.\\
+(f) Use Thandizo's model to estimate the mean annual temperature in the year 2000.
+
+Thandizo uses his regression line to predict the year when the mean annual temperature will first exceed $15^{\circ} \mathrm{C}$.\\
+(g) State two reasons why Thandizo's prediction may not be valid.\\[0pt]
+2. [Maximum mark: 16]
+
+Consider the function $f(x)=3 x-1+4 x^{-2}$. Part of the graph of $y=f(x)$ is shown below.\\
+\includegraphics[max width=\textwidth, center]{74bafd39-0032-4c5d-97d7-00483017de9f-05}
+
+The function is defined for all values of $x$ except for $x=a$.\\
+(a) Write down the value of $a$.\\
+(b) Use your graphic display calculator to find the coordinates of the local minimum.
+
+The equation $f(x)=w$, where $w \in \mathbb{R}$, has three solutions.\\
+(c) Identify one possible value for $w$.
+
+The line $y=m x-\frac{1}{4}$ is tangent to $f(x)$ when $x=-4$.\\
+(d) Write down whether the value of $m$ is positive or negative. Justify your answer.\\
+(This question continues on the following page)
+
+\section*{(Question 2 continued)}
+A second function is given by $g(x)=k p^{x}-9$, where $p>0$. The graph of $y=g(x)$ intersects the $y$-axis at point $\mathrm{A}(0,-5)$ and passes through point $\mathrm{B}(3,4.5)$.\\
+(e) Find the value of\\
+(i) $k$;\\
+(ii) $p$.\\
+(f) Write down the equation of the horizontal asymptote of $y=g(x)$.\\
+(g) Find the solution of $f(x)=g(x)$ when $x>0$.
+
+Consider a third function, $h$, where $h(x)=f(x)+g(x)$. The point $\mathrm{C}(-1, q)$ lies on the graph of $g(x)$.\\
+(h) State whether C also lies on the graph of $h(x)$. Justify your answer.\\[0pt]
+3. [Maximum mark: 15]
+
+The depth of water, $w$ metres, in a particular harbour can be modelled by the function $w(t)=a \cos \left(b t^{\circ}\right)+d$ where $t$ is the length of time, in minutes, after 06:00.
+
+On 20 January, the first high tide occurs at 06:00, at which time the depth of water is 18 m . The following low tide occurs at 12:15 when the depth of water is 4 m . This is shown in the diagram.\\
+\includegraphics[max width=\textwidth, center]{74bafd39-0032-4c5d-97d7-00483017de9f-07}\\
+(a) Find the value of $a$.\\
+(b) Find the value of $d$.\\
+(c) Find the period of the function in minutes.\\
+(d) Find the value of $b$.
+
+Naomi is sailing to the harbour on the morning of 20 January. Boats can enter or leave the harbour only when the depth of water is at least 6 m .\\
+(e) Find the latest time before 12:00, to the nearest minute, that Naomi can enter the harbour.\\
+(f) Find the length of time (in minutes) between 06:00 and 15:00 on 20 January during which Naomi cannot enter or leave the harbour.\\[0pt]
+4. [Maximum mark: 17]
+
+A large international sports tournament tests their athletes for banned substances.\\
+They interpret a positive test result as meaning that the athlete uses banned substances. A negative result means that they do not.
+
+The probability that an athlete uses banned substances is estimated to be 0.06 .\\
+If an athlete uses banned substances, the probability that they will test positive is 0.71 .\\
+If an athlete does not use banned substances, the probability that they will test negative is 0.98 .\\
+(a) Using the information given, copy (into your answer booklet) and complete the following tree diagram.\\
+\includegraphics[max width=\textwidth, center]{74bafd39-0032-4c5d-97d7-00483017de9f-08}\\
+(b) (i) Determine the probability that a randomly selected athlete does not use banned substances and tests negative.\\
+(ii) If two athletes are selected at random, calculate the probability that both athletes do not use banned substances and both test negative.\\
+(c) (i) Calculate the probability that a randomly selected athlete will receive an incorrect test result.\\
+(ii) A random sample of 1300 athletes at the tournament are selected for testing. Calculate the expected number of athletes in the sample that will receive an incorrect test result.
+
+Team X are competing in the tournament. There are 20 athletes in this team. It is known that none of the athletes in Team X use banned substances.\\
+(d) Calculate the probability that none of the athletes in Team $X$ will test positive.\\
+(e) Determine the probability that more than 2 athletes in Team X will test positive.\\[0pt]
+5. [Maximum mark: 17]
+
+A large closed container, in the shape of a half cylinder with a rectangular lid, is to be constructed with a volume of $0.8 \mathrm{~m}^{3}$. The container has a length of $l$ metres and a radius of $r$ metres.\\
+diagram not to scale\\
+\includegraphics[max width=\textwidth, center]{74bafd39-0032-4c5d-97d7-00483017de9f-09}\\
+(a) Find an exact expression for $l$ in terms of $r$ and $\pi$.
+
+The container will be constructed using two different materials. The material for both the curved surface and the rectangular lid of the container costs $\$ 4.40$ per square metre. The material for the semicircular ends of the container costs $\$ p$ per square metre.
+
+The cost, $C$, of the materials to construct the container can be written in terms of $r$ and $p$ (where $p>0$ and $r>0$ ).\\
+(b) Show that $C=7.04 r^{-1}+\frac{14.08}{\pi} r^{-1}+p \pi r^{2}$.\\
+(c) Find $\frac{\mathrm{d} C}{\mathrm{~d} r}$.
+
+The cost of materials to construct the container is minimized when the radius of the container, $r$, is 0.7 m .\\
+(d) Find the value of $p$.
+
+In total, 350 containers will be constructed at this minimum cost.\\
+(e) Calculate the cost of materials, to the nearest dollar, to construct all 350 containers.\\
+(This question continues on the following page)
+
+\section*{(Question 5 continued)}
+The materials for constructing the containers can be purchased at a discount according to the information in the table.
+
+\begin{center}
+\begin{tabular}{|l|l|}
+\hline
+Cost materials (\$ C) before discount & Discount applied to entire order \\
+\hline
+$1000 \leq C<2500$ & 1 \% \\
+\hline
+$2500 \leq C<5000$ & 4\% \\
+\hline
+$5000 \leq C<10000$ & 8\% \\
+\hline
+$C \geq 10000$ & 10\% \\
+\hline
+\end{tabular}
+\end{center}
+
+(f) Determine the cost of materials for 350 containers after the discount is applied.
+
+\section*{References:}
+
+\end{document}

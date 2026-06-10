@@ -1,0 +1,281 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Academy - Questionbank</title>
+
+   <!-- font awesome cdn link  -->
+   <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"> -->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+   <!-- custom css file link  -->
+   <link rel="stylesheet" href="{% static 'website/css/style.css' %}">
+
+
+
+</head>
+<body>
+
+<header class="header">
+   
+   <section class="flex" id="blur_flex">
+
+      <a href="home.html" class="logo">History HL Questionbank</a>
+      <div class="icons">
+         <div id="menu-btn" class="fas fa-bars"></div>
+         <div id="search-btn" class="fas fa-search"></div>
+         <div id="user-btn" class="fas fa-user"></div>
+         <div id="toggle-btn" class="fas fa-sun"></div>
+         <!-- <div id="toggle-btn">
+            <a href="profile.html" class="fas fa-sun">Log Out</a>
+         </div> -->
+         
+         
+      </div>
+
+      {% include 'common_header.html' %}
+
+
+
+<section class="home-grid" id="blur_home_grid">
+   {% if updated_creds %}
+
+   <div>
+      <div id="hideMe">
+         <h2 class="message">You have successfully updated your profile. Log in again to see the changes.</h2>
+      </div>
+   </div>
+   
+   {% endif %}
+
+   
+   {% if premium_member and already_user %}   
+   
+   <h1 class="heading" id="blur_heading">Diplomacy in Europe (1919-1945)</h1>
+
+</section>
+
+      <div id="popup_short_ans1" class="popup">
+         <h1>Short Answer</h1>
+            <ul>
+               <li>Caused humiliation, resentment, and willingness to revenge among Germans.</li>
+               <li>Caused economic hardship and hyperinflation that created a fertile ground for extremist parties and aggressive leaders to rise.</li>
+               <li>Treaty weakened European stability.</li>
+               <li><strong>Balance argument:</strong> There were multiple reasons, and not only the Treaty of Versailles that contributed to the war.</li>
+             </ul>
+         <a href="#/" onclick="short_ans1()">Close</a>
+      </div>
+
+      <div id="popup_answer1" class="popup">
+         <h1>Detailed Answer</h1>
+         <ul>
+            <li><strong>Caused humiliation, resentment, and willingness to revenge among Germans:</strong> Versailles Treaty imposed harsh terms on Germany after World War I. Germany lost territory, was forced to demilitarise, and had to pay great reparations. This created feelings of humiliation and injustice among Germans.</li>
+            <li><strong>Caused economic hardship and hyperinflation that created a fertile ground for extremist parties and aggressive leaders to rise:</strong> Hyperinflation and economic instability led to public discontent. That and the sole impact of the treaty weakened mainstream political parties. As an outcome, extreme ideologies gained support, such as the Nazi Party led by Hitler.</li>
+            <li><strong>Treaty's impact weakened European stability:</strong> Treaty contributed to tensions between the countries and did not solve the issues that contributed to World War 1. Treaty did not allow European leaders to properly defend against rising extremist countries. It introduced the policy of appeasement that allowed extremist leaders to rise and contribute to war.</li>
+            <li><strong>Balance argument:</strong> While the treaty was a catalyst, other factors like appeasement and geopolitical dynamics also contributed.</li>
+         </ul>
+         <a href="#/" onclick="answer1()">Close</a>
+      </div>
+
+
+      <div id="popup_short_ans2" class="popup">
+         <h1>Short Answer</h1>
+            <ul>
+               <li>Entangling alliances that put countries at war.</li>
+               <li>Perceived security and risk-taking of alliances made countries more aggressive.</li>
+               <li>Alliances led to rapid mobilisation.</li>
+               <li>Alliances led to crisis escalation.</li>
+               <li>Alliances diminished the chance for diplomatic manoeuvring.</li>
+             </ul>
+         <a href="#/" onclick="short_ans2()">Close</a>
+      </div>
+
+      <div id="popup_answer2" class="popup">
+         <h1>Detailed Answer</h1>
+         <ul>
+            <li><strong>Entangling alliances:</strong> European powers had formed a complex web of alliances for security. The Triple Alliance (Germany, Austria-Hungary, Italy) and the Triple Entente (France, Russia, Britain) divided Europe into opposing blocs. When one country was attacked, its allies were bound to join the conflict, amplifying the scope of the war.</li>
+            <li><strong>Perceived security and risk-taking:</strong> Alliances were initially intended to deter aggression, creating a sense of security. This encouraged some nations to take more aggressive actions, believing their allies would back them up. For instance, Germany's support for Austria-Hungary after the assassination of Archduke Franz Ferdinand escalated the situation.</li>
+            <li><strong>Rapid mobilization:</strong> Alliances led to complex mobilization plans. Once a conflict started, rapid mobilization was essential to prevent being outnumbered. These plans increased the speed at which war declarations were made, leaving little room for a diplomatic resolution.</li>
+            <li><strong>Crisis escalation:</strong> Alliance commitments often turned localized conflicts into broader wars. The assassination of Franz Ferdinand set off a chain reaction of alliances, dragging multiple countries into the conflict. Countries felt obligated to honour their commitments even if the original cause of the conflict was remote.</li>
+            <li><strong>Limited diplomacy:</strong> Alliance obligations reduced room for diplomatic manoeuvring. Instead of negotiating to defuse tensions, nations felt compelled to fulfil their alliance duties. This lack of flexibility contributed to the rapid escalation of the war.</li>
+          </ul>
+         <a href="#/" onclick="answer2()">Close</a>
+      </div>
+
+
+      <div id="popup_short_ans3" class="popup">
+         <h1>Short Answer</h1>
+            <ul>
+               <li>League of Nations were ineffective in dealing with aggression.</li>
+               <li>League of Nations lacked major power’s support.</li>
+               <li>League of Nations failed to answer and address actual underlying issues that caused the war.</li>
+             </ul>
+         <a href="#/" onclick="short_ans3()">Close</a>
+      </div>
+
+      <div id="popup_answer3" class="popup">
+         <h1>Detailed Answer</h1>
+         <ul>
+            <li><strong>Ineffectiveness in dealing with aggression:</strong> The League's collective security principle aimed to deter aggression through coordinated action. However, its response to early instances of aggression, such as Italy's invasion of Abyssinia (Ethiopia) in 1935, was weak and ineffective. That made countries not respect and not be worried about the League. Nonetheless, the general failure of the League to impose meaningful consequences undermined the League's credibility as a deterrent to future aggressors.</li>
+            <li><strong>Lack of major powers' support:</strong> The absence of major powers like the United States, Soviet Union, and Germany weakened the League's ability to enforce its decisions. The U.S. never joined the League, limiting its global influence and economic support. The League's inability to integrate key powers led to a power imbalance that prevented effective action against aggression. Because of that intrinsic problem, the League did not have the power to prevent the war.</li>
+            <li><strong>Failure to address underlying issues:</strong> The League primarily addressed the consequences of World War I rather than the deeper causes of conflict. Economic turmoil, political instability, and unresolved territorial disputes in Europe persisted, creating a fertile ground for the rise of extremist ideologies. The League's inability to address these root causes allowed conditions conducive to aggression and militarism to persist.</li>
+            <li><strong>Conclusion:</strong> In conclusion, the League of Nations' failure to prevent the outbreak of World War II was marked by its inability to deter aggression, the lack of strong major power support, and its failure to address the underlying structural issues that contributed to the conflict. These shortcomings collectively rendered the League ineffective in maintaining global peace and preventing another devastating war.</li>
+          </ul>
+         <a href="#/" onclick="answer3()">Close</a>
+      </div>
+
+      <div id="popup_short_ans4" class="popup">
+         <h1>Short Answer</h1>
+            <ul>
+               <li>Germany’s expansionist aggression Led to WWII.</li>
+               <li>Germany’s militarization and rearmament increased tensions.</li>
+               <li>Germany’s invasion of Poland was a direct reason for the outbreak of WWII.</li>
+               <li><strong>Nonetheless:</strong> WWII broke out because of many reasons like the Failure of the League of Nations, the Unfair Treaty of Versailles, and Unsolved territorial disputes from previous Wars.</li>
+             </ul>
+         <a href="#/" onclick="short_ans4()">Close</a>
+      </div>
+
+      <div id="popup_answer4" class="popup">
+         <h1>Detailed Answer</h1>
+         <ul>
+            <li><strong>Germany’s expansionist Aggression Led to WWII:</strong> Under Adolf Hitler's leadership, Germany pursued aggressive expansionist policies aimed at overturning the Treaty of Versailles. The reoccupation of the Rhineland (1936) and the annexation of Austria (Anschluss) in 1938 demonstrated Germany's willingness to challenge international agreements.</li>
+            <li><strong>Germany’s militarization and rearmament increased tensions:</strong> Germany's rapid rearmament violated the disarmament provisions of the Treaty of Versailles. The establishment of a large and modern military, including the Luftwaffe and Panzer divisions, demonstrated a readiness for military conflict. All of that awakened militarization and tensions in Europe yet again.</li>
+            <li><strong>Germany’s invasion of Poland was a direct reason for the outbreak of WWII:</strong> The final straw came with Germany's invasion of Poland in September 1939. This invasion triggered the formal declaration of war by Britain and France, marking the official beginning of World War II.</li>
+            <li>While Germany's actions undoubtedly played a significant role in causing the outbreak of World War II, it's important to recognize that broader geopolitical and economic factors, as well as the response of other nations, also contributed to the overall complex and multifaceted causes of the war.</li>
+          </ul>
+         <a href="#/" onclick="answer4()">Close</a>
+      </div>
+
+      <div id="popup_short_ans5" class="popup">
+         <h1>Short Answer</h1>
+            <ul>
+               <li>The battle had a great strategic importance.</li>
+               <li>The battle led to Axis overextension and resource drain.</li>
+               <li>The battle had a great symbolic and psychological impact.</li>
+             </ul>
+         <a href="#/" onclick="short_ans5()">Close</a>
+      </div>
+
+      <div id="popup_answer5" class="popup">
+         <h1>Detailed Answer</h1>
+         <ul>
+            <li><strong>The battle had great strategic importance:</strong> Stalingrad was a crucial industrial and transportation hub on the eastern front. Control of the city meant access to the Volga River and vital supply routes. Both Axis and Soviet forces recognized its strategic significance.</li>
+            <li><strong>The battle led to the Axis Overextension and Resource Drain:</strong> Hitler's decision to capture Stalingrad diverted resources from other fronts. The prolonged battle consumed German forces, weakening their overall military capability. This strain hindered the Axis powers' ability to launch new offensives.</li>
+            <li><strong>The battle had a great symbolic and psychological impact:</strong> The Soviet victory at Stalingrad boosted morale and highlighted the resilience of the Red Army. It marked the first major defeat for German forces on the Eastern Front, shifting the momentum of the war. The loss of the battle-damaged Germany's image as an invincible military force.</li>
+          </ul>
+         <a href="#/" onclick="answer5()">Close</a>
+      </div>
+
+
+
+      <section id="math-questions">
+
+
+         <div class="container_full" id="blur_container">
+        
+                  <div class="container">
+                     <div class="screenshot">
+                        <h2>1. To what extent did the Treaty of Versailles contribute to the outbreak of World War II?</h2>
+                     </div>
+                     <div class="additional-text">
+                        <h3>Answers and Explanations</h3>
+
+                        <div class="more-btn">
+                           <a href="#/" onclick="short_ans1()" class="inline-option-btn">short answers</a>
+                       </div>
+                        <div class="more-btn">
+                           <a href="#/" onclick="answer1()" class="inline-option-btn">explanations</a>
+                       </div>
+      
+                     </div>
+                  </div>
+
+
+                  <div class="container">
+                     <div class="screenshot">
+                        <h2>2. To what extent did the alliance system contribute to the escalation of World War I?</h2>
+                     </div>
+                     <div class="additional-text">
+                        <h3>Answers and Explanations</h3>
+                        <div class="more-btn">
+                           <a href="#/" onclick="short_ans2()" class="inline-option-btn">short answers</a>
+                       </div>
+                        <div class="more-btn">
+                           <a href="#/" onclick="answer2()" class="inline-option-btn">explanations</a>
+                       </div>
+                     </div>
+                  </div>
+
+                  <div class="container">
+                     <div class="screenshot">
+                        <h2>3. To what extent did the League of Nations fail to prevent the outbreak of World War II?</h2>
+                     </div>
+                     <div class="additional-text">
+                        <h3>Answers and Explanations</h3>
+                        <div class="more-btn">
+                           <a href="#/" onclick="short_ans3()" class="inline-option-btn">short answers</a>
+                       </div>
+                        <div class="more-btn">
+                           <a href="#/" onclick="answer3()" class="inline-option-btn">explanations</a>
+                       </div>
+                     </div>
+                  </div>
+
+                  <div class="container">
+                     <div class="screenshot">
+                        <h2>4. To what extent can Germany be blamed for the outbreak of World War II?</h2>
+                     </div>
+                     <div class="additional-text">
+                        <h3>Answers and Explanations</h3>
+                        <div class="more-btn">
+                           <a href="#/" onclick="short_ans4()" class="inline-option-btn">short answers</a>
+                       </div>
+                        <div class="more-btn">
+                           <a href="#/" onclick="answer4()" class="inline-option-btn">explanations</a>
+                       </div>
+                     </div>
+                  </div>
+      
+                  <div class="container">
+                     <div class="screenshot">
+                        <h2>5. Why was the Battle of Stalingrad a turning point in World War II?</h2>
+                     </div>
+                     <div class="additional-text">
+                        <h3>Answers and Explanations</h3>
+                        <div class="more-btn">
+                           <a href="#/" onclick="short_ans5()" class="inline-option-btn">short answers</a>
+                       </div>
+                        <div class="more-btn">
+                           <a href="#/" onclick="answer5()" class="inline-option-btn">explanations</a>
+                       </div>
+                     </div>
+                  </div>
+      
+      
+         </div>
+
+
+         {% elif already_user %}
+
+         <h1 class="sub-heading" id="blur_heading">You have to be <a href="{% url 'subscriptions' %}">PREMIUM</a> to have access to this!</h1>
+         
+         {% else %}
+         
+         <h1 class="not-registered">You have to be a PREMIUM user to have access to this, and also, first you have to <a href="{% url 'subscriptions' %}">REGISTER</a>!</h1>
+         
+         
+         {% endif %}
+
+<!-- custom js file link  -->
+<!-- <script src="js/script.js"></script> -->
+<script src="{% static 'website/js/script.js' %}"></script>
+<script src="{% static 'website/js/script_papers.js' %}"></script>
+
+
+   
+</body>
+</html>

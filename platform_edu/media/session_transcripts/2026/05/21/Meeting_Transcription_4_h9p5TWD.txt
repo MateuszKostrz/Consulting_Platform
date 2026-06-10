@@ -1,0 +1,460 @@
+# Meeting Transcription
+
+  Meeting started: 20/05/2026, 16:50:39
+  Duration: 72 minutes
+  Participants: maja, Mateusz Kostrz
+
+  [View original transcript](https://app.tactiq.io/api/2/u/m/r/oXRYZQqLBwOe6GDR5cmv?o=txt)
+
+    
+
+  
+
+  
+    ## Highlights
+
+    > 01:09:27 maja: Delimitations of using what, what the height tomorrow to wait? What?
+> 01:09:39 Mateusz Kostrz: And you yeah, like basically the limitation of using this model that we use now. Tomorrow this light like what could be the the problems?
+> 01:11:51 Mateusz Kostrz: Okay, I will send it to right now. One second because this You should practice a bit more those assigned models, for sure. It could addict. Like we just kind of started so hard to say, but definitely some practice would be useful so I will send you this one.
+
+  ## Transcript
+
+  00:00 Mateusz Kostrz: oh,
+11:17 maja: Yep.
+11:17 Mateusz Kostrz: enough? Testing it out. Don't know if it's gonna work it but yeah we'll see. and then we'll be able to put on the platform Is it okay for you to do it We'll see. Hopefully because it will be quite useful. Okay, so so so let's go. have trouble trying this system that is supposed to take summaries of classes Um, yeah, okay. Okay, let's do it. Oh, I also wanted to ask is okay because we The more modeling chapter is quite a big one actually.
+11:30 Mateusz Kostrz: so, I'd say, I'd say, let's start. With those cosine and sine models. Because I know we started them last time and I don't think we really, really finished them. So let's do it. Remember this question, we done this one because I don't quite remember,
+11:49 Mateusz Kostrz: Hi, I'm transcribing this call with my Tactiq AI Extension. https://tactiq.io/r/transcribing Hi, I'm transcribing this call with my Tactiq AI Extension. https://tactiq.io/r/transcribing
+11:50 Mateusz Kostrz: No. Okay.
+11:50 maja: We have.
+11:53 Mateusz Kostrz: Then, let's go.
+12:46 Mateusz Kostrz: Any idea for Part A
+12:49 maja: Well. Maybe because it can be. Negative.
+13:03 Mateusz Kostrz: Um, because what can be negative?
+13:06 maja: like the, this is burst things that Might be modeled by quadratic function. but, The quadratic function is Oh wait, no. I don't know, isn't it like You can't do F. of T, because it's Oh, I don't know, maybe because like the quadratic thing it can also go like downwards.
+13:37 Mateusz Kostrz: And yeah, so like there's two two options for quadratic function to happen. It can either look like this. Like a u shape or like this like a reverse you shape as those are two two
+13:46 maja: Yeah.
+13:50 Mateusz Kostrz: possibilities and yeah with with like in this case the second one I guess so the function actually looks like this.
+13:57 maja: Yeah.
+13:57 Mateusz Kostrz: Then I go visit this reverse u-shaped makes more sense. And here, the argument you initially said, right with it being negative, from what I understood like. This would be kind of correct because, you know, this function could technically go down, right? And become negative. And obviously, since we here have hours of daylight this cannot be negative, right? So, so obviously this will be, this will be a problem, but there is a bigger problem here and it is that Like we have months of the year here on the on the horizontal access, right? So this means that if you kind of continue going in the future it's probably going to be repeating itself, right? So probably because we have hours of daylight so probably in like, you know, winter times it's gonna be less than in the summer.
+14:37 Mateusz Kostrz: Is gonna be, it's gonna be more. So it's probably going to be repeating. Some Actually, this function is probably going to look like this, right? and in the years to come, It was just kind of continue like this and if you have kind of like an ongoing pattern, when you're just kind of going up and down, then this is typical for our sign and cosine function. So that's why it's not going to be quadratic because quadratic Only has one kind of you know turn like that. Let's say right like it goes goes up and then goes down and that's it. Then then it stops or the other way around and if we needed to continue repeating this pattern for, you know, forever basically, then the only way for you to do it, it has to be a periodic function.
+15:17 Mateusz Kostrz: So it's gonna be a sign function. Okay.
+15:22 maja: Okay.
+15:23 Mateusz Kostrz: All right. Now it I think we're gonna need this. You take a screenshot of this quickly. Okay.
+15:58 maja: Where could you go up? Because I think it also looks like a coordinates, am I gonna need them in the moment maximum?
+16:06 Mateusz Kostrz: Um, yeah. Like we can read the muscle from the graphite but we just know we basically know this point.
+16:11 maja: Voice 60. Okay.
+16:13 Mateusz Kostrz: And this one.
+16:22 maja: The amplitude is eight, right?
+16:26 Mateusz Kostrz: No, why?
+16:28 maja: Four.
+16:29 Mateusz Kostrz: For because I'm pretty to this only half of it. So it goes basically into here. Do you know the formula for amplitude?
+16:42 maja: No.
+16:43 Mateusz Kostrz: Now, you have to memorize it because I don't think you have it in the booklet and it's actually very useful. So for amplitude, The formula is y max. minus y, min over to So in this case, why max is 6, so y max is just the highest possible value for
+16:58 maja: Oh, okay.
+17:01 Mateusz Kostrz: y. So it's 16 Minus 8 over 2, which is 4.
+17:15 maja: Is it 360 over 12?
+17:20 Mateusz Kostrz: No. but almost
+17:23 maja: Mmm.
+17:25 Mateusz Kostrz: I think you're confusing period with Bino.
+17:29 maja: Yeah.
+17:31 Mateusz Kostrz: Because not the same thing. Do you have it in the in the for? So you have here right in the formula.
+17:36 maja: Yeah.
+17:38 Mateusz Kostrz: And they're asking us for period. So you know this stuff, you use the the formula, but you need to find the
+17:40 maja: Yeah.
+17:44 Mateusz Kostrz: period. So period because you said 360 over 12, right? And this is equal to B.
+17:52 maja: Yeah.
+17:52 Mateusz Kostrz: Because this is actually our period, so 12 is our period. And then to be able to get B because you probably need to get it in Part C, you got, you're going to do this. But period is 12 and B is something different. It's related because the 360 over a period, but it's not the same thing.
+18:11 maja: What has been?
+18:12 Mateusz Kostrz: B is 360 over period. This is just this kind of coefficient like it's it's
+18:15 maja: oh,
+18:17 Mateusz Kostrz: basically the same thing, but you have to, you have to first divided by 360.
+18:22 maja: But what does it show?
+18:25 Mateusz Kostrz: What. Sorry?
+18:27 maja: Does it show?
+18:28 Mateusz Kostrz: B. it shows, you kind of how Let's say how close together. The the graph is so, you know, it can I either grab can go like this? Or you can have those bumps further away. So that's basically basically for me that the smaller it is the closer, they're gonna be together. So to answer here is 12 for period.
+18:54 maja: And yeah, yeah.
+18:56 Mateusz Kostrz: Okay.
+18:59 maja: Principal axes. Um, what is that? Again, the middle.
+19:04 Mateusz Kostrz: Yep.
+19:06 maja: On. negative B over to A
+19:18 Mateusz Kostrz: What?
+19:19 maja: I don't know. Oh,
+19:21 Mateusz Kostrz: It could be over. Oh, we're talking about axis of symmetry.
+19:25 maja: Yeah.
+19:26 Mateusz Kostrz: Yeah, those are two different things. Unfortunately, two different things for two, different chapters. So axis of symmetry acts of symmetry is actually when you have quadratic functions. So when you have a When you have a quadratic function, That goes like this. Let's say. Then you can draw a line in the middle. And you cut it very quickly. This is axis of symmetry and this is the formula.
+19:49 Mateusz Kostrz: You said principle axis is for periodic functions and it also cuts it in the middle. But horizontally Select this. so, now what Was going to be the equation.
+20:09 maja: Hmm. 12 divided by 2.
+20:21 Mateusz Kostrz: No y, divided by 2.
+20:25 maja: I don't know.
+20:26 Mateusz Kostrz: But like if If you just look at this graph. And you know, gonna have to cut it in the middle then you're going to cut it
+20:34 maja: Yeah.
+20:35 Mateusz Kostrz: like exactly here now.
+20:37 maja: Yeah.
+20:38 Mateusz Kostrz: So, we're just gonna go through 12. What'd you say divided by 2?
+20:40 maja: It's just
+20:43 Mateusz Kostrz: We divide 12 by 2 get 6 now so you end up somewhere here.
+20:43 maja: I don't know. But so you principal access is just you cut it through the middle. And it's just the Y coordinate.
+20:59 Mateusz Kostrz: Well, this is principle access because you need to give it has to be the equation of the axis. So it has. So you have to give the equation for the entire line. So it's gonna be that why is equal to 12
+21:10 maja: Yeah.
+21:10 Mateusz Kostrz: This is your answer. Do you know the formula for the principal axis?
+21:16 maja: Or no hourly.
+21:17 Mateusz Kostrz: It's very similar to amplitude. So, my suggestion is to memorize one and then
+21:22 maja: Oh x. Max minus X-Men or Y, max plus y.
+21:22 Mateusz Kostrz: you will know the other one. The second option with a plus, mmm.
+21:29 maja: I mean,
+21:32 Mateusz Kostrz: Why Max plus why men. So, in this case is going to be 16 plus 8 over 2. So 24, over 2, so 12, All right. Tired.
+22:14 maja: Wait, we got four for a
+22:20 Mateusz Kostrz: What for, what a
+22:21 maja: The amplitude.
+22:23 Mateusz Kostrz: E. Yes. However, amplitude is not the same thing as a, it's very similar, but it's for amplitude. We've got four
+22:31 maja: Wait, it's not. I thought A is the amplitude.
+22:35 Mateusz Kostrz: Yeah, it's very similar. In this case, actually, it's pretty tricky because so the thing about amplitude is that amplitude always has to be positive. So it's so in this because it's force was actually going to be four, but a can be negative. And do you know, do you remember when a could possibly be negative?
+22:55 maja: No.
+22:56 Mateusz Kostrz: so, it's like, When you because you guys only have sine functions and cosine functions, right? And they have like their The typical way in which they look. So a sign function always starts in the middle and you go up. And then you go down. Okay. That's a that's a typical like a default. Default Sine function. Okay, but it can also happen that you have a function, a sine function.
+23:26 Mateusz Kostrz: Which again starts in the middle. So if it starts in the middle, is always saying every single that does the only option but it concerned in the middle and then can go down. yeah, so it's actually kind of, you know, flipped And then if that's the case then you get you get a negative. So then a is
+23:39 maja: Yeah.
+23:42 Mateusz Kostrz: negative and actually in this case this is going to happen because in this case we have a cosine function and a typical cosine function. Looks. Looks like this that you start on the top and then you go down. That's the default default cosine function. And in this case, as you can see, we start on the bottom and we go up. So it's flipped. So that's why AA is actually going to be negative in this case.
+24:06 maja: Yeah. I would just be. Is it negative 4?
+24:16 Mateusz Kostrz: Yep.
+24:19 maja: Wait. So so like, Is it because it's cosine? Or we can see in the graph, how it, like doesn't start from like,
+24:29 Mateusz Kostrz: It's it's negative because so we know it's a cosine function. They tell us right? That, it's that it's cosine. And like we also see it does not start in the middle, so it cannot be signed. So it has to be cosine, and yes, if it were to be positive, it would have to start from the top. So you have to go like this. But it doesn't, it says on the bottom so that's why it's negative.
+24:48 maja: Yeah. Okay.
+24:56 Mateusz Kostrz: Okay, then we continue. How about this this? The rest of the of the formula.
+25:02 maja: so negative 4, cause
+25:03 Mateusz Kostrz: Yeah.
+25:05 maja: 12 T.
+25:07 Mateusz Kostrz: Nope.
+25:11 maja: Oh wait. And dirty. No, not 30. Um, But it's But it was over 360.
+25:22 Mateusz Kostrz: I think they're the actually. No.
+25:25 maja: I don't know. Oh yeah, it is. Okay. 360 /. Oh yeah. and then, Always the
+25:41 Mateusz Kostrz: D is actually the same thing as the principal axis. So I was just 12 These the easiest one of them all. So, this is the formula. Yep. Okay.
+26:27 maja: Wait, what does the Europe like in this context? What this F and T represent?
+26:32 Mateusz Kostrz: So, ti is probably time.
+26:35 maja: Okay.
+26:36 Mateusz Kostrz: It is time. And months and f of T. So like f of these, always your your y-axis. So in this case is hours of daylight
+26:54 maja: So you would just do like numeric solver and make it equal 10. 10.5.
+27:01 Mateusz Kostrz: You can't a numerical solver is not gonna work because this is a periodic function. So, basically, the way that it would happen is that if you have a function like this and you want to equalize it to something and for unself to work, like, you need to have one spot in which you cross. In this case, you're just going to cross everywhere. So, you cannot do and so
+27:28 maja: But you would make it equal to 10.
+27:31 Mateusz Kostrz: 10.5.
+27:31 maja: With 10.5.
+27:34 Mateusz Kostrz: Because we have 10 hours, 30 minutes, right?
+27:37 maja: Yeah. so, can I just like, Like minus 12 plus 4 codes divided by 30. They can I just like read like we rented like sweet side and stuff to solve that.
+28:00 Mateusz Kostrz: And no. So that's not really gonna work the only way for actually. There's only one way to to solve it and you have to graph it. There's there's no other way to get all of those points of intersection. so we got a graph, it
+28:34 Mateusz Kostrz: And yeah, try to get something. Then we'll compare.
+28:52 maja: Like is it just where? It's like, There's like a lot of intersections. So, I just find this section on the right side like from the graph like this, this one.
+29:12 Mateusz Kostrz: And yeah, which one do you think?
+29:15 maja: Yeah, that one, this one. Like on the right side, the first one, the positive one.
+29:20 Mateusz Kostrz: well, so we actually need to two first intersections because it's like, If you have a graph, We have this graph. And if we have this cosine function, that goes like this.
+29:37 maja: Oh wait.
+29:37 Mateusz Kostrz: and here, this
+29:38 maja: Or my Windows garage. So I just put in like like those coordinates like why minimum and Y maximum.
+29:45 Mateusz Kostrz: Yeah, you can use the one they give you if you wanted to look exactly. Like they have it.
+29:50 maja: Wait, which one do I put in then because there's like two X values. Oh, okay. Okay. Okay.
+30:06 Mateusz Kostrz: Okay.
+30:06 maja: No wrong. so,
+30:11 Mateusz Kostrz: Now, you put something wrong. What did you put for the X exit? For the X window?
+30:17 maja: Zero and six.
+30:19 Mateusz Kostrz: Y6.
+30:20 maja: Because that's what it said, the thing.
+30:23 Mateusz Kostrz: On one thing.
+30:23 maja: Next. On the coordinates, like, for the minimum and the max.
+30:28 Mateusz Kostrz: well, so like Yeah, but they just kind of gave you one of the points, right? So you don't know, you direct from those points on everything. If you want to fully replicate this graph, you need to copy the coordinates. They give you so zero and 12 on the x-axis, And on you on why you do zero and 16.
+30:47 maja: Oh no, select that. I mean no, it's okay. Like I can work with this.
+30:54 Mateusz Kostrz: To use it. Some there's no there's no way like what's your why window?
+30:58 maja: Zero. I mean 0 and 12.
+31:02 Mateusz Kostrz: And Y12 again.
+31:04 maja: Because on the graph. like,
+31:07 Mateusz Kostrz: on the graph is goes all the way to 16 now,
+31:11 maja: Oh, so Okay. I have that. No.
+31:17 Mateusz Kostrz: Mm-hmm. And we actually need those two points because they're asking us find the length of time when there are more than 10 hours and 30 minutes, right? So 10 Hour, 30 is here. And here this is where we cross and it needs to be more. So all of this here basically is what we're looking for. So, it needs to be the difference between those two times between this and this. Because that's how long it's gonna be above. Yep. So you'll find those two intersections and then you subtract them.
+31:45 maja: Yeah, I'm just gonna minus but it's like seven point something.
+32:46 Mateusz Kostrz: Yep. Could be. Yeah. Okay.
+33:12 maja: 7. 7 5. 5 7.47.
+33:21 Mateusz Kostrz: I think it should be fine. Yeah, I'll check it in a second, but can try to do partino.
+34:17 maja: I can't do it, like it's saying error. When I try to find, In the Oh, wait days. Wait, the Like graph, the y axis is days or Hours.
+34:38 Mateusz Kostrz: Hours.
+34:42 maja: Okay. it would be like, so on the diagram, I go. like, 15.997986.
+35:05 Mateusz Kostrz: You, so this is going to be the maximum from the model, right?
+35:09 maja: Yeah.
+35:09 Mateusz Kostrz: From the graph. And the actual maximum is 16 hours and 14 minutes. Do you remember the formula for the percentage error?
+35:20 maja: but, How do I turn like how they put 14 minutes into like hours calculate this?
+35:28 Mateusz Kostrz: Mm-hmm. That's the question. Any idea or no?
+35:31 maja: 60 divided by 14.
+35:37 Mateusz Kostrz: Take the other way around, no. 60 Right.
+35:39 maja: 14. Oh, okay.
+35:43 Mateusz Kostrz: For 60. Yeah, that definitely the other around. So 14, divided by six. And then you should 14 divided by 60 then you should get some sort of a fraction. So then your actual true true maximum Is going to be.
+36:01 maja: To.
+36:01 Mateusz Kostrz: It's gonna be 16.233.
+36:09 maja: How many threes doesn't matter? How many threes I write?
+36:14 Mateusz Kostrz: I mean, you can actually if you do it directly in the calculator, you can just do this. And then you can like reuse the answer, right?
+36:23 maja: Sorry. Wait. So it's the like original. So yeah, minus that over the original.
+36:29 Mateusz Kostrz: No. Over 16.233. and that's actually,
+36:36 maja: so,
+36:37 Mateusz Kostrz: That would change the answer so because you always divided by the exact value, that's the formula.
+36:43 maja: Yeah.
+36:44 Mateusz Kostrz: Divided by value exact. So, our
+36:47 maja: so,
+36:51 Mateusz Kostrz: Answer is this 1.44?
+36:54 maja: Yeah.
+36:55 Mateusz Kostrz: Yeah, you get the same. Okay. Let's do one more than There is none. Okay, do we ever do this now, right? Okay.
+37:39 Mateusz Kostrz: This is a bit of trigonometric. Do you remember those? Those things are not so much.
+37:45 maja: Not really.
+37:46 Mateusz Kostrz: But did you even do it? Okay. Yeah maybe let's skip it then cuz I'm not sure if you
+37:50 maja: It but we haven't started this year.
+37:53 Mateusz Kostrz: Are very not fair enough. yeah, but this one
+38:00 maja: That one.
+38:01 Mateusz Kostrz: You should be able to do, okay? Maybe not that. Maybe we have to skip some parts, but most of you should be able to do
+38:08 maja: But we I think we did it already.
+38:10 Mateusz Kostrz: Okay.
+38:11 maja: Yeah.
+38:13 Mateusz Kostrz: About this one. And we got in there, we don't remember.
+38:19 maja: I don't think so.
+39:26 Mateusz Kostrz: and includes for a,
+39:28 maja: Um yeah, I'm doing so first. I'm just gonna make it equal 18 equals. Wait. Um, the first a cause Wait is the um, never mind. with the in, this is also just Access.
+40:01 Mateusz Kostrz: M-hmm.
+40:02 maja: it's boxes, but it So the first high tide occurs at six where the depth is 18 meters. So it's 18 equals. a, cos And OH, 18.
+40:19 Mateusz Kostrz: Yeah. A is 18.
+40:23 maja: No way. Wait, is this 80? Okay, so it's 18, a cost b 0. So it's just 18 right d.
+40:28 Mateusz Kostrz: No.
+40:31 maja: I mean, these 18.
+40:34 Mateusz Kostrz: Also No.
+40:37 maja: But tea is like the minute.
+40:38 Mateusz Kostrz: But did you do I already or like why? Well, what's what's happening?
+40:43 maja: I just wrote the thing down, and I have the
+40:47 Mateusz Kostrz: Well, these even even d as in part B to get the okay, it's not gonna be 18.
+40:52 maja: Yeah. You, but then why? Why. When I like, On January 20th, the first high tide occurs at six, where the depth of what is 18. So then it's eighteen. Equals. A cost b 0 because T is the length of time and minutes after 6. Plus D.
+41:23 Mateusz Kostrz: Mm-hmm. Oh, you're doing it this way? Yeah, but you also don't know a, right? So what I replying for a and 4D,
+41:30 maja: Yeah, like b is I mean t is 0. So a cost times 0 is just 0.
+41:40 Mateusz Kostrz: It's because of zero, zero isn't one.
+41:44 maja: oh,
+41:44 Mateusz Kostrz: Could be could be something something different and also.
+41:45 maja: The.
+41:50 Mateusz Kostrz: You're not really using the formulas, right? Like there's not really need for those sort of operations in here.
+41:58 maja: but, I mean, But why can't I just do that? like,
+42:03 Mateusz Kostrz: up actually, technically Let me think so. T was t? T would be zero, right?
+42:13 maja: Yeah.
+42:14 Mateusz Kostrz: Yes. Yeah. Like that. The answer for D should be like nine or something, but what do you get for cosine of zero?
+42:26 maja: Is it just one?
+42:32 Mateusz Kostrz: Yeah. And that's why we have a problem it because then you left with
+42:36 maja: Oh, okay.
+42:38 Mateusz Kostrz: Because then you left with, with two unknowns, so you cannot solve it in this way.
+42:45 maja: What is? Is it that? I don't know what that is, is that 18 in? But yeah, it is, right? So, 18 and four, You for the amplitude. 11 is just the right. Wait, no.
+43:09 Mateusz Kostrz: Mmm. Yeah, the DDS I thought we were calculating a but yeah, DDS
+43:14 maja: No. Yeah. Oh, so that is from 11 to 18, so seven. Okay. Find the period of the function. And so what I just graph it and then Find the period that way because you can't find it.
+43:40 Mateusz Kostrz: You know. Nothing is not really gonna help you that much.
+43:45 maja: Then how would you find the
+43:49 Mateusz Kostrz: so, you have to so period is basically
+43:50 maja: Oh, it's Yeah.
+43:54 Mateusz Kostrz: Can you? So period is basically how long it takes you to complete? Kind of a full revolution? so you start here,
+44:01 maja: Yeah.
+44:02 Mateusz Kostrz: Then you go down. And then at some point you would go up. And this is where this period would finish. Okay.
+44:11 maja: On top.
+44:13 Mateusz Kostrz: Yep. That's a very common common misunderstanding. So when you have those trigonometric functions, so if you have a cosine function, Like we have here you start on the top knee and then you go down. So period finishes when you go back to your initial starting position. So here
+44:32 maja: and so, if it would be starting from
+44:33 Mateusz Kostrz: It's not until here.
+44:36 maja: Wait, but is that? Yeah. Okay.
+44:39 Mateusz Kostrz: So now from this actually, the only way to get it because those kind of bumps are symmetrical. So if you, if you go to here, And then let's say you finish here. So then those two distances have to be the same. From like the first half to the second half. okay, so here, what we can do is we can figure out How long it takes us. To go from like top to bottom.
+45:06 Mateusz Kostrz: So, from here to here, And we should know this probably because At 6:00 am. So this is 6. Am. And somewhere. Here is 1250, right? So, we should be able to figure out. How much time this is in minutes? Can you?
+45:32 maja: Um, 375.
+45:36 Mateusz Kostrz: So now to be able to get the period, we need to multiply it by turret.
+45:41 maja: * 2. oh,
+45:44 Mateusz Kostrz: Because period has. So this is only half of it. and your period finishes when you go back back up, So, when you go here,
+45:51 maja: I have. for the period, like it just depends on where it starts like, even if it's not like the maximum point or like, You like if it was just like randomly on this side, I mean like yeah if someone point it still a period, if it started like not from the maximum, like,
+46:10 Mateusz Kostrz: Mmm. Yeah, yeah. So there's three ways in which those functions can start either on the top. Or you can have this flipped cosine function or you start on the bottom. So then it will go like this. And this is also where your period will finish. So always have to go back to
+46:27 maja: Okay.
+46:28 Mateusz Kostrz: starting position. So that's why I like this doesn't work with sine functions that can be a bit more tricky. And usually this is where students make mistakes because with sine functions, you start in the middle. And then so they usually say functions are in the middle and then you go up, right? And you go back to the middle. Then you go down. And you come back here.
+46:51 Mateusz Kostrz: and most people like nine out of 10 students say that this is basically until
+46:51 maja: Yeah.
+46:56 Mateusz Kostrz: here This is going to be your period, which is not. Because you have to finish, you have to go back down and only until here. You're going to finish the entire revolution. Yeah, so here, the period is going to be 750.
+47:15 maja: Wait, so that's the halftime 300. I mean like half of it.
+47:19 Mateusz Kostrz: Yeah. So, what do we found here? Is that this 375 right.
+47:25 maja: Yeah.
+47:27 Mateusz Kostrz: And we need to of that. So 750.
+47:31 maja: um, I mean. Yeah.
+47:35 Mateusz Kostrz: No, it makes sense.
+47:35 maja: but, Yeah, but We got it. Okay. So Oh, okay. So the at 6:00 am is when it starts. Yeah, and
+47:47 Mateusz Kostrz: Yeah.
+47:49 maja: Okay.
+47:49 Mateusz Kostrz: That's what it does not.
+47:51 maja: Okay.
+48:00 Mateusz Kostrz: Okay, what about you B?
+48:05 maja: Um, B is just To be 160 divided by. 750.
+48:14 Mateusz Kostrz: Hm.
+48:18 maja: So, it's 4.0.48.
+48:22 Mateusz Kostrz: M.
+48:53 maja: Um, so wouldn't it just Wouldn't you just trace like a straight line from six? And then go straight.
+49:03 Mateusz Kostrz: And then what?
+49:05 maja: To find the latest time before 12.
+49:09 Mateusz Kostrz: Mmm. Kind of I'm not too sure exactly what you're going so you can try to do and then we can compare answers.
+49:21 maja: I wouldn't just be six hours. I mean not six. I don't know, like how would you find this and couldn't you just draw a line from six? Like in.
+49:37 Mateusz Kostrz: Yeah, and then what?
+49:39 maja: Okay, would you have to
+49:42 Mateusz Kostrz: So, you have to draw a line from six, so because we know that the depth has to
+49:43 maja: Yeah.
+49:49 Mateusz Kostrz: be six, right?
+49:51 maja: Yeah.
+49:52 Mateusz Kostrz: Depth is on the y axis. So here. Yes, so this is six and here we draw a line. So I guess this is what you wanted to do. Like so. When the okay? The latest time before 12. Okay, so this is what we're looking for the latest time before 12 the nearest minute. So the latest time, Will be here. Because she can only enter and in this period, right? Because then this is gonna
+50:22 maja: Yeah.
+50:27 Mateusz Kostrz: be six. So six is below. Six is too low.
+50:31 maja: Yeah.
+50:32 Mateusz Kostrz: So, you
+50:33 maja: Also. Wait, how did I get 360 done?
+50:38 Mateusz Kostrz: Did you get 360?
+50:40 maja: I mean, wait, can you? Okay.
+50:45 Mateusz Kostrz: I haven't gotten the full answer yet but I'm pretty sure it's not gonna be 360.
+50:50 maja: How are you checking it?
+50:53 Mateusz Kostrz: They have to grab it.
+50:54 maja: No. Okay.
+50:56 Mateusz Kostrz: The graph, it and find the intersection with, with those. It's almost always graphing because Really, there's no other way to do it.
+51:05 maja: Wait, seven of, Oh yeah.
+51:09 Mateusz Kostrz: So, we got this. And this was plus. Yeah. Oh, do you know what the graph?
+51:22 maja: Like yeah. I mean I put it in. But is it six or white?
+51:27 Mateusz Kostrz: Mmm.
+51:29 maja: and then now, I need to do the Windows thing because it already just have to redline
+51:35 Mateusz Kostrz: So what window would you would you do?
+51:39 maja: six for Minimum and 12 for maximum. for the X. 6 and 12.
+51:54 Mateusz Kostrz: No.
+51:55 maja: Then Oh wait no, it would be 360. No. Mmm. I'm just gonna put in something. I'm gonna go with 25.
+52:08 Mateusz Kostrz: Okay. In this case, we actually know pretty much exactly what it can be to.
+52:14 maja: This there's something wrong with mine already. Just have two straight lines.
+52:19 Mateusz Kostrz: There's nothing wrong. Just your window is wrong. so, the easiest way to solve these questions, you see my graph, how is exactly the same And that's usually what you want to get to because then you can imitate the question pretty much one to one. So the the way to do it is in this case actually very easy because they give you everything so you know that on the y-axis, you have to go from 0 to 20 So your y should be 0 to 20 and your x should be zero to 480.
+52:48 Mateusz Kostrz: They give you every single number, so if they give you like there's no no need to think about anything. Did you get now?
+52:57 maja: All right. Yeah.
+52:58 Mateusz Kostrz: So, calculator works.
+53:01 maja: so, the latest and food, I got like, Yeah, I got 282.46811.
+53:24 Mateusz Kostrz: Okay, so what's the latest time? Because that's not the time.
+53:28 maja: um, that is That divided by 60. Right.
+53:35 Mateusz Kostrz: Mmm. Not really.
+53:42 maja: Wait, to find the latest.
+53:51 Mateusz Kostrz: So these are minutes, right? So it's 282.5 minutes.
+53:57 maja: Yeah. so,
+53:59 Mateusz Kostrz: So now we convert it into our hours.
+54:03 maja: To. 282, divided by 60.
+54:11 Mateusz Kostrz: Okay, try. What you're gonna get?
+54:16 maja: 4.7 also five. No 4.7 plus 0.545.2. Is it?
+54:29 Mateusz Kostrz: What 5.2?
+54:31 maja: Like five hours, 20 minutes.
+54:34 Mateusz Kostrz: Mmm. No. So If we have 28, To 282. .46 minutes. So we know that we start here at 0 so 0 is 6 am right?
+54:50 maja: Yeah.
+54:50 Mateusz Kostrz: And the point that we're looking for, is 282 minutes. After 6 am, right? So it's basically six am. Plus 282 minutes, right? So the easiest because you converted it into decimals and there's actually makes your life substantially more difficult. So, the best way to do it would be to Extract full hours out of this. so in 282 minutes, we would have Four full hours, right?
+55:25 maja: 4. 0.
+55:28 Mateusz Kostrz: now, come
+55:30 maja: 4.7.
+55:31 Mateusz Kostrz: Yeah, but I'm talking about full hours actually finish. So there will be four four full hours, right? Which is 240 minutes. So, it will actually. So if we add those 404 hours, it will be 10. Am And will be left with 42 minutes out of this, right? From this. because we already excluded these four hours,
+55:56 maja: Oh, okay. Okay. Yeah.
+55:58 Mateusz Kostrz: Yes, make sense. So in the end, it's gonna be 1042. Okay.
+56:05 maja: Okay. Yeah.
+56:07 Mateusz Kostrz: Those hour converses are actually surprisingly tricky, very often. But yeah, and in this case converting into decimals that are really make make sense. Okay, next one.
+57:03 Mateusz Kostrz: Hmm, any idea.
+57:06 maja: Would you just make it? Like equal to six. The equation.
+57:20 Mateusz Kostrz: Yeah. and that would,
+57:35 maja: Then. Find like the Intersections. Of.
+57:44 Mateusz Kostrz: Okay, kind of try to do it. Try to get something and we'll compare answers.
+57:46 maja: Between six and 15. Wait, so do I in wait in the calculator? Do I just input? Quick. I don't know. Like do I just graph it and then I find Six.
+58:12 Mateusz Kostrz: Mm-hmm. Yeah. Like, what would you said, no to equalize it to six. So it means
+58:14 maja: Yeah.
+58:15 Mateusz Kostrz: you need to have two two equations. And then you need to find the intersections because they will probably be too.
+58:25 maja: But is it like the intersections? Like these over here? This, and this.
+58:33 Mateusz Kostrz: mmm, do we do we know If there's
+58:35 maja: Yeah. Is it like, isn't it just here to here? This length, it's time.
+58:41 Mateusz Kostrz: Yeah, it's going to be these two. They tell us also, based on based on time because we know that is until 3pm. So like 3pm. we know that the lowest point is like 12, So like this would have to be around around 3 pm. If this distance from here to here is 6, am to 12 then like this would be around three hours right on the next intersection will be very far so it's definitely gonna be these two.
+59:10 maja: Wait. So
+59:11 Mateusz Kostrz: So, we just need to find.
+59:11 maja: I'm going to use.
+59:15 Mateusz Kostrz: Those two intersections. And subtract.
+59:22 maja: Okay. The what is that thing that you said about 12?
+59:26 Mateusz Kostrz: because like, if you actually draw this this line, you know, like, Like that for example, you see. So then you have a ton of those intersections, right? So actually potentially don't really know exactly which one it is but in this case, we know that is the first two
+59:45 maja: Oh, okay. What if it wait and We are trying to find the time.
+01:00:08 Mateusz Kostrz: Yep.
+01:00:10 maja: Okay, so For. because okay, so the second one on the X Wait. It's not possible for it to be negative, right?
+01:00:24 Mateusz Kostrz: No.
+01:00:25 maja: Okay.
+01:00:26 Mateusz Kostrz: Why would it be you subtract the bigger number from the smaller? No.
+01:00:48 maja: 185.
+01:00:52 Mateusz Kostrz: And it should be fine. We'll check it in a second and now let's start another excited. We do this one yet or not. Yet.
+01:00:58 maja: We did.
+01:01:00 Mateusz Kostrz: Okay, then let's do it. So there's no something from quadratic functions that it's slightly different. Yeah, let's do this one.
+01:01:09 maja: Okay.
+01:01:11 Mateusz Kostrz: And what did you say? You got for the previous 108.
+01:01:14 maja: 85.
+01:01:16 Mateusz Kostrz: And 185. Okay yeah, read this question. Now, get it now in a second.
+01:01:20 maja: Right.
+01:01:32 Mateusz Kostrz: Yep, that's correct.
+01:02:01 maja: Why minimum is gonna be 0, right? I mean x minimum,
+01:02:07 Mateusz Kostrz: T. Minimum right in this case. And yes, yes, there are. So tell us that D has to be greater equal to zero.
+01:02:14 maja: Okay. Like, how would this help me with my window, though? Like, what else? Could help me from this equation? Because I don't know, like, My graph looks like this right now.
+01:02:30 Mateusz Kostrz: You know. Like nothing.
+01:02:36 maja: Yeah, like it just has a little thing. Like How do I know like like, how do I know how much to move it back?
+01:02:42 Mateusz Kostrz: Yeah. In this case they don't really give us a lot of clues. So it's a bit more difficult so you kind of have to guess.
+01:02:49 maja: but like,
+01:02:50 Mateusz Kostrz: And you usually the first guess you should take if you don't know anything because sometimes. And and again the question you have like massive numbers in the formula. For example, so then this usually inflates your numbers but if you don't, the usual guess should be negative 2020 on both X and Y.
+01:03:07 maja: So, we're both here's zero, right? I just keep the zero.
+01:03:10 Mateusz Kostrz: yeah, you can put your, but actually, it's not gonna change much should be able to see
+01:03:16 maja: Okay. Well. Okay. so now I have this
+01:03:35 Mateusz Kostrz: Okay, I mean not the best, but you should be able to get the maximum from the snow.
+01:03:39 maja: Yeah. Okay.
+01:03:41 Mateusz Kostrz: There's there's a way to, to make it better. For example, on the x-axis, you can make it smaller. And it should look like this and like you can just kind of continue. Continue changing it. Like the devour, the more you do it like the more you see the graph, you kind of know what it needs to become. Let's say more perfect but but yeah, like you can just kind of come but if you just need to get something usually what you have is enough You know how to get maximum?
+01:04:08 maja: Oh yeah. Well, like, when I know, I don't know what's happening when I did second trace and maximum. I can't see my arrow anywhere. And I just,
+01:04:28 Mateusz Kostrz: Because it's probably not on the graph. We have to like move with it a little bit to find it. Probably to the left. Got it.
+01:04:45 maja: No, once I can. Okay, wait to the left. Wait, if it's
+01:04:49 Mateusz Kostrz: I'm guessing but like, I based on your previous window, I guess it should be to the left. However, it's still, I guess what does it say on the because the card nice change, right?
+01:05:00 maja: Yeah, but and then it's just move. Okay, I think, okay. I got it. One second. Okay. I don't know what happened. Like I just clicked and turn and it just moved and did like this.
+01:05:25 Mateusz Kostrz: You know what?
+01:05:27 maja: I don't know.
+01:05:28 Mateusz Kostrz: Can you regraph it?
+01:05:30 maja: Yeah. But it's like loading, like I don't know what happened. like calculators, like, Not working anymore. Now.
+01:05:44 Mateusz Kostrz: Really.
+01:05:46 maja: Like it just loading something on like beside the battery thing. It's showing that it's loading.
+01:05:52 Mateusz Kostrz: What is loading like? This graph should actually be quite easy for it to handle. The then, I don't know. I don't know what could be the problem.
+01:06:06 maja: Like I just did second trace. And then I Click Enter.
+01:06:12 Mateusz Kostrz: Can you turn it off? Turn on.
+01:06:14 maja: Yeah. Okay. Okay. I have it and second choice. Okay. I don't know what that was. Okay. I have. Mmm. For my wife 5.53 and for my ex I have 0.921. so,
+01:06:41 Mateusz Kostrz: So, what's the answer?
+01:06:43 maja: The time in seconds. So 0. 92 seconds.
+01:06:50 Mateusz Kostrz: Almost but not 0.92 0.921.
+01:06:54 maja: Oh, 9 to 1.
+01:06:55 Mateusz Kostrz: Yes. Mm-hmm.
+01:06:58 maja: Okay.
+01:06:59 Mateusz Kostrz: And on your mocks when you finish them, if we have some spare time, check three
+01:07:03 maja: Yeah.
+01:07:03 Mateusz Kostrz: times. If you every rounded Correa,
+01:07:07 maja: oh,
+01:07:08 Mateusz Kostrz: Okay, next one.
+01:07:28 maja: So would it just be the distance? And From. see, like From the beginning to the end there, where it falls.
+01:07:42 Mateusz Kostrz: Uh-huh. And where exactly is gonna fall.
+01:07:46 maja: like, Like they're on the Word. No no the x-axis would ends.
+01:07:58 Mateusz Kostrz: Exactly.
+01:08:01 maja: Wait, but how do I do it? Do I just trace and then just find where x is zero.
+01:08:05 Mateusz Kostrz: No. You there's a way you go, second trace and then you find zero. And it's the same thing yet before. Yeah, just try a good that you should figure out like it's the same as this maximum.
+01:08:21 maja: Oh, where you just did like okay, okay. So I got two so it would just be two two. Okay.
+01:08:31 Mateusz Kostrz: That's the answer to two seconds.
+01:08:33 maja: Minute.
+01:08:35 Mateusz Kostrz: Huh.
+01:08:35 maja: Oh yes, I can. Okay. Sit and find the value of T1 display catches but doesn't he? Oh, okay. Good little ball when it's 1.2. Okay, so just you would input. 1.2 in the graph thing. And then just find the intersection.
+01:09:04 Mateusz Kostrz: No, I think so. Try. And we'll compare.
+01:09:07 maja: Okay. So we find the value of T. And 1.88.
+01:09:23 Mateusz Kostrz: Nice. Good, good.
+01:09:27 maja: Delimitations of using what, what the height tomorrow to wait? What?
+01:09:35 maja: Like the equation. The quadratic.
+01:09:39 Mateusz Kostrz: And you yeah, like basically the limitation of using this model that we use now. Tomorrow this light like what could be the the problems?
+01:09:48 maja: Like, it's not fully accurate, because it also like, the quadratic also goes like to the negative axis and that's not possible.
+01:09:59 Mateusz Kostrz: Uh-huh. Good.
+01:10:01 maja: And also start. Negative. Yeah.
+01:10:07 Mateusz Kostrz: What?
+01:10:09 maja: It can start negative.
+01:10:12 Mateusz Kostrz: It can start negative. What do you mean?
+01:10:15 maja: The graph, the graphics. Okay. No, that's all I have to say. The it can go under, so that's not accurate.
+01:10:24 Mateusz Kostrz: Okay, I mean, actually, this this can kind of be used in to as to arguments, because this graph looks like this, right? So, when we grafted and like it started somewhere here, And it went like this, right? And this was time and this is height. So, actually two of those cannot be negative because time cannot be negative and height cannot be negative to it. The first argument because if you continue drawing this function, it would kind of go here.
+01:10:58 Mateusz Kostrz: And it will continue going like this, right? At some point you make it to the point where time will be negative. And also height would be negative. Yeah. So two problems and another problem. It's probably when you throw a basketball and like it goes down, at some point, it will like bounce off the ground, right? So it will actually kind of go go like this.
+01:11:20 maja: Yeah. Oh, okay.
+01:11:20 Mateusz Kostrz: In reality, like it would bounce, right? It would not go underground. So, yeah, like, you need to model it too. If you wanted it to actually kind of resemble the flight of the, of the basketball, okay? All right, so I would say you should practice when you have these marks per month.
+01:11:39 maja: I'd like the the math one I have in eight days.
+01:11:43 Mateusz Kostrz: In eight days. Okay, so I would say, Do you remember this question? I would understand.
+01:11:50 maja: We haven't.
+01:11:51 Mateusz Kostrz: Okay, I will send it to right now. One second because this You should practice a bit more those assigned models, for sure. It could addict. Like we just kind of started so hard to say, but definitely some practice would be useful so I will send you this one.
+01:12:10 Mateusz Kostrz: to practice and let me see if we have and those who don't really happen that often, So, but like the markets from everything, right?
+01:12:22 maja: Yep. From unit. 1 2 3 4.
+01:12:24 Mateusz Kostrz: Okay. Okay, wait, let me see. For quadratics. For example. Okay, this one is also nice. Okay, how about this will be there? If I don't like this, I'll just send you this PDF.
+01:12:39 maja: Okay on the top. Okay. Oh
+01:12:39 Mateusz Kostrz: And I'll
+  

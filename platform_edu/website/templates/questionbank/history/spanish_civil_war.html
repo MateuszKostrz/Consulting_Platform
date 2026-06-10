@@ -1,0 +1,255 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Academy - Questionbank</title>
+
+   <!-- font awesome cdn link  -->
+   <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"> -->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+   <!-- custom css file link  -->
+   <link rel="stylesheet" href="{% static 'website/css/style.css' %}">
+
+
+
+</head>
+<body>
+
+<header class="header">
+   
+   <section class="flex" id="blur_flex">
+
+      <a href="home.html" class="logo">History SL Questionbank</a>
+      <div class="icons">
+         <div id="menu-btn" class="fas fa-bars"></div>
+         <div id="search-btn" class="fas fa-search"></div>
+         <div id="user-btn" class="fas fa-user"></div>
+         <div id="toggle-btn" class="fas fa-sun"></div>
+         <!-- <div id="toggle-btn">
+            <a href="profile.html" class="fas fa-sun">Log Out</a>
+         </div> -->
+         
+         
+      </div>
+
+      {% include 'common_header.html' %}
+
+
+<section class="home-grid" id="blur_home_grid">
+   {% if updated_creds %}
+
+   <div>
+      <div id="hideMe">
+         <h2 class="message">You have successfully updated your profile. Log in again to see the changes.</h2>
+      </div>
+   </div>
+   
+   {% endif %}
+
+
+
+
+
+   {% if already_user %}
+
+   <h1 class="heading" id="blur_heading">Spanish Civil War (1936-1939)</h1>
+
+</section>
+
+
+      <div id="popup_short_ans1" class="popup">
+         <h1>Short Answer</h1>
+            <ul>
+               <p><strong>Results for Spain:</strong></p>
+               <li>The Dictatorship of Franco</li>
+               <li>Social and Economic disruption</li>
+               <li>Suppression of Regional Autonomy</li>
+               <br>
+               <p><strong>Results for Europe:</strong></p>
+               <li>Precedent for World War II</li>
+               <li>The European division was exposed</li>
+            </ul>
+         <a href="#/" onclick="short_ans1()">Close</a>
+      </div>
+
+      <div id="popup_answer1" class="popup">
+         <h1>Detailed Answer</h1>
+         <ul>
+            <li><strong>Franco's Dictatorship:</strong> One of the most immediate results of the Spanish Civil War was the establishment of General Francisco Franco's authoritarian regime. Franco's Nationalist forces emerged victorious, and he ruled Spain as a dictator until his death in 1975. During his rule, Spain experienced political repression, censorship, and a lack of political freedoms.</li>
+            <li><strong>Social and Economic Disruption:</strong> The Civil War caused immense social and economic disruption in Spain. It led to a significant loss of life, displacement of civilians, and destruction of infrastructure. The country faced economic hardship and isolation in the post-war years, as much of the world initially embargoed Spain due to its association with fascism.</li>
+            <li><strong>Suppression of Regional Autonomy:</strong> Under Franco's regime, Spain's regional autonomy was severely curtailed. Franco aimed to centralize power and suppress regional languages and cultures. This policy had a lasting impact on Spain's political and cultural landscape. A great example of a suppressed region was Catalonia.</li>
+            <br><br><br>
+            <li><strong>Precedent for World War II:</strong> The Spanish Civil War served as a precursor to World War II. It was a testing ground for new military technologies and tactics, and it allowed the major European powers, especially Nazi Germany and Fascist Italy, to support the Nationalist forces, which provided them with experience and momentum for further military interventions in Europe.</li>
+            <li><strong>The European Division was exposed:</strong> The conflict exposed the divisions among European nations. While Germany and Italy supported Franco's Nationalists, the Soviet Union and international brigades supported the Republicans. Meanwhile, other European powers, including France and the UK, followed a policy of non-intervention, attempting to stay out of the conflict. This inability to unite and take a clear stance contributed to the prolonged nature of the war.</li>
+         </ul>
+         <a href="#/" onclick="answer1()">Close</a>
+      </div>
+
+
+      <div id="popup_short_ans2" class="popup">
+         <h1>Short Answer</h1>
+            <ul>
+               <li>Political polarization was a key factor leading to the outbreak of conflict.</li>
+               <li>Economic divisions laid the grounds for the conflict.</li>
+               <li>Religious and cultural divisions further inflamed the situation.</li>
+             </ul>
+         <a href="#/" onclick="short_ans2()">Close</a>
+      </div>
+
+      <div id="popup_answer2" class="popup">
+         <h1>Detailed Answer</h1>
+         <ul>
+            <li><strong>Political polarization was a key factor leading to the outbreak of the conflict:</strong> Gain was divided between Republicans, who were often leftist, and Nationalists, who were often right-wing and supported authoritarian rule. This ideological divide had its roots in Spain's tumultuous political history, including the overthrow of the monarchy, the establishment of the Second Republic, and a series of political and social reforms. As these ideological differences intensified, they contributed to the breakdown of political consensus.</li>
+            <li><strong>Economic divisions laid grounds for the conflict:</strong> Social and economic divisions were pronounced in Spanish society. Rural areas faced significant poverty, and the agricultural sector was in crisis. Landless peasants and agricultural labourers were often pitted against landowners, contributing to rural unrest. Urban centres, on the other hand, saw the rise of a growing working class with its own set of grievances. Economic disparities were a driving force behind discontent.</li>
+            <li><strong>Religious and cultural divisions further inflamed the situation:</strong> Religious divisions, particularly between the Catholic Church and secular forces, were another important factor. The Republican government's efforts to secularize society and reduce the influence of the Catholic Church led to conflicts with more conservative elements of Spanish society. This had a significant impact on the divisions within Spain.</li>
+            <li><strong>Conclusion:</strong> In summary, the Spanish Civil War was a complex and multifaceted conflict, and the divisions within Spain and Spanish society were central to its outbreak. Political, social, economic, regional, and cultural divisions had all been simmering for years, and the inability to reconcile these differences peacefully ultimately led to the outbreak of the war. The conflict was a culmination of historical grievances and political tensions that erupted into a full-scale civil war. Naturally, you cannot think of this conflict and not think of the wider international situation and foreign intervention, nonetheless, that wouldn’t have been there if not for the divisions and polarization in Spain. Thus, it has been considered that the Spanish Civil War was caused by divisions in Spain to a significant extent.</li>
+         </ul>
+         <a href="#/" onclick="answer2()">Close</a>
+      </div>
+
+
+      <div id="popup_short_ans3" class="popup">
+         <h1>Short Answer</h1>
+            <ul>
+               <p>As we are in the European zone we will refer to the Spanish Civil War.</p>
+               <br><br>
+               <li>Political Instability and Polarization</li>
+               <li>Economic Inequality and Agrarian Issues</li>
+               <li>Regional Autonomy and Nationalism</li>
+               <li>Religious and Cultural Divides</li>
+               <li>External Factors and International Involvement</li>
+             </ul>
+         <a href="#/" onclick="short_ans3()">Close</a>
+      </div>
+
+      <div id="popup_answer3" class="popup">
+         <h1>Detailed Answer</h1>
+         <ul>
+            <p>As we are in the European zone we will refer to the Spanish Civil War.</p>
+            <br><br>
+            <li><strong>Political Instability and Polarization:</strong> Spain experienced a series of political upheavals in the early 20th century, including the overthrow of the monarchy and the establishment of the Second Republic in 1931. The republic brought about significant political and social reforms, but it also exacerbated political polarization. The country became divided between Republicans, who were often leftist and supported progressive reforms, and Nationalists, who were often right-wing and favoured authoritarian rule. This polarization led to a breakdown of political consensus, making compromise and cooperation increasingly difficult.</li>
+            <li><strong>Economic Inequality and Agrarian Issues:</strong> Spain was characterized by stark economic disparities. Many rural areas faced extreme poverty and landlessness, while a few wealthy landowners controlled large estates. Land reform was a contentious issue, with landless peasants and agricultural labourers demanding land redistribution. Economic discontent, particularly in rural areas, contributed to social unrest and conflict.</li>
+            <li><strong>Regional Autonomy and Nationalism:</strong> Spain's historical regionalism and nationalism played a significant role. Regions like Catalonia and the Basque Country had a long history of seeking greater autonomy from the central government. These regional aspirations were often in conflict with the centralizing tendencies of the Spanish state, leading to tensions and demands for self-determination.</li>
+            <li><strong>Religious and Cultural Divides:</strong> Religious divisions, particularly between the Catholic Church and secular forces, were pronounced. The Republican government's efforts to secularize society and reduce the influence of the Catholic Church led to conflicts with more conservative elements of Spanish society. This tension had profound cultural and social implications, contributing to the overall discord.</li>
+            <li><strong>External Factors and International Involvement:</strong> The Spanish Civil War saw significant international involvement, as various foreign powers supported one side or the other. Nazi Germany and Fascist Italy provided military and material support to General Francisco Franco's Nationalist forces, while the Soviet Union and international brigades supported the Republican side. This external intervention amplified the domestic conflicts and turned the Spanish Civil War into a proxy war, further exacerbating the divisions within Spain.</li>
+         </ul>
+         <a href="#/" onclick="answer3()">Close</a>
+      </div>
+
+      <div id="popup_short_ans4" class="popup">
+         <h1>Short Answer</h1>
+            <ul>
+               <li>The Spanish Civil War was a classic battle between left and right-wing ideologies.</li>
+               <li>The Spanish Civil War was a microcosm of the conflict between communism and fascism.</li>
+               <li>The Spanish Civil War also revolved around religious ideology.</li>
+             </ul>
+         <a href="#/" onclick="short_ans4()">Close</a>
+      </div>
+
+      <div id="popup_answer4" class="popup">
+         <h1>Detailed Answer</h1>
+         <ul>
+            <li><strong>Spanish Civil War was a classic battle between left and right-wing ideologies:</strong> On the left were the Republicans, who represented a coalition of leftist and progressive forces, including socialists, communists, anarchists, and liberals. They advocated for political and social reforms, secularization, and workers' rights. On the right were the Nationalists, led by General Francisco Franco, who were aligned with conservative, traditionalist, and authoritarian values. This ideological divide mirrored the broader global struggle between communism and fascism in the 20th century.</li>
+            <li><strong>Spanish Civil war was a microcosm of the conflict between communism and fascism:</strong> The Spanish Civil War served as a microcosm of the ideological conflicts between communism and fascism. The Republican side received support from the Soviet Union and international brigades, and communist forces played a significant role in the conflict. On the other hand, the Nationalists received support from Nazi Germany and Fascist Italy. This foreign intervention turned Spain into a battleground for these two opposing ideologies, foreshadowing the larger ideological confrontations of World War II.</li>
+            <li><strong>Spanish Civil War also revolved around religious ideology:</strong> The conflict in Spain also revolved around ideological debates about secularism and the role of the Catholic Church. The Republican government pursued secularization policies, including the confiscation of church property and the suppression of religious institutions. This was in direct opposition to the traditionalist values upheld by the Nationalists, who defended the role of the Catholic Church in Spanish society. This tension reflected broader debates about the separation of church and state that were occurring globally.</li>
+            <li><strong>Conflict and its reflection:</strong> The Spanish Civil War was a microcosm of the ideological struggles that defined the 20th century. It pitted left-wing ideologies against right-wing ideologies, with communism and fascism playing central roles. The conflict also encompassed debates about secularism, nationalism, and regional autonomy. It served as a precursor to the larger ideological confrontations of World War II, highlighting the global significance of the Spanish Civil War in the context of 20th-century ideological battles.</li>
+         </ul>
+         <a href="#/" onclick="answer4()">Close</a>
+      </div>
+
+
+
+
+      <section id="math-questions">
+
+
+         <div class="container_full" id="blur_container">
+        
+                  <div class="container">
+                     <div class="screenshot">
+                        <h2>1. What were the results of the Spanish Civil War for Spain and for Europe?</h2>
+                     </div>
+                     <div class="additional-text">
+                        <h3>Answers and Explanations</h3>
+
+                        <div class="more-btn">
+                           <a href="#/" onclick="short_ans1()" class="inline-option-btn">short answers</a>
+                       </div>
+                        <div class="more-btn">
+                           <a href="#/" onclick="answer1()" class="inline-option-btn">explanations</a>
+                       </div>
+      
+                     </div>
+                  </div>
+
+
+                  <div class="container">
+                     <div class="screenshot">
+                        <h2>2. To what extent was the Spanish Civil War caused by divisions in Spain and Spanish society?</h2>
+                     </div>
+                     <div class="additional-text">
+                        <h3>Answers and Explanations</h3>
+                        <div class="more-btn">
+                           <a href="#/" onclick="short_ans2()" class="inline-option-btn">short answers</a>
+                       </div>
+                        <div class="more-btn">
+                           <a href="#/" onclick="answer2()" class="inline-option-btn">explanations</a>
+                       </div>
+                     </div>
+                  </div>
+
+                  <div class="container">
+                     <div class="screenshot">
+                        <h2>3. Analyse the causes of either the Spanish Civil War.</h2>
+                     </div>
+                     <div class="additional-text">
+                        <h3>Answers and Explanations</h3>
+                        <div class="more-btn">
+                           <a href="#/" onclick="short_ans3()" class="inline-option-btn">short answers</a>
+                       </div>
+                        <div class="more-btn">
+                           <a href="#/" onclick="answer3()" class="inline-option-btn">explanations</a>
+                       </div>
+                     </div>
+                  </div>
+
+                  <div class="container">
+                     <div class="screenshot">
+                        <h2>4. Examine the role of ideology in the Spanish Civil War. How did the conflict reflect the broader ideological struggles of the 20th century?</h2>
+                     </div>
+                     <div class="additional-text">
+                        <h3>Answers and Explanations</h3>
+                        <div class="more-btn">
+                           <a href="#/" onclick="short_ans4()" class="inline-option-btn">short answers</a>
+                       </div>
+                        <div class="more-btn">
+                           <a href="#/" onclick="answer4()" class="inline-option-btn">explanations</a>
+                       </div>
+                     </div>
+                  </div>
+      
+         </div>
+
+
+         {% else %}
+
+         <h1 class="not-registered">You have to be <a href="{% url 'start_page' %}">REGISTERED</a> to have access to this!</h1>
+   
+         {% endif %}
+
+
+
+<!-- custom js file link  -->
+<!-- <script src="js/script.js"></script> -->
+<script src="{% static 'website/js/script.js' %}"></script>
+<script src="{% static 'website/js/script_papers.js' %}"></script>
+
+
+   
+</body>
+</html>

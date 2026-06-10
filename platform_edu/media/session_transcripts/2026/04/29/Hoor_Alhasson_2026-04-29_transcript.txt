@@ -1,0 +1,449 @@
+# Meeting Transcription
+
+  Meeting started: 29/04/2026, 13:59:14
+  Duration: 60 minutes
+  Participants: Hoor Alhasson, Mateusz Kostrz
+
+  [View original transcript](https://app.tactiq.io/api/2/u/m/r/zezYYAmjC56DiBxNLVAn?o=txt)
+
+    
+
+  
+
+  
+
+  ## Transcript
+
+  00:00 Hoor Alhasson: Hello.
+00:00 Mateusz Kostrz: Hey, how are you? Well, good.
+00:03 Hoor Alhasson: Yeah, I'm good. How are you?
+00:05 Mateusz Kostrz: Go good. Good. You decide where you're going in the end to pass the exam.
+00:10 Hoor Alhasson: Sorry, say again.
+00:11 Mateusz Kostrz: Did you decide we're going in the end to pass the exam?
+00:14 Hoor Alhasson: Yeah, so like it's finalized like I already transferred my registration. So it's at Turkey and the school has like already sent me like all the details and
+00:21 Mateusz Kostrz: Okay.
+00:24 Hoor Alhasson: everything. So that's all sorted.
+00:26 Mateusz Kostrz: Yeah, nice. Nice, nice. Okay, so today we'll continue with pretty much the last. Let's say South chapter, that is that is left and yeah, go finalized this entirely
+00:39 Mateusz Kostrz: Hi, I'm transcribing this call with my Tactiq AI Extension. https://tactiq.io/r/transcribing
+00:39 Mateusz Kostrz: differentiation. I mean calculus Chapter 2. So, the last thing that we haven't done Is is about trapezoidal rule to just give you some brief introduction to this.
+00:52 Hoor Alhasson: No, give me a brief introduction. I remember I struggled with this part of
+00:55 Mateusz Kostrz: Or do you remember something? Mm-hmm.
+01:02 Hoor Alhasson: calculus,
+01:03 Mateusz Kostrz: Yeah, so the trapezoidal rule is basically the idea. So this is connected to integrals and basically there's this rule about like integrals in general are used to calculate the area under the function. So if you, for example, have a function that Goes, maybe like this. Something like that. Can you hear me?
+01:29 Hoor Alhasson: Yeah, I can.
+01:31 Mateusz Kostrz: Oh, what happened to this? Okay. Interesting. Okay, so let's say we have a function that goes like this, and let's say that we wanted to calculate. This area over here. So maybe from here. To here. Let's say, we want to calculate this area, right? So this
+01:52 Hoor Alhasson: Yeah.
+01:54 Mateusz Kostrz: Let's say that this point is two and this point is seven. Okay, and let's say that the formula for this function is that why is equal to x the power of three Something like this. Okay, so this black line has the following Equation. So this is the equation for this for this line and we want to calculate this area under the curve and this if you want to calculate it exactly you can do it using integral. So you just calculate an integral Of this. So of this function, of course, And here you can add limits so over here. And over here, you can add limits. And here, you just add between two and seven. And this basically means that like you want to limit it by this to end this 7. Okay.
+02:42 Hoor Alhasson: Okay, okay.
+02:44 Mateusz Kostrz: And all that means is that you want to just calculate the area under the curve for this part. If, for example, you wanted to Maybe start at one. So also added this, so then you're just change this to one, right?
+02:57 Hoor Alhasson: Yeah. Okay. Yeah.
+02:58 Mateusz Kostrz: So this is pretty straight and this you can actually do in your GDC very quickly so that you can either do in your graph. When you graph a function, and then you do analyze graph, there you have this in, you should have this integral sign, you can check it out but it should be there. And the second way is to is to do it in the I think it's called math or calculate functions on the calculator. So I'll just show to in a second edges in my calculator to load but it's quite easy to find.
+03:27 Hoor Alhasson: So, you basically graph the function, and then we'll go to Menu and as garden. That's where you find the integral or something.
+03:34 Mateusz Kostrz: Yeah, exactly, exactly. So
+03:35 Hoor Alhasson: Okay.
+03:37 Mateusz Kostrz: To just show you. So let's say we want to Come on. What is this? Why is this not working? Okay, I guess it's working now. Okay, so let's say we just grab this function. I'm not sure if this will be the right formula because I just made it up, but let's see. If these kind of works. Yeah. Okay, that's fine. kind of, Yeah. Okay, whatever. But let's say that we have a function like here, right? So we just have this blue line and now you can go to second calculate for you. It's in this in this analyze graph part and you should have something like this.
+04:25 Hoor Alhasson: Yeah. Okay, I found the integral. Yeah.
+04:27 Mateusz Kostrz: See this? Mm-hmm.
+04:31 Hoor Alhasson: Um I think it's different because it just is integral but I did click on it, says Lower bound and upper bound. So that's like when you can find both of the
+04:37 Mateusz Kostrz: Yeah. Yeah, yeah, that's that's perfect. So you click on this and you have lower bound
+04:40 Hoor Alhasson: points.
+04:43 Mateusz Kostrz: and upper bound. So let's say we do lower limit one. And upper limit seven. And it should draw something, I guess we couldn't. Okay, let me change the formula for the function because this one is a bit too crazy. So, maybe something like this. Yeah. Okay, so something like this would be better. Let's see. What can we see? Okay, so let's let's say we we do a slightly easier function, just x squared and now if we go to second, so if we go to this integral that you just found and here you do lower limit one and upper limit seven, It should draw something like this in your calculator.
+05:26 Hoor Alhasson: Okay. Wait, you change the the function to x squared?
+05:29 Mateusz Kostrz: I change the function to y, is equal to x squared because this one will be a bit easier to graph.
+05:35 Hoor Alhasson: Okay, wait. Let me just do it then.
+05:42 Mateusz Kostrz: Mm-hmm.
+05:46 Hoor Alhasson: Okay. Okay, wait. You did one and seven.
+05:53 Mateusz Kostrz: Yeah.
+06:08 Hoor Alhasson: Okay, I did it.
+06:09 Mateusz Kostrz: Yeah, what did you get something?
+06:12 Hoor Alhasson: And not really I don't know if I did it correctly. Oh let me do it again.
+06:19 Mateusz Kostrz: You should get the results would be 114.
+06:23 Hoor Alhasson: Oh, it didn't show me that it just
+06:27 Mateusz Kostrz: Okay, so go again. And what's your window?
+06:27 Hoor Alhasson: Just did it. Um, I didn't do my window. Oh my windows, negative 10 10. And again, negative 10 and 10.
+06:42 Mateusz Kostrz: Okay, that should be fine. Okay, then go to your integral again and do.
+06:45 Hoor Alhasson: Okay.
+06:46 Mateusz Kostrz: Lower limit, one, upper limit one, and then you should have something like guess or something like that. Or you have to press enter again.
+07:04 Hoor Alhasson: Okay, yeah, I got 114.
+07:06 Mateusz Kostrz: Yep. So that's that's how you do it and this calculates the exact area under the curve in case, that's kind of what integrals are designed to do. They calculate the area under the curve. So that's just some quick quick intro. And also you can do it quickly. If you find for me, it's math this math button. So like maybe you know where you find logarithms and stuff for in your calculator. So over there you also have those integrals and you can create something like this.
+07:36 Hoor Alhasson: Oh wait, is it like in the normal calculator on the graph?
+07:39 Mateusz Kostrz: Yeah. On the, on the main main screen,
+07:43 Hoor Alhasson: Okay, yeah, I think I think I do. Yeah, I do have it.
+07:47 Mateusz Kostrz: Yeah, so here we can do the same thing. You can do between one and seven.
+07:47 Hoor Alhasson: I found it.
+07:52 Mateusz Kostrz: And here, just put X squared. and here we have to remember, to put the X, Yeah, so you do something like this.
+08:02 Hoor Alhasson: Yeah, I got 114.
+08:05 Mateusz Kostrz: And you enter and you should get 114. Yeah. So that's how you can do it and those are called finite integrals. So whenever you have limits, so you have this, right? And this then this is a finite interval because you tell,
+08:18 Hoor Alhasson: Yeah.
+08:21 Mateusz Kostrz: Like what what sort of you know limits you you want to have? That's just something for you to do not because this is also very of new good question. That is I think actually in this question we'll have that. So this is just intro about how to calculate the area under the curve because The trapezoidal rule is also related to that and the trapezoidal rule works in such a way that it estimates, the area under the curve.
+08:45 Mateusz Kostrz: It doesn't give you like a full full perfect, perfect answer but just more or less. It gives you the answer. So maybe I'll just kind of copy the graph that they have here because the way that trapezoidal works is that you kind of Estimate the area under the curve, by drawing hypothetical trapezoids. So, basically, let's say we have this curve and the first trapezoid that we draw would go something like this.
+09:12 Mateusz Kostrz: Okay, so trapezoids are just kind of like shapes that look more or less like this. Okay, so you draw them. This is the first one then let's say that this is the
+09:17 Hoor Alhasson: Yeah.
+09:20 Mateusz Kostrz: second one. This is the third one. The fourth one and you just kind of keep drawing them. Right? Until you cover the entire function.
+09:30 Hoor Alhasson: Yeah.
+09:30 Mateusz Kostrz: And as you can see, you kind of can estimate it. Like obviously like here for example, this part is not correct, you know, here you have a part which is not correct, but it's fine because this rule is used to just estimate it. So do not be a perfect answer, but more or less, it will give you kind of the idea of how much it should be okay. And this trapezoidal rule has a formula you have it in your in your booklet. The formula is this.
+09:56 Hoor Alhasson: Okay.
+09:58 Mateusz Kostrz: And no, so this formula you have to type in manually in your calculator.
+09:58 Hoor Alhasson: And do we use this? Is it like the same as what we did before like with the graph and the and the like the log option, the logs option in our pocket. Okay, when do we use this? Because
+10:15 Mateusz Kostrz: Okay. When?
+10:19 Hoor Alhasson: Yeah, when do we use this? Because we like, is this also for area?
+10:24 Mateusz Kostrz: Yes, they always tell you like here. You see question that users are so then you know,
+10:30 Hoor Alhasson: Oh, okay. And if they don't tell us to use the
+10:33 Mateusz Kostrz: I mean so it's always when they tell you to approximate the area under the curve, it's always the trapezoidal rule when they ask you to calculate. Exactly. Then it's the integral but very often you don't really have because to be able to calculate the integral you need a full function, right? So you know exactly what the function is and for trapezo the rule like you'll
+10:50 Hoor Alhasson: Yeah.
+10:54 Mateusz Kostrz: see in a second, you only need a couple of points. So let me just Solve this question. So you kind of better get the idea of how this works. So in the trapezoidal rule, basically, the only difficult thing is this age. It's height because everything else you have all of those wise, right? And you have y0 yn and then you have here y1. So these are just kind of all the y values in order. So y, zero is just the first y value, which is this.
+11:21 Mateusz Kostrz: Okay? Why n is the last value. So it's just and everything else in the middle is just this. So to just kind of tell you how this this Formula can be implemented. So let's say for this, let's just read through this question. So we have to use the droplet rule with H equals to 10. So in this case, they actually tell you to find an approximation for the cross-sectional area. So we just need to find the approximation for this area over here. Yeah.
+11:47 Hoor Alhasson: Yeah.
+11:48 Mateusz Kostrz: And this is done by drawing those trapezoids. So let's say that maybe This will be the first trapezoid. This will be the second trapezoid. Okay, so something like this more or less. This is how how it would look. Okay, and they tell you that this H is equal to 10 and H is actually this distance from here to here. This is 10. And that's why H is equal to 10. H has a formula as well, which I will tell you
+12:12 Hoor Alhasson: Okay.
+12:17 Mateusz Kostrz: later, but for now they tell us. So it's it's a bit easier. So, we have the formula and we know that it's a 1 over 2 times H, which is 10. Yeah, so that's that's easy. And then we have all of these y's. So we have y zero, which is zero. So just to zero, Plus yn right from here which is also zero, so plus 0. And then we have plus two. And here we have all the remaining. Y's that we have.
+12:46 Mateusz Kostrz: So we have this three eight and nine, right? So we have three plus eight plus
+12:46 Hoor Alhasson: Okay. Yeah.
+12:52 Mateusz Kostrz: nine. You have to formula for this in your booklet. Okay.
+12:56 Hoor Alhasson: Okay.
+12:57 Mateusz Kostrz: And that's it. We just calculated and that's your answer.
+13:01 Hoor Alhasson: okay, that makes
+13:03 Mateusz Kostrz: Okay, so this will be like five. Times and then here, like, 40 I guess. I think it'll be 200.
+13:18 Hoor Alhasson: It like a zoo plus 0 plus 2 times 3 plus 8 plus 9.
+13:23 Mateusz Kostrz: Yeah exactly. Here's times.
+13:25 Hoor Alhasson: Okay, okay.
+13:27 Mateusz Kostrz: So, 20, 40, Okay, so this will be 200, you can plug it in your calculator but it should be fine. Okay, so all of this is is kind of understandable to know.
+13:39 Hoor Alhasson: Yeah. Yeah. But the first two methods, you showed me this. This, when do we use these two methods that you told me about earlier,
+13:49 Mateusz Kostrz: With the, with the calculator, with the graphing and stuff.
+13:52 Hoor Alhasson: Yeah.
+13:54 Mateusz Kostrz: In Part B, actually. So that's the part being using. Okay. So
+13:56 Hoor Alhasson: I'm parking. But oh, okay.
+14:00 Mateusz Kostrz: For part B, we have to write down an integral to find the exact cross section area. Okay. So that's exactly what we have to do.
+14:05 Hoor Alhasson: Okay, that's when we can.
+14:07 Mateusz Kostrz: That's actually kind of exactly what you asked because we have to write down the integral. So here we don't actually have to solve it. We just have to write it down so we do integral. And they tell us the equation of the curve. So we have to use this. Right. so, just this Minus. This right.
+14:29 Hoor Alhasson: Yeah.
+14:30 Mateusz Kostrz: And here we have to remember about DX. And here we have to plug in our upper limit and lower limit, right?
+14:36 Hoor Alhasson: Yeah.
+14:38 Mateusz Kostrz: What do you think they're going to be?
+14:41 Hoor Alhasson: Zero zero.
+14:43 Mateusz Kostrz: Nope.
+14:45 Hoor Alhasson: oh,
+14:50 Mateusz Kostrz: You're looking at the wrong axis. So our limits. Yeah, exactly. Our limits are
+14:52 Hoor Alhasson: 0 and 40.
+14:54 Mateusz Kostrz: always here.
+14:56 Hoor Alhasson: Okay.
+14:56 Mateusz Kostrz: Always on the x-axis.
+14:59 Hoor Alhasson: Okay.
+15:00 Mateusz Kostrz: Okay, so you limit it by specifying that you wanted to go from zero? To 40. And that's it. That's the answer.
+15:09 Hoor Alhasson: And then we could either just put in the graph or do the thing in the calculator.
+15:15 Mateusz Kostrz: Yeah exactly. This is probably I mean, whatever you prefer actually both work Probably if you have a slightly more complex function, like this one, I would say just normally putting in a calculator is faster, but whatever you prefer. And we have to calculate it actually for part bii. So here we just do Yeah, we'll just plug it in, right? So We? Go here. oh, We do this and between zero. And we do. This. Minus. This.
+16:09 Hoor Alhasson: I got 213.
+16:09 Mateusz Kostrz: And you have to. 213.
+16:13 Hoor Alhasson: Yeah, point three. Three like a recurrentory.
+16:14 Mateusz Kostrz: Yep, we have to do two decimal places so it's just this, right?
+16:22 Hoor Alhasson: Yeah.
+16:23 Mateusz Kostrz: Yep. And that's it. And that's it. So that's it. That's the answer. And actually whenever you do these questions because very often, they're kind of designed it this way, you, those answers should be similar. So what you get from the integral should be similar to what you got from the trapezoidal rule because both are used to calculate. The same thing is just the integral is more accurate, so the answer is a little bit different, but You know, it shouldn't be that one, you get 50 and the other one you get 5000.
+16:47 Hoor Alhasson: Okay. Okay, that makes sense then
+16:48 Mateusz Kostrz: Okay, so then you kind of should have some idea that maybe you did something incorrect, if you, if you get like completely different numbers, right?
+16:57 Hoor Alhasson: Yeah.
+16:58 Mateusz Kostrz: Okay, so now let's do part C.
+17:02 Hoor Alhasson: Percentage here. Do you like it's called? The value of the approximate.
+17:25 Mateusz Kostrz: Mm.
+17:26 Hoor Alhasson: The approximate value, minus the exact value over the exact value times hundred.
+17:31 Mateusz Kostrz: Yep.
+17:31 Hoor Alhasson: Right.
+17:33 Mateusz Kostrz: We're gonna be the exact value.
+17:36 Hoor Alhasson: It's the one in Bii.
+17:39 Mateusz Kostrz: Yeah, very good.
+17:41 Hoor Alhasson: 213.
+17:41 Mateusz Kostrz: Yep.
+17:43 Hoor Alhasson: To 13.33 minus 200.
+17:48 Mateusz Kostrz: Mmm. Yeah, you can do it. I mean, like a view wanted to use exactly the formula, then you do. Value approximate. So 200 minus. This. Over this. Here actually doesn't really matter what you do on the top of the fraction. The only thing that matters is this divided by value exact. And the top doesn't really doesn't really matter because it has to be positive anyway. So so yeah, like your way will also work. So we do. Just answer minus 200. Over answer. Should get something like this. 625.
+18:33 Hoor Alhasson: Yeah.
+18:34 Mateusz Kostrz: Yeah. Okay. So that's it. So let's try to find something more.
+18:41 Hoor Alhasson: You do 625%, right?
+18:43 Mateusz Kostrz: 6.25%. Yes, exactly.
+18:46 Hoor Alhasson: Okay.
+18:48 Mateusz Kostrz: Where do you have some more trapezoidal rules stuff? Here, I guess. Yeah. Okay. so, this one
+19:29 Hoor Alhasson: How do you find the values of A B and C? like, Do we? Oh no. So do we put it and trapezoidal, rule? One of we do it for far being never mind.
+19:44 Mateusz Kostrz: Yeah, for Part 8, not yet.
+19:45 Hoor Alhasson: Right.
+19:54 Mateusz Kostrz: So here you just need to because you have x values and y values, right? You have the function so i just need to plug the x values into the function, right?
+20:04 Hoor Alhasson: oh, Oh, so we okay. Okay, so we use that function. We plug the x for like the missing values.
+20:15 Mateusz Kostrz: Exactly.
+20:15 Hoor Alhasson: So like we. Okay. Okay, so we do. We do that next three times for ABC. Okay. So let me just do it then.
+20:28 Mateusz Kostrz: Oh, okay.
+20:57 Hoor Alhasson: Okay, for a I got nine. I'm gonna do be.
+21:46 Hoor Alhasson: Okay, so for B, I got 7.6.
+21:49 Mateusz Kostrz: Hmm. Okay, that's fine. Okay yeah. So that's that's how you do a. And now, what
+21:50 Hoor Alhasson: And foresee. I got four point seven.
+21:57 Mateusz Kostrz: do you think about B?
+21:59 Hoor Alhasson: Oh, now that's when we use the trapeze, what's it called that rule?
+22:04 Mateusz Kostrz: Mm.
+22:06 Hoor Alhasson: Okay.
+22:07 Mateusz Kostrz: So, how would you do it now?
+22:12 Hoor Alhasson: So we do that the big S and we put four like the upper bound up around. We put 64 in the urban put zero.
+22:25 Mateusz Kostrz: Mmm, but are you doing the integral or the rule?
+22:30 Hoor Alhasson: The, the Rule. The In the Formula booklet. Oh, never mind. Never mind. Hold on. It's a half times edge, okay.
+22:43 Mateusz Kostrz: Hmm. So this one
+22:44 Hoor Alhasson: it's Yeah. They didn't give us edge though.
+22:57 Mateusz Kostrz: Yeah, I usually they don't give you, actually, you have to, you have to kind of figure it out yourself, but it's usually quite doable. Any idea what it could be.
+23:17 Hoor Alhasson: So not really sure. I don't know if it has to do with like the thing that says for interviews,
+23:26 Mateusz Kostrz: And yes, actually actually kind of. So basically because H Is, is the distance from here to here? This is H. Okay, so, so that's why. Here, since we have four intervals, it means
+23:36 Hoor Alhasson: Okay.
+23:42 Mateusz Kostrz: that from here, to here, we have one, two, three four, right.
+23:47 Hoor Alhasson: Yeah.
+23:48 Mateusz Kostrz: So h, as you can see, is the distance on the x-axis from here right to here. Of like how wide the interval is. So here is just going to be between 0 and 16 and 1632 and so on. So the width is just 16
+24:02 Hoor Alhasson: Okay, yeah I did like 64 over 4. Okay. Developed divided it by 4.
+24:08 Mateusz Kostrz: Yeah, you can also use the formula. You can also use the formula because the formula is like, it's h max, like x. Max minus xmen, Over four. which is 64 minus 0 over 4, which is also 16 But you can usually just look at the table.
+24:28 Hoor Alhasson: Okay.
+24:31 Mateusz Kostrz: And you can just see because it's like the gap between access basically.
+24:35 Hoor Alhasson: Okay. Yeah. Okay. That makes sense.
+24:39 Mateusz Kostrz: Mm-hmm.
+24:42 Hoor Alhasson: Let me just now.
+24:52 Mateusz Kostrz: So, how would you complete the formula?
+24:54 Hoor Alhasson: So to have so it's half times 16 times. Where I did a bracket one.
+25:02 Mateusz Kostrz: Hmm.
+25:04 Hoor Alhasson: one plus, 64 no 1 plus 1, sorry. Yeah. Okay. Times another bracket.
+25:18 Mateusz Kostrz: Plus two.
+25:20 Hoor Alhasson: Oh yeah. Plus two, sorry. Okay times. You see those nine? Plus 7.6 plus 147.
+25:32 Mateusz Kostrz: Uh-huh.
+25:36 Hoor Alhasson: okay, I'll just put this in my calculator, then
+25:39 Mateusz Kostrz: M.
+26:00 Hoor Alhasson: I got 356.8.
+26:03 Mateusz Kostrz: Okay, then let's do part C so we can kind of see if it makes sense.
+26:22 Hoor Alhasson: okay, now that we put that in the calculator with the what's called Integral
+26:27 Mateusz Kostrz: But for part, see, I just have to write down this integral.
+26:28 Hoor Alhasson: Equation. Yeah.
+26:32 Mateusz Kostrz: You don't have to calculate it.
+26:35 Hoor Alhasson: Oh yeah, so it's that the big ass.
+26:38 Mateusz Kostrz: Mm-hmm.
+26:41 Hoor Alhasson: With the upper bound being 64 in the lower bounding for zeros. and the function, which is Yeah, for to know four square root of x minus x over 2 plus 1.
+26:58 Mateusz Kostrz: And the last thing.
+27:01 Hoor Alhasson: Um, Dx.
+27:02 Mateusz Kostrz: Very good. Okay, so that's the answer. And now how would you solve it?
+27:09 Hoor Alhasson: I'll put in the calculator.
+27:11 Mateusz Kostrz: And what did you get for Part B?
+27:42 Hoor Alhasson: Okay, go 405.33. I got 356.8.
+27:53 Mateusz Kostrz: Okay. Okay, that makes sense. Close enough. Okay, so now Part D
+28:01 Hoor Alhasson: Okay. So it value approx with approximate value, minus the exact value.
+28:09 Mateusz Kostrz: M.
+28:13 Hoor Alhasson: Over exact value times 100. So it
+28:18 Mateusz Kostrz: Exactly.
+28:25 Hoor Alhasson: Okay. Oh, 356.8. Minus four hundred five point three, three over front of five. 1.33 times 100. Okay.
+29:10 Hoor Alhasson: Okay, I got 11.97.
+29:15 Mateusz Kostrz: Good. Okay. That's fine.
+29:18 Hoor Alhasson: Do I rounded up to 12?
+29:20 Mateusz Kostrz: Sorry.
+29:21 Hoor Alhasson: Do I round it off to 12?
+29:24 Mateusz Kostrz: No, I Didn't even know.
+29:25 Hoor Alhasson: Because it's 11. 11.97.
+29:30 Mateusz Kostrz: Oh, okay. Okay, then yes, then yes.
+29:32 Hoor Alhasson: Okay.
+29:35 Mateusz Kostrz: Mm-hmm. Okay, then let's do the last question from those. I think this one is a bit more difficult.
+30:08 Hoor Alhasson: Okay, so So we use the rule but then we don't have much. So do we do like with the water called? The, the formula you gave me for H.
+30:23 Mateusz Kostrz: Mm-hmm. We can we can use that.
+30:27 Hoor Alhasson: Okay, so Six minus zero. Over.
+30:33 Mateusz Kostrz: Y6.
+30:33 Hoor Alhasson: Four. I mean, over three.
+30:35 Mateusz Kostrz: What? Y6.
+30:38 Hoor Alhasson: Because that's like the X maximum, or
+30:42 Mateusz Kostrz: Yes, but it has to be the X maximum, because, yeah, that's what this question is a bit more complicated because here's you can see. They gave you the values only for the interval between 0 and 3. So here is because you kind of have like
+30:54 Hoor Alhasson: oh,
+30:55 Mateusz Kostrz: Three different functions, right? Because you have the Way to it. You have. The first part right, which is kind of this curved part. So here, so this is like the first part and then this, this is gonna be a second function
+31:09 Hoor Alhasson: Yeah.
+31:12 Mateusz Kostrz: and this also
+31:15 Hoor Alhasson: Yeah.
+31:15 Mateusz Kostrz: Okay, so that that that's why here, you only have between 0 and 3. And this will be what used for for age because the rest is a different function.
+31:26 Hoor Alhasson: Okay, so it's 3, minus 0. Over. Okay. Three minus 0 over 3.
+31:32 Mateusz Kostrz: Over three is always over the number of intervals, so yeah.
+31:39 Hoor Alhasson: Looks like one.
+31:40 Mateusz Kostrz: Mmm. And what did you plug into your interior formula?
+31:41 Hoor Alhasson: Okay. So okay. I just do the the rule notes.
+32:58 Hoor Alhasson: Okay, I got 95.63. so I did half times 1 times 3 plus 42 plus 2
+33:13 Mateusz Kostrz: Mm-hmm.
+33:14 Hoor Alhasson: Times bracket. 5.13 plus 8, plus 12.4. Plus 19, plus 28.6.
+33:22 Mateusz Kostrz: Okay, so that's that's a problem. And the reason why this is not correct is
+33:25 Hoor Alhasson: oh,
+33:26 Mateusz Kostrz: because since Wait wait. So you have three equal intervals, right? Which basically means that the only
+33:34 Hoor Alhasson: Yeah.
+33:36 Mateusz Kostrz: way for you to do it. In this case is that you go from zero to one Then from 1 to 2, and from two to three, right? You kind of skip this. Skip this, and skip this, because we also established that H is equal to 1, right? So H has to be good to hear.
+33:50 Hoor Alhasson: Yeah.
+33:52 Mateusz Kostrz: Which is one. Yeah.
+33:54 Hoor Alhasson: Oh, okay. Yeah.
+33:56 Mateusz Kostrz: so this means that those middle parts, you have to skip We don't take that.
+34:01 Hoor Alhasson: Okay, so So like in the last bracket like after we put three plus 42 plus 2, we just put 8, plus 19.
+34:11 Mateusz Kostrz: Exactly.
+34:13 Hoor Alhasson: Okay. Okay, let me just we do it.
+34:47 Hoor Alhasson: Okay, I got 49.5 this time.
+34:50 Mateusz Kostrz: Okay. We'll see in a second, if that makes sense. So let's do B.
+35:09 Hoor Alhasson: So, we do the integral of the function.
+35:14 Mateusz Kostrz: Exactly.
+35:15 Hoor Alhasson: Integrated. Okay.
+36:16 Hoor Alhasson: so, I didn't simplify it yet, but like three X to the power of 3 over 3, plus For x squared. Over 2.
+36:28 Mateusz Kostrz: Mmm, why x squared?
+36:32 Hoor Alhasson: Oh no, never mind. Never mind. Never mind. I forgot didn't have an X. Wait. um, I forgot what we do to console. It's
+36:49 Mateusz Kostrz: So you have to you have to imagine because four is the same thing as four times x to the power of 0, right?
+36:55 Hoor Alhasson: Yeah. So it's 4x over one.
+36:59 Mateusz Kostrz: Mm-hmm.
+37:00 Hoor Alhasson: Okay. Over and over classy.
+37:04 Mateusz Kostrz: Yep, very good.
+37:10 Hoor Alhasson: Okay. Um then we simplify it. So that becomes Next to the power of three. Yeah.
+37:17 Mateusz Kostrz: And now what would you do with the C?
+37:23 Hoor Alhasson: so, we plug in We plug in for X to find C.
+37:30 Mateusz Kostrz: Mm-hmm. Told you what would you plug in?
+37:39 Hoor Alhasson: um, Three, I'm not sure.
+37:48 Mateusz Kostrz: so, to be able to get C, you need, One point on this function. So we need one x and one y, coordinate. Right to together kind of what one thing. And in this case we we know that the the domain
+37:56 Hoor Alhasson: Yeah.
+38:00 Mateusz Kostrz: is between 0 and 3, but the 0 and 3 is not included. So basically the options that we have as we can either take this or we can take this
+38:10 Hoor Alhasson: Okay, but we can only take the middle, the middle of the table or something.
+38:17 Mateusz Kostrz: No, actually the remaining point you cannot also take. So those 0.55 13. You can also take, but these will be easiest because you have full numbers in here. So probably this will be, this will be the easiest one. So, usually like that, the more full numbers you have and smaller numbers. You have you there best to use, but you can use any point on the function, so it doesn't matter.
+38:40 Hoor Alhasson: Okay. so, one one is accent to Those why? Oh, no. Oh, we can use any point. So one one is x and eight is why. Okay. So we plug in eight equals. It's called one. To the power of 3 plus 4 times. 1 plus C.
+39:12 Mateusz Kostrz: so, you should get I guess that C is equal to 3.
+39:21 Hoor Alhasson: Okay.
+39:23 Mateusz Kostrz: Yeah.
+39:24 Hoor Alhasson: Yep.
+39:25 Mateusz Kostrz: So, the final Indian you also have to always write the final expression. So in this case we're looking for f of x. So we will just have Yeah, just like that. Okay.
+39:39 Hoor Alhasson: Yeah. Okay.
+39:40 Mateusz Kostrz: okay, so now let's do see
+39:58 Hoor Alhasson: So we do the integral, but in the calculator don't there's like, a upper bound and lower bound.
+40:06 Mateusz Kostrz: Mm-hmm.
+40:07 Hoor Alhasson: Okay. So okay because the because you said like it ends at 3, like the intervals, not until six, we do like zero and three.
+40:29 Mateusz Kostrz: Yeah, exactly.
+40:32 Hoor Alhasson: Okay. Then we put the function, the original function.
+40:38 Mateusz Kostrz: Which one?
+40:38 Hoor Alhasson: The derivative function.
+40:40 Mateusz Kostrz: No.
+40:42 Hoor Alhasson: Well, the integrated function.
+40:45 Mateusz Kostrz: Exactly. You have f of x because we have here. The curve is modeled by a function, f of x. So we need to have f of x. This is the, the graph for f of x
+40:50 Hoor Alhasson: oh,
+40:53 Mateusz Kostrz: or at least this first part, This is Xbox.
+40:56 Hoor Alhasson: Okay. That makes sense.
+40:59 Mateusz Kostrz: okay, and until here,
+41:27 Hoor Alhasson: So, I got 47.25, which is close. To my approximate.
+41:35 Mateusz Kostrz: Okay, but you found the area of this, right?
+41:40 Hoor Alhasson: Yeah.
+41:41 Mateusz Kostrz: Okay, and here we have a question about finding the entire cross section.
+41:42 Hoor Alhasson: Okay.
+41:45 Mateusz Kostrz: So, we need all of this.
+41:46 Hoor Alhasson: so, So, do six.
+41:51 Mateusz Kostrz: No. Here, the best way would be to divide it. Probably like this that this is what you calculated already.
+42:01 Hoor Alhasson: Yeah.
+42:01 Mateusz Kostrz: It's this. We know then we do this. So this rectangle, which would be quite easy to calculate and then we have this triangle here.
+42:11 Hoor Alhasson: Okay, but the whole line is that function, right?
+42:16 Mateusz Kostrz: No, that's that's the thing. The function f of x is only until 3. So until here,
+42:23 Hoor Alhasson: Okay.
+42:24 Mateusz Kostrz: Then whenever those trade lines. So, basically, here this part and this part, Are different functions. That's why you cannot just use the integral until 6 because until six your function doesn't go anymore.
+42:39 Hoor Alhasson: Okay, so Okay. so, do we use like, Oh no, we can't wait. So how we, how would we find like the line on top? And the line on the side.
+43:11 Mateusz Kostrz: Mmm. Yeah. So for example, You can do it in multiple property that the fastest way would be to just look at this table, right? Because we know that for three, The value is 42, right? So this is 42.
+43:26 Hoor Alhasson: Yeah. It doesn't extend to six. That's why I was like We can't use the table or can we?
+43:35 Mateusz Kostrz: well tells things it doesn't but till three does
+43:40 Hoor Alhasson: Okay.
+43:41 Mateusz Kostrz: So you you know that here the value is 42. So, for example, to get this rectangle, be quite easy. Because, you know, just have a rectangle. We're here, you have 42 and here you have one, right? Because the difference between three and four is one. so, the area for this regard, for this rectangle is 42
+44:07 Hoor Alhasson: Are really? Because it's a straight line.
+44:08 Mateusz Kostrz: Yeah. No, because the formula for area of our rectangle, is one side times, the other side, right? We have one and 42. So 1 times, 42 is 42.
+44:16 Hoor Alhasson: Oh yeah. Okay. okay, and then for the one like the one from four to six, That's like, wait. 42 Times 2. No, but it's not.
+44:39 Mateusz Kostrz: Yeah, I do know the formula for the area of a triangle.
+44:44 Hoor Alhasson: Yeah. Let me try to remember. Something with heightened this.
+45:01 Mateusz Kostrz: Yeah, but in your booklet.
+45:04 Hoor Alhasson: Oh wait. Always bow it. It's like um, it has wait that's for what's it called? there is one with like the angle, but we don't have
+45:28 Mateusz Kostrz: Yeah, but you have this, you have to write. You have. The second one is that area is 1 over 2 times base times, height, not
+45:35 Hoor Alhasson: Oh yeah. Enough time speed this time.
+45:40 Mateusz Kostrz: So, what you think is gonna be in this case?
+45:43 Hoor Alhasson: Okay. I have half times, 42 times 2.
+45:55 Mateusz Kostrz: Mhm. So, also 42 now.
+46:00 Hoor Alhasson: Hey, sorry.
+46:01 Mateusz Kostrz: So it's also 40 to it.
+46:04 Hoor Alhasson: Yeah. Oh, wait like that. That Like the hypotenuse you think it's 42?
+46:12 Mateusz Kostrz: No. No, the area for this triangle.
+46:18 Hoor Alhasson: Oh, it's I'm always calculating. I was 42.
+46:22 Mateusz Kostrz: Yeah, that's what I'm saying, right? It's 42 the area.
+46:25 Hoor Alhasson: Oh yeah. Okay so we so we add all the areas together, so,
+46:29 Mateusz Kostrz: Mmm. Exactly.
+46:31 Hoor Alhasson: 47.25 plus 42, plus 42.
+46:35 Mateusz Kostrz: Yeah, and that's your answer. Okay. Then let's try to do.
+46:46 Hoor Alhasson: About 130, you 1.25. That's like the final area.
+46:49 Mateusz Kostrz: Yeah, that's the final final. Area. oh,
+47:40 Hoor Alhasson: What can you hear me?
+47:41 Mateusz Kostrz: Yeah, can you?
+47:43 Hoor Alhasson: But I don't know why. My screen is like black. I can't see anything.
+47:46 Mateusz Kostrz: oh,
+47:47 Hoor Alhasson: Okay. Wait, not loaded. And kind of Kind of, okay, you're not loaded.
+47:52 Mateusz Kostrz: Yeah, you can see.
+47:53 Hoor Alhasson: Yeah.
+47:54 Mateusz Kostrz: Okay, so let's do this question now. It's kind of a combination of derivatives and and integrals.
+48:02 Hoor Alhasson: Okay.
+48:46 Hoor Alhasson: okay, I'll just attempt a question now with
+48:49 Mateusz Kostrz: M.
+50:13 Hoor Alhasson: alright, so Report AI, I did. I got negative 0.2 X squared plus 0.8 x.
+50:25 Mateusz Kostrz: No. How did you get 0.2? X squared.
+50:30 Hoor Alhasson: I, So like I did because it was like X to the power of three. did like, I took one from from three and the two times 0.1 like negative 0.1.
+50:45 Mateusz Kostrz: Yeah, but you have to multiply by the initial power, right? So you have three times negative 0.1.
+50:50 Hoor Alhasson: Oh, really good. So is that negative 0.3?
+50:55 Mateusz Kostrz: Mm-hmm. And the second part.
+50:58 Hoor Alhasson: Oh wait, I did the same stick at the second part, so it's 1.6 x.
+51:05 Mateusz Kostrz: Mm-hmm. Yep. Okay, next one.
+51:21 Hoor Alhasson: okay, so do we put Like the The function that we detect the derivative with and the calculate like do we graph and then we find the maximum there.
+51:34 Mateusz Kostrz: Yeah, but how would you do it?
+51:38 Hoor Alhasson: oh, I'd like put The function in the graph. No, or
+51:43 Mateusz Kostrz: This function.
+51:45 Hoor Alhasson: Yeah, the derivative function.
+51:47 Mateusz Kostrz: Yes, but if you put the derivative function that you cannot find the maximum, you can do it in two ways. Either. In this case, you can do it in one in one because they tell you hence. So when they tell you hands it means you have to use your previous answer. That's kind of like that the way those those past papers are structured.
+52:05 Hoor Alhasson: Okay.
+52:06 Mateusz Kostrz: If you find the derivative and then they ask you to find the maximum then and you have hands. So you have to use your derivative. Then the only way to do it is you have to equalize your derivative to zero. That's when you find the maximum or minimum. Okay, so you have to equalize this. To zero which means to just find zero of this. So you don't find maximum. You could also find maximum but you would have to plug the original function. Not the derivative.
+52:36 Hoor Alhasson: Okay, so when we find the function of the dividx like derivative of it, we have to equalize it to zero.
+52:42 Mateusz Kostrz: To find the maximum is.
+52:45 Hoor Alhasson: So can I write this down?
+52:47 Mateusz Kostrz: Definitely, definitely write it down.
+52:54 Hoor Alhasson: But that's for only D, y and D expect the derivative of d1 dx.
+53:00 Mateusz Kostrz: No like any derivatives like if you get a derivative of any function and you want to find the maximum or the minimum of this function, using the derivative, you always equalize this derivative to zero. It doesn't matter if it's, if it's a little bit of a y of Q. Whatever.
+53:16 Hoor Alhasson: Okay. And then we have to find zero.
+53:28 Mateusz Kostrz: Yes, when you use the derivative then, yes, you have. You have to equalize it to zero which means that you basically have to find here.
+53:36 Hoor Alhasson: Okay. Well, we need, we need X for. Oh no, we don't do it. We do need tax.
+53:46 Mateusz Kostrz: So you just you just grab your function. To derivative function. Now, you get something like this.
+54:05 Hoor Alhasson: Okay, well, I didn't put in my calculator yet. Yeah. Okay.
+54:23 Mateusz Kostrz: Yeah, and you get two zeros, the first one here probably we don't care about because we know that our X's go from 2 to 8. So I think this will be zero. So we don't care about this and the second zero we just need to find it, right? Just go left, bound. And right bound and we get this.
+54:44 Hoor Alhasson: Okay, but like it has we have two zeros though. So do we get for both zeros? Oh no, wait because the other one crosses zero.
+54:50 Mateusz Kostrz: Yeah. Yeah, I mean actually technically both of them could be fine. But here as I said
+54:54 Hoor Alhasson: Like the one in the left.
+54:58 Mateusz Kostrz: before, And this question, they tell us that the X is you see here, go between two and
+55:03 Hoor Alhasson: Yeah.
+55:03 Mateusz Kostrz: nitrate.
+55:05 Hoor Alhasson: Yeah.
+55:05 Mateusz Kostrz: So this year, zero actually doesn't probably doesn't even exist, because I think it's a zero.
+55:10 Hoor Alhasson: Okay.
+55:11 Mateusz Kostrz: So you only care about access being between 2 and 8. So 0 is obviously not not
+55:12 Hoor Alhasson: Okay. Yeah, that makes sense.
+55:15 Mateusz Kostrz: there, right? So you find that x is equal to 5.33. And but this is not the maximum height of the tunnel yet because this is the wait. What is our x and y? In this case, the height in meters of the tunnel, both Yeah, exactly. So it's not going to be the height yet because I guess it's some horizontal ground and for this we need to find why? So, we need to now you take this 5.33 and you plug it to our y, the original function, because if you plug it, your derivative just get 0. So we don't need this but you plug it to your original function to get why, which is the height because that's what they ask us, right? Find the maximum height.
+56:02 Mateusz Kostrz: So, you just do this and
+56:02 Hoor Alhasson: Okay, so
+56:06 Mateusz Kostrz: Exactly. Because X is that is not your height yet and you need your height.
+56:06 Hoor Alhasson: So, we got the x of the derivative, but we convert that we convert that x to the y because we will convert the original function. I mean, the derivative to the original function to find the height.
+56:22 Mateusz Kostrz: okay, because basically what you got, Is, if this is the graph that I'm screenshotting. Actually. Now, I have it here, this graph. As you can see, this is the graph of the, of the original function, right? And here, this is the maximum. Here is the maximum, and you care about this? and so far, you only found this Which is 5.33 okay.
+56:48 Hoor Alhasson: Yeah.
+56:49 Mateusz Kostrz: So just need to plug it in to get to Gateway.
+56:53 Hoor Alhasson: Okay, but we don't plug it in the extra plug it in the, Oh no, we plug it in the X to get why you're saying.
+57:00 Mateusz Kostrz: Yeah, you plug your eggs to get wire, right? The standard operation.
+57:04 Hoor Alhasson: Or the for the derivative, you're saying with a derivative function, well no for
+57:08 Mateusz Kostrz: No.
+57:09 Hoor Alhasson: the original function.
+57:10 Mateusz Kostrz: If you plug it to the derivative, you get here, you can try. But that's what you just found down. Now, when you found, when you found this
+57:13 Hoor Alhasson: oh,
+57:17 Mateusz Kostrz: You found that X is 5.33, right? So if you plug it back, you just get zero. No.
+57:22 Hoor Alhasson: Oh yeah. Okay, so we plug that in the original function and we can get height
+57:26 Mateusz Kostrz: Exactly.
+57:27 Hoor Alhasson: with this. Okay, that makes sense. Okay, let me just try them. Actually.
+58:54 Hoor Alhasson: Sorry.
+58:55 Mateusz Kostrz: Hmm.
+58:57 Hoor Alhasson: No, did you see something? I don't know why my headphones kind of glitched.
+58:59 Mateusz Kostrz: No. No.
+59:01 Hoor Alhasson: Okay. Okay, I got 7.58. Five, eight five.
+59:16 Mateusz Kostrz: Okay, that makes sense. So now If you want to double check because for this part 8 2, this hands find the
+59:23 Hoor Alhasson: Yeah.
+59:23 Mateusz Kostrz: maximum height. If you didn't have the word, hence, you could do it much faster and easier. Because you could basically what you could do is you could just plug because you replug the derivative, right? And then you have to find a zero but
+59:34 Hoor Alhasson: Yeah.
+59:35 Mateusz Kostrz: if you just plug in the original function. So This right. X, the power of 3. Plus 0.8 X squared here. Now you can find the maximum of this so we need to adjust the window a little bit. Right? And here we have this maximum. So this is what we're what we're looking for here. And you go. And we just find it. And I guess this is what you guys 7.50 159, You should get because I guess you
+01:00:10 Hoor Alhasson: oh,
+01:00:14 Mateusz Kostrz: may be rounded the number to 5.33 and it's, you know, three three but yeah. But
+01:00:14 Hoor Alhasson: Yeah.
+01:00:19 Mateusz Kostrz: that's how you can. You can add double check it.
+01:00:19 Hoor Alhasson: Yeah.
+01:00:22 Mateusz Kostrz: And if you don't have the word hence, that's always a faster way to find the maximum because then you actually just find the maximum not zeros of the derivative, okay?
+01:00:31 Hoor Alhasson: Okay. Yeah, that makes sense. I got 7.59 anyway.
+01:00:34 Mateusz Kostrz: Yep, that's good, that's good. Okay. All right. So this part these parts, b and c. You can you can finish for for homework because this is exactly the trapezoidal trapezoidal rule. And yeah, and that's pretty much all of the, all of the content, let's say like, obviously kind of would be nice to review it. With actual.
+  

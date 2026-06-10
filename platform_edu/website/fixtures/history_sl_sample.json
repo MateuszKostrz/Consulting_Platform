@@ -1,0 +1,20 @@
+[
+  {
+    "model": "website.history_sl_questionbank",
+    "pk": 1,
+    "fields": {
+      "paper": "paper2",
+      "chapter": "emergence_democratic_states",
+      "title": "Evaluate the significance of external influences on the emergence of two democratic states in the period 1848–2000.",
+      "command_term": "evaluate",
+      "explanation": "You must assess the relative importance of a factor using clear criteria and determine how significant it was compared with other influences. A clear judgement about how decisive external influences were is required.",
+      "intro": "The emergence of democratic states during the twentieth century was often shaped by both internal developments and external pressures. In some cases, foreign powers and international events accelerated political transformation and forced authoritarian systems to collapse. Germany's democracy emerged largely in the aftermath of the First World War, while India's democratic state developed through decolonization under British rule. Although domestic political movements were important in both cases, external influences played a major role in shaping the conditions that allowed democracy to emerge.",
+      "body": "Body Paragraph 1: External Influence on the Emergence of Democracy in Germany:\n\n• Germany's defeat in World War I caused severe economic and political crisis.\n• The British naval blockade restricted trade and worsened economic hardship.\n• Military defeat forced the abdication of Kaiser Wilhelm II in 1918.\n• This created a political vacuum that allowed democratic forces such as the SPD to establish the Weimar Republic.\n\nLinking Sentence (RED THREAD):\nThus, external military defeat and pressure from foreign powers were crucial in creating the conditions that allowed democracy to emerge in Germany.\n\nBody Paragraph 2: Impact of the Treaty of Versailles and Allied Pressure:\n\n• The Treaty of Versailles reshaped Germany's political environment.\n• Territorial changes allowed regions with Polish majorities to determine their future.\n• The treaty-imposed reparations and war guilt, which weakened political stability.\n• Although these measures undermined support for democracy, they were imposed by external powers.",
+      "conclusion": "In conclusion, external influences were highly significant in the emergence of democratic states in both Germany and India. While internal political movements provided the foundation for democratic governance, it was external pressures—military defeat, international treaties, and decolonization processes—that created the conditions necessary for democratic systems to be established. Without these external catalysts, the transition to democracy in both cases would likely have been delayed or taken different forms.",
+      "difficulty": "Medium",
+      "marks": "15",
+      "type": "free",
+      "verified": "yes"
+    }
+  }
+]

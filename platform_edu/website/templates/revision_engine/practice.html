@@ -1,0 +1,736 @@
+{% load static %}
+<!doctype html>
+<html lang="en"
+  class="layout-navbar-fixed layout-menu-fixed layout-compact"
+  dir="ltr" data-skin="default" data-bs-theme="light"
+  data-assets-path="../../assets/" data-template="vertical-menu-template">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"/>
+  <title>Practice – {{ skill.display_name }} | Edunade</title>
+  <link rel="icon" href="{% static 'website/images/platform_logo.svg' %}">
+  {% include 'top_base.html' %}
+  <link rel="stylesheet" href="{% static 'website/css/questionbank.css' %}"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
+
+  <!-- PDF.js for formula booklet -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+      options: { skipHtmlTags: ['script','noscript','style','textarea','pre'] }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" defer></script>
+
+  <style>
+    .container-xxl { max-width: 85%; margin: 0 auto; padding-left: 1rem; padding-right: 1rem; }
+    @media (max-width: 768px) { .container-xxl { max-width: 95%; } }
+
+    /* Sub-question panels */
+    .subq-panel { display: none; }
+    .subq-panel.active { display: block; }
+    .subq-panel.done { display: block; opacity: 0.45; pointer-events: none; }
+
+    /* Part label badge */
+    .part-badge {
+      display: inline-flex; align-items: center; justify-content: center;
+      background: var(--bs-primary); color: #fff;
+      border-radius: 50%; width: 32px; height: 32px;
+      font-weight: 700; font-size: 0.9rem; flex-shrink: 0;
+    }
+
+    /* MCQ option button */
+    .mcq-btn {
+      width: 100%; text-align: left; padding: 0.75rem 1rem;
+      border: 2px solid var(--bs-border-color); border-radius: 0.5rem;
+      background: var(--bs-body-bg); cursor: pointer; font-size: 0.95rem;
+      transition: border-color 0.15s, background 0.15s;
+      display: flex; align-items: center; gap: 0.75rem;
+    }
+    .mcq-btn:hover:not(:disabled) { border-color: var(--bs-primary); background: rgba(var(--bs-primary-rgb), 0.05); }
+    .mcq-btn .opt-label {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 28px; height: 28px; border-radius: 50%;
+      background: var(--bs-secondary-bg); font-weight: 700; font-size: 0.85rem; flex-shrink: 0;
+    }
+    .mcq-btn.correct  { border-color: #28a745; background: #eafaf1; }
+    .mcq-btn.correct .opt-label  { background: #28a745; color: #fff; }
+    .mcq-btn.wrong    { border-color: #dc3545; background: #fdf2f2; }
+    .mcq-btn.wrong .opt-label    { background: #dc3545; color: #fff; }
+    .mcq-btn.reveal   { border-color: #28a745; background: #eafaf1; }
+    .mcq-btn.reveal .opt-label   { background: #28a745; color: #fff; }
+
+    /* Timer */
+    #re-timer { letter-spacing: 0.04em; transition: opacity 0.2s; }
+    #re-timer.hidden { opacity: 0; pointer-events: none; }
+
+    /* Mastery bar */
+    .mastery-bar-wrap { max-width: 260px; }
+    #mastery-bar { transition: width 0.4s ease; }
+
+    /* PDF modal */
+    #pdfModal .modal-dialog { max-width: 80vw; height: 90vh; }
+    #pdfModal .modal-content { height: 100%; display: flex; flex-direction: column; }
+    #pdfModal .modal-body { flex: 1; overflow: hidden; padding: 0; }
+    .pdf-viewer { height: 100%; display: flex; flex-direction: column; overflow: hidden; }
+    .pdf-controls {
+      background: #f8f9fa; padding: 10px 20px; border-bottom: 1px solid #dee2e6;
+      display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; min-height: 50px;
+    }
+    .zoom-controls { display: flex; align-items: center; gap: 10px; }
+    .pdf-control-btn {
+      background: #007bff; color: #fff; border: none; padding: 8px 12px;
+      border-radius: 4px; cursor: pointer; font-size: 1rem;
+    }
+    .pdf-control-btn:hover { background: #0056b3; }
+    .zoom-level { font-weight: bold; min-width: 50px; text-align: center; }
+    .page-info { color: #6c757d; font-size: 0.9rem; }
+    .pdf-container { flex: 1; overflow-y: auto; padding: 10px; background: #e9e9e9; }
+    .pdf-page { display: block; margin: 0 auto 10px; max-width: 100%; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+  </style>
+</head>
+<body>
+<div class="layout-wrapper layout-content-navbar">
+<div class="layout-container">
+  {% include 'sidebar.html' %}
+  <div class="content-wrapper">
+  <div class="container-xxl flex-grow-1 container-p-y">
+
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb" class="mb-4">
+      <ol class="breadcrumb" style="font-size:0.85rem;">
+        <li class="breadcrumb-item"><a href="{% url 'revision-engine' %}">Revision Engine</a></li>
+        <li class="breadcrumb-item text-muted">{{ skill.topic.display_name }}</li>
+        <li class="breadcrumb-item active">{{ skill.display_name }}</li>
+      </ol>
+    </nav>
+
+    {% if lp_complete %}
+    <div class="card shadow-sm border-0">
+      <div class="card-body text-center py-5">
+        <i class="bx bx-check-circle" style="font-size:3.5rem;color:#28a745;"></i>
+        <h4 class="mt-3">Session complete!</h4>
+        <p class="text-muted mt-2">
+          You answered all <strong>{{ lp_total }}</strong> question{{ lp_total|pluralize }} for
+          <strong>{{ skill.display_name }}</strong>.
+        </p>
+        {% if mastery %}
+        <p class="mt-1" style="font-size:.9rem;">
+          Current mastery: <strong>{{ mastery_percent }}%</strong>
+        </p>
+        {% endif %}
+        <a href="{{ back_url }}" class="btn btn-primary mt-3 me-2">Back to Learning Path</a>
+        <a href="{% url 'revision-engine' %}" class="btn btn-outline-secondary mt-3">Revision Engine</a>
+      </div>
+    </div>
+    {% elif no_questions %}
+    <div class="card shadow-sm border-0">
+      <div class="card-body text-center py-5">
+        <i class="bx bx-question-mark" style="font-size:3rem;color:var(--bs-secondary);"></i>
+        <h4 class="mt-3">No practice questions available yet</h4>
+        <p class="text-muted mt-2">Questions for <strong>{{ skill.display_name }}</strong> are still being set up. Check back soon.</p>
+        <a href="{% url 'revision-engine' %}" class="btn btn-outline-primary mt-3">Back to Overview</a>
+      </div>
+    </div>
+    {% else %}
+
+    <!-- Top row: skill info + mastery -->
+    <div class="row mb-5 align-items-center">
+      <div class="col">
+        <h3 class="mb-1">{{ skill.display_name }}</h3>
+        <span class="text-muted small">{{ skill.topic.display_name }} · {{ total_tagged }} question{{ total_tagged|pluralize }} available</span>
+      </div>
+      <div class="col-auto">
+        <div class="mastery-bar-wrap">
+          <div class="d-flex justify-content-between mb-1">
+            <small class="text-muted" id="mastery-label-text">Mastery Score: {{ mastery_percent }}%</small>
+          </div>
+          <div class="progress" style="height:8px;">
+            <div class="progress-bar bg-{{ mastery_color }}" id="mastery-bar"
+                 role="progressbar" style="width:{{ mastery_percent }}%"
+                 aria-valuenow="{{ mastery_percent }}" aria-valuemin="0" aria-valuemax="100"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── QUESTION CARD (matches questionbank format) ───────────────────── -->
+    <div class="card question-card mb-4">
+      <div class="card-body">
+        <div class="row">
+
+          <!-- ── Left column: header + question text + MCQ panels ──────── -->
+          <div class="col-md-9 col-12">
+
+            <!-- Question Header -->
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <div class="d-flex align-items-center flex-wrap gap-1">
+                {% if question.difficulty == 'Easy' %}
+                  <span class="badge difficulty-badge difficulty-easy">Easy</span>
+                {% elif question.difficulty == 'Medium' %}
+                  <span class="badge difficulty-badge difficulty-medium">Medium</span>
+                {% else %}
+                  <span class="badge difficulty-badge difficulty-hard">Hard</span>
+                {% endif %}
+                {% if question.paper == 'paper1' %}<span class="paper-badge">Paper 1</span>
+                {% elif question.paper == 'paper2' %}<span class="paper-badge">Paper 2</span>
+                {% endif %}
+                {% if question.marks and question.marks != 'null' %}
+                  <span class="paper-badge">Maximum Mark: {{ question.marks }}</span>
+                {% endif %}
+              </div>
+              <!-- Timer + hide button -->
+              <div class="d-flex align-items-center gap-2">
+                <span id="re-timer" class="fw-bold text-muted" style="font-size:0.95rem; min-width:52px; text-align:right;">0:00</span>
+                <button class="btn btn-sm btn-outline-secondary py-0 px-2" style="font-size:0.8rem;" onclick="toggleTimer()">
+                  <span id="timer-toggle-label">Hide</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Question Text -->
+            <div class="question-text">
+              {{ question.question|safe }}
+            </div>
+
+            <!-- Toggle MCQ parts button -->
+            {% if has_mcq %}
+            <div class="mt-3 mb-1">
+              <button class="btn btn-sm btn-outline-secondary" id="toggle-subq-btn" onclick="toggleSubquestions()">
+                Hide questions
+              </button>
+            </div>
+            {% endif %}
+
+            <!-- MCQ sub-question panels injected here by JS -->
+            <div id="subq-container" class="mt-2"></div>
+
+            <!-- Next Question / Back buttons (shown after all parts done) -->
+            <div id="next-container" style="display:none; margin-top:1.5rem;">
+              {% if lp_complete %}
+                <!-- LP session finished — handled below -->
+              {% elif next_url %}
+                {% if lp_pos and lp_total %}
+                <p class="text-muted small mb-2">
+                  Question {{ lp_pos }} of {{ lp_total }}
+                  {% if lp_pos < lp_total %}&nbsp;· {{ lp_total|add:"-1"|add:"0" }} remaining{% endif %}
+                </p>
+                {% endif %}
+                <a href="{{ next_url }}" class="btn btn-primary me-2">
+                  <i class="bx bx-right-arrow-alt me-1"></i>
+                  {% if lp_pos == lp_total %}Finish session →{% else %}Next Question →{% endif %}
+                </a>
+                <a href="{{ back_url|default:'#' }}" class="btn btn-outline-secondary">Back to Learning Path</a>
+              {% else %}
+                <a href="{% url 'revision-engine-practice' skill.slug %}" class="btn btn-primary me-2">
+                  <i class="bx bx-right-arrow-alt me-1"></i> Next Question
+                </a>
+                <a href="{% url 'revision-engine' %}" class="btn btn-outline-secondary">Back to Overview</a>
+              {% endif %}
+            </div>
+
+          </div>
+
+          <!-- ── Desktop vertical separator ────────────────────────────── -->
+          <div class="col-md-1 d-none d-md-flex justify-content-center desktop-separator">
+            <div style="width:2px; background-color:#e9ecef; height:100%; min-height:80px;"></div>
+          </div>
+
+          <!-- ── Mobile horizontal separator ───────────────────────────── -->
+          <div class="mobile-separator d-md-none"></div>
+
+          <!-- ── Right column: action buttons ──────────────────────────── -->
+          <div class="col-md-2 col-12 d-flex flex-column align-items-start justify-content-start pt-2">
+
+            <!-- Explanation (mark scheme) -->
+            <button class="btn btn-outline-primary mb-2 w-100"
+                    onclick="showAnswer()" data-bs-toggle="modal" data-bs-target="#answerModal">
+              Explanation
+            </button>
+
+            <!-- Video -->
+            {% if question.video and question.video != 'none' %}
+            <button class="btn btn-outline-primary mb-2 w-100"
+                    onclick="showVideo()" data-bs-toggle="modal" data-bs-target="#videoModal">
+              Video
+            </button>
+            {% else %}
+            <button class="btn btn-outline-secondary mb-2 w-100"
+                    onclick="showVideoNotAvailable()" data-bs-toggle="modal" data-bs-target="#videoModal">
+              Video
+            </button>
+            {% endif %}
+
+            <!-- Formula Booklet -->
+            <button class="btn btn-outline-primary mb-2 w-100" onclick="openFormulaBooklet()">
+              Formula Booklet
+            </button>
+
+          </div>
+        </div><!-- /row -->
+      </div><!-- /card-body -->
+    </div><!-- /card -->
+
+    {% endif %}
+
+  </div>
+  </div>
+</div>
+</div>
+
+<!-- ── Answer / Explanation Modal ──────────────────────────────────────── -->
+<div class="modal fade answer-modal" id="answerModal" tabindex="-1" aria-labelledby="answerModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="answerModalLabel">
+          <span id="modalQuestionNumber">Mark Scheme</span>
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div id="modalAnswerContent"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Video Modal ──────────────────────────────────────────────────────── -->
+<div class="modal fade video-modal" id="videoModal" tabindex="-1" aria-labelledby="videoModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="videoQuestionNumber">Video Solution</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div id="videoContainer"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Formula Booklet PDF Modal ────────────────────────────────────────── -->
+<div class="modal fade" id="pdfModal" tabindex="-1" aria-labelledby="pdfModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="pdfModalTitle">Math AI Formula Booklet</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="closePDF()"></button>
+      </div>
+      <div class="modal-body p-0">
+        <div class="pdf-viewer">
+          <div class="pdf-controls">
+            <div class="zoom-controls">
+              <button id="zoomOut" class="pdf-control-btn" title="Zoom Out">−</button>
+              <span id="zoomLevel" class="zoom-level">100%</span>
+              <button id="zoomIn" class="pdf-control-btn" title="Zoom In">+</button>
+            </div>
+            <span id="pageInfo" class="page-info">Loading...</span>
+          </div>
+          <div class="pdf-container">
+            <div id="pdfPages"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Scripts ──────────────────────────────────────────────────────────── -->
+<script src="{% static 'website/js/vendor/libs/jquery/jquery.js' %}"></script>
+<script src="{% static 'website/js/vendor/libs/popper/popper.js' %}"></script>
+<script src="{% static 'website/js/bootstrap.js' %}"></script>
+<script src="{% static 'website/js/vendor/libs/node-waves/node-waves.js' %}"></script>
+<script src="{% static 'website/js/vendor/libs/perfect-scrollbar/perfect-scrollbar.js' %}"></script>
+<script src="{% static 'website/js/vendor/menu.js' %}"></script>
+<script src="{% static 'website/js/vendor/helpers.js' %}"></script>
+<script src="{% static 'website/js/vendor/config.js' %}"></script>
+<script src="{% static 'website/js/main.js' %}"></script>
+<script src="{% static 'website/js/vendors.min.js' %}"></script>
+
+{% if not no_questions and not lp_complete %}
+<script>
+// ── Answer data (stored as JS variable so we can manipulate it) ────────────
+const ANSWER_CONTENT = {{ answer_json|safe }};
+{% if question.video and question.video != 'none' %}
+const VIDEO_URL = "{{ question.video }}";
+{% else %}
+const VIDEO_URL = null;
+{% endif %}
+
+// ── createTabbedAnswerInterface — identical to questionbank ────────────────
+function createTabbedAnswerInterface(fullAnswerContent, answersMsMatches) {
+  const modalContent = document.getElementById('modalAnswerContent');
+  let tabNav = '<div class="nav nav-tabs mb-4" id="answerTabs" role="tablist">';
+  let tabContent = '<div class="tab-content" id="answerTabContent">';
+  const sections = [];
+  let currentIndex = 0;
+
+  answersMsMatches.forEach((answerMs, index) => {
+    const startPos = fullAnswerContent.indexOf(answerMs, currentIndex);
+    let endPos = index < answersMsMatches.length - 1
+      ? fullAnswerContent.indexOf(answersMsMatches[index + 1], startPos)
+      : fullAnswerContent.length;
+    let sectionContent = fullAnswerContent.substring(startPos, endPos).trim();
+    sectionContent = sectionContent.replace(/<p class="answers-ms"><strong>(\([a-z]\)|[a-z]\)\s*(?: \([a-z]\))?)<\/strong>(.*?)<\/p>/s, '<p class="answers-ms">$2</p>').trim();
+    sectionContent = sectionContent.replace(/<p><strong>(\([a-z]\)|[a-z]\)\s*(?: \([a-z]\))?)<\/strong>(.*?)<\/p>/s, '<p class="answers-ms">$2</p>').trim();
+    const partMatch = answerMs.match(/<strong>(\(([a-z])\)|([a-z])\)\s*(?: \([a-z]\))?)<\/strong>/);
+    const partLetter = partMatch ? (partMatch[2] || partMatch[3]) : String.fromCharCode(97 + index);
+    sections.push({ letter: partLetter, content: sectionContent });
+    currentIndex = startPos + answerMs.length;
+  });
+
+  sections.forEach((section, index) => {
+    const tabId = `answer-tab-${section.letter}`;
+    const contentId = `answer-content-${section.letter}`;
+    const activeClass = index === 0 ? ' active' : '';
+    tabNav += `<button class="nav-link${activeClass}" id="${tabId}" data-bs-toggle="tab" data-bs-target="#${contentId}" type="button" role="tab" aria-selected="${index === 0}">${section.letter}</button>`;
+    tabContent += `<div class="tab-pane fade${activeClass} show" id="${contentId}" role="tabpanel">${section.content}</div>`;
+  });
+
+  tabNav += '</div>';
+  tabContent += '</div>';
+  modalContent.innerHTML = tabNav + tabContent;
+
+  setTimeout(() => {
+    const firstTab = document.querySelector('#answerTabs .nav-link.active');
+    const firstPane = document.querySelector('#answerTabContent .tab-pane.active');
+    if (firstTab && firstPane) { firstTab.classList.add('active'); firstPane.classList.add('active','show'); }
+  }, 100);
+}
+
+// ── Help-usage tracking ───────────────────────────────────────────────────
+let explanationViewed = false;
+let videoViewed       = false;
+
+// ── showAnswer — identical logic to questionbank ───────────────────────────
+function showAnswer() {
+  explanationViewed = true;
+  document.getElementById('modalQuestionNumber').textContent = 'Q{{ question.id }} — Mark Scheme';
+  const answersMsRegex = /<p class="answers-ms">.*?<\/p>/gs;
+  const matches = ANSWER_CONTENT.match(answersMsRegex);
+  if (matches && matches.length > 0) {
+    createTabbedAnswerInterface(ANSWER_CONTENT, matches);
+  } else {
+    document.getElementById('modalAnswerContent').innerHTML = ANSWER_CONTENT;
+  }
+  setTimeout(() => {
+    if (window.MathJax) {
+      MathJax.typesetPromise([document.getElementById('modalAnswerContent')]).catch(e => console.log('MathJax error:', e));
+    }
+  }, 200);
+}
+
+// ── showVideo — identical to questionbank ─────────────────────────────────
+function showVideo() {
+  if (!VIDEO_URL) return;
+  videoViewed = true;
+  const container = document.getElementById('videoContainer');
+  document.getElementById('videoQuestionNumber').textContent = 'Q{{ question.id }} — Video Solution';
+  let embedUrl = VIDEO_URL;
+  if (VIDEO_URL.includes('youtube.com/watch?v=')) {
+    embedUrl = 'https://www.youtube.com/embed/' + VIDEO_URL.split('v=')[1].split('&')[0];
+  } else if (VIDEO_URL.includes('youtu.be/')) {
+    embedUrl = 'https://www.youtube.com/embed/' + VIDEO_URL.split('youtu.be/')[1].split('?')[0];
+  }
+  container.innerHTML = `<iframe src="${embedUrl}" width="100%" height="480" frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`;
+}
+
+function showVideoNotAvailable() {
+  document.getElementById('videoQuestionNumber').textContent = 'Q{{ question.id }} — Video Solution';
+  document.getElementById('videoContainer').innerHTML = `
+    <div class="d-flex align-items-center justify-content-center" style="height:480px;background:#f8f9fa;">
+      <div class="text-center">
+        <i class="bx bx-video-off text-muted mb-3" style="font-size:4rem;"></i>
+        <h5 class="text-muted">Video not available yet</h5>
+        <p class="text-muted">This video solution will be available soon.</p>
+      </div>
+    </div>`;
+}
+
+// Clear video on modal close
+document.addEventListener('DOMContentLoaded', function () {
+  const answerModal = document.getElementById('answerModal');
+  const videoModal  = document.getElementById('videoModal');
+  if (answerModal) {
+    answerModal.addEventListener('shown.bs.modal', function () {
+      const mc = document.getElementById('modalAnswerContent');
+      if (window.MathJax && mc) MathJax.typesetPromise([mc]).catch(e => {});
+    });
+  }
+  if (videoModal) {
+    videoModal.addEventListener('hidden.bs.modal', function () {
+      document.getElementById('videoContainer').innerHTML = '';
+    });
+  }
+});
+
+// ── PDF / Formula Booklet ──────────────────────────────────────────────────
+pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+let pdfDoc = null, totalPages = 0, scale = 1.0;
+
+function openFormulaBooklet() {
+  const filePath = '{% static "website/images/pdfs/booklets/math_ai.pdf" %}';
+  document.getElementById('pdfModalTitle').textContent = 'Math AI Formula Booklet';
+  new bootstrap.Modal(document.getElementById('pdfModal')).show();
+  loadPDF(filePath);
+}
+
+async function loadPDF(filePath) {
+  try {
+    const task = pdfjsLib.getDocument({
+      url: filePath,
+      cMapUrl: 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/cmaps/',
+      cMapPacked: true,
+      standardFontDataUrl: 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/standard_fonts/'
+    });
+    pdfDoc = await task.promise;
+    totalPages = pdfDoc.numPages;
+    scale = 1.0;
+    updatePDFControls();
+    renderAllPages();
+  } catch(e) { console.error('PDF load error', e); }
+}
+
+async function renderAllPages() {
+  const container = document.getElementById('pdfPages');
+  container.innerHTML = '';
+  for (let n = 1; n <= totalPages; n++) {
+    const page = await pdfDoc.getPage(n);
+    const vp = page.getViewport({ scale });
+    const canvas = document.createElement('canvas');
+    canvas.className = 'pdf-page';
+    canvas.height = vp.height; canvas.width = vp.width;
+    await page.render({ canvasContext: canvas.getContext('2d'), viewport: vp }).promise;
+    container.appendChild(canvas);
+  }
+  updatePDFControls();
+}
+
+function updatePDFControls() {
+  const pi = document.getElementById('pageInfo');
+  const zl = document.getElementById('zoomLevel');
+  if (pi) pi.textContent = `1 of ${totalPages} pages`;
+  if (zl) zl.textContent = `${Math.round(scale * 100)}%`;
+}
+
+function closePDF() {
+  const m = bootstrap.Modal.getInstance(document.getElementById('pdfModal'));
+  if (m) m.hide();
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  document.getElementById('zoomIn').addEventListener('click', function() {
+    scale = Math.min(scale + 0.25, 3.0); if (pdfDoc) renderAllPages();
+  });
+  document.getElementById('zoomOut').addEventListener('click', function() {
+    scale = Math.max(scale - 0.25, 0.5); if (pdfDoc) renderAllPages();
+  });
+});
+
+// ── Timer ─────────────────────────────────────────────────────────────────
+let timerSeconds = 0;
+let timerVisible = true;
+const timerEl    = document.getElementById('re-timer');
+const timerLabel = document.getElementById('timer-toggle-label');
+
+function formatTime(s) {
+  const m = Math.floor(s / 60);
+  const sec = s % 60;
+  return m + ':' + String(sec).padStart(2, '0');
+}
+
+setInterval(() => {
+  timerSeconds++;
+  if (timerVisible) timerEl.textContent = formatTime(timerSeconds);
+}, 1000);
+
+function toggleTimer() {
+  timerVisible = !timerVisible;
+  if (timerVisible) {
+    timerEl.classList.remove('hidden');
+    timerEl.textContent = formatTime(timerSeconds);
+    timerLabel.textContent = 'Hide';
+  } else {
+    timerEl.classList.add('hidden');
+    timerLabel.textContent = 'Show';
+  }
+}
+
+// ── Show/hide sub-questions ────────────────────────────────────────────────
+let subqVisible = true;
+function toggleSubquestions() {
+  subqVisible = !subqVisible;
+  const container = document.getElementById('subq-container');
+  const btn       = document.getElementById('toggle-subq-btn');
+  if (subqVisible) {
+    container.style.display = '';
+    btn.textContent = 'Hide questions';
+  } else {
+    container.style.display = 'none';
+    btn.textContent = 'Show questions';
+  }
+}
+
+// ── MCQ flow ──────────────────────────────────────────────────────────────
+{% if has_mcq %}
+const SUBQUESTIONS = {{ subquestions_json|safe }};
+const SKILL_SLUG   = "{{ skill.slug }}";
+const SUBMIT_URL   = "{% url 'revision-engine-submit-mcq' %}";
+
+const results = SUBQUESTIONS.map(() => null);
+let currentIndex = 0;
+
+// Per-subquestion start timestamps (ms) — set when each panel becomes active
+const subqStartTime = SUBQUESTIONS.map(() => null);
+subqStartTime[0] = Date.now();
+
+function getCookie(name) {
+  let v = null;
+  document.cookie.split(';').forEach(c => {
+    c = c.trim();
+    if (c.startsWith(name + '=')) v = decodeURIComponent(c.slice(name.length + 1));
+  });
+  return v;
+}
+
+function buildPanels() {
+  const container = document.getElementById('subq-container');
+
+  SUBQUESTIONS.forEach((sq, idx) => {
+    const panel = document.createElement('div');
+    panel.className = 'subq-panel' + (idx === 0 ? ' active' : '');
+    panel.id = `panel-${idx}`;
+    panel.style.cssText = 'border-top: 1px solid #e9ecef; padding-top: 1.25rem; margin-top: 0.5rem;';
+
+    const partLabel = sq.part_label ? `Part ${sq.part_label.toUpperCase()}` : '';
+
+    panel.innerHTML = `
+      <div class="d-flex align-items-center gap-3 mb-3">
+        ${partLabel ? `<div class="part-badge">${sq.part_label.toUpperCase()}</div>` : ''}
+        <div class="fw-semibold" style="font-size:1rem;" id="sqtext-${idx}">${sq.question_text}</div>
+      </div>
+
+      <div class="d-flex flex-column gap-2 mb-3" id="options-${idx}">
+        ${sq.options.map(o => `
+          <button class="mcq-btn" id="opt-${idx}-${o.label}" onclick="selectOption(${idx}, '${o.label}')">
+            <span class="opt-label">${o.label}</span>
+            <span>${o.text}</span>
+          </button>
+        `).join('')}
+      </div>
+
+      <div id="feedback-${idx}" style="display:none;" class="mb-2"></div>
+
+      <div class="d-flex gap-2 align-items-center">
+        <button class="btn btn-outline-secondary btn-sm" onclick="skipPart(${idx})">Skip →</button>
+      </div>`;
+
+    container.appendChild(panel);
+  });
+
+  if (window.MathJax) MathJax.typesetPromise([container]);
+}
+
+function selectOption(idx, selectedLabel) {
+  const sq = SUBQUESTIONS[idx];
+  sq.options.forEach(o => { document.getElementById(`opt-${idx}-${o.label}`).disabled = true; });
+
+  const isCorrect    = sq.options.find(o => o.label === selectedLabel)?.is_correct || false;
+  const correctLabel = sq.options.find(o => o.is_correct)?.label;
+
+  sq.options.forEach(o => {
+    const btn = document.getElementById(`opt-${idx}-${o.label}`);
+    if (o.label === selectedLabel &&  isCorrect) btn.classList.add('correct');
+    if (o.label === selectedLabel && !isCorrect) btn.classList.add('wrong');
+    if (o.label === correctLabel  && !isCorrect) btn.classList.add('reveal');
+  });
+
+  const fb = document.getElementById(`feedback-${idx}`);
+  fb.style.display = 'block';
+  fb.innerHTML = isCorrect
+    ? '<span class="text-success fw-bold"><i class="bx bx-check-circle me-1"></i>Correct!</span>'
+    : `<span class="text-danger fw-bold"><i class="bx bx-x-circle me-1"></i>Incorrect.</span> Correct answer: <strong>${correctLabel}</strong>`;
+
+  results[idx] = isCorrect ? 'correct' : 'wrong';
+
+  const timeSpent = subqStartTime[idx] !== null
+    ? Math.round((Date.now() - subqStartTime[idx]) / 1000)
+    : null;
+
+  fetch(SUBMIT_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'X-CSRFToken': getCookie('csrftoken') },
+    body: JSON.stringify({
+      subquestion_id:     sq.id,
+      selected_label:     selectedLabel,
+      skill_slug:         SKILL_SLUG,
+      explanation_viewed: explanationViewed,
+      video_viewed:       videoViewed,
+      time_spent:         timeSpent,
+    }),
+  })
+  .then(r => r.json())
+  .then(data => {
+    if (data.new_mastery_percent !== undefined) {
+      document.getElementById('mastery-bar').style.width = data.new_mastery_percent + '%';
+      document.getElementById('mastery-label-text').textContent =
+        'Mastery Score: ' + data.new_mastery_percent + '%';
+    }
+  })
+  .catch(() => {});
+
+  replaceSkipWithNext(idx);
+}
+
+function skipPart(idx) {
+  results[idx] = 'skipped';
+  SUBQUESTIONS[idx].options.forEach(o => { document.getElementById(`opt-${idx}-${o.label}`).disabled = true; });
+  advanceToNext(idx);
+}
+
+function replaceSkipWithNext(idx) {
+  const panel = document.getElementById(`panel-${idx}`);
+  const skipBtn = panel.querySelector('.btn-outline-secondary');
+  if (!skipBtn) return;
+  const isLast = (idx === SUBQUESTIONS.length - 1);
+  skipBtn.outerHTML = isLast
+    ? `<button class="btn btn-primary btn-sm" onclick="finish()">Finish question →</button>`
+    : `<button class="btn btn-primary btn-sm" onclick="advanceToNext(${idx})">Next part →</button>`;
+}
+
+function advanceToNext(idx) {
+  document.getElementById(`panel-${idx}`).classList.remove('active');
+  document.getElementById(`panel-${idx}`).classList.add('done');
+  const nextIdx = idx + 1;
+  if (nextIdx < SUBQUESTIONS.length) {
+    currentIndex = nextIdx;
+    subqStartTime[nextIdx] = Date.now();
+    document.getElementById(`panel-${nextIdx}`).classList.add('active');
+    document.getElementById(`panel-${nextIdx}`).scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    if (window.MathJax) MathJax.typesetPromise([document.getElementById(`panel-${nextIdx}`)]);
+  } else {
+    finish();
+  }
+}
+
+function finish() {
+  document.getElementById('next-container').style.display = 'block';
+  document.getElementById('next-container').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+buildPanels();
+{% endif %}
+</script>
+{% endif %}
+
+</body>
+</html>

@@ -1,0 +1,148 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Academy - Questionbank</title>
+
+   <!-- font awesome cdn link  -->
+   <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"> -->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+
+   <!-- custom css file link  -->
+   <link rel="stylesheet" href="{% static 'website/css/style.css' %}">
+
+</head>
+<body>
+
+<header class="header">
+   
+   <section class="flex" id="blur_flex">
+
+      <a href="home.html" class="logo">Edunade Academy - IB Questionbank</a>
+      <div class="icons">
+         <div id="menu-btn" class="fas fa-bars"></div>
+         <div id="search-btn" class="fas fa-search"></div>
+         <div id="user-btn" class="fas fa-user"></div>
+         <div id="toggle-btn" class="fas fa-sun"></div>
+         <!-- <div id="toggle-btn">
+            <a href="profile.html" class="fas fa-sun">Log Out</a>
+         </div> -->
+         
+         
+      </div>
+
+      {% include 'common_header.html' %}
+
+
+
+<section class="home-grid" id="blur_home_grid">
+   {% if updated_creds %}
+
+   <div>
+      <div id="hideMe">
+         <h2 class="message">You have successfully updated your profile. Log in again to see the changes.</h2>
+      </div>
+   </div>
+   
+   {% endif %}
+
+   
+
+
+
+   <h1 class="heading" id="blur_heading">Hisotry HL Questionbank</h1>
+
+   <h1 class="sub-heading" id="blur_heading">Welcome to the IB History HL questionbank! We are glad you are joining us on this journey to becoming the biggest free resource of materials needed to help you get you to your dream university. Our questions are updated every Sunday, so be sure to check it out regularly for some fresh knowledge!</h1>
+
+</section>
+
+
+
+
+   <section id="past_papers">
+
+      <h1 class="heading" id="blur_heading">Paper 2</h1>
+      
+      <div class="outer-grid" id="blur_main">
+
+         <div class="inner-grid math">
+            <a href="{% url 'origins-authoritarian-hl' %}">
+               <img class="no-text" src="{% static 'website/images/questionbank/logos/history_hl/origins_auth.png' %}"/>
+                 <h4>Origins of Authoritarian States</h4>
+             </a>
+         </div>
+
+         <div class="inner-grid math">
+            <a href="{% url 'europe-and-ww1-hl' %}">
+               <img class="no-text" src="{% static 'website/images/questionbank/logos/history_hl/europe_ww1.png' %}"/>
+                 <h4>Europe and the First World War (1871–1918)</h4>
+             </a>
+         </div>
+
+         
+         <div class="inner-grid math">
+            <a href="{% url 'spanish-civil-war-hl' %}">
+               <img class="no-text" src="{% static 'website/images/questionbank/logos/history_hl/civil_war.png' %}"/>
+               <h4>Spanish Civil War (1936-1939)</h4>
+             </a>
+         </div>
+
+         <div class="inner-grid math">
+            <a href="{% url 'cold-war-hl' %}">
+               <img class="no-text" src="{% static 'website/images/questionbank/logos/history_hl/cold_war.png' %}"/>
+               <h4>The Cold War</h4>
+             </a>
+         </div>
+
+
+
+      </div>
+
+      <h1 class="heading" id="blur_heading">Paper 3</h1>
+      
+      <div class="outer-grid" id="blur_main">
+
+         
+         <div class="inner-grid math">
+            <a href="{% url 'diplomacy-europe' %}">
+               <img class="no-text" src="{% static 'website/images/questionbank/logos/history_hl/diplomacy.png' %}"/>
+                 <h4>Diplomacy in Europe (1918-1945)</h4>
+             </a>
+         </div>
+
+
+         <div class="inner-grid math">
+            <a href="{% url 'inter-war-hl' %}">
+               <img class="no-text" src="{% static 'website/images/questionbank/logos/history_hl/inter_war.png' %}"/>
+                 <h4>Inter-War Domestic Developments in European States (1918–1939)</h4>
+             </a>
+         </div>
+
+
+         <div class="inner-grid math">
+            <a href="{% url 'post-soviet' %}">
+               <img class="no-text" src="{% static 'website/images/questionbank/logos/history_hl/soviet_union.png' %}"/>
+                 <h4>The Soviet Union and Post-Soviet Russia 1924-2000</h4>
+             </a>
+         </div>
+
+      </div>
+      
+      </section>
+  
+    
+
+
+<!-- custom js file link  -->
+<!-- <script src="js/script.js"></script> -->
+<script src="{% static 'website/js/script.js' %}"></script>
+<script src="{% static 'website/js/script_papers.js' %}"></script>
+
+   
+</body>
+</html>

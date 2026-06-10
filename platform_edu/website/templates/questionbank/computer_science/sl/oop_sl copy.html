@@ -1,0 +1,621 @@
+{% load static %}
+
+
+<!doctype html>
+<!doctype html>
+
+<html
+  lang="en"
+  class="layout-navbar-fixed layout-menu-fixed layout-compact"
+  dir="ltr"
+  data-skin="default"
+  data-bs-theme="light"
+  data-assets-path="../../assets/"
+  data-template="vertical-menu-template">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>{{ topic_title }} | Computer Science SL | {{ site_name }}</title>
+
+    <meta name="description" content="" />
+
+    {% include 'top_base.html' %}
+
+    <!-- endbuild -->
+
+    <!-- Number Skills AI SL Dedicated CSS -->
+    <link rel="stylesheet" href="{% static 'website/css/questionbank.css' %}" />
+
+
+<script>
+  function fetchQuestions() {
+    const paper = document.getElementById("paper").value;
+    const difficulty = document.getElementById("difficulty").value;
+    const chapter = "{{ chapter }}";  // Dynamic chapter name passed from view
+
+    const url = `/api/comp-sci-sl-questions/?paper=${paper}&difficulty=${difficulty}&chapter=${encodeURIComponent(chapter)}`;
+
+    fetch(url)
+      .then(response => response.json())
+      .then(data => {
+        const container = document.getElementById("questions");
+        container.innerHTML = "";
+        data.forEach(question => {
+          const div = document.createElement("div");
+          div.textContent = question.text + " (" + question.paper + " - " + question.difficulty + ")";
+          container.appendChild(div);
+        });
+      });
+  }
+</script>
+
+
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['\\(', '\\)']],
+          displayMath: [['\\[', '\\]']]
+        }
+      };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+
+    <!-- Helpers -->
+    <script type="text/javascript" src="{% static 'website/js/vendor/helpers.js' %}"></script>
+
+    <!--? Template customizer: To hide customizer set displayCustomizer value false in config.js. -->
+    <!-- <script type="text/javascript" src="{% static 'website/js/vendor/template-customizer.js' %}"></script> -->
+
+    <!--? Config: Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file. -->
+
+    <script type="text/javascript" src="{% static 'website/js/vendor/config.js' %}"></script>
+  </head>
+
+  <body>
+    <!-- Layout wrapper -->
+    <div class="layout-wrapper layout-content-navbar">
+      <div class="layout-container">
+        <!-- Menu -->
+
+        {% include 'sidebar.html' %}
+
+          <!-- / Navbar -->
+
+          <div class="content-wrapper">
+
+            <div class="container-xxl flex-grow-1 container-p-y">
+
+                              <h3 class="pb-1 mb-6">{{ topic_title }} | Computer Science SL Questionbank</h3>
+
+              <!-- Filters Section -->
+              <div class="d-flex flex-wrap gap-3 mb-4">
+                <!-- Difficulty Filter -->
+                <div class="filter-card card">
+                  <div class="card-body">
+                    <div class="filter-title">Difficulty Level</div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" id="difficultyAll" value="all" />
+                      <label class="form-check-label" for="difficultyAll">All</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" id="difficultyEasy" value="Easy" />
+                      <label class="form-check-label" for="difficultyEasy">Easy</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" id="difficultyMedium" value="Medium" />
+                      <label class="form-check-label" for="difficultyMedium">Medium</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" id="difficultyHard" value="Hard" />
+                      <label class="form-check-label" for="difficultyHard">Hard</label>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Paper Type Filter -->
+                <div class="filter-card card">
+                  <div class="card-body">
+                    <div class="filter-title">Paper</div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" id="paperAll" value="all" />
+                      <label class="form-check-label" for="paperAll">All</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" id="paper1" value="paper1" />
+                      <label class="form-check-label" for="paper1">Paper 1</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" id="paper2" value="paper2" />
+                      <label class="form-check-label" for="paper2">Paper 2</label>
+                    </div>
+                    <!-- <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="checkbox" id="paper3" value="paper3" />
+                      <label class="form-check-label" for="paper3">Paper 3</label>
+                    </div> -->
+                  </div>
+                </div>
+
+
+
+              </div>
+              <br><br>
+              <!-- Content Area -->
+              <div class="row">
+                <div class="col-12">
+                  <!-- Loading Spinner -->
+                  <div class="loading-spinner text-center py-5">
+                    <div class="spinner-border text-primary" role="status">
+                      <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p class="mt-2 text-muted">Loading questions...</p>
+                  </div>
+
+                  <!-- Questions Container -->
+                  <div id="questionsContainer">
+                    <!-- Initial placeholder -->
+                    <div class="card" id="placeholder">
+                      <div class="card-body text-center py-5">
+                        <h5 class="card-title">Computer Science SL Question Bank</h5>
+                        <p class="card-text text-muted">Select filters above to browse through the question bank, or see all questions below.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Answer Modal -->
+            <div class="modal fade answer-modal" id="answerModal" tabindex="-1" aria-labelledby="answerModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="answerModalLabel">
+                      <span id="modalQuestionNumber">Question Answer</span>
+                      <span id="modalBadges"></span>
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <div id="modalAnswerContent">
+                      <!-- Answer content will be loaded here -->
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Video Modal -->
+            <div class="modal fade video-modal" id="videoModal" tabindex="-1" aria-labelledby="videoModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="videoModalLabel">
+                      <span id="videoQuestionNumber">Question Video</span>
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <div id="videoContainer">
+                      <!-- YouTube embed will be loaded here -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+
+            <div class="content-backdrop fade"></div>
+          </div>
+          <!-- Content wrapper -->
+        </div>
+        <!-- / Layout page -->
+      </div>
+
+      <!-- Overlay -->
+      <div class="layout-overlay layout-menu-toggle"></div>
+
+      <!-- Drag Target Area To SlideIn Menu On Small Screens -->
+      <div class="drag-target"></div>
+    </div>
+    <!-- / Layout wrapper -->
+
+    <!-- Core JS -->
+
+    <!-- build:js assets/vendor/js/theme.js  -->
+
+    <script src="{% static 'website/js/vendor/libs/jquery/jquery.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/popper/popper.js' %}"></script>
+    <script src="{% static 'website/js/bootstrap.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/node-waves/node-waves.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/@algolia/autocomplete-js.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/pickr/pickr.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/perfect-scrollbar/perfect-scrollbar.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/hammer/hammer.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/i18n/i18n.js' %}"></script>
+
+    <script src="{% static 'website/js/vendor/menu.js' %}"></script>
+
+    <!-- endbuild -->
+
+    <!-- Vendors JS -->
+    <script src="{% static 'website/js/vendor/libs/masonry/masonry.js' %}"></script>
+
+    <!-- Main JS -->
+
+    <script type="text/javascript" src="{% static 'website/js/main.js' %}"></script>
+
+    <!-- For the top header to work -->
+    <script type="text/javascript" src="{% static 'website/js/vendors.min.js' %}"></script>
+
+    <script>
+      // User status from Django context
+      let alreadyRegistered = '{{ already_registered|yesno:"true,false" }}' === 'true';
+      let userType = "{{ user_type }}";
+      // Store questions data globally
+      let questionsData = [];
+      
+      // Debug user status
+      console.log('alreadyRegistered:', alreadyRegistered, 'userType:', userType);
+      
+      // Function to show answer in modal
+      function showAnswer(questionNumber, questionId, difficulty, paper) {
+        const modalTitle = document.getElementById('modalQuestionNumber');
+        const modalBadges = document.getElementById('modalBadges');
+        const modalContent = document.getElementById('modalAnswerContent');
+        
+        // Find the question by ID
+        const question = questionsData.find(q => q.id === questionId);
+        if (!question) {
+          modalContent.innerHTML = '<p>Answer not found.</p>';
+          return;
+        }
+        
+        const difficultyClass = `difficulty-${difficulty.toLowerCase()}`;
+        
+        modalTitle.textContent = `Question ${questionNumber} - Answer`;
+
+        // Set the content directly without escaping to preserve LaTeX
+        modalContent.innerHTML = question.answer;
+        
+        // Trigger MathJax to render the modal content with a delay to ensure DOM is ready
+        setTimeout(() => {
+          if (window.MathJax) {
+            console.log('Processing MathJax for modal content...');
+            MathJax.typesetPromise([modalContent]).then(() => {
+              console.log('MathJax processing completed');
+            }).catch((err) => console.log('MathJax error:', err.message));
+          }
+        }, 200);
+        
+        // Remove focus from the button to prevent highlighting
+        setTimeout(() => {
+          document.activeElement.blur();
+        }, 250);
+      }
+      
+      // Function to show video in modal
+      function showVideo(questionNumber, videoUrl) {
+        const modalTitle = document.getElementById('videoQuestionNumber');
+        const videoContainer = document.getElementById('videoContainer');
+        
+        modalTitle.textContent = `Question ${questionNumber} - Video Solution`;
+        
+        // Convert YouTube URL to embed format if needed
+        let embedUrl = videoUrl;
+        if (videoUrl.includes('youtube.com/watch?v=')) {
+          const videoId = videoUrl.split('v=')[1].split('&')[0];
+          embedUrl = `https://www.youtube.com/embed/${videoId}`;
+        } else if (videoUrl.includes('youtu.be/')) {
+          const videoId = videoUrl.split('youtu.be/')[1].split('?')[0];
+          embedUrl = `https://www.youtube.com/embed/${videoId}`;
+        }
+        
+        // Create the iframe
+        videoContainer.innerHTML = `
+          <iframe src="${embedUrl}" 
+                  width="100%" 
+                  height="480" 
+                  frameborder="0" 
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                  allowfullscreen>
+          </iframe>
+        `;
+        
+        // Remove focus from the button to prevent highlighting
+        setTimeout(() => {
+          document.activeElement.blur();
+        }, 100);
+      }
+      
+      // Function to show video not available message
+      function showVideoNotAvailable(questionNumber) {
+        const modalTitle = document.getElementById('videoQuestionNumber');
+        const videoContainer = document.getElementById('videoContainer');
+        
+        modalTitle.textContent = `Question ${questionNumber} - Video Solution`;
+        
+        // Show not available message
+        videoContainer.innerHTML = `
+          <div class="d-flex align-items-center justify-content-center" style="height: 480px; background-color: #f8f9fa;">
+            <div class="text-center">
+              <i class="iconify text-muted mb-3" data-icon="mdi:video-off-outline" style="font-size: 4rem;"></i>
+              <h5 class="text-muted">Video not available yet</h5>
+              <p class="text-muted">This video solution will be available soon.</p>
+            </div>
+          </div>
+        `;
+        
+        // Remove focus from the button to prevent highlighting
+        setTimeout(() => {
+          document.activeElement.blur();
+        }, 100);
+      }
+      
+      // Filter functionality
+      document.addEventListener('DOMContentLoaded', function() {
+        const difficultyCheckboxes = document.querySelectorAll('#difficultyAll, #difficultyEasy, #difficultyMedium, #difficultyHard');
+        const paperCheckboxes = document.querySelectorAll('#paperAll, #paper1, #paper2, #paper3');
+        const questionsContainer = document.getElementById('questionsContainer');
+        const loadingSpinner = document.querySelector('.loading-spinner');
+        const placeholder = document.getElementById('placeholder');
+        
+        function showLoading() {
+          loadingSpinner.style.display = 'block';
+          questionsContainer.style.display = 'none';
+        }
+        
+        function hideLoading() {
+          loadingSpinner.style.display = 'none';
+          questionsContainer.style.display = 'block';
+        }
+        
+        function formatPaperName(paper) {
+          // Convert "paper1" to "Paper 1", "paper2" to "Paper 2", etc.
+          if (paper.toLowerCase().startsWith('paper')) {
+            const number = paper.replace(/paper/i, '');
+            return `Paper ${number}`;
+          }
+          return paper; // Return as-is if it doesn't match expected format
+        }
+        
+        function sortQuestionsByDifficulty(questions) {
+          // For non-registered users, preserve backend ordering (Free, Registered, Premium)
+          // For registered users, sort by difficulty as usual
+          if (!alreadyRegistered) {
+            // Non-registered users: preserve backend ordering which is already sorted by type
+            return questions.slice(); // Return as-is from backend
+          } else {
+            // Registered users: sort by difficulty as usual
+            const difficultyOrder = { 'Easy': 1, 'Medium': 2, 'Hard': 3 };
+            return questions.slice().sort((a, b) => {
+              const orderA = difficultyOrder[a.difficulty] || 999;
+              const orderB = difficultyOrder[b.difficulty] || 999;
+              if (orderA !== orderB) {
+              return orderA - orderB;
+              }
+              // If same difficulty, sort by ID ascending
+              return a.id - b.id;
+            });
+          }
+        }
+        
+        function createQuestionCard(question, index) {
+          // Debug question type
+          console.log('question.type:', question.type);
+          const difficultyClass = `difficulty-${question.difficulty.toLowerCase()}`;
+          const questionNumber = index + 1;
+          const formattedPaper = formatPaperName(question.paper);
+          const formattedDifficulty = question.difficulty; // Use the difficulty as-is since it's already capitalized
+          
+          // Determine if question should be blurred
+          let blur = false;
+          if (question.type === 'registered' && !alreadyRegistered) {
+            blur = true;
+          } else if (question.type === 'premium' && userType !== 'premium') {
+            blur = true;
+          }
+
+          let overlay = '';
+          if (blur) {
+            if (question.type === 'registered') {
+              overlay = `<a class="unlock-overlay lite" tabindex="0" href="/register/">Lite (Free)</a>`;
+            } else if (question.type === 'premium') {
+              overlay = `<a class="unlock-overlay premium" tabindex="0" href="/pricing/">Premium</a>`;
+            } else {
+              overlay = '<div class="unlock-overlay" tabindex="0">Upgrade to unlock</div>';
+            }
+          }
+
+          let answerButton = '';
+          let videoButton = '';
+          if (blur) {
+            answerButton = `<button class=\"btn btn-outline-primary answer-btn mb-3\" disabled aria-disabled=\"true\"><i class=\"iconify\" data-icon=\"mdi:eye-outline\"></i> Answer</button>`;
+            videoButton = `<button class=\"btn btn-outline-secondary video-btn\" disabled aria-disabled=\"true\"><i class=\"iconify\" data-icon=\"mdi:play-circle-outline\"></i> Video</button>`;
+          } else {
+            answerButton = `<button class=\"btn btn-outline-primary answer-btn mb-3\" onclick=\"showAnswer('${questionNumber}', ${question.id}, '${formattedDifficulty}', '${formattedPaper}')\" data-bs-toggle=\"modal\" data-bs-target=\"#answerModal\"><i class=\"iconify\" data-icon=\"mdi:eye-outline\"></i> Answer</button>`;
+            if (question.video && question.video !== 'none') {
+              videoButton = `<button class=\"btn btn-outline-secondary video-btn\" onclick=\"showVideo('${questionNumber}', '${question.video}')\" data-bs-toggle=\"modal\" data-bs-target=\"#videoModal\"><i class=\"iconify\" data-icon=\"mdi:play-circle-outline\"></i> Video</button>`;
+            } else {
+              videoButton = `<button class=\"btn btn-outline-secondary video-btn\" onclick=\"showVideoNotAvailable('${questionNumber}')\" data-bs-toggle=\"modal\" data-bs-target=\"#videoModal\"><i class=\"iconify\" data-icon=\"mdi:play-circle-outline\"></i> Video</button>`;
+            }
+          }
+          
+          return `
+            <div class=\"card question-card${blur ? ' blurred-question' : ''}\">\n              <div class=\"card-body\">\n                ${overlay}\n                <div class=\"row${blur ? ' blurred-question-content' : ''}\">\n                  <div class=\"col-md-9 col-12\">\n                    <!-- Question Header -->\n                    <div class=\"d-flex align-items-center mb-3\">\n                      <span class=\"question-number\">Question ${questionNumber}</span>\n                      <span class=\"badge ${difficultyClass} difficulty-badge\">${formattedDifficulty}</span>\n                      <span class=\"paper-badge\">${formattedPaper}</span>\n                    </div>\n                    
+                    <!-- Question Text -->
+                    <div class=\"question-text\">\n                      <p class=\"mb-0\">${question.question}</p>\n                    </div>\n                  </div>\n                  
+                  <!-- Desktop Vertical Line -->\n                  <div class=\"col-md-1 d-none d-md-flex justify-content-center desktop-separator\">\n                    <div style=\"width: 2px; background-color: #e9ecef; height: 100%; min-height: 80px;\"></div>\n                  </div>\n                  \n                  <!-- Mobile Horizontal Line -->\n                  <div class=\"mobile-separator d-md-none\"></div>\n                  \n                  <!-- Buttons Column -->\n                  <div class=\"col-md-2 col-12 d-flex flex-column align-items-start justify-content-start pt-2\">\n                    ${answerButton}\n                    ${videoButton}\n                  </div>\n                </div>\n              </div>\n            </div>\n          `;
+        }
+        
+        function fetchQuestions() {
+          const selectedDifficulties = [];
+          const selectedPapers = [];
+          
+          // Check if "All" is selected for difficulty
+          const difficultyAllChecked = document.getElementById('difficultyAll').checked;
+          if (!difficultyAllChecked) {
+            // Get selected difficulties only if "All" is not checked
+            difficultyCheckboxes.forEach(checkbox => {
+              if (checkbox.checked && checkbox.value !== 'all') {
+                selectedDifficulties.push(checkbox.value);
+              }
+            });
+          }
+          
+          // Check if "All" is selected for papers
+          const paperAllChecked = document.getElementById('paperAll').checked;
+          if (!paperAllChecked) {
+            // Get selected papers only if "All" is not checked
+            paperCheckboxes.forEach(checkbox => {
+              if (checkbox.checked && checkbox.value !== 'all') {
+                selectedPapers.push(checkbox.value);
+              }
+            });
+          }
+          
+          // Build query parameters
+          const params = new URLSearchParams();
+          
+          // Always filter by the current chapter
+          params.append('chapter', '{{ chapter }}');
+          
+          // Only add difficulty filters if "All" is not selected and there are specific selections
+          if (!difficultyAllChecked && selectedDifficulties.length > 0) {
+            selectedDifficulties.forEach(difficulty => params.append('difficulties[]', difficulty));
+          }
+          
+          // Only add paper filters if "All" is not selected and there are specific selections
+          if (!paperAllChecked && selectedPapers.length > 0) {
+            selectedPapers.forEach(paper => params.append('papers[]', paper));
+          }
+          
+          const url = `/api/comp-sci-sl-questions/?${params.toString()}`;
+          
+          showLoading();
+          
+          fetch(url)
+            .then(response => response.json())
+            .then(data => {
+              hideLoading();
+              
+              // Store questions data globally
+              questionsData = data;
+              
+              if (data.length === 0) {
+                questionsContainer.innerHTML = `
+                  <div class="card">
+                    <div class="card-body text-center py-5">
+                      <h5 class="card-title">No questions found...</h5>
+                      <p class="card-text text-muted">Try adjusting your filters!</p>
+                    </div>
+                  </div>
+                `;
+              } else {
+                const sortedQuestions = sortQuestionsByDifficulty(data);
+                const questionsHTML = sortedQuestions.map((question, index) => createQuestionCard(question, index)).join('');
+                questionsContainer.innerHTML = questionsHTML;
+                
+                // Trigger MathJax to render the newly loaded content
+                if (window.MathJax) {
+                  MathJax.typesetPromise([questionsContainer]).catch((err) => console.log(err.message));
+                }
+              }
+            })
+            .catch(error => {
+              hideLoading();
+              console.error('Error fetching questions:', error);
+              questionsContainer.innerHTML = `
+                <div class="card">
+                  <div class="card-body text-center py-5">
+                    <h5 class="card-title text-danger">Error Loading Questions</h5>
+                    <p class="card-text text-muted">Please try again later.</p>
+                  </div>
+                </div>
+              `;
+            });
+        }
+        
+        // Handle "All" checkbox interactions
+        document.getElementById('difficultyAll').addEventListener('change', function() {
+          if (this.checked) {
+            // Uncheck all individual difficulty checkboxes when "All" is selected
+            document.getElementById('difficultyEasy').checked = false;
+            document.getElementById('difficultyMedium').checked = false;
+            document.getElementById('difficultyHard').checked = false;
+          }
+          fetchQuestions();
+        });
+        
+        // Handle individual difficulty checkboxes
+        ['difficultyEasy', 'difficultyMedium', 'difficultyHard'].forEach(id => {
+          document.getElementById(id).addEventListener('change', function() {
+            if (this.checked) {
+              // Uncheck "All" when any individual difficulty is selected
+              document.getElementById('difficultyAll').checked = false;
+            }
+            fetchQuestions();
+          });
+        });
+        
+        document.getElementById('paperAll').addEventListener('change', function() {
+          if (this.checked) {
+            // Uncheck all individual paper checkboxes when "All" is selected
+            document.getElementById('paper1').checked = false;
+            document.getElementById('paper2').checked = false;
+            document.getElementById('paper3').checked = false;
+          }
+          fetchQuestions();
+        });
+        
+        // Handle individual paper checkboxes
+        ['paper1', 'paper2'].forEach(id => {
+          document.getElementById(id).addEventListener('change', function() {
+            if (this.checked) {
+              // Uncheck "All" when any individual paper is selected
+              document.getElementById('paperAll').checked = false;
+            }
+            fetchQuestions();
+          });
+        });
+        
+        // Load all questions initially by checking "All" options
+        document.getElementById('difficultyAll').checked = true;
+        document.getElementById('paperAll').checked = true;
+        fetchQuestions();
+      });
+      
+      // Also ensure MathJax processes when modal is fully shown
+      document.addEventListener('DOMContentLoaded', function() {
+        const answerModal = document.getElementById('answerModal');
+        const videoModal = document.getElementById('videoModal');
+        
+        if (answerModal) {
+          answerModal.addEventListener('shown.bs.modal', function () {
+            const modalContent = document.getElementById('modalAnswerContent');
+            if (window.MathJax && modalContent) {
+              MathJax.typesetPromise([modalContent]).catch((err) => console.log('MathJax modal error:', err.message));
+            }
+          });
+        }
+        
+        if (videoModal) {
+          // Clean up video when modal is closed to stop playback
+          videoModal.addEventListener('hidden.bs.modal', function () {
+            const videoContainer = document.getElementById('videoContainer');
+            videoContainer.innerHTML = '';
+          });
+        }
+      });
+    </script>
+
+    <!-- Page JS -->
+  </body>
+</html>

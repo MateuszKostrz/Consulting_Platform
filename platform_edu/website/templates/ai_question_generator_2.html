@@ -1,0 +1,1053 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Question Generator - Past Papers | {{ site_name }}</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="icon" href="{% static 'website/images/platform_logo.svg' %}">
+    <link rel="alternate icon" href="{% static 'website/images/safari_logo2_prev_ui.png' %}" type="image/png">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    
+    <!-- CKEditor for text editing -->
+    <script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
+    
+    <!-- MathJax for LaTeX rendering -->
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            }
+        };
+    </script>
+    
+    <style>
+        body {
+            background-color: #f8f9fa;
+            min-height: 100vh;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            color: #566a7f;
+        }
+        
+        .main-container {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .page-header {
+            background: linear-gradient(135deg, #696cff 0%, #8b88f8 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 12px rgba(105, 108, 255, 0.3);
+        }
+        
+        .page-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .page-header p {
+            font-size: 1.1rem;
+            opacity: 0.95;
+            margin-bottom: 0;
+        }
+        
+        .card {
+            background: white;
+            border: 2px solid #696cff;
+            box-shadow: 0 2px 8px rgba(105, 108, 255, 0.1);
+            border-radius: 8px;
+            margin-bottom: 24px;
+        }
+        
+        .form-label {
+            font-weight: 600;
+            color: #566a7f;
+            margin-bottom: 8px;
+        }
+        
+        .form-control, .form-select {
+            border-radius: 6px;
+            border: 1px solid #d0d4f1;
+            padding: 10px 15px;
+            transition: all 0.2s ease;
+            font-size: 0.9375rem;
+            color: #566a7f;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: #696cff;
+            box-shadow: 0 0 0 0.2rem rgba(105, 108, 255, 0.15);
+        }
+        
+        .btn-generate {
+            background: linear-gradient(135deg, #696cff 0%, #8b88f8 100%);
+            border: none;
+            color: white;
+            border-radius: 6px;
+            padding: 12px 30px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+        }
+        
+        .btn-generate:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(105, 108, 255, 0.4);
+            color: white;
+        }
+        
+        .btn-generate:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .back-btn {
+            background: white;
+            color: #696cff;
+            border: 2px solid #696cff;
+            border-radius: 6px;
+            padding: 8px 16px;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9375rem;
+            font-weight: 500;
+        }
+        
+        .back-btn:hover {
+            background: #696cff;
+            color: white;
+            text-decoration: none;
+            transform: translateY(-1px);
+        }
+        
+        .generated-content {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 30px;
+            border-left: 4px solid #696cff;
+            min-height: 200px;
+        }
+        
+        .generated-content.empty {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6c757d;
+            font-style: italic;
+        }
+        
+        .loading-spinner {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+        }
+        
+        .alert-info {
+            background-color: rgba(105, 108, 255, 0.1);
+            border-color: #696cff;
+            color: #566a7f;
+        }
+        
+        .required-star {
+            color: #ff3e1d;
+        }
+        
+        .original-question-preview {
+            background: #e9ecef;
+            border-radius: 6px;
+            padding: 15px;
+            margin-top: 10px;
+            font-size: 0.9rem;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+        
+        .input-counter {
+            font-size: 0.85rem;
+            color: #6c757d;
+            text-align: right;
+            margin-top: 4px;
+        }
+        
+        .preview-box {
+            min-height: 150px;
+            border: 1px solid #dee2e6;
+            border-radius: 0.375rem;
+            padding: 1rem;
+            background-color: #f8f9fa;
+            line-height: 1.6;
+            overflow-y: auto;
+            max-height: 400px;
+        }
+        
+        .latex-toolbar {
+            margin-bottom: 15px;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 0.375rem;
+        }
+        
+        .latex-toolbar button {
+            margin-right: 5px;
+            margin-bottom: 5px;
+        }
+        
+        .ckeditor-container {
+            margin-bottom: 10px;
+        }
+        
+        .editor-section {
+            display: none;
+        }
+        
+        .editor-section.active {
+            display: block;
+        }
+        
+        /* Answer formatting styles */
+        .answers-ms {
+            margin-top: 15px;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .answers-ms strong {
+            color: #696cff;
+        }
+        
+        .math {
+            display: block;
+            margin: 10px 0;
+            overflow-x: auto;
+        }
+        
+        .small_question {
+            max-width: 400px;
+            height: auto;
+            margin: 15px 0;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <!-- Header -->
+        <div class="mb-4">
+            <a href="{% url 'home' %}" class="back-btn">
+                <i class="bi bi-arrow-left"></i>
+                Back to Dashboard
+            </a>
+        </div>
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1>AI Question Generator - Past Papers</h1>
+            <p>Generate similar questions based on actual IB past paper questions</p>
+        </div>
+
+        <!-- Messages -->
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags|default:'info' }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <!-- Premium Check -->
+        {% if user_type != 'premium' %}
+            <div class="card">
+                <div class="card-body text-center py-5">
+                    
+                    <h4 class="mb-3">Premium Feature</h4>
+                    <p class="mb-4">The AI Question Generator is available for premium subscribers only.</p>
+                    <a href="{% url 'pricing' %}" class="btn btn-generate">
+                        Upgrade to Premium
+                    </a>
+                </div>
+            </div>
+        {% else %}
+            <!-- Input Form -->
+            <div class="card">
+                <div class="card-header bg-transparent border-0 pt-4">
+                    <h5 class="mb-0">Select Question from Past Papers</h5>
+                    <small class="text-muted">Choose a question from actual IB past papers to generate similar ones</small>
+                </div>
+                <div class="card-body">
+                    <form id="questionForm">
+                        {% csrf_token %}
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="paperSelect" class="form-label">
+                                    Past Paper <span class="required-star">*</span>
+                                </label>
+                                <select class="form-select" id="paperSelect" name="paperSelect" required>
+                                    <option value="">Select a past paper...</option>
+                                    {% for paper in available_papers %}
+                                        <option value="{{ paper.value }}">{{ paper.label }}</option>
+                                    {% endfor %}
+                                </select>
+                                <small class="text-muted">
+                                    
+                                    Select a past paper to load questions
+                                </small>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label for="questionSelect" class="form-label">
+                                    Question <span class="required-star">*</span>
+                                </label>
+                                <select class="form-select" id="questionSelect" name="questionSelect" required disabled>
+                                    <option value="">First select a paper...</option>
+                                </select>
+                                <small class="text-muted">
+                                    
+                                    Questions will load after selecting paper
+                                </small>
+                            </div>
+                        </div>
+                        
+                        <!-- Question Preview -->
+                        <div id="questionPreview" style="display: none;">
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">
+                                    Selected Question Preview
+                                </label>
+                                <div class="original-question-preview" id="questionPreviewContent">
+                                    <!-- Question content will be inserted here -->
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Temperature Control -->
+                        <div class="mb-3">
+                            <label for="temperature" class="form-label fw-semibold">
+                                AI Creativity Level (Temperature)
+                            </label>
+                            <select class="form-select" id="temperature" name="temperature">
+                                <option value="0.00">0.00 - Very Conservative</option>
+                                <option value="0.05">0.05</option>
+                                <option value="0.10">0.10</option>
+                                <option value="0.15">0.15</option>
+                                <option value="0.20">0.20</option>
+                                <option value="0.25">0.25</option>
+                                <option value="0.30">0.30</option>
+                                <option value="0.35">0.35</option>
+                                <option value="0.40">0.40</option>
+                                <option value="0.45">0.45</option>
+                                <option value="0.50">0.50 - Conservative</option>
+                                <option value="0.55">0.55</option>
+                                <option value="0.60">0.60</option>
+                                <option value="0.65">0.65</option>
+                                <option value="0.70">0.70</option>
+                                <option value="0.75">0.75</option>
+                                <option value="0.80">0.80 - Recommended</option>
+                                <option value="0.85">0.85 - Recommended</option>
+                                <option value="0.90" selected>0.90 - Recommended (Default)</option>
+                                <option value="0.95">0.95</option>
+                                <option value="1.00">1.00 - Balanced</option>
+                                <option value="1.05">1.05</option>
+                                <option value="1.10">1.10</option>
+                                <option value="1.15">1.15</option>
+                                <option value="1.20">1.20</option>
+                                <option value="1.25">1.25</option>
+                                <option value="1.30">1.30 - Creative</option>
+                                <option value="1.35">1.35</option>
+                                <option value="1.40">1.40</option>
+                                <option value="1.45">1.45</option>
+                                <option value="1.50">1.50 - Very Creative</option>
+                                <option value="1.55">1.55</option>
+                                <option value="1.60">1.60</option>
+                                <option value="1.65">1.65</option>
+                                <option value="1.70">1.70</option>
+                                <option value="1.75">1.75</option>
+                                <option value="1.80">1.80</option>
+                                <option value="1.85">1.85</option>
+                                <option value="1.90">1.90</option>
+                                <option value="1.95">1.95</option>
+                                <option value="2.00">2.00 - Maximum Creativity</option>
+                            </select>
+                            <small class="text-muted d-block mt-2">
+                                Recommended: 0.80-0.90 for IB-style questions. 
+                                Higher values = more creative and varied questions.
+                            </small>
+                        </div>
+                        
+                        <!-- Custom Instructions -->
+                        <div class="mb-3">
+                            <label for="customInstructions" class="form-label fw-semibold">
+                                Custom Instructions (Optional)
+                            </label>
+                            <textarea class="form-control" id="customInstructions" name="customInstructions" rows="3" 
+                                      placeholder="E.g., 'Make sure it has subquestions from A to D' or 'Include a diagram requirement'"></textarea>
+                            <small class="text-muted d-block mt-2">
+                                Provide specific instructions for the AI to follow when generating the question.
+                            </small>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between align-items-center mt-4">
+                            <button type="button" class="btn btn-outline-secondary" onclick="clearForm()">
+                                Reset Selection
+                            </button>
+                            <button type="submit" class="btn btn-generate" id="generateBtn" disabled>
+                                Generate Similar Question
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Generated Question Editor -->
+            <div class="card editor-section" id="editorSection">
+                <div class="card-header bg-transparent border-0 pt-4">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h5 class="mb-0">Edit Generated Question</h5>
+                            <small class="text-muted">Edit and refine the AI-generated question</small>
+                        </div>
+                        <div>
+                            <button type="button" class="btn btn-outline-primary btn-sm me-2" onclick="copyQuestionToClipboard()">
+                                Copy
+                            </button>
+                            <button type="button" class="btn btn-outline-secondary btn-sm" onclick="resetEditor()">
+                                Generate New
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <!-- LaTeX Math Toolbar -->
+                    <div class="latex-toolbar">
+                        <label class="form-label mb-2 fw-semibold">LaTeX Math Symbols:</label><br>
+                        <button type="button" class="btn btn-sm btn-outline-secondary" onclick="insertLatex('\\\\frac{}{}')" title="Fraction">\\frac{}{}</button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary" onclick="insertLatex('\\\\sqrt{}')" title="Square Root">\\sqrt{}</button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary" onclick="insertLatex('x^{}')" title="Superscript">x^{}</button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary" onclick="insertLatex('x_{}')" title="Subscript">x_{}</button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary" onclick="insertLatex('\\\\sum_{i=1}^{n}')" title="Summation">∑</button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary" onclick="insertLatex('\\\\int_{a}^{b}')" title="Integral">∫</button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary" onclick="insertLatex('\\\\lim_{x \\\\to }')" title="Limit">lim</button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary" onclick="insertLatex('\\\\alpha')" title="Alpha">α</button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary" onclick="insertLatex('\\\\beta')" title="Beta">β</button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary" onclick="insertLatex('\\\\theta')" title="Theta">θ</button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary" onclick="insertLatex('\\\\pi')" title="Pi">π</button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary" onclick="insertLatex('\\\\leq')" title="≤">≤</button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary" onclick="insertLatex('\\\\geq')" title="≥">≥</button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary" onclick="insertLatex('\\\\neq')" title="≠">≠</button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary" onclick="insertLatex('\\\\infty')" title="∞">∞</button>
+                    </div>
+
+                    <!-- Question Content Editing -->
+                    <div class="mb-4">
+                        <h6 class="fw-semibold">Generated Question</h6>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="generatedQuestionInput" class="form-label">Question Text (Editable)</label>
+                                <div class="ckeditor-container">
+                                    <textarea class="form-control" id="generatedQuestionInput" rows="8"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Live Preview</label>
+                                <div class="preview-box" id="generatedQuestionPreview">
+                                    Question preview will appear here...
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Answer/Explanation Content Editing -->
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <h6 class="fw-semibold mb-0">Explanation/Answer</h6>
+                            <button type="button" class="btn btn-sm btn-primary" onclick="generateExplanation()" id="generateExplanationBtn" disabled>
+                                Generate Explanation
+                            </button>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="generatedAnswerInput" class="form-label">Answer Text (Editable)</label>
+                                <div class="ckeditor-container">
+                                    <textarea class="form-control" id="generatedAnswerInput" rows="8"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Live Preview</label>
+                                <div class="preview-box" id="generatedAnswerPreview">
+                                    Answer preview will appear here...
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tips Section -->
+            <div class="card">
+                <div class="card-header bg-transparent border-0 pt-4">
+                    <h5 class="mb-0">How to Use</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-2 mb-3 mb-md-0">
+                            <div class="text-center">
+                                <div class="mb-2" style="font-size: 2rem; color: #696cff;">
+                                    
+                                </div>
+                                <h6 class="fw-semibold">1. Select</h6>
+                                <p class="small text-muted mb-0">Choose past paper and question</p>
+                            </div>
+                        </div>
+                        <div class="col-md-2 mb-3 mb-md-0">
+                            <div class="text-center">
+                                <div class="mb-2" style="font-size: 2rem; color: #696cff;">
+                                    
+                                </div>
+                                <h6 class="fw-semibold">2. Generate</h6>
+                                <p class="small text-muted mb-0">AI creates a similar question</p>
+                            </div>
+                        </div>
+                        <div class="col-md-2 mb-3 mb-md-0">
+                            <div class="text-center">
+                                <div class="mb-2" style="font-size: 2rem; color: #696cff;">
+                                    
+                                </div>
+                                <h6 class="fw-semibold">3. Edit</h6>
+                                <p class="small text-muted mb-0">Refine the question using the editor</p>
+                            </div>
+                        </div>
+                        <div class="col-md-2 mb-3 mb-md-0">
+                            <div class="text-center">
+                                <div class="mb-2" style="font-size: 2rem; color: #71dd37;">
+                                    
+                                </div>
+                                <h6 class="fw-semibold">4. Explain</h6>
+                                <p class="small text-muted mb-0">Generate step-by-step solution</p>
+                            </div>
+                        </div>
+                        <div class="col-md-2 mb-3 mb-md-0">
+                            <div class="text-center">
+                                <div class="mb-2" style="font-size: 2rem; color: #696cff;">
+                                    
+                                </div>
+                                <h6 class="fw-semibold">5. Refine</h6>
+                                <p class="small text-muted mb-0">Edit the explanation as needed</p>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="text-center">
+                                <div class="mb-2" style="font-size: 2rem; color: #696cff;">
+                                    
+                                </div>
+                                <h6 class="fw-semibold">6. Copy</h6>
+                                <p class="small text-muted mb-0">Export for use in worksheets</p>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="my-4">
+                    <div class="alert alert-info mb-0">
+                        <strong>Pro Tips:</strong>
+                        <ul class="mb-0 mt-2">
+                            <li>Adjust the <strong>temperature (0.8-0.9 recommended)</strong> to control creativity - higher values generate more unique and varied questions</li>
+                            <li>Generate multiple times to get variety - each generation produces a unique question!</li>
+                            <li>Use the <strong>"Generate Explanation"</strong> button to create step-by-step solutions automatically</li>
+                            <li>Edit both question and answer using the rich text editors with LaTeX support</li>
+                            <li>Copy button exports both question and answer together for easy use in worksheets</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script>
+        // Store selected question data and editor instances
+        let selectedQuestionData = null;
+        let generatedQuestionEditor = null;
+        let generatedAnswerEditor = null;
+        let lastFocusedEditor = 'question';
+        
+        // Get CSRF token
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        
+        // Clear form
+        function clearForm() {
+            if (confirm('Are you sure you want to reset the selection?')) {
+                document.getElementById('questionForm').reset();
+                document.getElementById('questionSelect').disabled = true;
+                document.getElementById('questionSelect').innerHTML = '<option value="">First select a paper...</option>';
+                document.getElementById('questionPreview').style.display = 'none';
+                document.getElementById('generateBtn').disabled = true;
+                selectedQuestionData = null;
+            }
+        }
+        
+        // Load questions when paper is selected
+        document.getElementById('paperSelect').addEventListener('change', async function() {
+            const paperValue = this.value;
+            const questionSelect = document.getElementById('questionSelect');
+            const questionPreview = document.getElementById('questionPreview');
+            const generateBtn = document.getElementById('generateBtn');
+            
+            // Reset question selection
+            questionSelect.disabled = true;
+            questionSelect.innerHTML = '<option value="">Loading questions...</option>';
+            questionPreview.style.display = 'none';
+            generateBtn.disabled = true;
+            selectedQuestionData = null;
+            
+            if (!paperValue) {
+                questionSelect.innerHTML = '<option value="">First select a paper...</option>';
+                return;
+            }
+            
+            try {
+                // Fetch questions from the selected paper
+                const response = await fetch(`/api/pdf-questions/?paper=${encodeURIComponent(paperValue)}`);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                console.log('Received data:', data);
+                
+                if (data.success && Array.isArray(data.questions)) {
+                    if (data.questions.length > 0) {
+                        questionSelect.innerHTML = '<option value="">Select a question...</option>';
+                        data.questions.forEach((q, index) => {
+                            const option = document.createElement('option');
+                            option.value = index;
+                            // Show question number and max marks
+                            const previewText = q.content.replace(/<[^>]*>/g, '').substring(0, 80);
+                            option.textContent = `Q${q.question_number} [${q.max_marks} marks]: ${previewText}...`;
+                            option.setAttribute('data-question', JSON.stringify(q));
+                            questionSelect.appendChild(option);
+                        });
+                        questionSelect.disabled = false;
+                    } else {
+                        questionSelect.innerHTML = '<option value="">No questions found in this paper</option>';
+                    }
+                } else {
+                    throw new Error(data.error || 'Failed to load questions');
+                }
+            } catch (error) {
+                console.error('Error loading questions:', error);
+                questionSelect.innerHTML = '<option value="">Error loading questions</option>';
+                alert('Failed to load questions from this paper. Please try again.');
+            }
+        });
+        
+        // Show question preview when question is selected
+        document.getElementById('questionSelect').addEventListener('change', function() {
+            const selectedOption = this.options[this.selectedIndex];
+            const questionPreview = document.getElementById('questionPreview');
+            const questionPreviewContent = document.getElementById('questionPreviewContent');
+            const generateBtn = document.getElementById('generateBtn');
+            
+            if (selectedOption.value && selectedOption.getAttribute('data-question')) {
+                selectedQuestionData = JSON.parse(selectedOption.getAttribute('data-question'));
+                
+                // Show question preview - use full_content or content
+                const questionText = selectedQuestionData.full_content || selectedQuestionData.content || '';
+                questionPreviewContent.innerHTML = `<pre style="white-space: pre-wrap; font-family: inherit;">${questionText}</pre>`;
+                questionPreview.style.display = 'block';
+                generateBtn.disabled = false;
+                
+                // Process MathJax if available
+                if (window.MathJax) {
+                    MathJax.typesetPromise([questionPreviewContent]).catch((err) => console.log('MathJax error:', err.message));
+                }
+            } else {
+                questionPreview.style.display = 'none';
+                generateBtn.disabled = true;
+                selectedQuestionData = null;
+            }
+        });
+        
+        // Initialize CKEditor
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof CKEDITOR !== 'undefined') {
+                // Question Editor
+                generatedQuestionEditor = CKEDITOR.replace('generatedQuestionInput', {
+                    toolbar: [
+                        { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike'] },
+                        { name: 'paragraph', items: ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'] },
+                        { name: 'lists', items: ['NumberedList', 'BulletedList'] },
+                        { name: 'insert', items: ['Table', 'HorizontalRule'] },
+                        { name: 'styles', items: ['Font', 'FontSize'] },
+                        { name: 'colors', items: ['TextColor', 'BGColor'] },
+                        { name: 'tools', items: ['Maximize'] }
+                    ],
+                    height: 250,
+                    removePlugins: 'elementspath',
+                    resize_enabled: false,
+                    allowedContent: true,
+                    extraAllowedContent: 'p(*){*}[*];div(*){*}[*]'
+                });
+                
+                // Answer Editor
+                generatedAnswerEditor = CKEDITOR.replace('generatedAnswerInput', {
+                    toolbar: [
+                        { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike'] },
+                        { name: 'paragraph', items: ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'] },
+                        { name: 'lists', items: ['NumberedList', 'BulletedList'] },
+                        { name: 'insert', items: ['Table', 'HorizontalRule'] },
+                        { name: 'styles', items: ['Font', 'FontSize'] },
+                        { name: 'colors', items: ['TextColor', 'BGColor'] },
+                        { name: 'tools', items: ['Maximize'] }
+                    ],
+                    height: 250,
+                    removePlugins: 'elementspath',
+                    resize_enabled: false,
+                    allowedContent: true,
+                    extraAllowedContent: 'p(*){*}[*];div(*){*}[*]'
+                });
+                
+                // Focus tracking
+                generatedQuestionEditor.on('focus', function() {
+                    lastFocusedEditor = 'question';
+                });
+                
+                generatedAnswerEditor.on('focus', function() {
+                    lastFocusedEditor = 'answer';
+                });
+                
+                // Update preview when content changes
+                generatedQuestionEditor.on('change', function() {
+                    updateQuestionPreview();
+                });
+                
+                generatedQuestionEditor.on('key', function() {
+                    setTimeout(() => updateQuestionPreview(), 100);
+                });
+                
+                generatedAnswerEditor.on('change', function() {
+                    updateAnswerPreview();
+                });
+                
+                generatedAnswerEditor.on('key', function() {
+                    setTimeout(() => updateAnswerPreview(), 100);
+                });
+            }
+        });
+        
+        // Insert LaTeX into the active editor
+        function insertLatex(latexCode) {
+            const wrappedLatex = '$' + latexCode + '$';
+            
+            if (lastFocusedEditor === 'question' && generatedQuestionEditor) {
+                generatedQuestionEditor.insertText(wrappedLatex);
+                generatedQuestionEditor.focus();
+                setTimeout(() => updateQuestionPreview(), 100);
+            } else if (lastFocusedEditor === 'answer' && generatedAnswerEditor) {
+                generatedAnswerEditor.insertText(wrappedLatex);
+                generatedAnswerEditor.focus();
+                setTimeout(() => updateAnswerPreview(), 100);
+            }
+        }
+        
+        // Update the question preview
+        function updateQuestionPreview() {
+            if (!generatedQuestionEditor) return;
+            
+            const content = generatedQuestionEditor.getData();
+            const preview = document.getElementById('generatedQuestionPreview');
+            
+            if (content.trim() === '') {
+                preview.innerHTML = 'Question preview will appear here...';
+                return;
+            }
+            
+            preview.innerHTML = content;
+            
+            // Re-render MathJax
+            if (window.MathJax) {
+                MathJax.typesetPromise([preview]).catch((err) => console.log('MathJax error:', err.message));
+            }
+        }
+        
+        // Update the answer preview
+        function updateAnswerPreview() {
+            if (!generatedAnswerEditor) return;
+            
+            const content = generatedAnswerEditor.getData();
+            const preview = document.getElementById('generatedAnswerPreview');
+            
+            if (content.trim() === '') {
+                preview.innerHTML = 'Answer preview will appear here...';
+                return;
+            }
+            
+            preview.innerHTML = content;
+            
+            // Re-render MathJax
+            if (window.MathJax) {
+                MathJax.typesetPromise([preview]).catch((err) => console.log('MathJax error:', err.message));
+            }
+        }
+        
+        // Generate explanation for the current question
+        async function generateExplanation() {
+            if (!generatedQuestionEditor || !generatedAnswerEditor) return;
+            
+            const questionContent = generatedQuestionEditor.getData();
+            
+            if (!questionContent || questionContent.trim() === '') {
+                alert('Please generate a question first before creating an explanation.');
+                return;
+            }
+            
+            const generateBtn = document.getElementById('generateExplanationBtn');
+            const originalHTML = generateBtn.innerHTML;
+            
+            // Show loading state
+            generateBtn.disabled = true;
+            generateBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span>Generating...';
+            
+            // Set loading message in answer editor
+            generatedAnswerEditor.setData('<p style="text-align: center; padding: 20px; color: #696cff;"> Generating explanation...</p>');
+            
+            try {
+                // Extract subject from the selected paper
+                const paperSelect = document.getElementById('paperSelect');
+                const selectedPaper = paperSelect.options[paperSelect.selectedIndex].text;
+                const subject = selectedPaper.split(' - ')[0]; // e.g., "Math AI SL"
+                
+                const response = await fetch('/api/generate-explanation/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': getCookie('csrftoken')
+                    },
+                    body: JSON.stringify({
+                        question: questionContent,
+                        subject: subject,
+                        topic: 'Past Paper Question'
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    const explanationHTML = `
+                        <div style="padding: 10px; background-color: #e7ffe7; border-left: 4px solid #71dd37; margin-bottom: 15px;">
+                            <strong style="color: #71dd37;"> AI Generated Explanation</strong>
+                            <p style="margin: 5px 0 0 0; font-size: 0.9em; color: #666;">Edit this explanation as needed.</p>
+                        </div>
+                        ${data.explanation}
+                    `;
+                    generatedAnswerEditor.setData(explanationHTML);
+                    
+                    // Update preview
+                    setTimeout(() => updateAnswerPreview(), 100);
+                } else {
+                    generatedAnswerEditor.setData(`
+                        <div style="padding: 20px; background-color: #ffe6e6; border-left: 4px solid #ff3e1d;">
+                            <strong style="color: #ff3e1d;"> Error:</strong>
+                            <p>${data.error || 'Failed to generate explanation. Please try again.'}</p>
+                        </div>
+                    `);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                generatedAnswerEditor.setData(`
+                    <div style="padding: 20px; background-color: #ffe6e6; border-left: 4px solid #ff3e1d;">
+                        <strong style="color: #ff3e1d;"> Connection error:</strong>
+                        <p>Could not connect to the server. Please try again.</p>
+                    </div>
+                `);
+            } finally {
+                // Reset button
+                generateBtn.disabled = false;
+                generateBtn.innerHTML = originalHTML;
+            }
+        }
+        
+        // Copy question to clipboard
+        function copyQuestionToClipboard() {
+            if (!generatedQuestionEditor) return;
+            
+            const questionContent = generatedQuestionEditor.getData();
+            const answerContent = generatedAnswerEditor ? generatedAnswerEditor.getData() : '';
+            
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = '<strong>Question:</strong><br>' + questionContent + '<br><br><strong>Answer:</strong><br>' + answerContent;
+            const text = tempDiv.innerText;
+            
+            navigator.clipboard.writeText(text).then(function() {
+                alert('Question and answer copied to clipboard!');
+            }).catch(function(err) {
+                alert('Failed to copy to clipboard');
+            });
+        }
+        
+        // Reset editor to generate new question
+        function resetEditor() {
+            if (confirm('Generate a new question? Current edits will be lost.')) {
+                // Clear editors
+                if (generatedQuestionEditor) {
+                    generatedQuestionEditor.setData('');
+                }
+                if (generatedAnswerEditor) {
+                    generatedAnswerEditor.setData('');
+                }
+                
+                // Disable explanation button until new question is generated
+                document.getElementById('generateExplanationBtn').disabled = true;
+                
+                // Hide editor section
+                document.getElementById('editorSection').classList.remove('active');
+                
+                // Scroll to form
+                document.getElementById('questionForm').scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+        
+        // Form submission
+        document.getElementById('questionForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const generateBtn = document.getElementById('generateBtn');
+            const editorSection = document.getElementById('editorSection');
+            
+            // Validate that a question is selected
+            if (!selectedQuestionData) {
+                alert('Please select a question from the database');
+                return;
+            }
+            
+            // Get form data from selected question
+            const paperSelect = document.getElementById('paperSelect');
+            const selectedPaper = paperSelect.options[paperSelect.selectedIndex].text;
+            const customInstructions = document.getElementById('customInstructions').value.trim();
+            
+            const formData = {
+                subject: selectedPaper.split(' - ')[0],  // Extract subject from paper label
+                topic: 'Past Paper',
+                question: selectedQuestionData.full_content || selectedQuestionData.content || '',
+                answer: '',  // PDF questions don't have answers in question file
+                temperature: parseFloat(document.getElementById('temperature').value),
+                customInstructions: customInstructions
+            };
+            
+            // Show loading state
+            generateBtn.disabled = true;
+            generateBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Generating...';
+            
+            // Show editor section with loading state
+            editorSection.classList.add('active');
+            if (generatedQuestionEditor) {
+                generatedQuestionEditor.setData('<p style="text-align: center; padding: 40px;"><br><br>Generating a similar question for you...<br><small>This may take a few seconds</small></p>');
+            }
+            
+            // Scroll to editor
+            setTimeout(() => {
+                editorSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
+            
+            try {
+                const response = await fetch('/api/generate-similar-question/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': getCookie('csrftoken')
+                    },
+                    body: JSON.stringify(formData)
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Set the generated question in the editor
+                    if (generatedQuestionEditor) {
+                        const generatedHTML = `
+                            <div style="padding: 10px; background-color: #e7f3ff; border-left: 4px solid #696cff; margin-bottom: 15px;">
+                                <strong style="color: #696cff;"> AI Generated Question</strong>
+                                <p style="margin: 5px 0 0 0; font-size: 0.9em; color: #666;">Edit this question as needed. Changes are reflected in the preview.</p>
+                            </div>
+                            ${data.question}
+                        `;
+                        generatedQuestionEditor.setData(generatedHTML);
+                        
+                        // Update preview
+                        setTimeout(() => updateQuestionPreview(), 100);
+                        
+                        // Enable explanation button
+                        document.getElementById('generateExplanationBtn').disabled = false;
+                    }
+                } else {
+                    if (generatedQuestionEditor) {
+                        generatedQuestionEditor.setData(`
+                            <div style="padding: 20px; background-color: #ffe6e6; border-left: 4px solid #ff3e1d;">
+                                <strong style="color: #ff3e1d;"> Error generating question:</strong>
+                                <p>${data.error || 'An unknown error occurred. Please try again.'}</p>
+                            </div>
+                        `);
+                    }
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                if (generatedQuestionEditor) {
+                    generatedQuestionEditor.setData(`
+                        <div style="padding: 20px; background-color: #ffe6e6; border-left: 4px solid #ff3e1d;">
+                            <strong style="color: #ff3e1d;"> Connection error:</strong>
+                            <p>Could not connect to the server. Please check your internet connection and try again.</p>
+                        </div>
+                    `);
+                }
+            } finally {
+                // Reset button
+                generateBtn.disabled = false;
+                generateBtn.innerHTML = 'Generate Similar Question';
+            }
+        });
+    </script>
+</body>
+</html>

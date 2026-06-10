@@ -1,0 +1,2431 @@
+[
+  {
+    "question_id": 161,
+    "subquestions": [
+      {
+        "part_label": "a",
+        "skill_keys": [
+          "pearson_correlation"
+        ],
+        "question_text": "Which description best matches the scatterplot for minutes played and points scored?",
+        "options": [
+          {
+            "label": "A",
+            "text": "The points form a strong negative linear association.",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "The points form a moderate positive linear association.",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "The points show no relationship.",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "The points form a perfect positive line.",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "b",
+        "skill_keys": [
+          "pearson_correlation"
+        ],
+        "question_text": "How should the association between minutes played and points scored be described?",
+        "options": [
+          {
+            "label": "A",
+            "text": "Strong negative correlation",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "No correlation",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "Weak negative correlation",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "Moderate positive correlation",
+            "is_correct": true
+          }
+        ]
+      },
+      {
+        "part_label": "c",
+        "skill_keys": [
+          "regression_lines"
+        ],
+        "question_text": "Find the equation of the hand-drawn best-fit line through \\((20,11)\\) and \\((25,20)\\).",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(y=\\frac95x-25\\)",
+            "is_correct": true
+          },
+          {
+            "label": "B",
+            "text": "\\(y=\\frac59x-25\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(y=\\frac95x+25\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(y=9x-25\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "d",
+        "skill_keys": [
+          "regression_lines"
+        ],
+        "question_text": "Using \\(y=\\frac95x-25\\), predict the score for a player who played 16 minutes.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(28.8\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(16\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(3.8\\)",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "\\(20\\)",
+            "is_correct": false
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "question_id": 162,
+    "subquestions": [
+      {
+        "part_label": "a",
+        "skill_keys": [
+          "pearson_correlation"
+        ],
+        "question_text": "Calculate Pearson's correlation coefficient for experience and weekly salary.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(r=0.847\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(r=0.937\\)",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "\\(r=-0.937\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(r=0.537\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "b",
+        "skill_keys": [
+          "spearman_correlation"
+        ],
+        "question_text": "Calculate Spearman's correlation coefficient after ranking the observations.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(r_s=0.937\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(r_s=-0.847\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(r_s=0.747\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(r_s=0.847\\)",
+            "is_correct": true
+          }
+        ]
+      },
+      {
+        "part_label": "c",
+        "skill_keys": [
+          "regression_lines"
+        ],
+        "question_text": "Find the regression equation for weekly salary on months of experience.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(y=37.897x+169.123\\)",
+            "is_correct": true
+          },
+          {
+            "label": "B",
+            "text": "\\(y=169.123x+37.897\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(y=37.897x-169.123\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(y=-37.897x+169.123\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "d",
+        "skill_keys": [
+          "regression_lines"
+        ],
+        "question_text": "Use the regression equation to predict the salary for 25 months of experience.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(950\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(947.425\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(1116.548\\)",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "\\(1286.0\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "e",
+        "skill_keys": [
+          "regression_lines"
+        ],
+        "question_text": "If the actual salary is \\(\\$950\\), calculate the percentage error of the prediction.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(14.914\\%\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(17.531\\%\\)",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "\\(11.165\\%\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(1.753\\%\\)",
+            "is_correct": false
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "question_id": 163,
+    "subquestions": [
+      {
+        "part_label": "a",
+        "skill_keys": [
+          "pearson_correlation"
+        ],
+        "question_text": "Calculate Pearson's correlation coefficient between distance travelled and temperature.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(r=0.77\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(r=-0.07\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(r=0.17\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(r=-0.77\\)",
+            "is_correct": true
+          }
+        ]
+      },
+      {
+        "part_label": "b",
+        "skill_keys": [
+          "regression_lines"
+        ],
+        "question_text": "Find the mean distance and mean temperature.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(\\bar{x}=142.12,\\ \\bar{y}=20.86\\)",
+            "is_correct": true
+          },
+          {
+            "label": "B",
+            "text": "\\(\\bar{x}=20.86,\\ \\bar{y}=142.12\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(\\bar{x}=155.9,\\ \\bar{y}=21\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(\\bar{x}=140.9,\\ \\bar{y}=15\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "c",
+        "skill_keys": [
+          "regression_lines"
+        ],
+        "question_text": "Using \\(y=-8.43x+317.93\\), estimate Jack's total distance when the temperature is \\(21^\\circ\\text{C}\\) and he also walks 15 km.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(140.9\\text{ km}\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(175\\text{ km}\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(155.9\\text{ km}\\)",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "\\(317.93\\text{ km}\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "d",
+        "skill_keys": [
+          "regression_lines"
+        ],
+        "question_text": "If the actual distance was \\(175\\text{ km}\\), find the percentage error in the estimate.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(10.91\\%\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(12.25\\%\\)",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "\\(19.10\\%\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(1.225\\%\\)",
+            "is_correct": false
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "question_id": 164,
+    "subquestions": [
+      {
+        "part_label": "a",
+        "skill_keys": [
+          "pearson_correlation"
+        ],
+        "question_text": "Calculate Pearson's correlation coefficient for studying time and SAT score.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(r=-0.90\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(r=0.09\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(r=0.99\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(r=0.90\\)",
+            "is_correct": true
+          }
+        ]
+      },
+      {
+        "part_label": "b",
+        "skill_keys": [
+          "regression_lines"
+        ],
+        "question_text": "Find the regression equation for SAT score on studying time.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(y=7.40x+1237.85\\)",
+            "is_correct": true
+          },
+          {
+            "label": "B",
+            "text": "\\(y=1237.85x+7.40\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(y=7.40x-1237.85\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(y=-7.40x+1237.85\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "c",
+        "skill_keys": [
+          "regression_lines"
+        ],
+        "question_text": "Interpret the value of the gradient \\(7.40\\) in context.",
+        "options": [
+          {
+            "label": "A",
+            "text": "Each extra point increases studying time by \\(7.40\\) weeks.",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "The starting score is \\(7.40\\).",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "Each extra week of studying increases the predicted score by about \\(7.40\\) points.",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "The correlation coefficient is \\(7.40\\).",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "d",
+        "skill_keys": [
+          "regression_lines"
+        ],
+        "question_text": "Predict the SAT score for a student who studied for 40 weeks.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(1480.00\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(1533.85\\)",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "\\(1600.00\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(1237.85\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "e",
+        "skill_keys": [
+          "regression_lines"
+        ],
+        "question_text": "Is it reasonable to predict the score for a student who studied for 3 weeks?",
+        "options": [
+          {
+            "label": "A",
+            "text": "Yes, because regression always works outside the data range.",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "No, because \\(3\\) weeks is the mean.",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "Yes, because the correlation is positive.",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "No, because \\(3\\) weeks is outside the data range.",
+            "is_correct": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "question_id": 165,
+    "subquestions": [
+      {
+        "part_label": "a",
+        "skill_keys": [
+          "pearson_correlation"
+        ],
+        "question_text": "Calculate Pearson's correlation coefficient for age and 100 m time.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(r=0.94\\)",
+            "is_correct": true
+          },
+          {
+            "label": "B",
+            "text": "\\(r=-0.94\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(r=0.49\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(r=0.20\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "b",
+        "skill_keys": [
+          "regression_lines"
+        ],
+        "question_text": "Find the regression equation of time \\(y\\) on age \\(x\\).",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(y=8.27x+0.20\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(y=-0.20x+8.27\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(y=0.20x+8.27\\)",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "\\(y=0.20x-8.27\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "c",
+        "skill_keys": [
+          "regression_lines"
+        ],
+        "question_text": "Find the regression equation of age \\(x\\) on time \\(y\\).",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(x=32.50y+4.33\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(x=4.33y-32.50\\)",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "\\(x=-4.33y-32.50\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(x=4.33y+32.50\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "d",
+        "skill_keys": [
+          "regression_lines"
+        ],
+        "question_text": "Use the regression equation \\(x=4.33y-32.50\\) to estimate the age of a runner with time \\(13.7\\) seconds.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(13.70\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(28.40\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(23.50\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(26.82\\)",
+            "is_correct": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "question_id": 166,
+    "subquestions": [
+      {
+        "part_label": "a.i",
+        "skill_keys": [
+          "regression_lines"
+        ],
+        "question_text": "Find the mean advertising money spent.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(\\bar{x}=679.14\\)",
+            "is_correct": true
+          },
+          {
+            "label": "B",
+            "text": "\\(\\bar{x}=3116.43\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(\\bar{x}=520\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(\\bar{x}=850\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "a.ii",
+        "skill_keys": [
+          "regression_lines"
+        ],
+        "question_text": "Find the mean sales revenue.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(\\bar{y}=679.14\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(\\bar{y}=3615.82\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(\\bar{y}=3116.43\\)",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "\\(\\bar{y}=1125.32\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "b",
+        "skill_keys": [
+          "pearson_correlation"
+        ],
+        "question_text": "Calculate Pearson's correlation coefficient between advertising money and sales revenue.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(r=0.69\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(r=0.96\\)",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "\\(r=-0.96\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(r=0.93\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "c",
+        "skill_keys": [
+          "spearman_correlation"
+        ],
+        "question_text": "Calculate Spearman's rank correlation coefficient for the ranked advertising and revenue data.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(r_s=0.69\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(r_s=-0.96\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(r_s=0.847\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(r_s=0.96\\)",
+            "is_correct": true
+          }
+        ]
+      },
+      {
+        "part_label": "d",
+        "skill_keys": [
+          "regression_lines"
+        ],
+        "question_text": "Find the regression equation for sales revenue on advertising money.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(y=2.93x+1125.32\\)",
+            "is_correct": true
+          },
+          {
+            "label": "B",
+            "text": "\\(y=1125.32x+2.93\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(y=2.93x-1125.32\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(y=-2.93x+1125.32\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "e",
+        "skill_keys": [
+          "regression_lines"
+        ],
+        "question_text": "By how much does each additional dollar spent on advertising increase predicted sales revenue?",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(\\$1125.32\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(\\$679.14\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(\\$2.93\\)",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "\\(\\$0.96\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "f",
+        "skill_keys": [
+          "regression_lines"
+        ],
+        "question_text": "Show the predicted revenue for \\(\\$850\\) spent on advertising.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(\\$3850.22\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(\\$3615.82\\)",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "\\(\\$2490.50\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(\\$1125.32\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "g",
+        "skill_keys": [
+          "regression_lines"
+        ],
+        "question_text": "Estimate the sales revenue for a company that spent \\(\\$930\\) on advertising.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(\\$3615.82\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(\\$2724.90\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(\\$930.00\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(\\$3850.22\\)",
+            "is_correct": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "question_id": 167,
+    "subquestions": [
+      {
+        "part_label": "a",
+        "skill_keys": [
+          "regression_lines"
+        ],
+        "question_text": "Find the regression equations for boys and girls.",
+        "options": [
+          {
+            "label": "A",
+            "text": "Boys: \\(y=3.09x+59.67\\); girls: \\(y=5.23x+47.31\\)",
+            "is_correct": true
+          },
+          {
+            "label": "B",
+            "text": "Boys: \\(y=5.23x+47.31\\); girls: \\(y=3.09x+59.67\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "Boys: \\(y=3.09x-59.67\\); girls: \\(y=5.23x-47.31\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "Boys: \\(y=59.67x+3.09\\); girls: \\(y=47.31x+5.23\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "b",
+        "skill_keys": [
+          "regression_lines"
+        ],
+        "question_text": "Which group benefits more from an additional hour of studying?",
+        "options": [
+          {
+            "label": "A",
+            "text": "Boys, because their intercept is greater.",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "Boys, because \\(3.09<5.23\\).",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "Girls, because their gradient \\(5.23\\) is greater than \\(3.09\\).",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "Both benefit equally.",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "c",
+        "skill_keys": [
+          "regression_lines"
+        ],
+        "question_text": "Find the intersection point of the two regression equations.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\((77.52,5.78)\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\((5.78,77.52)\\)",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "\\((3.09,5.23)\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\((59.67,47.31)\\)",
+            "is_correct": false
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "question_id": 183,
+    "subquestions": [
+      {
+        "part_label": "a.i",
+        "skill_keys": [
+          "regression_lines"
+        ],
+        "question_text": "Find the mean height of the athletes.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(\\bar{x}=625.71\\text{ cm}\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(\\bar{x}=171\\text{ cm}\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(\\bar{x}=185\\text{ cm}\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(\\bar{x}=176.29\\text{ cm}\\)",
+            "is_correct": true
+          }
+        ]
+      },
+      {
+        "part_label": "a.ii",
+        "skill_keys": [
+          "regression_lines"
+        ],
+        "question_text": "Find the mean jump length.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(\\bar{y}=625.71\\text{ cm}\\)",
+            "is_correct": true
+          },
+          {
+            "label": "B",
+            "text": "\\(\\bar{y}=176.29\\text{ cm}\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(\\bar{y}=650\\text{ cm}\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(\\bar{y}=690\\text{ cm}\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "b",
+        "skill_keys": [
+          "regression_lines"
+        ],
+        "question_text": "Find the regression line of jump length on height.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(y=-6.71x+557.45\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(y=557.45x+6.71\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(y=6.71x-557.45\\)",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "\\(y=6.71x+557.45\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "c.i",
+        "skill_keys": [
+          "regression_lines"
+        ],
+        "question_text": "Find the x-intercept of \\(y=6.71x-557.45\\).",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(-557.45\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(83.08\\)",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "\\(6.71\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(176.29\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "c.ii",
+        "skill_keys": [
+          "regression_lines"
+        ],
+        "question_text": "Find the y-intercept of \\(y=6.71x-557.45\\).",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(83.08\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(6.71\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(557.45\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(-557.45\\)",
+            "is_correct": true
+          }
+        ]
+      },
+      {
+        "part_label": "d",
+        "skill_keys": [
+          "regression_lines"
+        ],
+        "question_text": "Interpret the gradient \\(6.71\\) in context.",
+        "options": [
+          {
+            "label": "A",
+            "text": "For each extra \\(1\\text{ cm}\\) of height, predicted jump length increases by about \\(6.71\\text{ cm}\\).",
+            "is_correct": true
+          },
+          {
+            "label": "B",
+            "text": "For each extra \\(1\\text{ cm}\\) jumped, height increases by \\(6.71\\text{ cm}\\).",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "The predicted jump length starts at \\(6.71\\text{ cm}\\).",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "The correlation coefficient is \\(6.71\\).",
+            "is_correct": false
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "question_id": 184,
+    "subquestions": [
+      {
+        "part_label": "a.i",
+        "skill_keys": [
+          "regression_lines"
+        ],
+        "question_text": "Find the wood production when rainfall is \\(200\\text{ mm}\\).",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(2000\\text{ kg}\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(2150\\text{ kg}\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(2060\\text{ kg}\\)",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "\\(75\\text{ kg}\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "a.ii",
+        "skill_keys": [
+          "regression_lines"
+        ],
+        "question_text": "Find the number of chairs produced when \\(50\\text{ kg}\\) of wood is supplied.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(2060\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(75\\)",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "\\(175\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(50\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "b",
+        "skill_keys": [
+          "regression_lines"
+        ],
+        "question_text": "If rainfall is \\(500\\text{ mm}\\), how many chairs should Wooden Freaks expect to produce?",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(2150\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(7500\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(174875\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(7425\\)",
+            "is_correct": true
+          }
+        ]
+      },
+      {
+        "part_label": "c",
+        "skill_keys": [
+          "regression_lines"
+        ],
+        "question_text": "Will the May profit allow the company to buy a \\(\\$200000\\) machine?",
+        "options": [
+          {
+            "label": "A",
+            "text": "No, because the predicted profit is \\(\\$174875\\), which is less than \\(\\$200000\\).",
+            "is_correct": true
+          },
+          {
+            "label": "B",
+            "text": "Yes, because the predicted profit is \\(\\$200000\\).",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "Yes, because the predicted profit is \\(\\$215000\\).",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "No, because the predicted profit is \\(\\$7425\\).",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "d",
+        "skill_keys": [
+          "regression_lines"
+        ],
+        "question_text": "Find the profit formula as a function of wood amount \\(w\\).",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(P=87.5w-2500\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(P=25w-5\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(P=82.5w-2500\\)",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "\\(P=3.5w-100\\)",
+            "is_correct": false
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "question_id": 185,
+    "subquestions": [
+      {
+        "part_label": "a",
+        "skill_keys": [
+          "regression_lines"
+        ],
+        "question_text": "Find the range of the number of push-ups.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(55\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(35\\)",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "\\(20\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(75\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "b.i",
+        "skill_keys": [
+          "pearson_correlation"
+        ],
+        "question_text": "Find Pearson's correlation coefficient for height and push-ups.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(r\\approx-0.99\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(r\\approx0.70\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(r\\approx0.13\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(r\\approx0.99\\)",
+            "is_correct": true
+          }
+        ]
+      },
+      {
+        "part_label": "b.ii",
+        "skill_keys": [
+          "pearson_correlation"
+        ],
+        "question_text": "Describe the relationship between height and push-ups.",
+        "options": [
+          {
+            "label": "A",
+            "text": "Very strong positive correlation",
+            "is_correct": true
+          },
+          {
+            "label": "B",
+            "text": "Very strong negative correlation",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "Weak positive correlation",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "No correlation",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "c",
+        "skill_keys": [
+          "regression_lines"
+        ],
+        "question_text": "Find the regression line for push-ups on height.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(y=-70.65x+86.04\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(y=86.04x+70.65\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(y=70.65x-86.04\\)",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "\\(y=70.65x+86.04\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "d.i",
+        "skill_keys": [
+          "regression_lines"
+        ],
+        "question_text": "Estimate the number of push-ups for an athlete with height \\(1.78\\text{ m}\\).",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(45\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(39\\)",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "\\(40.2\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(86\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "d.ii",
+        "skill_keys": [
+          "regression_lines"
+        ],
+        "question_text": "If the athlete actually did 45 push-ups, find the percentage error.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(15.4\\%\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(6.0\\%\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(1.33\\%\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(13.3\\%\\)",
+            "is_correct": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "question_id": 232,
+    "subquestions": [
+      {
+        "part_label": "a",
+        "skill_keys": [
+          "pearson_correlation"
+        ],
+        "question_text": "Find Pearson's correlation coefficient between Physics and Chemistry scores.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(r=0.980\\)",
+            "is_correct": true
+          },
+          {
+            "label": "B",
+            "text": "\\(r=0.098\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(r=-0.980\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(r=0.847\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "b",
+        "skill_keys": [
+          "pearson_correlation"
+        ],
+        "question_text": "Evaluate the statement that students with higher Physics scores tend to have higher Chemistry scores.",
+        "options": [
+          {
+            "label": "A",
+            "text": "The statement is contradicted by a strong negative correlation.",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "The statement is unsupported because \\(r\\) is close to 0.",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "The statement is supported by the strong positive correlation.",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "The statement proves Chemistry causes Physics scores to increase.",
+            "is_correct": false
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "question_id": 233,
+    "subquestions": [
+      {
+        "part_label": "a",
+        "skill_keys": [
+          "regression_lines"
+        ],
+        "question_text": "Find the regression line of exam score on hours studied.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(y=50.9x+2.44\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(y=2.44x+50.9\\)",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "\\(y=-2.44x+50.9\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(y=2.44x-50.9\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "b",
+        "skill_keys": [
+          "regression_lines"
+        ],
+        "question_text": "Interpret the slope \\(2.44\\) in context.",
+        "options": [
+          {
+            "label": "A",
+            "text": "Each additional point requires \\(2.44\\) hours.",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "The predicted score when studying 0 hours is \\(2.44\\).",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "The correlation coefficient is \\(2.44\\).",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "Each additional hour studied increases the predicted score by about \\(2.44\\) points.",
+            "is_correct": true
+          }
+        ]
+      },
+      {
+        "part_label": "c.i",
+        "skill_keys": [
+          "regression_lines"
+        ],
+        "question_text": "Use the regression line to predict the exam score for a student who studied 10 hours.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(75.3\\)",
+            "is_correct": true
+          },
+          {
+            "label": "B",
+            "text": "\\(70.0\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(80.0\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(50.9\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "c.ii",
+        "skill_keys": [
+          "regression_lines"
+        ],
+        "question_text": "Is the prediction for 10 hours interpolation or extrapolation?",
+        "options": [
+          {
+            "label": "A",
+            "text": "Extrapolation, because 10 is outside the observed range.",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "Interpolation, because 10 is the maximum value.",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "Interpolation, because 10 is within the observed range from 3 to 20 hours.",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "Extrapolation, because all predictions are extrapolations.",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "d",
+        "skill_keys": [
+          "pearson_correlation"
+        ],
+        "question_text": "Write down the correlation coefficient.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(r\\approx-0.972\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(r\\approx0.972\\)",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "\\(r\\approx0.297\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(r\\approx0.500\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "e",
+        "skill_keys": [
+          "pearson_correlation"
+        ],
+        "question_text": "Describe the strength and direction of the correlation.",
+        "options": [
+          {
+            "label": "A",
+            "text": "Strong negative correlation",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "Weak negative correlation",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "No correlation",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "Strong positive correlation",
+            "is_correct": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "question_id": 234,
+    "subquestions": [
+      {
+        "part_label": "a",
+        "skill_keys": [
+          "pearson_correlation"
+        ],
+        "question_text": "Which scatter diagram description matches the hours studied and exam score data?",
+        "options": [
+          {
+            "label": "A",
+            "text": "A positive linear pattern",
+            "is_correct": true
+          },
+          {
+            "label": "B",
+            "text": "A negative linear pattern",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "No visible relationship",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "A perfect horizontal line",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "b",
+        "skill_keys": [
+          "pearson_correlation"
+        ],
+        "question_text": "Find Pearson's correlation coefficient.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(r\\approx-0.988\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(r\\approx0.288\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(r\\approx0.988\\)",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "\\(r\\approx0.850\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "c",
+        "skill_keys": [
+          "regression_lines"
+        ],
+        "question_text": "Find the regression line of exam score on hours studied.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(y=45.4x+2.92\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(y=2.92x+45.4\\)",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "\\(y=-2.92x+45.4\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(y=2.92x-45.4\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "d",
+        "skill_keys": [
+          "regression_lines"
+        ],
+        "question_text": "Estimate the exam score for a student who studies for \\(6.5\\) hours.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(62.9\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(77.4\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(45.4\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(64.4\\)",
+            "is_correct": true
+          }
+        ]
+      },
+      {
+        "part_label": "e",
+        "skill_keys": [
+          "regression_lines"
+        ],
+        "question_text": "Comment on using the regression line for a student who studies 12 hours per week.",
+        "options": [
+          {
+            "label": "A",
+            "text": "It is extrapolation and may not be reliable because 12 is outside the observed range.",
+            "is_correct": true
+          },
+          {
+            "label": "B",
+            "text": "It is interpolation and very reliable because 12 is inside the range.",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "It is invalid because Pearson's correlation is positive.",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "It is exact because regression always gives the true value.",
+            "is_correct": false
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "question_id": 285,
+    "subquestions": [
+      {
+        "part_label": "a.i",
+        "skill_keys": [
+          "regression_lines"
+        ],
+        "question_text": "Find the mean warm-up time.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(\\bar{x}=260\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(\\bar{x}=104\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(\\bar{x}=13\\)",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "\\(\\bar{x}=14\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "a.ii",
+        "skill_keys": [
+          "regression_lines"
+        ],
+        "question_text": "Find the mean number of calories burned.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(\\bar{y}=13\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(\\bar{y}=260\\)",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "\\(\\bar{y}=2080\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(\\bar{y}=270\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "b",
+        "skill_keys": [
+          "regression_lines"
+        ],
+        "question_text": "Find the regression line of calories burned on warm-up time.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(y=125x+10.3\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(y=-10.3x+125\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(y=10.3x-125\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(y=10.3x+125\\)",
+            "is_correct": true
+          }
+        ]
+      },
+      {
+        "part_label": "c",
+        "skill_keys": [
+          "regression_lines"
+        ],
+        "question_text": "Estimate calories burned for an athlete who warms up for 14 minutes.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(270\\)",
+            "is_correct": true
+          },
+          {
+            "label": "B",
+            "text": "\\(260\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(2690\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(140\\)",
+            "is_correct": false
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "question_id": 286,
+    "subquestions": [
+      {
+        "part_label": "a",
+        "skill_keys": [
+          "regression_lines"
+        ],
+        "question_text": "Find the range of the flight times.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(8.3\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(12.8\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(4.5\\)",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "\\(17.1\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "b.i",
+        "skill_keys": [
+          "pearson_correlation"
+        ],
+        "question_text": "Calculate Pearson's correlation coefficient for wing length and flight time.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(r\\approx0.998\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(r\\approx-0.998\\)",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "\\(r\\approx-0.098\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(r\\approx0.265\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "b.ii",
+        "skill_keys": [
+          "pearson_correlation"
+        ],
+        "question_text": "Describe the correlation between wing length and flight time.",
+        "options": [
+          {
+            "label": "A",
+            "text": "Very strong positive correlation",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "Weak negative correlation",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "No correlation",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "Very strong negative correlation",
+            "is_correct": true
+          }
+        ]
+      },
+      {
+        "part_label": "c",
+        "skill_keys": [
+          "regression_lines"
+        ],
+        "question_text": "Find the regression line of flight time on wing length.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(y=-0.265x+17.47\\)",
+            "is_correct": true
+          },
+          {
+            "label": "B",
+            "text": "\\(y=0.265x+17.47\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(y=-17.47x+0.265\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(y=-0.265x-17.47\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "d",
+        "skill_keys": [
+          "regression_lines"
+        ],
+        "question_text": "Estimate the flight time for a bird with wing length \\(29\\text{ cm}\\).",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(9.90\\text{ s}\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(17.47\\text{ s}\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(9.78\\text{ s}\\)",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "\\(7.69\\text{ s}\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "e",
+        "skill_keys": [
+          "regression_lines"
+        ],
+        "question_text": "If the actual flight time is \\(9.9\\text{ s}\\), find the percentage error.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(12.3\\%\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(1.23\\%\\)",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "\\(0.12\\%\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(4.5\\%\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "f",
+        "skill_keys": [
+          "regression_lines"
+        ],
+        "question_text": "Is it valid to estimate flight time for a bird with wing length \\(42\\text{ cm}\\)?",
+        "options": [
+          {
+            "label": "A",
+            "text": "Yes, because regression is valid for all values.",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "Yes, because \\(42\\text{ cm}\\) is close to the mean.",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "No, because the correlation is negative.",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "No, because \\(42\\text{ cm}\\) is outside the observed wing-length range.",
+            "is_correct": true
+          }
+        ]
+      },
+      {
+        "part_label": "g",
+        "skill_keys": [
+          "spearman_correlation"
+        ],
+        "question_text": "State bird C's rank for wing length and rank for flight time, with rank 1 as the smallest value.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(x\\text{-rank}=3,\\ y\\text{-rank}=6\\)",
+            "is_correct": true
+          },
+          {
+            "label": "B",
+            "text": "\\(x\\text{-rank}=6,\\ y\\text{-rank}=3\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(x\\text{-rank}=2,\\ y\\text{-rank}=6\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(x\\text{-rank}=3,\\ y\\text{-rank}=5\\)",
+            "is_correct": false
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "question_id": 287,
+    "subquestions": [
+      {
+        "part_label": "e",
+        "skill_keys": [
+          "pearson_correlation"
+        ],
+        "question_text": "Describe the correlation between age and number of science documentaries watched.",
+        "options": [
+          {
+            "label": "A",
+            "text": "Negative correlation",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "No correlation",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "Positive correlation",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "Perfect negative correlation",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "f",
+        "skill_keys": [
+          "regression_lines"
+        ],
+        "question_text": "Use \\(y=0.32x-1.8\\) to estimate the number of documentaries watched by a visitor aged 50.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(16\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(14\\)",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "\\(12\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(50\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "g",
+        "skill_keys": [
+          "regression_lines"
+        ],
+        "question_text": "Is the estimate for a 50-year-old visitor valid?",
+        "options": [
+          {
+            "label": "A",
+            "text": "No, because 50 is outside the sampled age range.",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "No, because regression equations are never valid.",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "Yes, because 50 is the median age.",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "Yes, because 50 lies within the sampled age range.",
+            "is_correct": true
+          }
+        ]
+      },
+      {
+        "part_label": "h",
+        "skill_keys": [
+          "spearman_correlation"
+        ],
+        "question_text": "Complete the length rank table. What is the length rank of documentary H?",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(4\\)",
+            "is_correct": true
+          },
+          {
+            "label": "B",
+            "text": "\\(3\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(5\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(8\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "i",
+        "skill_keys": [
+          "spearman_correlation"
+        ],
+        "question_text": "Calculate Spearman's rank correlation coefficient.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(r_s\\approx-0.976\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(r_s\\approx0.786\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(r_s\\approx0.976\\)",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "\\(r_s=1\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "j",
+        "skill_keys": [
+          "spearman_correlation"
+        ],
+        "question_text": "Interpret Spearman's rank correlation coefficient.",
+        "options": [
+          {
+            "label": "A",
+            "text": "Very strong negative rank correlation",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "Very strong positive rank correlation",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "No rank correlation",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "Weak positive rank correlation",
+            "is_correct": false
+          }
+        ]
+      }
+    ]
+  }
+]

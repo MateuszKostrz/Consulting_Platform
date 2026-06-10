@@ -1,0 +1,117 @@
+[
+  {
+    "question_id": 287,
+    "subquestions": [
+      {
+        "part_label": "a",
+        "skill_keys": ["sampling_methods"],
+        "question_text": "Identify the sampling method Noor used when recording every visitor entering the exhibition.",
+        "options": [
+          { "label": "A", "text": "Stratified sampling", "is_correct": false },
+          { "label": "B", "text": "Systematic sampling", "is_correct": true },
+          { "label": "C", "text": "Simple random sampling", "is_correct": false },
+          { "label": "D", "text": "Cluster sampling", "is_correct": false }
+        ]
+      },
+      {
+        "part_label": "b",
+        "skill_keys": ["box_plots"],
+        "question_text": "What is the median age shown on the box-and-whisker diagram?",
+        "options": [
+          { "label": "A", "text": "\\(22\\)", "is_correct": false },
+          { "label": "B", "text": "\\(48\\)", "is_correct": false },
+          { "label": "C", "text": "\\(34\\)", "is_correct": true },
+          { "label": "D", "text": "\\(26\\)", "is_correct": false }
+        ]
+      },
+      {
+        "part_label": "c",
+        "skill_keys": ["interquartile_range"],
+        "question_text": "Find the interquartile range of the ages.",
+        "options": [
+          { "label": "A", "text": "\\(22\\)", "is_correct": false },
+          { "label": "B", "text": "\\(26\\)", "is_correct": true },
+          { "label": "C", "text": "\\(48\\)", "is_correct": false },
+          { "label": "D", "text": "\\(39\\)", "is_correct": false }
+        ]
+      },
+      {
+        "part_label": "d",
+        "skill_keys": ["outliers"],
+        "question_text": "Should the 9-year-old visitor be classified as an outlier?",
+        "options": [
+          { "label": "A", "text": "Yes, because \\(9 < Q_1\\)", "is_correct": false },
+          { "label": "B", "text": "Yes, because \\(9 < 22\\)", "is_correct": false },
+          { "label": "C", "text": "No, because the lower outlier boundary is \\(-17\\) and \\(9 > -17\\)", "is_correct": true },
+          { "label": "D", "text": "No, because all ages are automatically included", "is_correct": false }
+        ]
+      },
+      {
+        "part_label": "e",
+        "skill_keys": ["pearson_correlation"],
+        "question_text": "Describe the relationship between age and number of science documentaries watched.",
+        "options": [
+          { "label": "A", "text": "Positive correlation", "is_correct": true },
+          { "label": "B", "text": "Negative correlation", "is_correct": false },
+          { "label": "C", "text": "No correlation", "is_correct": false },
+          { "label": "D", "text": "Perfect negative correlation", "is_correct": false }
+        ]
+      },
+      {
+        "part_label": "f",
+        "skill_keys": ["regression_lines"],
+        "question_text": "Using \\(y=0.32x-1.8\\), estimate the number of documentaries watched by a 50-year-old visitor.",
+        "options": [
+          { "label": "A", "text": "\\(16\\)", "is_correct": false },
+          { "label": "B", "text": "\\(12\\)", "is_correct": false },
+          { "label": "C", "text": "\\(15\\)", "is_correct": false },
+          { "label": "D", "text": "\\(14\\)", "is_correct": true }
+        ]
+      },
+      {
+        "part_label": "g",
+        "skill_keys": ["regression_lines"],
+        "question_text": "Is the estimate for a 50-year-old visitor valid?",
+        "options": [
+          { "label": "A", "text": "No, because regression equations are never valid", "is_correct": false },
+          { "label": "B", "text": "Yes, because 50 lies within the range of sampled ages", "is_correct": true },
+          { "label": "C", "text": "No, because 50 is above the median age", "is_correct": false },
+          { "label": "D", "text": "No, because correlation does not imply causation", "is_correct": false }
+        ]
+      },
+      {
+        "part_label": "h",
+        "skill_keys": ["spearman_correlation"],
+        "question_text": "What is the length rank of documentary B (55 minutes)?",
+        "options": [
+          { "label": "A", "text": "\\(4\\)", "is_correct": false },
+          { "label": "B", "text": "\\(6\\)", "is_correct": false },
+          { "label": "C", "text": "\\(5\\)", "is_correct": true },
+          { "label": "D", "text": "\\(7\\)", "is_correct": false }
+        ]
+      },
+      {
+        "part_label": "i",
+        "skill_keys": ["spearman_correlation"],
+        "question_text": "Find Spearman's rank correlation coefficient for the documentary data.",
+        "options": [
+          { "label": "A", "text": "\\(0.976\\)", "is_correct": true },
+          { "label": "B", "text": "\\(-0.976\\)", "is_correct": false },
+          { "label": "C", "text": "\\(0.786\\)", "is_correct": false },
+          { "label": "D", "text": "\\(1.000\\)", "is_correct": false }
+        ]
+      },
+      {
+        "part_label": "j",
+        "skill_keys": ["spearman_correlation"],
+        "question_text": "Interpret the value of Spearman's rank correlation coefficient.",
+        "options": [
+          { "label": "A", "text": "Very strong negative rank correlation", "is_correct": false },
+          { "label": "B", "text": "No rank correlation", "is_correct": false },
+          { "label": "C", "text": "Weak positive rank correlation", "is_correct": false },
+          { "label": "D", "text": "Very strong positive rank correlation", "is_correct": true }
+        ]
+      }
+    ]
+  }
+]

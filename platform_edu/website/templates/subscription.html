@@ -1,0 +1,633 @@
+{% load static %}
+
+
+<!doctype html>
+
+<html
+  lang="en"
+  class="layout-navbar-fixed layout-menu-fixed layout-compact"
+  dir="ltr"
+  data-skin="default"
+  data-bs-theme="light"
+  data-assets-path="../../assets/"
+  data-template="vertical-menu-template">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+
+    <title>{{ site_name }} | Subscription</title>
+
+    <meta name="description" content="" />
+
+    <link rel="icon" href="{% static 'website/images/platform_logo.svg' %}">
+    <link rel="alternate icon" href="{% static 'website/images/safari_logo2_prev_ui.png' %}" type="image/png">
+    <meta property="og:image" content="https://academy.edunade.com/static/website/images/Edunade_Vertical_Black_RGB.png">
+
+
+    {% include 'top_base.html' %}
+
+    <!-- endbuild -->
+
+    <link rel="stylesheet" href="{% static 'website/css/vendor/libs/select2/select2.css' %}" />
+    <link rel="stylesheet" href="{% static 'website/css/vendor/libs/@form-validation/form-validation.css' %}" />
+    <link rel="stylesheet" href="{% static 'website/css/vendor/libs/animate-css/animate.css' %}" />
+    <link rel="stylesheet" href="{% static 'website/css/vendor/libs/sweetalert2/sweetalert2.css' %}" />
+    <link rel="stylesheet" href="{% static 'website/css/vendor/libs/datatables-bs5/datatables.bootstrap5.css' %}" />
+    <link rel="stylesheet" href="{% static 'website/css/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css' %}" />
+    <link rel="stylesheet" href="{% static 'website/css/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css' %}" />
+
+    <link rel="stylesheet" href="{% static 'website/css/vendor/css/pages/pages-pricing.css' %}" />
+
+    <!-- Helpers -->
+    <script type="text/javascript" src="{% static 'website/js/vendor/helpers.js' %}"></script>
+
+    <!--? Template customizer: To hide customizer set displayCustomizer value false in config.js. -->
+    <!-- <script type="text/javascript" src="{% static 'website/js/vendor/template-customizer.js' %}"></script> -->
+
+    <!--? Config: Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file. -->
+
+    <script type="text/javascript" src="{% static 'website/js/vendor/config.js' %}"></script>
+
+    <style>
+      /* Force white background on sidebar */
+      .layout-menu {
+        background-color: #ffffff !important;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Layout wrapper -->
+    <div class="layout-wrapper layout-content-navbar">
+      <div class="layout-container">
+        <!-- Menu -->
+
+        {% include 'sidebar.html' %}
+
+          <!-- / Navbar -->
+
+          <!-- Content wrapper -->
+          <div class="content-wrapper">
+
+
+            {% if user_type == 'none' %}
+            <!-- Custom full-width override for access restriction -->
+            <div class="w-100 mr-10">
+              <div class="card w-100 mr-10">
+                <div class="card-body text-center py-5">
+                  <!-- <div class="mb-4">
+                    <i class="icon-base ri ri-lock-line icon-72px text-warning"></i>
+                  </div> -->
+                  <h4 class="mb-2 text-warning">Access Restricted</h4>
+                  <p class="mb-10">You need to create an account to access this page.</p>
+                  <div class="d-flex justify-content-center gap-2">
+                    <a href="{% url 'login' %}" class="btn btn-primary">
+                      <i class="icon-base ri ri-login-box-line me-2"></i>Login
+                    </a>
+                    <a href="{% url 'home' %}" class="btn btn-outline-secondary">
+                      <i class="icon-base ri ri-home-line me-2"></i>Go Home
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% else %}
+          
+            <!-- Content -->
+            <div class="container-xxl flex-grow-1 container-p-y">
+
+              <div class="row">
+                <div class="col-md-12">
+                  {% if user_type != 'none' %}
+                  <div class="nav-align-top">
+                    <ul class="nav nav-pills flex-column flex-md-row mb-6 gap-2 gap-lg-0">
+                      <li class="nav-item">
+                        <a class="nav-link" href="{% url 'account' %}"
+                          ><i class="icon-base ri ri-group-line icon-sm me-2"></i> Account</a
+                        >
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="{% url 'security' %}"
+                          ><i class="icon-base ri ri-lock-line icon-sm me-2"></i> Security</a
+                        >
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link active" href="{% url 'subscription' %}"
+                          ><i class="icon-base ri ri-bookmark-line icon-sm me-2"></i> Subscription</a
+                        >
+                      </li>
+
+                      <li class="nav-item">
+                        <a class="nav-link" href="{% url 'pricing' %}"
+                          ><i class="icon-base ri ri-money-dollar-circle-line icon-sm me-2"></i> Pricing</a
+                        >
+                    </ul>
+                  </div>
+                  {% endif %}
+                  <div class="card mb-6">
+                    <!-- Current Plan -->
+                    <h5 class="card-header">Current Plan</h5>
+                    <div class="card-body pt-1">
+                      <div class="row row-gap-6">
+                        <div class="col-md-6 mb-1">
+                          {% if user_type == 'free' or user_type == 'apex_user' %}
+                            <div class="mb-6">
+                              <h6 class="mb-1">Your current plan is: Lite</h6>
+                              <p>Free access for everyone</p>
+                            </div>
+                            <div class="mb-6">
+                              <h6 class="mb-1">Active until: Forever</h6>
+                              <p>Your free plan never expires - enjoy unlimited access to our core features</p>
+                            </div>
+                            <div>
+                              <h6 class="mb-1">
+                                <span class="me-1">£0 / month</span>
+                                <span class="badge bg-label-info rounded-pill">Free</span>
+                              </h6>
+                              <p class="mb-1">No need for any card information!</p>
+                            </div>
+                          {% else %}
+                            <div class="mb-6">
+                              <h6 class="mb-1">Your current plan is: {% if subscription_type == 'free_trial' %}Free Trial{% else %}Premium{% endif %}</h6>
+                              {% if subscription_type == 'free_trial' %}
+                                <p>Enjoy full access to all premium features for the next 3 days.</p>
+                              {% else %}
+                                <p>More than enough to make it to your dream uni!</p>
+                              {% endif %}
+                            </div>
+                            <div class="mb-6">
+                              {% if subscription_type == 'free_trial' %}
+                                <h6 class="mb-1">Trial ends {% if subscription_end_date %}{{ subscription_end_date }}{% else %}Dec 09, 2021{% endif %}</h6>
+                                <p>After trial, you'll be charged £16/month (yearly plan). Cancel anytime before trial ends.</p>
+                              {% else %}
+                                <h6 class="mb-1">Active until {% if subscription_end_date %}{{ subscription_end_date }}{% else %}Dec 09, 2021{% endif %}</h6>
+                                {% if subscribed == "Cancelled" %}
+                                  <p>Your subscription is cancelled, so will not renew after this date.</p>
+                                {% else %}
+                                  <p>Your subscription will renew automatically.</p>
+                                {% endif %}
+                              {% endif %}
+                            </div>
+                            <div>
+                              <h6 class="mb-1">
+                                {% if is_free_premium %}
+                                  <span class="me-1">FREE access for the duration of classes</span>
+                                  <span class="badge bg-label-success rounded-pill">Premium</span>
+                                {% elif subscription_type == 'free_trial' %}
+                                  <span class="me-1">Free Trial</span>
+                                  <span class="badge bg-label-info rounded-pill">Trial</span>
+                                {% else %}
+                                  <span class="me-1">£{% if subscription_type == 'monthly' %}29{% elif subscription_type == 'yearly' %}16{% else %}12{% endif %} / month</span>
+                                  <span class="badge bg-label-success rounded-pill">Premium</span>
+                                {% endif %}
+                              </h6>
+                              <p class="mb-1">Full access to all platform features.</p>
+                            </div>
+                          {% endif %}
+                        </div>
+                        <div class="col-md-6">
+                          {% if user_type == 'free' or user_type == 'apex_user' %}
+                            <div class="plan-statistics">
+                              <div class="d-flex justify-content-between">
+                                <h6 class="mb-1">Status</h6>
+                                <h6 class="mb-1">Free forever!</h6>
+                              </div>
+                              <div class="progress rounded bg-label-info mb-1" style="height: 6px">
+                                <div class="progress-bar bg-info w-100 rounded" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                              </div>
+                              <small>Your free plan never expires</small>
+                            </div>
+                          {% else %}
+                            <div class="plan-statistics">
+                              <div class="d-flex justify-content-between">
+                                <h6 class="mb-1">Days</h6>
+                                <h6 class="mb-1">{% if days_elapsed is not None and total_days is not None %}{{ days_elapsed }} of {{ total_days }} Days{% else %}24 of 30 Days{% endif %}</h6>
+                              </div>
+                              <div class="progress rounded bg-label-success mb-1" style="height: 6px">
+                                <div
+                                  class="progress-bar bg-success rounded"
+                                  role="progressbar"
+                                  aria-valuenow="{% if progress_percentage is not None %}{{ progress_percentage|floatformat:0 }}{% else %}75{% endif %}"
+                                  aria-valuemin="0"
+                                  aria-valuemax="100"
+                                  style="width: {% if progress_percentage is not None %}{{ progress_percentage }}%{% else %}75%{% endif %}"></div>
+                              </div>
+                              <small>{% if days_remaining %}{{ days_remaining }} days remaining until your plan requires update{% else %}6 days remaining until your plan requires update{% endif %}</small>
+                            </div>
+                          {% endif %}
+                        </div>
+                        <div class="col-12 d-flex gap-4 flex-wrap">
+                          {% if user_type == 'free' or user_type == 'apex_user' %}
+                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#pricingModal">
+                              Upgrade to Premium
+                            </button>
+                          {% else %}
+                            <!-- <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#pricingModal">
+                              Upgrade Plan
+                            </button> -->
+                            {% if subscribed == "Cancelled" %}
+                              <div class="alert alert-warning" role="alert">
+                                {% if subscription_type == 'free_trial' %}
+                                  Your trial will end on {{ subscription_end_date }} and your account will turn into Lite. You will not be charged.
+                                {% else %}
+                                  Your subscription will end on {{ subscription_end_date }}. You will not be charged after this date.
+                                {% endif %}
+                              </div>
+                            {% elif is_free_premium %}
+                              <div class="alert alert-info" role="alert">
+                                <i class="bi bi-info-circle me-2"></i>
+                                This account grants free access to our entire platform. Hope you like it!
+                              </div>
+                            {% else %}
+                              <button class="btn btn-outline-danger cancel-subscription">Cancel Subscription</button>
+                            {% endif %}
+
+                            <!-- Cancel Subscription Modal -->
+                            <div class="modal fade" id="cancelSubscriptionModal" tabindex="-1" aria-hidden="true">
+                              <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <h5 class="modal-title">Cancel Subscription</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                  </div>
+                                  <div class="modal-body">
+                                    <p>Are you sure you want to cancel your subscription?</p>
+                                    <ul class="mb-4">
+                                      <li>Your subscription will remain active until the end of your current billing period</li>
+                                      <li>You will not be charged again</li>
+                                      <li>You can continue using all premium features until your subscription ends</li>
+                                    </ul>
+                                  </div>
+                                  <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Keep Subscription</button>
+                                    <button type="button" class="btn btn-danger" id="confirmCancelSubscription">Yes, Cancel Subscription</button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            <script>
+                              document.addEventListener('DOMContentLoaded', function() {
+                                const cancelBtn = document.querySelector('.cancel-subscription');
+                                const confirmCancelBtn = document.getElementById('confirmCancelSubscription');
+                                const cancelModal = new bootstrap.Modal(document.getElementById('cancelSubscriptionModal'));
+
+                                if (cancelBtn) {
+                                  cancelBtn.addEventListener('click', function() {
+                                    cancelModal.show();
+                                  });
+                                }
+
+                                if (confirmCancelBtn) {
+                                  confirmCancelBtn.addEventListener('click', function() {
+                                    // Disable button and show loading state
+                                    confirmCancelBtn.disabled = true;
+                                    confirmCancelBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Cancelling...';
+
+                                    fetch('/cancel-subscription/', {
+                                      method: 'POST',
+                                      headers: {
+                                        'X-CSRFToken': getCookie('csrftoken'),
+                                        'Content-Type': 'application/json'
+                                      }
+                                    })
+                                    .then(response => response.json())
+                                    .then(data => {
+                                      if (data.success) {
+                                        // Hide modal
+                                        cancelModal.hide();
+                                        
+                                        // Replace cancel button with alert
+                                        const cancelBtnContainer = cancelBtn.parentElement;
+                                        cancelBtn.remove();
+                                        
+                                        const alert = document.createElement('div');
+                                        alert.className = 'alert alert-warning';
+                                        alert.role = 'alert';
+                                        
+                                        // Check if it's a trial subscription
+                                        const isTrial = '{{ subscription_type }}' === 'free_trial';
+                                        if (isTrial) {
+                                          alert.textContent = `Your trial will end on ${new Date(data.end_date).toLocaleDateString()}. You will not be charged.`;
+                                        } else {
+                                          alert.textContent = `Your subscription will end on ${new Date(data.end_date).toLocaleDateString()}. You will not be charged after this date.`;
+                                        }
+                                        
+                                        cancelBtnContainer.appendChild(alert);
+                                      } else {
+                                        throw new Error(data.error || 'Failed to cancel subscription');
+                                      }
+                                    })
+                                    .catch(error => {
+                                      // Show error message
+                                      alert('Error: ' + error.message);
+                                      
+                                      // Reset button state
+                                      confirmCancelBtn.disabled = false;
+                                      confirmCancelBtn.innerHTML = 'Yes, Cancel Subscription';
+                                    });
+                                  });
+                                }
+
+                                // Helper function to get CSRF token
+                                function getCookie(name) {
+                                  let cookieValue = null;
+                                  if (document.cookie && document.cookie !== '') {
+                                    const cookies = document.cookie.split(';');
+                                    for (let i = 0; i < cookies.length; i++) {
+                                      const cookie = cookies[i].trim();
+                                      if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                        break;
+                                      }
+                                    }
+                                  }
+                                  return cookieValue;
+                                }
+                              });
+                            </script>
+                          {% endif %}
+                        </div>
+                      </div>
+                    </div>
+                    <!-- /Current Plan -->
+                  </div>
+
+
+              <!-- Modal -->
+              <!-- Pricing Modal -->
+              <div class="modal fade" id="pricingModal" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-xl modal-simple modal-pricing">
+                  <div class="modal-content">
+                    <div class="modal-body p-0">
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      <!-- Pricing Plans -->
+                      <div class="pb-6 rounded-top">
+                        <h4 class="text-center mb-2">Pricing Plans</h4>
+                        <p class="text-center mb-0">
+                          Various options, substantial gains. Choose the best plan to
+                          fit your needs.
+                        </p>
+                        <div class="d-flex align-items-center justify-content-center flex-column gap-3 pt-12 pb-4">
+                          <!-- Pricing Duration Buttons -->
+                          <div class="btn-group" role="group" aria-label="Pricing duration">
+                            <button type="button" class="btn btn-outline-primary price-duration-toggler-btn" data-duration="monthly">
+                              Monthly
+                            </button>
+                            <button type="button" class="btn btn-outline-primary price-duration-toggler-btn active" data-duration="yearly">
+                              Yearly
+                            </button>
+                            <button type="button" class="btn btn-outline-primary price-duration-toggler-btn" data-duration="two-yearly">
+                              Full IB
+                            </button>
+                          </div>
+                          <div class="d-flex align-items-center gap-2">
+                            <span class="badge badge-sm bg-label-primary rounded-pill">Free trial and over 50% off with yearly plans!</span>
+                          </div>
+                        </div>
+
+                        <div class="pricing-plans row mx-4 gy-3 px-lg-12 justify-content-center">
+                          <!-- Lite Card -->
+                          <div class="col-lg-6 mb-lg-0 mb-3">
+                            <div class="card border shadow-none h-100">
+                              <div class="card-body pt-12 d-flex flex-column">
+                                <div class="mt-3 mb-5 text-center">
+                                  <img
+                                    src="{% static 'website/images/settings/pricing-basic.png' %}"
+                                    alt="Basic Image"
+                                    height="100" />
+                                </div>
+                                <h4 class="card-title text-center text-capitalize mb-2">Lite</h4>
+                                <p class="text-center mb-5">Starter pack, free 4ever!</p>
+                                <div class="text-center">
+                                  <div class="d-flex justify-content-center">
+                                    <sup class="h6 pricing-currency mt-2 mb-0 me-1 text-body">£</sup>
+                                    <h1 class="price-toggle price-yearly text-primary mb-0">0</h1>
+                                    <h1 class="price-toggle price-monthly text-primary mb-0 d-none">0</h1>
+                                    <h1 class="price-toggle price-two-yearly text-primary mb-0 d-none">0</h1>
+                                    <sub class="h6 text-body pricing-duration mt-auto mb-1 ms-1">forever!</sub>
+                                  </div>
+                                </div>
+
+                                <ul class="my-5 pt-4 flex-grow-1" style="list-style: none; padding-left: 1rem;">
+                                  {% include 'subscription_stats/lite_stats.html' %}
+                                </ul>
+
+                                {% if user_type == 'free' or user_type == 'apex_user' %}
+                                <button
+                                  type="button"
+                                  class="btn btn-success d-grid w-100 mt-auto"
+                                  data-bs-dismiss="modal">
+                                  Your Current Plan
+                                </button>
+                                {% else %}
+                                <button
+                                  type="button"
+                                  class="btn btn-outline-success d-grid w-100 mt-auto"
+                                  data-bs-dismiss="modal">
+                                  Downgrade to Lite
+                                </button>
+                                {% endif %}
+                              </div>
+                            </div>
+                          </div>
+
+                          <!-- Pro Card -->
+                          <div class="col-lg-6 mb-lg-0 mb-3">
+                            <div class="card border shadow-none h-100">
+                              <div class="card-body position-relative pt-4 d-flex flex-column">
+                                <div class="position-absolute end-0 me-6 top-0 mt-6">
+                                  <!-- <span class="badge bg-label-primary rounded-pill">Popular</span> -->
+                                </div>
+                                <div class="my-5 pt-6 text-center">
+                                  <img
+                                    src="{% static 'website/images/settings/pricing-standard.png' %}"
+                                    alt="Standard Image"
+                                    height="100" />
+                                </div>
+                                <h4 class="card-title text-center text-capitalize mb-2">Pro</h4>
+                                <p class="text-center mb-5">For individual gainers</p>
+                                <div class="text-center">
+                                  <div class="d-flex justify-content-center">
+                                    <sup class="h6 pricing-currency mt-2 mb-0 me-1 text-body">£</sup>
+                                    <h1 class="price-toggle price-yearly text-primary mb-0">16</h1>
+                                    <h1 class="price-toggle price-monthly text-primary mb-0 d-none">29</h1>
+                                    <h1 class="price-toggle price-two-yearly text-primary mb-0 d-none">12</h1>
+                                    <sub class="h6 text-body pricing-duration mt-auto mb-1">/month</sub>
+                                  </div>
+                                </div>
+
+                                <ul class="my-5 pt-4 flex-grow-1" style="list-style: none; padding-left: 1rem;">
+                                  {% include 'subscription_stats/premium_stats.html' %}
+                                </ul>
+
+                                <div class="mt-auto">
+                                  <!-- Monthly Plan Link (No trial) -->
+                                  <a href="https://buy.stripe.com/28E00jgQA3Kk5xa2mVgw00j?client_reference_id=monthly-{{ customer_id }}" class="pricing-link price-monthly d-none">
+                                    <button type="button" class="btn btn-primary d-grid w-100" data-bs-dismiss="modal">
+                                      Upgrade
+                                    </button>
+                                  </a>
+
+                                  <!-- Yearly Plan Link (With 3-day trial) -->
+                                  <a href="https://buy.stripe.com/4gMfZh7g0gx63p28Ljgw00h?client_reference_id=trial-{{ customer_id }}" class="pricing-link price-yearly">
+                                    <button type="button" class="btn btn-primary d-grid w-100" data-bs-dismiss="modal">
+                                      Start 3-Day Free Trial
+                                    </button>
+                                  </a>
+
+                                  <!-- 2-Yearly/Full IB Plan Link (With 3-day trial) -->
+                                  <a href="https://buy.stripe.com/8x2fZhgQAcgQ1gU2mVgw00l?client_reference_id=trial-{{ customer_id }}" class="pricing-link price-two-yearly d-none">
+                                    <button type="button" class="btn btn-primary d-grid w-100" data-bs-dismiss="modal">
+                                      Start 3-Day Free Trial
+                                    </button>
+                                  </a>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- Institution Message -->
+                        <div class="text-center mt-8">
+                          <p class="text-center mb-2">
+                            Looking for a solution for your entire educational institution? <a href="{% url 'contact' %}" class="fw-semibold">Contact us here</a>
+                          </p>
+                        </div>
+                      </div>
+                      <!--/ Pricing Plans -->
+                      <!-- <div class="text-center">
+                        <p>Still Not Convinced? Start with a 14-day FREE trial!</p>
+                        <a href="javascript:void(0);" class="btn btn-primary">Start your trial</a>
+                      </div> -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!--/ Pricing Modal -->
+              <script type="text/javascript" src="{% static 'website/js/pages-pricing.js' %}"></script>
+              
+              <!-- Custom script for modal button group pricing toggle -->
+              <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                  const modalButtons = document.querySelectorAll('#pricingModal .price-duration-toggler-btn');
+                  const modalPriceToggles = {
+                    monthly: document.querySelectorAll('#pricingModal .price-monthly'),
+                    yearly: document.querySelectorAll('#pricingModal .price-yearly'),
+                    'two-yearly': document.querySelectorAll('#pricingModal .price-two-yearly')
+                  };
+                  
+                  function setActiveModalDuration(duration) {
+                    // Update button states
+                    modalButtons.forEach(btn => {
+                      if (btn.dataset.duration === duration) {
+                        btn.classList.remove('btn-outline-primary');
+                        btn.classList.add('btn-primary', 'active');
+                      } else {
+                        btn.classList.remove('btn-primary', 'active');
+                        btn.classList.add('btn-outline-primary');
+                      }
+                    });
+                    
+                    // Show/hide prices and links
+                    Object.keys(modalPriceToggles).forEach(key => {
+                      modalPriceToggles[key].forEach(element => {
+                        if (key === duration) {
+                          element.classList.remove('d-none');
+                        } else {
+                          element.classList.add('d-none');
+                        }
+                      });
+                    });
+                  }
+                  
+                  // Add click handlers
+                  modalButtons.forEach(button => {
+                    button.addEventListener('click', () => {
+                      setActiveModalDuration(button.dataset.duration);
+                    });
+                  });
+                  
+                  // Set initial state to yearly
+                  setActiveModalDuration('yearly');
+                });
+              </script>
+              <!--/ Modal -->
+              {% endif %}
+            </div>
+            <!-- / Content -->
+
+
+        
+                  <!--/ Pricing Plans -->
+                </div>
+              </div>
+          </div>
+
+            <!-- Footer -->
+
+            {% include 'footer.html' %}
+            <!-- / Footer -->
+
+            <div class="content-backdrop fade"></div>
+          </div>
+          <!-- Content wrapper -->
+        </div>
+        <!-- / Layout page -->
+      </div>
+
+      <!-- Overlay -->
+      <div class="layout-overlay layout-menu-toggle"></div>
+
+      <!-- Drag Target Area To SlideIn Menu On Small Screens -->
+      <div class="drag-target"></div>
+    </div>
+    <!-- / Layout wrapper -->
+
+    <!-- Core JS -->
+
+    <!-- build:js assets/vendor/js/theme.js  -->
+
+    <script src="{% static 'website/js/vendor/libs/jquery/jquery.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/popper/popper.js' %}"></script>
+    <script src="{% static 'website/js/bootstrap.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/node-waves/node-waves.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/@algolia/autocomplete-js.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/pickr/pickr.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/perfect-scrollbar/perfect-scrollbar.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/hammer/hammer.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/i18n/i18n.js' %}"></script>
+
+    <script src="{% static 'website/js/vendor/menu.js' %}"></script>
+
+    <!-- endbuild -->
+
+    <!-- Vendors JS -->
+    <script src="{% static 'website/js/vendor/libs/select2/select2.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/@form-validation/popular.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/@form-validation/bootstrap5.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/@form-validation/auto-focus.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/cleave-zen/cleave-zen.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/sweetalert2/sweetalert2.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/cleave-zen/cleave-zen.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/moment/moment.js' %}"></script>
+
+
+
+
+    <!-- Main JS -->
+
+    <script type="text/javascript" src="{% static 'website/js/main.js' %}"></script>
+
+
+    <script type="text/javascript" src="{% static 'website/js/app-invoice-list.js' %}"></script>
+    <script type="text/javascript" src="{% static 'website/js/modal-edit-cc.js' %}"></script>
+    <script type="text/javascript" src="{% static 'website/js/pages-pricing.js' %}"></script>
+
+        <!-- For the top header to work -->
+    <script type="text/javascript" src="{% static 'website/js/vendors.min.js' %}"></script>
+
+  </body>
+</html>

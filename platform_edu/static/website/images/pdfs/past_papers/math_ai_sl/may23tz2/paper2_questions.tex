@@ -1,0 +1,237 @@
+% This LaTeX document needs to be compiled with XeLaTeX.
+\documentclass[10pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{ucharclasses}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true, linkcolor=blue, filecolor=magenta, urlcolor=cyan,}
+\urlstyle{same}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage[version=4]{mhchem}
+\usepackage{stmaryrd}
+\usepackage{graphicx}
+\usepackage[export]{adjustbox}
+\graphicspath{ {./images/} }
+\usepackage{caption}
+\usepackage{polyglossia}
+\usepackage{fontspec}
+\setmainlanguage{english}
+\setotherlanguages{spanish, french, hindi}
+\IfFontExistsTF{Noto Serif Devanagari}
+{\newfontfamily\hindifont{Noto Serif Devanagari}}
+{\IfFontExistsTF{Kohinoor Devanagari}
+  {\newfontfamily\hindifont{Kohinoor Devanagari}}
+  {\IfFontExistsTF{Devanagari MT}
+    {\newfontfamily\hindifont{Devanagari MT}}
+    {\IfFontExistsTF{Lohit Devanagari}
+      {\newfontfamily\hindifont{Lohit Devanagari}}
+      {\IfFontExistsTF{FreeSerif}
+        {\newfontfamily\hindifont{FreeSerif}}
+        {\newfontfamily\hindifont{Arial Unicode MS}}
+}}}}
+\IfFontExistsTF{CMU Serif}
+{\newfontfamily\lgcfont{CMU Serif}}
+{\IfFontExistsTF{DejaVu Sans}
+  {\newfontfamily\lgcfont{DejaVu Sans}}
+  {\newfontfamily\lgcfont{Georgia}}
+}
+\setDefaultTransitions{\lgcfont}{}
+\setTransitionsForDevanagari{\hindifont}{\rmfamily}
+
+\title{Mathematics: applications and interpretation Standard level \\
+ Paper 2 }
+
+\author{}
+\date{}
+
+
+\begin{document}
+\maketitle
+\captionsetup{singlelinecheck=false}
+© International Baccalaureate Organization 2023
+
+All rights reserved. No part of this product may be reproduced in any form or by any electronic or mechanical means, including information storage and retrieval systems, without the prior written permission from the IB. Additionally, the license tied with this product prohibits use of any selected files or extracts from this product. Use by third parties, including but not limited to publishers, private teachers, tutoring or study services, preparatory schools, vendors operating curriculum mapping services or teacher resource digital platforms and app developers, whether fee-covered or not, is prohibited and is a criminal offense.
+
+More information on how to request written permission in the form of a license can be obtained from \href{https://ibo.org/become-an-ib-school/ib-publishing/licensing/applying-for-alicense/}{https://ibo.org/become-an-ib-school/ib-publishing/licensing/applying-for-alicense/}.\\
+© Organisation du Baccalauréat International 2023
+
+Tous droits réservés. Aucune partie de ce produit ne peut être reproduite sous quelque forme ni par quelque moyen que ce soit, électronique ou mécanique, y compris des systèmes de stockage et de récupération d'informations, sans l'autorisation écrite préalable de l'IB. De plus, la licence associée à ce produit interdit toute utilisation de tout fichier ou extrait sélectionné dans ce produit. L'utilisation par des tiers, y compris, sans toutefois s'y limiter, des éditeurs, des professeurs particuliers, des services de tutorat ou d'aide aux études, des établissements de préparation à l'enseignement supérieur, des fournisseurs de services de planification des programmes d'études, des gestionnaires de plateformes pédagogiques en ligne, et des développeurs d'applications, moyennant paiement ou non, est interdite et constitue une infraction pénale.
+
+Pour plus d'informations sur la procédure à suivre pour obtenir une autorisation écrite sous la forme d'une licence, rendez-vous à l'adresse \href{https://ibo.org/become-an-ib-school/}{https://ibo.org/become-an-ib-school/} ib-publishing/licensing/applying-for-a-license/.\\
+© Organización del Bachillerato Internacional, 2023
+
+Todos los derechos reservados. No se podrá reproducir ninguna parte de este producto de ninguna forma ni por ningún medio electrónico o mecánico, incluidos los sistemas de almacenamiento y recuperación de información, sin la previa autorización por escrito del IB. Además, la licencia vinculada a este producto prohíbe el uso de todo archivo o fragmento seleccionado de este producto. El uso por parte de terceros -lo que incluye, a título enunciativo, editoriales, profesores particulares, servicios de apoyo académico o ayuda para el estudio, colegios preparatorios, desarrolladores de aplicaciones y entidades que presten servicios de planificación curricular u ofrezcan recursos para docentes mediante plataformas digitales-, ya sea incluido en tasas o no, está prohibido y constituye un delito.
+
+En este enlace encontrará más información sobre cómo solicitar una autorización por escrito en forma de licencia: \href{https://ibo.org/become-an-ib-school/ib-publishing/licensing/}{https://ibo.org/become-an-ib-school/ib-publishing/licensing/} applying-for-a-license/.
+
+9 May 2023\\
+Zone A afternoon | Zone B morning | Zone C afternoon
+
+1 hour 30 minutes
+
+\section*{Instructions to candidates}
+\begin{itemize}
+  \item Do not open this examination paper until instructed to do so.
+  \item A graphic display calculator is required for this paper.
+  \item Answer all the questions in the answer booklet provided.
+  \item Unless otherwise stated in the question, all numerical answers should be given exactly or correct to three significant figures.
+  \item A clean copy of the mathematics: applications and interpretation formula booklet is required for this paper.
+  \item The maximum mark for this examination paper is [80 marks].
+\end{itemize}
+
+Answer all questions in the answer booklet provided. Please start each question on a new page. Full marks are not necessarily awarded for a correct answer with no working. Answers must be supported by working and/or explanations. Solutions found from a graphic display calculator should be supported by suitable working. For example, if graphs are used to find a solution, you should sketch these as part of your answer. Where an answer is incorrect, some marks may be given for a correct method, provided this is shown by written working. You are therefore advised to show all working.
+
+\begin{enumerate}
+  \item \hspace{0pt} [Maximum mark: 17]
+\end{enumerate}
+
+The diagram shows points in a park viewed from above, at a specific moment in time.\\
+The distance between two trees, at points A and B , is 6.36 m .\\
+Odette is playing football in the park and is standing at point O , such that $\mathrm{A} \hat{\mathrm{O}} \mathrm{B}=10^{\circ}$, $\mathrm{OA}=25.9 \mathrm{~m}$ and OAB is obtuse.\\
+\includegraphics[max width=\textwidth, center]{73ed3eac-4e6b-4bff-a315-9506b29226ba-3}
+
+\section*{diagram not to scale}
+(a) Calculate the size of ABO .\\
+(b) Calculate the area of triangle AOB .\\
+(This question continues on the following page)
+
+\section*{(Question 1 continued)}
+Odette's friend, Khemil, is standing at point K such that he is 12 m from A and KAB $=45^{\circ}$.
+
+\section*{diagram not to scale}
+\includegraphics[max width=\textwidth, center]{73ed3eac-4e6b-4bff-a315-9506b29226ba-4(1)}\\
+(c) Calculate Khemil's distance from B.
+
+XY is a semicircular path in the park with centre A , such that $\mathrm{KA} \mathrm{Y}=45^{\circ}$. Khemil is standing on the path and Odette's football is at point X . This is shown in the diagram below.
+
+\section*{diagram not to scale}
+\begin{center}
+\includegraphics[max width=\textwidth]{73ed3eac-4e6b-4bff-a315-9506b29226ba-4}
+\end{center}
+
+The length $\mathrm{KX}=22.2 \mathrm{~m}, \mathrm{KOPX}=53.8^{\circ}$ and $\mathrm{O} \hat{\mathrm{K}} \mathrm{X}=51.1^{\circ}$.\\
+(d) Find whether Odette or Khemil is closer to the football.
+
+Khemil runs along the semicircular path to pick up the football.\\
+(e) Calculate the distance that Khemil runs.\\[0pt]
+2. [Maximum mark: 15]
+
+Daina makes pendulums to sell at a market. She plans to make 10 pendulums on the first day and, on each subsequent day, make 6 more than she did the day before.\\
+(a) Calculate the number of pendulums she would make on the 12th day.
+
+She plans to make pendulums for a total of 15 days in preparation for going to the market.\\
+(b) Calculate the total number of pendulums she would have available at the market.
+
+Daina would like to have at least 1000 pendulums available to sell at the market and therefore decides to increase her production. She still plans to make 10 pendulums on the first day, but on each subsequent day, she will make $x$ more than she did the day before.\\
+(c) Given that she will still make pendulums for a total of 15 days, calculate the minimum integer value of $x$ required for her to reach her target.
+
+Daina tests one of her pendulums. She releases the ball at the end of the pendulum to swing freely. The point at which she releases it is shown as the initial position on the left side of the following diagram. Daina begins recording the distances travelled by the ball after it has reached the extreme position, represented by the right-hand side of the diagram.\\
+diagram not to scale\\
+\includegraphics[max width=\textwidth, center]{73ed3eac-4e6b-4bff-a315-9506b29226ba-5}\\
+(This question continues on the following page)
+
+\section*{(Question 2 continued)}
+On each successive swing, the distance that the ball travelled was $95 \%$ of its previous distance. During the first swing that Daina recorded, the ball travelled a distance of 17.1 cm . During the second swing that she recorded, it travelled a distance of 16.245 cm .\\
+(d) Calculate the distance that the ball travelled during the 5th recorded swing.\\
+(e) Calculate the total distance that the ball travelled during the first 16 recorded swings.\\
+(f) Calculate the distance that the ball travelled before Daina started recording.\\[0pt]
+3. [Maximum mark: 15]
+
+A scientist is conducting an experiment on the growth of a certain species of bacteria.\\
+The population of the bacteria, $P$, can be modelled by the function
+
+$$
+P(t)=1200 \times k^{t}, t \geq 0
+$$
+
+where $t$ is the number of hours since the experiment began, and $k$ is a positive constant.\\
+(a) (i) Write down the value of $P(0)$.\\
+(ii) Interpret what this value means in this context.
+
+3 hours after the experiment began, the population of the bacteria is 18750 .\\
+(b) Find the value of $k$.\\
+(c) Find the population of the bacteria 1 hour and 30 minutes after the experiment began.
+
+The scientist conducts a second experiment with a different species of bacteria. The population of this bacteria, $S$, can be modelled by the function
+
+$$
+S(t)=5000 \times 1.65^{t}, t \geq 0
+$$
+
+where $t$ is the number of hours since both experiments began.\\
+(d) Find the value of $t$ when the two populations of bacteria are equal.
+
+It takes 2 hours and $m$ minutes for the number of bacteria in the second experiment to reach 19000.\\
+(e) Find the value of $m$, giving your answer as an integer value.
+
+The bacteria in the second experiment are growing inside a container. The scientist models the volume of each bacterium in the second experiment to be $1 \times 10^{-18} \mathrm{~m}^{3}$, and the available volume inside the container is $2.1 \times 10^{-5} \mathrm{~m}^{3}$.\\
+(f) Determine how long it would take for the bacteria to fill the container.\\[0pt]
+4. [Maximum mark: 17]
+
+It is claimed that a new remedy cures $82 \%$ of the patients with a particular medical problem.\\
+This remedy is to be used by 115 patients, and it is assumed that the $82 \%$ claim is true.\\
+(a) Find the probability that exactly 90 of these patients will be cured.\\
+(b) Find the probability that at least 95 of these patients will be cured.\\
+(c) Find the variance in the possible number of patients that will be cured.
+
+The probability that at least $n$ patients will be cured is less than $30 \%$.\\
+(d) Find the least value of $n$.
+
+A clinic is interested to see if the mean recovery time of their patients who tried the new remedy is less than that of their patients who continued with an older remedy. The clinic randomly selects some of their patients and records their recovery time in days. The results are shown in the table below.
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|c|c|}
+\cline { 2 - 8 }
+\multicolumn{1}{c|}{} & \multicolumn{7}{|c|}{Recovery time (days)} \\
+\hline
+\begin{tabular}{c}
+Group N \\
+(new remedy) \\
+\end{tabular} & 12 & 13 & 9 & 13 & 14 & 15 & 17 \\
+\hline
+\end{tabular}
+\end{center}
+
+\begin{center}
+\begin{tabular}{|l|l|l|l|l|l|l|l|l|l|}
+\hline
+ & \multicolumn{9}{|c|}{Recovery time (days)} \\
+\hline
+Group O (old remedy) & 17 & 11 & 10 & 18 & 20 & 22 & 14 & 15 & 18 \\
+\hline
+\end{tabular}
+\end{center}
+
+The data is assumed to follow a normal distribution and the population variance is the same for the two groups. A $t$-test is used to compare the means of the two groups at the $10 \%$ significance level.\\
+(e) State the appropriate null and alternative hypotheses for this $t$-test.\\
+(f) Find the $p$-value for this test.\\
+(g) State the conclusion for this test. Give a reason for your answer.\\
+(h) Explain what the $p$-value represents.\\[0pt]
+5. [Maximum mark: 16]
+
+A particular park consists of a rectangular garden, of area $A \mathrm{~m}^{2}$, and a concrete path surrounding it. The park has a total area of $1200 \mathrm{~m}^{2}$.
+
+The width of the path at the north and south side of the park is 2 m .\\
+The width of the path at the west and east side of the park is 1.5 m .\\
+The length of the park (along the north and south sides) is $x$ metres, $3<x<300$.
+
+\begin{figure}[h]
+\begin{center}
+\captionsetup{labelformat=empty}
+\caption{diagram not to scale}
+  \includegraphics[max width=\textwidth]{73ed3eac-4e6b-4bff-a315-9506b29226ba-9}
+\end{center}
+\end{figure}
+
+(a) (i) Write down the length of the garden in terms of $x$.\\
+(ii) Find an expression for the width of the garden in terms of $x$.\\
+(iii) Hence show that $A=1212-4 x-\frac{3600}{x}$.\\
+(b) Find the possible dimensions of the park if the area of the garden is $800 \mathrm{~m}^{2}$.\\
+(c) Find an expression for $\frac{\mathrm{d} A}{\mathrm{~d} x}$.\\
+(d) Use your answer from part (c) to find the value of $x$ that will maximize the area of the garden.\\
+(e) Find the maximum possible area of the garden.
+
+\section*{References:}
+
+\end{document}

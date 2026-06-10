@@ -1,0 +1,9 @@
+{% load static %}
+
+{% if not premium_member %}
+<div id="top-notification" style="background-color: #f5d492; color: #000; text-align: center; padding: 10px; font-size: 15px; position: relative; width: 100%; display: flex; justify-content: center; align-items: center;">
+   <span>Book <b>FREE application support</b> to almost 600 universities in the UK, Ireland, US, and Canada. <a href="https://tidycal.com/matikostrz/free-application-support" target="_blank" style="text-decoration: underline; color: blue;">Schedule a free call here</a> to learn more!</span>
+   <button onclick="closeNotification();" style="background: none; border: none; font-size: 15px; margin-left: 25px; cursor: pointer;">❌</button>
+</div>
+
+{% endif %}

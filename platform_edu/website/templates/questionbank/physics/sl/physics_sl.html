@@ -1,0 +1,438 @@
+{% load static %}
+
+
+<!doctype html>
+<!doctype html>
+
+<html
+  lang="en"
+  class="layout-navbar-fixed layout-menu-fixed layout-compact"
+  dir="ltr"
+  data-skin="default"
+  data-bs-theme="light"
+  data-assets-path="../../assets/"
+  data-template="vertical-menu-template">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>Physics SL | Questionbank</title>
+
+    <meta name="description" content="" />
+
+    <link rel="icon" href="{% static 'website/images/platform_logo.svg' %}">
+    <link rel="alternate icon" href="{% static 'website/images/safari_logo2_prev_ui.png' %}" type="image/png">
+    <meta property="og:image" content="https://academy.edunade.com/static/website/images/Edunade_Vertical_Black_RGB.png">
+
+
+    {% include 'top_base.html' %}
+
+    <!-- endbuild -->
+
+    <!-- Page CSS -->
+    <link rel="stylesheet" href="{% static 'website/css/questionbank.css' %}" />
+
+    <style>
+
+                  /* Add more side margins only to the main content area, not footer */
+      .container-xxl {
+        max-width: 85%;
+        margin: 0 auto;
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+
+
+      @media (max-width: 768px) {
+        .container-xxl {
+          max-width: 95%;
+          padding-left: 1.5rem;
+          padding-right: 1.5rem;
+        }
+      }
+
+      .card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border-radius: 1rem;
+        overflow: hidden;
+      }
+
+      .card:hover {
+        transform: translateY(-4px) scale(1.01);
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+      }
+
+      /* Make section subtitles dark grey */
+      h4 {
+        color: #6c757d !important;
+      }
+
+      /* Reduce margin for h4 elements that come after mb-10 rows to prevent double spacing */
+      .row.mb-10 + h4 {
+        margin-top: -1.5rem !important;
+      }
+
+      /* Limit card text to 2 lines with ellipsis */
+      .card-text {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        line-height: 1.4;
+        max-height: 2.8em; /* 2 lines * 1.4 line-height */
+      }
+
+
+
+    </style>
+
+    <!-- Helpers -->
+    <script type="text/javascript" src="{% static 'website/js/vendor/helpers.js' %}"></script>
+
+    <!--? Template customizer: To hide customizer set displayCustomizer value false in config.js. -->
+    <!-- <script type="text/javascript" src="{% static 'website/js/vendor/template-customizer.js' %}"></script> -->
+
+    <!--? Config: Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file. -->
+
+    <script type="text/javascript" src="{% static 'website/js/vendor/config.js' %}"></script>
+  </head>
+
+  <body>
+    <!-- Layout wrapper -->
+    <div class="layout-wrapper layout-content-navbar">
+      <div class="layout-container">
+        <!-- Menu -->
+
+        {% include 'sidebar.html' %}
+
+          <!-- / Navbar -->
+
+          <!-- Content wrapper -->
+          <div class="content-wrapper">
+            <!-- Content -->
+            <div class="container-xxl flex-grow-1 container-p-y">
+              <!-- Examples -->
+
+
+
+              <!-- Horizontal -->
+              <h2 class="pb-1 mb-6">Physics SL Questionbank</h2>
+
+
+              <h4 class="pb-1 mb-4">Space, Time, and Motion</h4>
+              <div class="row g-6 mb-10">
+
+                <div class="col-md-6 col-xl-4">
+                  <a href="{% url 'kinematics-sl' %}">
+                    <div class="card text-bg-primary">
+                      <div class="card-body">
+                        <h5 class="card-title text-white">Kinematics</h5>
+                        <p class="card-text">Displacement, Velocity, Acceleration, Motion Graphs, Projectile Motion.</p>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+
+
+                <div class="col-md-6 col-xl-4">
+         
+                    <a href="{% url 'forces-momentum-sl' %}">
+                    <div class="card text-bg-primary">
+                      <div class="card-body">
+                        <h5 class="card-title text-white">Forces and Momentum</h5>
+                        <p class="card-text">Forces, Newtons Laws, Friction, Translational Equillibrium, Impulse, Circular Motion.</p>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+
+
+                <div class="col-md-6 col-xl-4">
+                  <a href="{% url 'work-energy-power-sl' %}">
+                    <div class="card text-bg-primary">
+                      <div class="card-body">
+                        <h5 class="card-title text-white">Work, Energy, and Power</h5>
+                        <p class="card-text">Work, Kinetic/Potential/Elastic Energy, Power, Energy Conservation.</p>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+
+              </div>
+
+              <br>
+
+
+              
+
+              <h4 class="pb-1 mb-4">The Particulate Nature of Matter</h4>
+              <div class="row g-6 mb-10">
+
+                <div class="col-md-6 col-xl-4">
+                  <a href="{% url 'thermal-energy-sl' %}">
+                    <div class="card text-bg-primary">
+                      <div class="card-body">
+                        <h5 class="card-title text-white">Thermal Energy Transfers</h5>
+                        <p class="card-text">Temperature, Specific/Latent Heat, Stefan-Boltzman Law.</p>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+
+
+                <div class="col-md-6 col-xl-4">
+                  <a href="{% url 'greenhouse-effect-sl' %}">
+                    <div class="card text-bg-primary">
+                      <div class="card-body">
+                        <h5 class="card-title text-white">Greenhouse Effect</h5>
+                        <p class="card-text">Emissivity, Solar Constant, Albedo.</p>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+
+
+                <div class="col-md-6 col-xl-4">
+                  <a href="{% url 'ideal-gas-model-sl' %}">
+                    <div class="card text-bg-primary">
+                      <div class="card-body">
+                        <h5 class="card-title text-white">Ideal Gas Model</h5>
+                        <p class="card-text">Pressure, Ideal Gases, Moles.</p>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+
+
+
+                <div class="col-md-6 col-xl-4">
+                  <a href="{% url 'electric-circuits-sl' %}">
+                    <div class="card text-bg-primary">
+                      <div class="card-body">
+                        <h5 class="card-title text-white">Electric Circuits</h5>
+                        <p class="card-text">Cells, Circuits, Ohms Law, Series/Parallel Connections, Power.</p>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+
+              </div>
+
+              <br>
+              <h4 class="pb-1 mb-4">Wave Behaviour</h4>
+              <div class="row g-6 mb-10">
+
+                <div class="col-md-6 col-xl-4">
+                  <a href="{% url 'simple-harmonic-motion-sl' %}">
+                    <div class="card text-bg-primary">
+                      <div class="card-body">
+                        <h5 class="card-title text-white">Simple Harmonic Motion</h5>
+                        <p class="card-text">Simple Harmonic Motion, Period, Amplitude, Pendulums, Mass-spring Systems, Energies.</p>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+
+
+                <div class="col-md-6 col-xl-4">
+                  <a href="{% url 'wave-model-sl' %}">
+                    <div class="card text-bg-primary">
+                      <div class="card-body">
+                        <h5 class="card-title text-white">Wave Model</h5>
+                        <p class="card-text">Transverse/Longitudinal Waves, Sound/Electromagnetic Waves.</p>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+
+
+                <div class="col-md-6 col-xl-4">
+                  <a href="{% url 'wave-phenomena-sl' %}">
+                    <div class="card text-bg-primary">
+                      <div class="card-body">
+                        <h5 class="card-title text-white">Wave Phenomena</h5>
+                        <p class="card-text">Reflection, Diffraction, Single Slit, Interference Patterns, Snells Law.</p>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+
+
+                <div class="col-md-6 col-xl-4">
+                  <a href="{% url 'standing-waves-sl' %}">
+                    <div class="card text-bg-primary">
+                      <div class="card-body">
+                        <h5 class="card-title text-white">Standing Waves and Resonance</h5>
+                        <p class="card-text">Standing Waves, Resonance, Damping.</p>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+
+
+
+                <div class="col-md-6 col-xl-4">
+                      <a href="{% url 'doppler-effect-sl' %}">
+                    <div class="card text-bg-primary">
+                      <div class="card-body">
+                        <h5 class="card-title text-white">Doppler Effect</h5>
+                        <p class="card-text">Moving Source and Observer Doppler Effects.</p>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+
+
+              </div>
+
+
+              <br>
+              <h4 class="pb-1 mb-4">Fields</h4>
+              <div class="row g-6 mb-10">
+
+                <div class="col-md-6 col-xl-4">
+                  <a href="{% url 'gravitational-fields-sl' %}">
+                    <div class="card text-bg-primary">
+                      <div class="card-body">
+                        <h5 class="card-title text-white">Gravitational Fields</h5>
+                        <p class="card-text">Gravitational Fields, Keplers Laws, Energy of Orbiting Bodies, Orbital/Escape Speed, Potenials.</p>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+
+
+                <div class="col-md-6 col-xl-4">
+                  <a href="{% url 'electric-magnetic-fields-sl' %}">
+                    <div class="card text-bg-primary">
+                      <div class="card-body">
+                        <h5 class="card-title text-white">Electric and Magnetic Fields</h5>
+                        <p class="card-text">Coulombs Law, Electric/Magnetic Fields, Milikans Oil Drop Experiment.</p>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+
+
+                <div class="col-md-6 col-xl-4">
+                  <a href="{% url 'motion-in-fields-sl' %}">
+                    <div class="card text-bg-primary">
+                      <div class="card-body">
+                        <h5 class="card-title text-white">Motion in Electromagnetic Fields</h5>
+                        <p class="card-text">Charges Moving in Electric/Magnetic Fields, Forces on Currents, Induced Magnetic Fields.</p>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+                
+              </div>
+
+
+              <br>
+              <h4 class="pb-1 mb-4">Nuclear and Quantum Physics</h4>
+              <div class="row g-6 mb-10">
+
+                <div class="col-md-6 col-xl-4">
+                  <a href="{% url 'structure-atom-sl' %}">
+                    <div class="card text-bg-primary">
+                      <div class="card-body">
+                        <h5 class="card-title text-white">Structure of the Atom</h5>
+                        <p class="card-text">Emission/Absorption Spectra, Rutherford Scattering, Borhl Model, Nuclear Energy Levels,
+                          Radius of a Nucleus.</p>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+
+
+                <div class="col-md-6 col-xl-4">
+                    <a href="{% url 'radioactive-decay-sl' %}">
+                    <div class="card text-bg-primary">
+                      <div class="card-body">
+                        <h5 class="card-title text-white">Radioactive Decay</h5>
+                        <p class="card-text">Binding Energy, Strong Nuclear Force, Radioactive Decay, Half Life, Neutrinos.</p>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+
+                <div class="col-md-6 col-xl-4">
+                  <a href="{% url 'fission-sl' %}">
+                    <div class="card text-bg-primary">
+                      <div class="card-body">
+                        <h5 class="card-title text-white">Fission</h5>
+                        <p class="card-text">Nuclear Fission, Chain Reactions, Power Generation.</p>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+
+                <div class="col-md-6 col-xl-4">
+                  <a href="{% url 'fusion-and-stars-sl' %}">
+                    <div class="card text-bg-primary">
+                      <div class="card-body">
+                        <h5 class="card-title text-white">Fusion and Stars</h5>
+                        <p class="card-text">Nuclear Fusion, Stellar Evolution/Parallax/Spectra.</p>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+
+              </div>
+
+            
+
+            <!-- Footer -->
+            <!-- {% include 'footer.html' %} -->
+            <!-- / Footer -->
+
+            <div class="content-backdrop fade"></div>
+          </div>
+          <!-- Content wrapper -->
+        </div>
+        <!-- / Layout page -->
+      </div>
+
+      <!-- Overlay -->
+      <div class="layout-overlay layout-menu-toggle"></div>
+
+      <!-- Drag Target Area To SlideIn Menu On Small Screens -->
+      <div class="drag-target"></div>
+    </div>
+    <!-- / Layout wrapper -->
+
+    <!-- Core JS -->
+
+    <!-- build:js assets/vendor/js/theme.js  -->
+
+    <script src="{% static 'website/js/vendor/libs/jquery/jquery.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/popper/popper.js' %}"></script>
+    <script src="{% static 'website/js/bootstrap.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/node-waves/node-waves.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/@algolia/autocomplete-js.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/pickr/pickr.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/perfect-scrollbar/perfect-scrollbar.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/hammer/hammer.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/i18n/i18n.js' %}"></script>
+
+    <script src="{% static 'website/js/vendor/menu.js' %}"></script>
+
+    <!-- endbuild -->
+
+    <!-- Vendors JS -->
+    <script src="{% static 'website/js/vendor/libs/masonry/masonry.js' %}"></script>
+
+    <!-- Main JS -->
+
+
+    <script type="text/javascript" src="{% static 'website/js/main.js' %}"></script>
+
+    <!-- For the top header to work -->
+    <script type="text/javascript" src="{% static 'website/js/vendors.min.js' %}"></script>
+
+
+    <!-- Page JS -->
+  </body>
+</html>

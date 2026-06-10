@@ -1,0 +1,74 @@
+[data-bs-theme="light"] .layout-menu {
+  background-color: #ffffff !important;
+}
+
+/* Dark mode sidebar styling - Use predefined theme colors */
+[data-bs-theme="dark"] .layout-menu {
+  background-color: var(--bs-body-bg) !important;
+  border-right: 1px solid var(--bs-border-color);
+}
+
+/* Dark mode menu items */
+[data-bs-theme="dark"] .layout-menu .menu-item .menu-link {
+  color: var(--bs-body-color) !important;
+}
+
+/* Dark mode menu item hover */
+[data-bs-theme="dark"] .layout-menu .menu-item .menu-link:hover {
+  background-color: var(--bs-gray-800) !important;
+  color: var(--bs-white) !important;
+}
+
+/* Dark mode active menu item */
+[data-bs-theme="dark"] .layout-menu .menu-item.active > .menu-link {
+  background-color: var(--bs-primary) !important;
+  color: var(--bs-white) !important;
+}
+
+/* Dark mode menu headers */
+[data-bs-theme="dark"] .layout-menu .menu-header .menu-header-text {
+  color: var(--bs-secondary-color) !important;
+}
+
+/* Dark mode app brand text */
+[data-bs-theme="dark"] .layout-menu .app-brand-text {
+  color: var(--bs-white) !important;
+}
+
+/* Dark mode menu icons */
+[data-bs-theme="dark"] .layout-menu .menu-icon {
+  color: var(--bs-body-color) !important;
+}
+
+/* Dark mode menu toggle */
+[data-bs-theme="dark"] .layout-menu .layout-menu-toggle {
+  color: var(--bs-body-color) !important;
+}
+
+/* Dark mode menu sub items */
+[data-bs-theme="dark"] .layout-menu .menu-sub .menu-item .menu-link {
+  color: var(--bs-secondary-color) !important;
+}
+
+/* Dark mode menu sub items hover */
+[data-bs-theme="dark"] .layout-menu .menu-sub .menu-item .menu-link:hover {
+  background-color: var(--bs-gray-900) !important;
+  color: var(--bs-white) !important;
+}
+
+/* Dark mode active sub menu item */
+[data-bs-theme="dark"] .layout-menu .menu-sub .menu-item.active > .menu-link {
+  background-color: var(--bs-primary-bg-subtle) !important;
+  color: var(--bs-white) !important;
+}
+
+/* Dark mode badges */
+[data-bs-theme="dark"] .layout-menu .badge {
+  background-color: var(--bs-danger) !important;
+  color: var(--bs-white) !important;
+}
+
+/* Dark mode menu inner shadow */
+[data-bs-theme="dark"] .layout-menu .menu-inner-shadow {
+  background: linear-gradient(180deg, var(--bs-body-bg) 0%, transparent 100%) !important;
+}

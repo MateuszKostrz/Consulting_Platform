@@ -1,0 +1,206 @@
+{% load static %}
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-L1D8KQ067N"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-L1D8KQ067N');
+    </script>
+
+    <!-- Microsoft Clarity -->
+    <script type="text/javascript">
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "v28srkhuak");
+    </script>
+
+    <!-- Favicon - Multiple sizes for better compatibility -->
+
+    {% if current_theme|default:"academy" == 'example' %}
+
+    <link rel="icon" type="image/x-icon" href="{% static 'website/images/example_page/example_favicon.ico' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'website/images/example_page/example_logo.png' %}">
+    <link rel="icon" type="image/svg+xml" href="{% static 'website/images/example_page/example_logo.svg' %}">
+    {% elif current_theme == 'iboost' %}
+    <link rel="icon" type="image/x-icon" href="{% static 'website/images/iboost/iboost_favicon.ico' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'website/images/iboost/iboost_logo.png' %}">
+    <link rel="icon" type="image/svg+xml" href="{% static 'website/images/iboost/iboost_logo.svg' %}">
+    {% elif current_theme == 'apex' %}
+    <link rel="icon" type="image/x-icon" href="{% static 'website/images/apex_tuition/apex_favicon.ico' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'website/images/apex_tuition/apex_logo.png' %}">
+    <link rel="icon" type="image/svg+xml" href="{% static 'website/images/apex_tuition/apex_logo.svg' %}">
+    {% elif current_theme == 'topibtutors' %}
+    <link rel="icon" type="image/x-icon" href="{% static 'website/images/top_ib_tutors/topibtutors_logo.ico' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'website/images/top_ib_tutors/topibtutors_logo.png' %}">
+    <link rel="icon" type="image/svg+xml" href="{% static 'website/images/top_ib_tutors/topibtutors_logo.svg' %}">
+    {% else %}
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'website/images/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'website/images/favicon-16x16.png' %}">
+    <link rel="icon" type="image/x-icon" href="{% static 'website/images/favicon.ico' %}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'website/images/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="192x192" href="{% static 'website/images/android-chrome-192x192.png' %}">
+    <link rel="icon" type="image/png" sizes="512x512" href="{% static 'website/images/android-chrome-512x512.png' %}">
+    {% endif %}
+
+
+
+
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:title" content="Edunade Academy - IB Resources & Past Papers">
+    <meta property="og:description" content="Access comprehensive IB resources including questionbanks, past paper solutions, and university reports.">
+    <meta property="og:image" content="https://academy.edunade.com/static/website/images/Edunade_Academy_OG.png">
+    <meta property="og:url" content="https://academy.edunade.com">
+    <meta property="og:type" content="website">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Edunade Academy - IB Resources & Past Papers">
+    <meta name="twitter:description" content="Access comprehensive IB resources including questionbanks, past paper solutions, and university reports.">
+    <meta name="twitter:image" content="https://academy.edunade.com/static/website/images/Edunade_Academy_OG.png">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    
+    <!-- Original Inter font (commented out for testing) -->
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&ampdisplay=swap" rel="stylesheet" /> -->
+    
+    <!-- Test Fonts - All imported for easy switching in core.css -->
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Manrope:wght@300;400;500;600;700;800&family=DM+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&family=Sora:wght@300;400;500;600;700;800&family=Work+Sans:wght@300;400;500;600;700;800&family=Nunito+Sans:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+    <link rel="stylesheet" href="{% static 'website/fonts/iconify-icons.css' %}" />
+
+
+
+    <link rel="stylesheet" href="{% static 'website/css/vendor/libs/node-waves/node-waves.css' %}" />
+    <link rel="stylesheet" href="{% static 'website/css/vendor/libs/pickr/pickr-themes.css' %}" />
+    <link rel="stylesheet" href="{% static 'website/css/vendor/css/core.css' %}" />
+    <link rel="stylesheet" href="{% static 'website/css/demo.css' %}" />
+    <link rel="stylesheet" href="{% static 'website/css/sidebar.css' %}" />
+    <link rel="stylesheet" href="{% static 'website/css/vendor/libs/perfect-scrollbar/perfect-scrollbar.css' %}" />
+    
+    <!-- Theme-specific CSS based on domain -->
+    {% if current_theme|default:"academy" == 'example' %}
+    <link rel="stylesheet" href="{% static 'website/css/theme-example.css' %}" />
+    {% endif %}
+    {% if current_theme == 'iboost' %}
+    <link rel="stylesheet" href="{% static 'website/css/theme-iboost.css' %}" />
+    {% endif %}
+    {% if current_theme == 'apex' %}
+    <link rel="stylesheet" href="{% static 'website/css/theme-apex.css' %}" />
+    {% endif %}
+    {% if current_theme == 'topibtutors' %}
+    <link rel="stylesheet" href="{% static 'website/css/theme-topibtutors.css' %}" />
+    {% endif %}
+
+
+    <!-- Theme persistence script - load before body -->
+    <script>
+      // Check for saved theme preference or default to 'light'
+      const savedTheme = localStorage.getItem('theme') || 'light';
+      
+      // Apply theme immediately to prevent flash
+      document.documentElement.setAttribute('data-bs-theme', savedTheme);
+      
+      // Function to save theme preference
+      function saveTheme(theme) {
+        localStorage.setItem('theme', theme);
+        document.documentElement.setAttribute('data-bs-theme', theme);
+      }
+      
+      // Listen for theme changes after page loads
+      document.addEventListener('DOMContentLoaded', function() {
+        // Get all theme toggle buttons
+        const themeButtons = document.querySelectorAll('[data-bs-theme-value]');
+        
+        themeButtons.forEach(button => {
+          button.addEventListener('click', function() {
+            const theme = this.getAttribute('data-bs-theme-value');
+            saveTheme(theme);
+            
+            // Update active state on buttons
+            themeButtons.forEach(btn => btn.classList.remove('active'));
+            this.classList.add('active');
+          });
+        });
+        
+        // Set initial active state
+        const currentTheme = document.documentElement.getAttribute('data-bs-theme');
+        themeButtons.forEach(button => {
+          if (button.getAttribute('data-bs-theme-value') === currentTheme) {
+            button.classList.add('active');
+          } else {
+            button.classList.remove('active');
+          }
+        });
+      });
+    </script>
+
+    <!-- Cookie Consent CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orestbida/cookieconsent@3.0.1/dist/cookieconsent.css">
+
+    <!-- Cookie Consent JS -->
+    <script defer src="https://cdn.jsdelivr.net/gh/orestbida/cookieconsent@3.0.1/dist/cookieconsent.umd.js"></script>
+
+    <!-- Cookie Consent Configuration -->
+    <script>
+      window.addEventListener('load', function(){
+          CookieConsent.run({
+              guiOptions: {
+                  consentModal: {
+                      layout: "box",
+                      position: "bottom right"
+                  }
+              },
+              categories: {
+                  necessary: {
+                      enabled: true,
+                      readOnly: true
+                  },
+                  analytics: {
+                      enabled: false
+                  }
+              },
+              language: {
+                  default: "en",
+                  translations: {
+                      en: {
+                          consentModal: {
+                              title: "We use cookies 🍪",
+                              description: "We use cookies to enhance your experience. By continuing to visit this site you agree to our use of cookies.",
+                              acceptAllBtn: "Accept all",
+                              acceptNecessaryBtn: "Reject all",
+                              showPreferencesBtn: "Manage preferences"
+                          },
+                          preferencesModal: {
+                              title: "Cookie preferences",
+                              acceptAllBtn: "Accept all",
+                              acceptNecessaryBtn: "Reject all",
+                              savePreferencesBtn: "Save preferences",
+                              sections: [
+                                  {
+                                      title: "Strictly Necessary Cookies",
+                                      description: "These cookies are essential for the website to function properly.",
+                                      linkedCategory: "necessary"
+                                  },
+                                  {
+                                      title: "Analytics Cookies",
+                                      description: "These cookies help us understand how visitors interact with our website.",
+                                      linkedCategory: "analytics"
+                                  }
+                              ]
+                          }
+                      }
+                  }
+              }
+          });
+      });
+    </script>
+
+

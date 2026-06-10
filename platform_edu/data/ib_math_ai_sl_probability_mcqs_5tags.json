@@ -1,0 +1,2417 @@
+[
+  {
+    "question_id": 97,
+    "subquestions": [
+      {
+        "part_label": "a.i",
+        "skill_keys": [
+          "probability_distributions"
+        ],
+        "question_text": "Find the probability that Lucy picks a fantasy book.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(\\frac{7}{18}\\)",
+            "is_correct": true
+          },
+          {
+            "label": "B",
+            "text": "\\(\\frac{5}{18}\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(\\frac{1}{4}\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(\\frac{2}{3}\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "a.ii",
+        "skill_keys": [
+          "probability_distributions"
+        ],
+        "question_text": "Find the probability that Lucy picks a fantasy book she has already read.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(\\frac{7}{18}\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(\\frac{20}{28}\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(\\frac{5}{18}\\)",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "\\(\\frac{1}{4}\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "b",
+        "skill_keys": [
+          "conditional_probability"
+        ],
+        "question_text": "Given that Lucy has already read the selected book, find the probability that it is horror.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(\\frac{1}{6}\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(\\frac{1}{4}\\)",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "\\(\\frac{1}{3}\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(\\frac{12}{72}\\)",
+            "is_correct": false
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "question_id": 98,
+    "subquestions": [
+      {
+        "part_label": "a",
+        "skill_keys": [
+          "tree_diagrams"
+        ],
+        "question_text": "Which tree diagram correctly represents two marbles drawn without replacement from 3 blue and 5 green marbles?",
+        "options": [
+          {
+            "label": "A",
+            "text": "First branches \\(B:\\frac38,\\ G:\\frac58\\), then denominators stay \\(8\\).",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "First branches \\(B:\\frac35,\\ G:\\frac53\\).",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "First branches \\(B:\\frac28,\\ G:\\frac68\\), then denominators change to \\(7\\).",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "First branches \\(B:\\frac38,\\ G:\\frac58\\), then denominators change to \\(7\\).",
+            "is_correct": true
+          }
+        ]
+      },
+      {
+        "part_label": "b",
+        "skill_keys": [
+          "conditional_probability"
+        ],
+        "question_text": "Find the probability of drawing two blue marbles.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(\\frac{3}{28}\\)",
+            "is_correct": true
+          },
+          {
+            "label": "B",
+            "text": "\\(\\frac{9}{64}\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(\\frac{6}{56}\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(\\frac{15}{28}\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "c",
+        "skill_keys": [
+          "conditional_probability"
+        ],
+        "question_text": "Find the probability of drawing one blue and one green marble in any order.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(\\frac{3}{28}\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(\\frac{15}{56}\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(\\frac{15}{28}\\)",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "\\(\\frac{13}{28}\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "d",
+        "skill_keys": [
+          "conditional_probability"
+        ],
+        "question_text": "Find the probability of drawing two marbles of the same colour.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(\\frac{15}{28}\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(\\frac{13}{28}\\)",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "\\(\\frac{3}{28}\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(\\frac{1}{2}\\)",
+            "is_correct": false
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "question_id": 99,
+    "subquestions": [
+      {
+        "part_label": "a",
+        "skill_keys": [
+          "probability_distributions"
+        ],
+        "question_text": "Find the missing probability of rolling a 5.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(\\frac{1}{10}\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(\\frac18\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(\\frac14\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(\\frac15\\)",
+            "is_correct": true
+          }
+        ]
+      },
+      {
+        "part_label": "b",
+        "skill_keys": [
+          "probability_distributions"
+        ],
+        "question_text": "Find the probability of rolling an even number.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.55\\)",
+            "is_correct": true
+          },
+          {
+            "label": "B",
+            "text": "\\(0.45\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(0.50\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(0.60\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "c",
+        "skill_keys": [
+          "conditional_probability"
+        ],
+        "question_text": "Given that an even number is rolled, find the probability that it is a 6.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.10\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(0.20\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(0.18\\)",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "\\(0.55\\)",
+            "is_correct": false
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "question_id": 100,
+    "subquestions": [
+      {
+        "part_label": "a",
+        "skill_keys": [
+          "tree_diagrams"
+        ],
+        "question_text": "Find the value of \\(a\\) from the tree diagram.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.52\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(0.48\\)",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "\\(0.09\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(0.91\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "b",
+        "skill_keys": [
+          "tree_diagrams"
+        ],
+        "question_text": "Write the probability of being left-handed and not having blonde hair in terms of \\(b\\).",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.91b\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(0.09(1-b)\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(0.52b\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(0.09b\\)",
+            "is_correct": true
+          }
+        ]
+      },
+      {
+        "part_label": "c.i",
+        "skill_keys": [
+          "tree_diagrams"
+        ],
+        "question_text": "Given that 51% of people have dark hair, find \\(b\\).",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.409\\)",
+            "is_correct": true
+          },
+          {
+            "label": "B",
+            "text": "\\(0.591\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(0.510\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(0.4732\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "c.ii",
+        "skill_keys": [
+          "tree_diagrams"
+        ],
+        "question_text": "Find \\(c\\).",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.409\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(0.480\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(0.591\\)",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "\\(0.520\\)",
+            "is_correct": false
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "question_id": 101,
+    "subquestions": [
+      {
+        "part_label": "a",
+        "skill_keys": [
+          "probability_distributions"
+        ],
+        "question_text": "Find the probability that a randomly selected student passed their exam.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.404\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(0.755\\)",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "\\(0.307\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(0.555\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "b",
+        "skill_keys": [
+          "conditional_probability"
+        ],
+        "question_text": "Given that a student passed, find the probability that the student was sitting Mathematics.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.755\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(0.307\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(0.500\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(0.404\\)",
+            "is_correct": true
+          }
+        ]
+      },
+      {
+        "part_label": "c.i",
+        "skill_keys": [
+          "conditional_probability"
+        ],
+        "question_text": "Find the probability that two selected students were both sitting Physics.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.307\\)",
+            "is_correct": true
+          },
+          {
+            "label": "B",
+            "text": "\\(0.555^2\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(0.404\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(0.755\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "c.ii",
+        "skill_keys": [
+          "conditional_probability"
+        ],
+        "question_text": "Find the probability that four selected students were all sitting Physics.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.0926\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(0.307\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(0.00926\\)",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "\\(0.555^4\\)",
+            "is_correct": false
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "question_id": 103,
+    "subquestions": [
+      {
+        "part_label": "a",
+        "skill_keys": [
+          "conditional_probability"
+        ],
+        "question_text": "There are 10 socks total and the probability of drawing two black socks without replacement is \\(\\frac13\\). How many black socks are there?",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(5\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(6\\)",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "\\(7\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(8\\)",
+            "is_correct": false
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "question_id": 181,
+    "subquestions": [
+      {
+        "part_label": "a.i",
+        "skill_keys": [
+          "probability_distributions"
+        ],
+        "question_text": "Find the mean number of hits needed to complete the mini-golf level.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(3\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(4\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(1.19\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(3.33\\)",
+            "is_correct": true
+          }
+        ]
+      },
+      {
+        "part_label": "a.ii",
+        "skill_keys": [
+          "probability_distributions"
+        ],
+        "question_text": "Find the standard deviation of the number of hits.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(1.19\\)",
+            "is_correct": true
+          },
+          {
+            "label": "B",
+            "text": "\\(3.33\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(1\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(2.19\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "b",
+        "skill_keys": [
+          "probability_distributions"
+        ],
+        "question_text": "Find the median number of hits.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(4\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(2\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(3\\)",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "\\(5\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "c",
+        "skill_keys": [
+          "probability_distributions"
+        ],
+        "question_text": "Find the interquartile range of the number of hits.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(3\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(1\\)",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "\\(1.5\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(4\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "d",
+        "skill_keys": [
+          "probability_distributions"
+        ],
+        "question_text": "Determine the interval outside of which the number of hits is considered an outlier.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\((3,4)\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\((0,6)\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\((2,5)\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\((1.5,5.5)\\)",
+            "is_correct": true
+          }
+        ]
+      },
+      {
+        "part_label": "e",
+        "skill_keys": [
+          "probability_distributions"
+        ],
+        "question_text": "Find the probability that a person takes 4 hits or more.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.433\\)",
+            "is_correct": true
+          },
+          {
+            "label": "B",
+            "text": "\\(0.333\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(0.500\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(0.0318\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "f",
+        "skill_keys": [
+          "conditional_probability"
+        ],
+        "question_text": "Given that the first person took 4 hits or more, find the probability that both chosen people finished in 5 hits.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.0137\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(0.433\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(0.0318\\)",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "\\(0.500\\)",
+            "is_correct": false
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "question_id": 186,
+    "subquestions": [
+      {
+        "part_label": "a",
+        "skill_keys": [
+          "probability_distributions"
+        ],
+        "question_text": "Find the missing probability \\(q\\) in the probability distribution.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(\\frac{1}{10}\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(\\frac15\\)",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "\\(\\frac25\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(\\frac{3}{10}\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "b",
+        "skill_keys": [
+          "expected_value"
+        ],
+        "question_text": "Find the expected value \\(E(X)\\).",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(2.0\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(2.5\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(3.0\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(2.4\\)",
+            "is_correct": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "question_id": 187,
+    "subquestions": [
+      {
+        "part_label": "a",
+        "skill_keys": [
+          "venn_diagrams"
+        ],
+        "question_text": "Find the missing value \\(a\\) in the Venn diagram.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(3\\)",
+            "is_correct": true
+          },
+          {
+            "label": "B",
+            "text": "\\(2\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(4\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(5\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "b",
+        "skill_keys": [
+          "venn_diagrams"
+        ],
+        "question_text": "Find the probability that a student prefers non-fiction books.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(\\frac{1}{6}\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(\\frac35\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(\\frac{3}{10}\\)",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "\\(\\frac13\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "c",
+        "skill_keys": [
+          "venn_diagrams"
+        ],
+        "question_text": "Find the probability that a student prefers only one book type.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(\\frac{1}{6}\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(\\frac35\\)",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "\\(\\frac{3}{10}\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(\\frac12\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "d",
+        "skill_keys": [
+          "venn_diagrams"
+        ],
+        "question_text": "Find the probability that a student prefers exactly two book types.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(\\frac35\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(\\frac{3}{10}\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(\\frac19\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(\\frac16\\)",
+            "is_correct": true
+          }
+        ]
+      },
+      {
+        "part_label": "e",
+        "skill_keys": [
+          "conditional_probability"
+        ],
+        "question_text": "Find \\(P(P\\mid N)\\).",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(\\frac19\\)",
+            "is_correct": true
+          },
+          {
+            "label": "B",
+            "text": "\\(\\frac{1}{12}\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(\\frac16\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(\\frac{3}{10}\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "f",
+        "skill_keys": [
+          "venn_diagrams"
+        ],
+        "question_text": "Find \\(P(C\\cap P)\\).",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(\\frac19\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(\\frac16\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(\\frac{1}{12}\\)",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "\\(\\frac{1}{10}\\)",
+            "is_correct": false
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "question_id": 188,
+    "subquestions": [
+      {
+        "part_label": "a",
+        "skill_keys": [
+          "conditional_probability"
+        ],
+        "question_text": "Find the probability that the first candy is black and the second is yellow.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(\\frac{21}{190}\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(\\frac{21}{380}\\)",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "\\(\\frac{3}{20}\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(\\frac{69}{190}\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "b",
+        "skill_keys": [
+          "conditional_probability"
+        ],
+        "question_text": "Find the probability that two candies of the same colour are drawn.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(\\frac{21}{190}\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(\\frac{21}{380}\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(\\frac{95}{190}\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(\\frac{69}{190}\\)",
+            "is_correct": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "question_id": 189,
+    "subquestions": [
+      {
+        "part_label": "a",
+        "skill_keys": [
+          "venn_diagrams"
+        ],
+        "question_text": "Find \\(b\\), given that 28% of people visited Milan.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.05\\)",
+            "is_correct": true
+          },
+          {
+            "label": "B",
+            "text": "\\(0.03\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(0.12\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(0.19\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "b",
+        "skill_keys": [
+          "venn_diagrams"
+        ],
+        "question_text": "Find \\(c\\), given that 20% of people visited exactly two cities.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.05\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(0.19\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(0.12\\)",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "\\(0.20\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "c",
+        "skill_keys": [
+          "venn_diagrams"
+        ],
+        "question_text": "Find \\(a\\), using the fact that all probabilities sum to 1.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.12\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(0.19\\)",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "\\(0.05\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(0.28\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "d",
+        "skill_keys": [
+          "venn_diagrams"
+        ],
+        "question_text": "Find the probability of visiting at least one city, but not all three.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.24\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(0.71\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(0.80\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(0.76\\)",
+            "is_correct": true
+          }
+        ]
+      },
+      {
+        "part_label": "e",
+        "skill_keys": [
+          "conditional_probability"
+        ],
+        "question_text": "Find the probability of not visiting Rome, given that the person visited Milan.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.71\\)",
+            "is_correct": true
+          },
+          {
+            "label": "B",
+            "text": "\\(0.28\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(0.76\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(0.50\\)",
+            "is_correct": false
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "question_id": 190,
+    "subquestions": [
+      {
+        "part_label": "a",
+        "skill_keys": [
+          "venn_diagrams"
+        ],
+        "question_text": "Which completed Venn diagram is consistent with the given subject preferences?",
+        "options": [
+          {
+            "label": "A",
+            "text": "Maths only \\(10\\), Physics only \\(3\\), Chemistry only \\(4\\), none \\(1\\).",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "Maths only \\(4\\), Physics only \\(10\\), Chemistry only \\(1\\), none \\(3\\).",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "Maths only \\(10\\), Physics only \\(4\\), Chemistry only \\(1\\), none \\(3\\).",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "Maths only \\(10\\), Physics only \\(4\\), Chemistry only \\(3\\), none \\(1\\).",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "b",
+        "skill_keys": [
+          "venn_diagrams"
+        ],
+        "question_text": "How many students liked Chemistry but not Physics?",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(1\\)",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "\\(3\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(4\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "c.i",
+        "skill_keys": [
+          "venn_diagrams"
+        ],
+        "question_text": "Given that 16 students liked Physics, how many liked Physics only?",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(3\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(5\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(6\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(4\\)",
+            "is_correct": true
+          }
+        ]
+      },
+      {
+        "part_label": "c.ii",
+        "skill_keys": [
+          "venn_diagrams"
+        ],
+        "question_text": "How many students did not like any of the three subjects?",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(3\\)",
+            "is_correct": true
+          },
+          {
+            "label": "B",
+            "text": "\\(2\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(4\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(5\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "d.i",
+        "skill_keys": [
+          "venn_diagrams"
+        ],
+        "question_text": "Find the probability that a randomly chosen student likes Maths.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(\\frac{16}{30}\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(\\frac{10}{30}\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(\\frac{17}{30}\\)",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "\\(\\frac{20}{30}\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "d.ii",
+        "skill_keys": [
+          "venn_diagrams"
+        ],
+        "question_text": "Find the probability that a randomly chosen student likes Maths and Chemistry but not Physics.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(\\frac{1}{30}\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(0\\)",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "\\(\\frac{3}{30}\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(\\frac{1}{10}\\)",
+            "is_correct": false
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "question_id": 191,
+    "subquestions": [
+      {
+        "part_label": "a",
+        "skill_keys": [
+          "conditional_probability"
+        ],
+        "question_text": "If 3% of watches are defective, find the probability that a watch is not defective.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.03\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(0.94\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(0.99\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(0.97\\)",
+            "is_correct": true
+          }
+        ]
+      },
+      {
+        "part_label": "b.i",
+        "skill_keys": [
+          "conditional_probability"
+        ],
+        "question_text": "Find the probability that two ordered watches both work.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.9409\\)",
+            "is_correct": true
+          },
+          {
+            "label": "B",
+            "text": "\\(0.9991\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(0.0009\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(0.97\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "b.ii",
+        "skill_keys": [
+          "conditional_probability"
+        ],
+        "question_text": "Find the probability that at least one of two watches works.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.9409\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(0.0009\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(0.9991\\)",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "\\(0.97\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "c",
+        "skill_keys": [
+          "conditional_probability"
+        ],
+        "question_text": "If the probability of a working watch is \\(z\\), find the probability that at least one of 5 watches works.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(z^5\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(1-(1-z)^5\\)",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "\\((1-z)^5\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(1-z^5\\)",
+            "is_correct": false
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "question_id": 193,
+    "subquestions": [
+      {
+        "part_label": "a",
+        "skill_keys": [
+          "probability_distributions"
+        ],
+        "question_text": "For hamburger weights modelled by a normal distribution, find \\(P(X=210)\\).",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(0.212\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(0.356\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(0.0147\\)",
+            "is_correct": true
+          }
+        ]
+      },
+      {
+        "part_label": "b",
+        "skill_keys": [
+          "probability_distributions"
+        ],
+        "question_text": "Find the probability that a hamburger weighs more than \\(240\\text{ g}\\).",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.212\\)",
+            "is_correct": true
+          },
+          {
+            "label": "B",
+            "text": "\\(0.0147\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(0.356\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(0.291\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "c",
+        "skill_keys": [
+          "probability_distributions"
+        ],
+        "question_text": "For 10 hamburgers, find the probability that fewer than 4 weigh more than \\(240\\text{ g}\\).",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.212\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(0.143\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(0.857\\)",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "\\(0.291\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "d",
+        "skill_keys": [
+          "probability_distributions"
+        ],
+        "question_text": "Find the probability that a randomly selected burger weighs more than \\(240\\text{ g}\\).",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.212\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(0.291\\)",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "\\(0.356\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(0.673\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "e",
+        "skill_keys": [
+          "conditional_probability"
+        ],
+        "question_text": "Given that a burger weighs more than \\(240\\text{ g}\\), find the probability that it is a cheeseburger.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.291\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(0.356\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(0.550\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(0.673\\)",
+            "is_correct": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "question_id": 194,
+    "subquestions": [
+      {
+        "part_label": "a",
+        "skill_keys": [
+          "probability_distributions"
+        ],
+        "question_text": "Find the probability that a randomly selected flour pack is rejected.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.159\\)",
+            "is_correct": true
+          },
+          {
+            "label": "B",
+            "text": "\\(0.841\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(0.189\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(0.500\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "b",
+        "skill_keys": [
+          "probability_distributions"
+        ],
+        "question_text": "Estimate the number of rejected packs in a sample of 100.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(15\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(19\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(16\\)",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "\\(84\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "c",
+        "skill_keys": [
+          "conditional_probability"
+        ],
+        "question_text": "Given that a bag is not rejected, find the probability that it has mass greater than \\(502\\text{ g}\\).",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.159\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(0.189\\)",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "\\(0.841\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(0.500\\)",
+            "is_correct": false
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "question_id": 204,
+    "subquestions": [
+      {
+        "part_label": "a",
+        "skill_keys": [
+          "probability_distributions"
+        ],
+        "question_text": "Find the value of \\(a\\) in the probability distribution for die \\(H\\).",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.25\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(0.1\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(0.3\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(0.2\\)",
+            "is_correct": true
+          }
+        ]
+      },
+      {
+        "part_label": "b",
+        "skill_keys": [
+          "expected_value"
+        ],
+        "question_text": "Find \\(E(X)\\) for die \\(H\\).",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(2.4\\)",
+            "is_correct": true
+          },
+          {
+            "label": "B",
+            "text": "\\(6\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(1.75\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(\\frac{17}{6}\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "c",
+        "skill_keys": [
+          "probability_distributions"
+        ],
+        "question_text": "State the range of possible values of \\(c\\).",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0\\le c\\le4\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(c\\ge1\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(0\\le c\\le1\\)",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "\\(c\\le0\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "d",
+        "skill_keys": [
+          "probability_distributions"
+        ],
+        "question_text": "Find the range of possible values of \\(b\\).",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0\\le b\\le1\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(0\\le b\\le\\frac14\\)",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "\\(\\frac14\\le b\\le1\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(b=\\frac16\\) only",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "e",
+        "skill_keys": [
+          "expected_value"
+        ],
+        "question_text": "Find the range of possible values of \\(E(Y)\\).",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0\\le E(Y)\\le4\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(1\\le E(Y)\\le3\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(2\\le E(Y)\\le4\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(1.75\\le E(Y)\\le4\\)",
+            "is_correct": true
+          }
+        ]
+      },
+      {
+        "part_label": "f",
+        "skill_keys": [
+          "expected_value"
+        ],
+        "question_text": "Given \\(P(X<Y)=\\frac12\\), find \\(b\\).",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(\\frac16\\)",
+            "is_correct": true
+          },
+          {
+            "label": "B",
+            "text": "\\(\\frac13\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(\\frac14\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(\\frac12\\)",
+            "is_correct": false
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "question_id": 205,
+    "subquestions": [
+      {
+        "part_label": "a",
+        "skill_keys": [
+          "probability_distributions"
+        ],
+        "question_text": "Show the equation satisfied by \\(h\\).",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(h^2-h+0.12=0\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(2h^2+h+0.12=0\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(2h^2-h+0.12=0\\)",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "\\(h^2-0.12=0\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "b",
+        "skill_keys": [
+          "probability_distributions"
+        ],
+        "question_text": "Find the valid value of \\(h\\).",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.2\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(0.3\\)",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "\\(0.4\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(0.5\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "c",
+        "skill_keys": [
+          "expected_value"
+        ],
+        "question_text": "Find \\(E(X)\\).",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(2.31\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(2.40\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(3.00\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(2.61\\)",
+            "is_correct": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "question_id": 282,
+    "subquestions": [
+      {
+        "part_label": "a",
+        "skill_keys": [
+          "probability_distributions"
+        ],
+        "question_text": "Find the median number of hours listened.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(4\\)",
+            "is_correct": true
+          },
+          {
+            "label": "B",
+            "text": "\\(3\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(5\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(4.5\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "b",
+        "skill_keys": [
+          "probability_distributions"
+        ],
+        "question_text": "Determine the interquartile range.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(1\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(3\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(2\\)",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "\\(4\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "c",
+        "skill_keys": [
+          "probability_distributions"
+        ],
+        "question_text": "Which box-and-whisker diagram matches the data?",
+        "options": [
+          {
+            "label": "A",
+            "text": "Minimum \\(1\\), \\(Q_1=2\\), median \\(4\\), \\(Q_3=6\\), maximum \\(7\\).",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "Minimum \\(1\\), \\(Q_1=3\\), median \\(4\\), \\(Q_3=5\\), maximum \\(7\\).",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "Minimum \\(3\\), \\(Q_1=4\\), median \\(5\\), \\(Q_3=6\\), maximum \\(7\\).",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "Minimum \\(1\\), \\(Q_1=3\\), median \\(5\\), \\(Q_3=7\\), maximum \\(7\\).",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "d",
+        "skill_keys": [
+          "probability_distributions"
+        ],
+        "question_text": "Find the probability that a selected user listened for more than the median number of hours.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.25\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(0.4\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(0.5\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(0.3\\)",
+            "is_correct": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "question_id": 304,
+    "subquestions": [
+      {
+        "part_label": "a",
+        "skill_keys": [
+          "probability_distributions"
+        ],
+        "question_text": "Find the probability distribution for the four spending categories.",
+        "options": [
+          {
+            "label": "A",
+            "text": "Upgrades \\(\\frac{12}{25}\\), special items \\(\\frac{6}{25}\\), extra lives \\(\\frac{4}{25}\\), saving coins \\(\\frac{3}{25}\\).",
+            "is_correct": true
+          },
+          {
+            "label": "B",
+            "text": "Upgrades \\(\\frac{6}{25}\\), special items \\(\\frac{12}{25}\\), extra lives \\(\\frac{4}{25}\\), saving coins \\(\\frac{3}{25}\\).",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "Upgrades \\(\\frac{12}{25}\\), special items \\(\\frac{4}{25}\\), extra lives \\(\\frac{6}{25}\\), saving coins \\(\\frac{3}{25}\\).",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "Upgrades \\(\\frac{4}{25}\\), special items \\(\\frac{6}{25}\\), extra lives \\(\\frac{12}{25}\\), saving coins \\(\\frac{3}{25}\\).",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "b",
+        "skill_keys": [
+          "probability_distributions"
+        ],
+        "question_text": "For 12 independent purchases, find the probability of exactly 3 purchases on special items.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.765\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(0.115\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(0.257\\)",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "\\(0.500\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "c",
+        "skill_keys": [
+          "probability_distributions"
+        ],
+        "question_text": "For 12 independent purchases, find the probability of at least 5 purchases on upgrades.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.257\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(0.765\\)",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "\\(0.115\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(0.500\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "d",
+        "skill_keys": [
+          "probability_distributions"
+        ],
+        "question_text": "Determine the expected frequencies for the four categories in 400 purchases.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(162,\\ 92,\\ 71,\\ 75\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(96,\\ 192,\\ 64,\\ 48\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(192,\\ 64,\\ 96,\\ 48\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(192,\\ 96,\\ 64,\\ 48\\)",
+            "is_correct": true
+          }
+        ]
+      },
+      {
+        "part_label": "e",
+        "skill_keys": [
+          "probability_distributions"
+        ],
+        "question_text": "State the hypotheses for the goodness-of-fit test.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(H_0:\\) the purchase categories follow the model; \\(H_1:\\) they do not follow the model.",
+            "is_correct": true
+          },
+          {
+            "label": "B",
+            "text": "\\(H_0:\\) categories do not follow the model; \\(H_1:\\) they follow the model.",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(H_0:\\) all categories are equally likely; \\(H_1:\\) all categories are different.",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(H_0:\\) purchases are independent; \\(H_1:\\) purchases are dependent.",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "f",
+        "skill_keys": [
+          "probability_distributions"
+        ],
+        "question_text": "Find the degrees of freedom for the goodness-of-fit test.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(2\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(4\\)",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "\\(3\\)",
+            "is_correct": true
+          },
+          {
+            "label": "D",
+            "text": "\\(5\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "g",
+        "skill_keys": [
+          "probability_distributions"
+        ],
+        "question_text": "Find the p-value for the goodness-of-fit test.",
+        "options": [
+          {
+            "label": "A",
+            "text": "\\(0.0115\\)",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "\\(0.000115\\)",
+            "is_correct": true
+          },
+          {
+            "label": "C",
+            "text": "\\(0.00115\\)",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "\\(0.05\\)",
+            "is_correct": false
+          }
+        ]
+      },
+      {
+        "part_label": "h",
+        "skill_keys": [
+          "probability_distributions"
+        ],
+        "question_text": "State the conclusion at the 5% significance level.",
+        "options": [
+          {
+            "label": "A",
+            "text": "Fail to reject \\(H_0\\); the model is suitable.",
+            "is_correct": false
+          },
+          {
+            "label": "B",
+            "text": "Reject \\(H_1\\); there is no evidence.",
+            "is_correct": false
+          },
+          {
+            "label": "C",
+            "text": "Accept \\(H_0\\); the observed values match exactly.",
+            "is_correct": false
+          },
+          {
+            "label": "D",
+            "text": "Reject \\(H_0\\); there is sufficient evidence that the model is not suitable.",
+            "is_correct": true
+          }
+        ]
+      }
+    ]
+  }
+]
