@@ -13,10 +13,4 @@
          name="upload_file"
          accept=".pdf,.doc,.docx" />
   <p class="file-dropzone-filename mt-3 mb-0 small text-primary d-none"></p>
-  {% if current_file %}
-  <p class="mt-2 mb-0 small text-success">
-    Current file:
-    <a href="{{ current_file.url }}" target="_blank" rel="noopener">{{ current_file.name }}</a>
-  </p>
-  {% endif %}
 </div>

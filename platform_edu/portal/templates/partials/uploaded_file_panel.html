@@ -1,0 +1,26 @@
+{% load portal_extras %}
+{% if current_file %}
+<div class="uploaded-file-panel border rounded p-3 mb-3 bg-light">
+  <p class="small fw-medium mb-2 mb-md-1">Current file</p>
+  <p class="small text-body-secondary mb-2 text-break">{{ current_file|basename }}</p>
+  <div class="d-flex flex-wrap gap-2">
+    <a href="{{ current_file.url }}" class="btn btn-sm btn-outline-primary" download>
+      <i class="icon-base ri ri-download-line me-1"></i>Download
+    </a>
+    {% if can_delete %}
+    <form method="post" class="d-inline" onsubmit="return confirm('Delete this file? You can upload a new one afterwards.');">
+      {% csrf_token %}
+      <input type="hidden" name="action" value="delete_file" />
+      <input type="hidden" name="field_name" value="{{ field_name }}" />
+      {% if stage_key %}
+      <input type="hidden" name="stage_key" value="{{ stage_key }}" />
+      {% endif %}
+      <button type="submit" class="btn btn-sm btn-outline-danger">
+        <i class="icon-base ri ri-delete-bin-line me-1"></i>Delete
+      </button>
+    </form>
+    {% endif %}
+  </div>
+  <p class="small text-body-secondary mt-2 mb-0">Choose a new file below to replace it.</p>
+</div>
+{% endif %}

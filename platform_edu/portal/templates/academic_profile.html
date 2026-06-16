@@ -116,15 +116,18 @@
                 </div>
 
                 <div class="col-md-4">
-                  {% include 'partials/file_dropzone.html' with input_id="transcripts" input_name="transcripts" label="Transcripts" current_file=academic.transcripts %}
+                  {% include 'partials/uploaded_file_panel.html' with current_file=academic.transcripts field_name="transcripts" can_delete=can_delete_uploads %}
+                  {% include 'partials/file_dropzone.html' with input_id="transcripts" input_name="transcripts" label="Transcripts" %}
                 </div>
 
                 <div class="col-md-4">
-                  {% include 'partials/file_dropzone.html' with input_id="cv_upload" input_name="cv_upload" label="Existing CV" current_file=academic.cv_upload %}
+                  {% include 'partials/uploaded_file_panel.html' with current_file=academic.cv_upload field_name="cv_upload" can_delete=can_delete_uploads %}
+                  {% include 'partials/file_dropzone.html' with input_id="cv_upload" input_name="cv_upload" label="Existing CV" %}
                 </div>
 
                 <div class="col-md-4">
-                  {% include 'partials/file_dropzone.html' with input_id="personal_statement_upload" input_name="personal_statement_upload" label="Personal Statement" current_file=academic.personal_statement_upload %}
+                  {% include 'partials/uploaded_file_panel.html' with current_file=academic.personal_statement_upload field_name="personal_statement_upload" can_delete=can_delete_uploads %}
+                  {% include 'partials/file_dropzone.html' with input_id="personal_statement_upload" input_name="personal_statement_upload" label="Personal Statement" %}
                 </div>
 
                 <div class="col-12">

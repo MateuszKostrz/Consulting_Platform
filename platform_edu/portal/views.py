@@ -19,6 +19,13 @@ from .constants import (
 )
 from .diagnostics_access import get_diagnostic_stage_items
 from .models import AcademicProfile, DiagnosticStage, PlatformUser
+from .upload_utils import (
+    ACADEMIC_UPLOAD_FIELDS,
+    can_delete_academic_upload,
+    can_delete_diagnostic_upload,
+    clear_file_field,
+    replace_file_field,
+)
 from .profile_access import (
     admin_must_select_student,
     claim_guest_profile_for_student,
@@ -63,8 +70,63 @@ def _validate_upload(uploaded_file):
 
 
 def _assign_upload(instance, field_name, uploaded_file):
-    if uploaded_file:
-        getattr(instance, field_name).save(uploaded_file.name, uploaded_file, save=False)
+    replace_file_field(instance, field_name, uploaded_file)
+
+
+def _handle_academic_file_delete(request, profile, academic):
+    platform_user = get_platform_user(request)
+    field_name = request.POST.get('field_name', '').strip()
+
+    if field_name not in ACADEMIC_UPLOAD_FIELDS:
+        messages.error(request, 'Unknown file type.')
+        return redirect('academic-profile')
+
+    if not can_delete_academic_upload(platform_user):
+        messages.error(request, 'You do not have permission to delete this file.')
+        return redirect('academic-profile')
+
+    if not getattr(academic, field_name):
+        messages.info(request, 'No file to delete.')
+        return redirect('academic-profile')
+
+    clear_file_field(academic, field_name)
+    academic.save()
+    messages.success(request, f'{ACADEMIC_UPLOAD_FIELDS[field_name]} deleted. You can upload a new file.')
+    return redirect('academic-profile')
+
+
+def _handle_diagnostic_file_delete(request, profile, platform_user):
+    stage_key = request.POST.get('stage_key', '').strip()
+    field_name = request.POST.get('field_name', '').strip()
+
+    if stage_key not in DIAGNOSTIC_STAGE_KEYS:
+        messages.error(request, 'Unknown diagnostics stage.')
+        return redirect('diagnostics')
+
+    if field_name not in {'template_file', 'student_submission', 'admin_document'}:
+        messages.error(request, 'Unknown file type.')
+        return redirect('diagnostics')
+
+    if not can_delete_diagnostic_upload(request, platform_user, field_name):
+        messages.error(request, 'You do not have permission to delete this file.')
+        return redirect('diagnostics')
+
+    stage = get_object_or_404(
+        DiagnosticStage,
+        personal_profile=profile,
+        stage_key=stage_key,
+    )
+
+    if not getattr(stage, field_name):
+        messages.info(request, 'No file to delete.')
+        return redirect('diagnostics')
+
+    clear_file_field(stage, field_name)
+    if field_name == 'student_submission':
+        stage.student_submitted_at = None
+    stage.save()
+    messages.success(request, 'File deleted. You can upload a new one.')
+    return redirect('diagnostics')
 
 
 def home(request):
@@ -126,8 +188,12 @@ def academic_profile(request):
         return _redirect_admin_without_student(request)
 
     academic = _get_or_create_academic(profile)
+    platform_user = get_platform_user(request)
 
     if request.method == 'POST':
+        if request.POST.get('action') == 'delete_file':
+            return _handle_academic_file_delete(request, profile, academic)
+
         upload_labels = {
             'transcripts': 'Transcripts',
             'cv_upload': 'CV',
@@ -187,10 +253,14 @@ def academic_profile(request):
         'graduation_years': GRADUATION_YEARS,
         'country_choices': COUNTRY_CHOICES,
         'budget_choices': BUDGET_CHOICES,
+        'can_delete_uploads': can_delete_academic_upload(platform_user),
     })
 
 
 def _handle_diagnostic_upload(request, profile, platform_user):
+    if request.POST.get('action') == 'delete_file':
+        return _handle_diagnostic_file_delete(request, profile, platform_user)
+
     stage_key = request.POST.get('stage_key', '').strip()
     upload_field = request.POST.get('upload_field', '').strip()
     uploaded_file = request.FILES.get('upload_file')
@@ -234,7 +304,7 @@ def _handle_diagnostic_upload(request, profile, platform_user):
     if upload_field == 'student_submission':
         stage.student_submitted_at = timezone.now()
     stage.save()
-    messages.success(request, 'Diagnostics document saved successfully.')
+    messages.success(request, 'File uploaded successfully. Replace it anytime by uploading a new file.')
     return redirect('diagnostics')
 
 
