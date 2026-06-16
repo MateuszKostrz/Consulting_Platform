@@ -1,0 +1,37 @@
+<div class="modal fade" id="deadlineFilterStudentModal" tabindex="-1" aria-labelledby="deadlineFilterStudentModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deadlineFilterStudentModalLabel">Filter by student</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p class="text-body-secondary small mb-3">Choose a student to see only their deadlines.</p>
+        <div class="list-group">
+          <form method="post" action="{% url 'home' %}">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="filter_deadline_student" />
+            <input type="hidden" name="student_id" value="all" />
+            <button type="submit" class="list-group-item list-group-item-action d-flex align-items-center border-0{% if not deadline_filter_student %} active{% endif %}">
+              <i class="icon-base ri ri-group-line me-3 text-heading"></i>
+              <span class="fw-medium">All students</span>
+            </button>
+          </form>
+          {% for student in deadline_students %}
+          <form method="post" action="{% url 'home' %}">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="filter_deadline_student" />
+            <input type="hidden" name="student_id" value="{{ student.id }}" />
+            <button type="submit" class="list-group-item list-group-item-action d-flex align-items-center border-0{% if deadline_filter_student and deadline_filter_student.id == student.id %} active{% endif %}">
+              <i class="icon-base ri ri-user-line me-3 text-heading"></i>
+              <span class="fw-medium">{{ student.first_name }} {{ student.last_name }}</span>
+            </button>
+          </form>
+          {% empty %}
+          <div class="list-group-item text-body-secondary">No students yet</div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

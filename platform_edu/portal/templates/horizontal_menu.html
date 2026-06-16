@@ -131,7 +131,7 @@
                   <span class="dropdown-shortcuts-icon rounded-circle mb-3">
                     <i class="icon-base ri ri-user-line icon-26px text-heading"></i>
                   </span>
-                  <a href="{% url 'personal-information' %}" class="stretched-link">Personal Info</a>
+                  <a href="{% url 'personal-information' %}" class="stretched-link"{% if is_platform_admin and not admin_viewing_student_id %} data-requires-student{% endif %}>Personal Info</a>
                   <small>Your details</small>
                 </div>
               </div>
@@ -147,7 +147,7 @@
                   <span class="dropdown-shortcuts-icon rounded-circle mb-3">
                     <i class="icon-base ri ri-settings-4-line icon-26px text-heading"></i>
                   </span>
-                  <a href="{% url 'personal-information' %}" class="stretched-link">Settings</a>
+                  <a href="{% url 'personal-information' %}" class="stretched-link"{% if is_platform_admin and not admin_viewing_student_id %} data-requires-student{% endif %}>Settings</a>
                   <small>Manage profile</small>
                 </div>
               </div>
@@ -192,7 +192,7 @@
                 </div>
               </a>
               {% else %}
-              <a class="dropdown-item" href="{% url 'personal-information' %}">
+              <a class="dropdown-item" href="{% url 'personal-information' %}"{% if is_platform_admin and not admin_viewing_student_id %} data-requires-student{% endif %}>
                 <div class="d-flex align-items-center">
                   <div class="flex-shrink-0 me-2">
                     <div class="avatar">
@@ -218,7 +218,7 @@
             </li>
             <li><div class="dropdown-divider"></div></li>
             <li>
-              <a class="dropdown-item" href="{% url 'personal-information' %}">
+              <a class="dropdown-item" href="{% url 'personal-information' %}"{% if is_platform_admin and not admin_viewing_student_id %} data-requires-student{% endif %}>
                 <i class="icon-base ri ri-settings-4-line icon-22px me-3"></i><span class="align-middle">Settings</span>
               </a>
             </li>
@@ -263,14 +263,14 @@
           </li>
 
           <li class="menu-item {% if current_url_name == 'personal-information' %}active{% endif %}">
-            <a href="{% url 'personal-information' %}" class="menu-link">
+            <a href="{% url 'personal-information' %}" class="menu-link"{% if is_platform_admin and not admin_viewing_student_id %} data-requires-student{% endif %}>
               <i class="menu-icon icon-base ri ri-user-line"></i>
               <div data-i18n="Personal Information">Personal Information</div>
             </a>
           </li>
 
           <li class="menu-item {% if current_url_name == 'academic-profile' %}active{% endif %}">
-            <a href="{% url 'academic-profile' %}" class="menu-link">
+            <a href="{% url 'academic-profile' %}" class="menu-link"{% if is_platform_admin and not admin_viewing_student_id %} data-requires-student{% endif %}>
               <i class="menu-icon icon-base ri ri-graduation-cap-line"></i>
               <div data-i18n="Academic Profile">Academic Profile</div>
             </a>
@@ -278,7 +278,7 @@
 
           {% if personal_info_complete %}
           <li class="menu-item {% if current_url_name == 'diagnostics' %}active{% endif %}">
-            <a href="{% url 'diagnostics' %}" class="menu-link">
+            <a href="{% url 'diagnostics' %}" class="menu-link"{% if is_platform_admin and not admin_viewing_student_id %} data-requires-student{% endif %}>
               <i class="menu-icon icon-base ri ri-pulse-line"></i>
               <div data-i18n="Diagnostics">Diagnostics</div>
             </a>

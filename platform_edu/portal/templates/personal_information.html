@@ -66,15 +66,10 @@
 
                 <div class="col-md-6">
                   <div class="form-floating form-floating-outline">
-                    {% if is_guest %}
-                    <input type="email" class="form-control" id="edunade_email" name="edunade_email" value="{{ info.edunade_email }}" placeholder="assigned@academy.edunade.com" />
-                    <label for="edunade_email">Edunade Created Email</label>
-                    {% else %}
                     <input type="email" class="form-control" id="edunade_email" value="{% if info.edunade_email %}{{ info.edunade_email }}{% elif info.platform_user %}{{ info.platform_user.email }}{% endif %}" placeholder="name@student.edunade.com" readonly />
                     <label for="edunade_email">Edunade Created Email</label>
-                    {% endif %}
                   </div>
-                  {% if not is_guest %}<div class="form-text">Assigned by Edunade — cannot be changed here</div>{% endif %}
+                  <div class="form-text">Assigned by Edunade — cannot be changed here</div>
                 </div>
 
                 <div class="col-md-6">

@@ -1,11 +1,20 @@
+from datetime import timedelta
+
 from django.conf import settings
 from django.db import models
+from django.utils import timezone
 
 
 class PlatformUser(models.Model):
     class Role(models.TextChoices):
         STUDENT = 'student', 'Student'
+        PARENT = 'parent', 'Parent'
         ADMIN = 'admin', 'Admin'
+
+    class ApplicationType(models.TextChoices):
+        BACHELOR = 'bachelor', 'Bachelor'
+        MASTERS = 'masters', 'Masters'
+        PHD = 'phd', 'PhD'
 
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL,
@@ -19,6 +28,12 @@ class PlatformUser(models.Model):
         max_length=20,
         choices=Role.choices,
         default=Role.STUDENT,
+    )
+    application_type = models.CharField(
+        max_length=20,
+        choices=ApplicationType.choices,
+        blank=True,
+        default='',
     )
     account_created_at = models.DateTimeField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -53,6 +68,10 @@ class PlatformUser(models.Model):
     @property
     def is_student(self):
         return self.role == self.Role.STUDENT
+
+    @property
+    def is_parent(self):
+        return self.role == self.Role.PARENT
 
     def get_personal_profile(self):
         if not self.is_student:
@@ -212,3 +231,45 @@ class DiagnosticStage(models.Model):
     @property
     def has_report(self):
         return self.stage_key == self.StageKey.REPORT and bool(self.admin_document)
+
+
+class Deadline(models.Model):
+    class Urgency(models.TextChoices):
+        URGENT = 'urgent', 'Urgent'
+        STANDARD = 'standard', 'Standard'
+        RELAXED = 'relaxed', 'Relaxed'
+
+    name = models.CharField(max_length=200)
+    due_at = models.DateTimeField()
+    urgency = models.CharField(
+        max_length=20,
+        choices=Urgency.choices,
+        default=Urgency.STANDARD,
+    )
+    student = models.ForeignKey(
+        PlatformUser,
+        on_delete=models.CASCADE,
+        related_name='deadlines',
+        limit_choices_to={'role': PlatformUser.Role.STUDENT},
+    )
+    created_by = models.ForeignKey(
+        PlatformUser,
+        on_delete=models.SET_NULL,
+        related_name='created_deadlines',
+        null=True,
+        blank=True,
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = 'Deadline'
+        verbose_name_plural = 'Deadlines'
+        ordering = ['due_at']
+
+    def __str__(self):
+        return f'{self.name} ({self.student})'
+
+    @property
+    def is_approaching(self):
+        return self.due_at <= timezone.now() + timedelta(days=3)

@@ -1,0 +1,132 @@
+<div class="modal fade" id="addDeadlineModal" tabindex="-1" aria-labelledby="addDeadlineModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <form method="post" action="{% url 'home' %}" id="addDeadlineForm">
+        {% csrf_token %}
+        <input type="hidden" name="action" value="add_deadline" id="deadlineFormAction" />
+        <input type="hidden" name="deadline_id" value="" id="deadlineFormId" />
+        <div class="modal-header">
+          <h5 class="modal-title" id="addDeadlineModalLabel">Add new deadline</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-4">
+            <div class="form-floating form-floating-outline">
+              <input type="text" class="form-control" id="deadline_name" name="name" placeholder="Deadline name" required />
+              <label for="deadline_name">Deadline name</label>
+            </div>
+          </div>
+          <div class="mb-4">
+            <div class="form-floating form-floating-outline">
+              <input type="datetime-local" class="form-control" id="deadline_due_at" name="due_at" required />
+              <label for="deadline_due_at">Date and time</label>
+            </div>
+          </div>
+          <div class="mb-4">
+            <div class="form-floating form-floating-outline">
+              <select class="form-select" id="deadline_urgency" name="urgency" required>
+                <option value="urgent">Urgent</option>
+                <option value="standard" selected>Standard</option>
+                <option value="relaxed">Relaxed</option>
+              </select>
+              <label for="deadline_urgency">Urgency</label>
+            </div>
+          </div>
+          <div>
+            <div class="form-floating form-floating-outline">
+              <select class="form-select" id="deadline_student" name="student_id" required>
+                <option value="">Select a student...</option>
+                {% for student in deadline_students %}
+                <option value="{{ student.id }}">{{ student.first_name }} {{ student.last_name }}</option>
+                {% endfor %}
+              </select>
+              <label for="deadline_student">Student</label>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" id="deadlineCancelBtn">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="deadlineSaveBtn">
+            <span class="deadline-save-label">Save deadline</span>
+            <span class="deadline-save-spinner d-none">
+              <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+              Saving...
+            </span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  const form = document.getElementById('addDeadlineForm');
+  const modal = document.getElementById('addDeadlineModal');
+  if (!form || !modal) return;
+
+  const actionInput = document.getElementById('deadlineFormAction');
+  const idInput = document.getElementById('deadlineFormId');
+  const titleEl = document.getElementById('addDeadlineModalLabel');
+  const nameInput = document.getElementById('deadline_name');
+  const dueAtInput = document.getElementById('deadline_due_at');
+  const urgencyInput = document.getElementById('deadline_urgency');
+  const studentInput = document.getElementById('deadline_student');
+  const saveBtn = document.getElementById('deadlineSaveBtn');
+  const cancelBtn = document.getElementById('deadlineCancelBtn');
+  const saveLabel = saveBtn ? saveBtn.querySelector('.deadline-save-label') : null;
+  const saveSpinner = saveBtn ? saveBtn.querySelector('.deadline-save-spinner') : null;
+
+  function resetSaveButton() {
+    if (!saveBtn) return;
+    saveBtn.disabled = false;
+    if (cancelBtn) cancelBtn.disabled = false;
+    if (saveLabel) {
+      saveLabel.classList.remove('d-none');
+      saveLabel.textContent = actionInput.value === 'edit_deadline' ? 'Save changes' : 'Save deadline';
+    }
+    if (saveSpinner) saveSpinner.classList.add('d-none');
+  }
+
+  function setAddMode() {
+    actionInput.value = 'add_deadline';
+    idInput.value = '';
+    titleEl.textContent = 'Add new deadline';
+    form.reset();
+    urgencyInput.value = 'standard';
+    resetSaveButton();
+  }
+
+  function setEditMode(button) {
+    actionInput.value = 'edit_deadline';
+    idInput.value = button.getAttribute('data-deadline-id') || '';
+    titleEl.textContent = 'Edit deadline';
+    nameInput.value = button.getAttribute('data-deadline-name') || '';
+    dueAtInput.value = button.getAttribute('data-deadline-due-at') || '';
+    urgencyInput.value = button.getAttribute('data-deadline-urgency') || 'standard';
+    studentInput.value = button.getAttribute('data-deadline-student-id') || '';
+    resetSaveButton();
+  }
+
+  document.querySelectorAll('[data-bs-target="#addDeadlineModal"]').forEach(function (trigger) {
+    if (trigger.classList.contains('deadline-edit-btn')) return;
+    trigger.addEventListener('click', setAddMode);
+  });
+
+  document.querySelectorAll('.deadline-edit-btn').forEach(function (button) {
+    button.addEventListener('click', function () {
+      setEditMode(button);
+    });
+  });
+
+  modal.addEventListener('hidden.bs.modal', setAddMode);
+
+  form.addEventListener('submit', function () {
+    if (!saveBtn) return;
+    saveBtn.disabled = true;
+    if (cancelBtn) cancelBtn.disabled = true;
+    if (saveLabel) saveLabel.classList.add('d-none');
+    if (saveSpinner) saveSpinner.classList.remove('d-none');
+  });
+})();
+</script>

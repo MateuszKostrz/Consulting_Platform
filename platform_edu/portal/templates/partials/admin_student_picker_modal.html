@@ -1,0 +1,74 @@
+{% if is_platform_admin %}
+<div
+  class="modal fade"
+  id="adminStudentPickerModal"
+  tabindex="-1"
+  aria-labelledby="adminStudentPickerModalLabel"
+  aria-hidden="true"
+  data-bs-backdrop="static">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="adminStudentPickerModalLabel">Select a student</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p class="text-body-secondary small mb-3">Choose a student profile to view or edit their information.</p>
+        <div class="list-group">
+          {% for student in student_profiles %}
+          <a
+            href="{% url 'select-student' student.id %}"
+            class="list-group-item list-group-item-action admin-student-picker-link d-flex align-items-center">
+            <i class="icon-base ri ri-user-line me-3 text-heading"></i>
+            <span class="fw-medium">{{ student.first_name }} {{ student.last_name }}</span>
+          </a>
+          {% empty %}
+          <div class="list-group-item text-body-secondary">No students yet</div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% if not admin_viewing_student_id %}
+<script>
+window.addEventListener('load', function () {
+  const modalEl = document.getElementById('adminStudentPickerModal');
+  if (!modalEl || typeof bootstrap === 'undefined') {
+    return;
+  }
+
+  const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+
+  function setPickerNextUrl(nextUrl) {
+    modalEl.dataset.nextUrl = nextUrl || '';
+    modalEl.querySelectorAll('.admin-student-picker-link').forEach(function (link) {
+      const base = link.getAttribute('href').split('?')[0];
+      link.setAttribute(
+        'href',
+        nextUrl ? base + '?next=' + encodeURIComponent(nextUrl) : base
+      );
+    });
+  }
+
+  function openPicker(nextUrl) {
+    setPickerNextUrl(nextUrl);
+    modal.show();
+  }
+
+  document.querySelectorAll('[data-requires-student]').forEach(function (link) {
+    link.addEventListener('click', function (event) {
+      event.preventDefault();
+      openPicker(link.getAttribute('href'));
+    });
+  });
+
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('pick_student') === '1') {
+    openPicker(params.get('next') || '');
+  }
+});
+</script>
+{% endif %}
+{% endif %}

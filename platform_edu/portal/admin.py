@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
 from django.contrib.auth.models import User
 
-from .models import AcademicProfile, DiagnosticStage, PersonalProfile, PlatformUser
+from .models import AcademicProfile, Deadline, DiagnosticStage, PersonalProfile, PlatformUser
 
 
 class PlatformUserInline(admin.StackedInline):
@@ -28,10 +28,11 @@ class PlatformUserAdmin(admin.ModelAdmin):
         'first_name',
         'last_name',
         'role',
+        'application_type',
         'account_created_at',
         'created_at',
     )
-    list_filter = ('role',)
+    list_filter = ('role', 'application_type')
     search_fields = ('email', 'first_name', 'last_name')
     readonly_fields = ('account_created_at', 'created_at', 'updated_at')
     fields = (
@@ -40,6 +41,7 @@ class PlatformUserAdmin(admin.ModelAdmin):
         'last_name',
         'email',
         'role',
+        'application_type',
         'account_created_at',
         'created_at',
         'updated_at',
@@ -126,3 +128,27 @@ class DiagnosticStageAdmin(admin.ModelAdmin):
     @admin.display(boolean=True, description='Submitted')
     def has_student_submission(self, obj):
         return obj.has_student_submission
+
+
+@admin.register(Deadline)
+class DeadlineAdmin(admin.ModelAdmin):
+    list_display = (
+        'name',
+        'display_student',
+        'urgency',
+        'due_at',
+        'created_at',
+    )
+    list_filter = ('urgency',)
+    search_fields = (
+        'name',
+        'student__email',
+        'student__first_name',
+        'student__last_name',
+    )
+    readonly_fields = ('created_at', 'updated_at')
+    autocomplete_fields = ('student', 'created_by')
+
+    @admin.display(description='Student')
+    def display_student(self, obj):
+        return f'{obj.student.first_name} {obj.student.last_name}'.strip() or obj.student.email

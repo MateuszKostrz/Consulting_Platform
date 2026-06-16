@@ -19468,3 +19468,166 @@ Traceback (most recent call last):
   File "/Users/mateuszkostrz/anaconda3/lib/python3.10/site-packages/django/http/request.py", line 151, in get_host
     raise DisallowedHost(msg)
 django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: 'testserver'. You may need to add 'testserver' to ALLOWED_HOSTS.
+ERROR 2026-06-16 20:52:16,854 Invalid HTTP_HOST header: 'testserver'. You may need to add 'testserver' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/Users/mateuszkostrz/anaconda3/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/Users/mateuszkostrz/anaconda3/lib/python3.10/site-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+  File "/Users/mateuszkostrz/anaconda3/lib/python3.10/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+  File "/Users/mateuszkostrz/anaconda3/lib/python3.10/site-packages/django/http/request.py", line 151, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: 'testserver'. You may need to add 'testserver' to ALLOWED_HOSTS.
+ERROR 2026-06-16 20:52:16,888 Invalid HTTP_HOST header: 'testserver'. You may need to add 'testserver' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/Users/mateuszkostrz/anaconda3/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/Users/mateuszkostrz/anaconda3/lib/python3.10/site-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+  File "/Users/mateuszkostrz/anaconda3/lib/python3.10/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+  File "/Users/mateuszkostrz/anaconda3/lib/python3.10/site-packages/django/http/request.py", line 151, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: 'testserver'. You may need to add 'testserver' to ALLOWED_HOSTS.
+ERROR 2026-06-16 20:52:16,899 Invalid HTTP_HOST header: 'testserver'. You may need to add 'testserver' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/Users/mateuszkostrz/anaconda3/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/Users/mateuszkostrz/anaconda3/lib/python3.10/site-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+  File "/Users/mateuszkostrz/anaconda3/lib/python3.10/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+  File "/Users/mateuszkostrz/anaconda3/lib/python3.10/site-packages/django/http/request.py", line 151, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: 'testserver'. You may need to add 'testserver' to ALLOWED_HOSTS.
+ERROR 2026-06-16 20:52:16,916 Invalid HTTP_HOST header: 'testserver'. You may need to add 'testserver' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/Users/mateuszkostrz/anaconda3/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/Users/mateuszkostrz/anaconda3/lib/python3.10/site-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+  File "/Users/mateuszkostrz/anaconda3/lib/python3.10/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+  File "/Users/mateuszkostrz/anaconda3/lib/python3.10/site-packages/django/http/request.py", line 151, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: 'testserver'. You may need to add 'testserver' to ALLOWED_HOSTS.
+ERROR 2026-06-16 20:52:16,940 Invalid HTTP_HOST header: 'testserver'. You may need to add 'testserver' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/Users/mateuszkostrz/anaconda3/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/Users/mateuszkostrz/anaconda3/lib/python3.10/site-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+  File "/Users/mateuszkostrz/anaconda3/lib/python3.10/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+  File "/Users/mateuszkostrz/anaconda3/lib/python3.10/site-packages/django/http/request.py", line 151, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: 'testserver'. You may need to add 'testserver' to ALLOWED_HOSTS.
+ERROR 2026-06-16 21:07:05,338 Internal Server Error: /home/
+Traceback (most recent call last):
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+psycopg2.errors.UndefinedTable: relation "portal_deadline" does not exist
+LINE 1: SELECT COUNT(*) AS "__count" FROM "portal_deadline"
+                                          ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/core/handlers/base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/platform_edu/portal/views.py", line 213, in home
+    'deadline_total_count': deadlines.count(),
+                            ^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/models/query.py", line 610, in count
+    return self.query.get_count(using=self.db)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/models/sql/query.py", line 656, in get_count
+    return obj.get_aggregation(using, {"__count": Count("*")})["__count"]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/models/sql/query.py", line 638, in get_aggregation
+    result = compiler.execute_sql(SINGLE)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/models/sql/compiler.py", line 1624, in execute_sql
+    cursor.execute(sql, params)
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/utils.py", line 94, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.ProgrammingError: relation "portal_deadline" does not exist
+LINE 1: SELECT COUNT(*) AS "__count" FROM "portal_deadline"
+                                          ^
+
+ERROR 2026-06-16 21:07:05,341 "GET /home/ HTTP/1.1" 500 129771
+ERROR 2026-06-16 21:07:09,240 Internal Server Error: /home/
+Traceback (most recent call last):
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+psycopg2.errors.UndefinedTable: relation "portal_deadline" does not exist
+LINE 1: SELECT COUNT(*) AS "__count" FROM "portal_deadline"
+                                          ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/core/handlers/base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/platform_edu/portal/views.py", line 213, in home
+    'deadline_total_count': deadlines.count(),
+                            ^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/models/query.py", line 610, in count
+    return self.query.get_count(using=self.db)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/models/sql/query.py", line 656, in get_count
+    return obj.get_aggregation(using, {"__count": Count("*")})["__count"]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/models/sql/query.py", line 638, in get_aggregation
+    result = compiler.execute_sql(SINGLE)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/models/sql/compiler.py", line 1624, in execute_sql
+    cursor.execute(sql, params)
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/utils.py", line 94, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.ProgrammingError: relation "portal_deadline" does not exist
+LINE 1: SELECT COUNT(*) AS "__count" FROM "portal_deadline"
+                                          ^
+
+ERROR 2026-06-16 21:07:09,241 "GET /home/ HTTP/1.1" 500 129771

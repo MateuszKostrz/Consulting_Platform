@@ -221,6 +221,7 @@
 
               <form id="formAuthentication" class="mb-5" action="{% url 'login' %}" method="POST">
                 {% csrf_token %}
+                {% if next %}<input type="hidden" name="next" value="{{ next }}" />{% endif %}
                 {% if request.GET.theme == 'apex' or request.GET.theme == 'topibtutors' or current_theme == 'apex' or current_theme == 'topibtutors' %}
                 <input type="hidden" name="is_apex" value="true">
                 {% endif %}
@@ -265,6 +266,13 @@
                   <button class="btn btn-primary d-grid w-100" type="submit">Sign in</button>
                 </div>
               </form>
+
+              <p class="text-center mb-0">
+                <span>New here?</span>
+                <a href="{% url 'register' %}">
+                  <span>Create an account</span>
+                </a>
+              </p>
             </div>
           </div>
           <!-- /Login -->

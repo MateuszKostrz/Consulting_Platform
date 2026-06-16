@@ -36,6 +36,12 @@
 
         {% include 'logistics_dashboard_content.html' %}
 
+        {% if can_manage_deadlines %}
+        {% include 'partials/deadline_add_modal.html' %}
+        {% include 'partials/deadline_delete_modal.html' %}
+        {% include 'partials/deadline_filter_student_modal.html' %}
+        {% endif %}
+
         {% include 'footer.html' %}
 
         <div class="content-backdrop fade"></div>

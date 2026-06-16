@@ -3,6 +3,7 @@ import uuid
 from .models import AcademicProfile, PersonalProfile, PlatformUser
 
 ADMIN_VIEWING_STUDENT_SESSION_KEY = 'admin_viewing_student_id'
+DEADLINE_FILTER_STUDENT_SESSION_KEY = 'deadline_filter_student_id'
 PROFILE_SESSION_KEY = 'profile_session_key'
 
 PERSONAL_PROFILE_MERGE_FIELDS = (
@@ -66,6 +67,35 @@ def clear_admin_viewing_student(request):
     if ADMIN_VIEWING_STUDENT_SESSION_KEY in request.session:
         del request.session[ADMIN_VIEWING_STUDENT_SESSION_KEY]
         request.session.modified = True
+
+
+def get_deadline_filter_student_id(request):
+    return request.session.get(DEADLINE_FILTER_STUDENT_SESSION_KEY)
+
+
+def set_deadline_filter_student(request, student_id):
+    request.session[DEADLINE_FILTER_STUDENT_SESSION_KEY] = student_id
+    request.session.modified = True
+
+
+def clear_deadline_filter_student(request):
+    if DEADLINE_FILTER_STUDENT_SESSION_KEY in request.session:
+        del request.session[DEADLINE_FILTER_STUDENT_SESSION_KEY]
+        request.session.modified = True
+
+
+def get_deadline_filter_student(request):
+    student_id = get_deadline_filter_student_id(request)
+    if not student_id:
+        return None
+    try:
+        return PlatformUser.objects.get(
+            pk=student_id,
+            role=PlatformUser.Role.STUDENT,
+        )
+    except PlatformUser.DoesNotExist:
+        clear_deadline_filter_student(request)
+        return None
 
 
 def get_student_platform_users():

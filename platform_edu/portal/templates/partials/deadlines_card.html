@@ -1,0 +1,114 @@
+                <!-- Deadlines -->
+                <div class="col-md-6 col-xxl-4 order-0 order-xxl-4">
+                  <div class="card h-100">
+                    <div class="card-header d-flex justify-content-between">
+                      <div class="card-title mb-0">
+                        <h5 class="m-0 me-2">Deadlines</h5>
+                        <span class="text-body mb-0">
+                          {{ deadline_total_count }} deadline{{ deadline_total_count|pluralize }} tracked
+                          {% if deadline_filter_student %}
+                          for <strong>{{ deadline_filter_student.first_name }} {{ deadline_filter_student.last_name }}</strong>
+                          {% endif %}
+                        </span>
+                      </div>
+                      {% if can_manage_deadlines %}
+                      <div class="dropdown">
+                        <button
+                          class="btn btn-text-secondary rounded-pill text-body-secondary border-0 p-1"
+                          type="button"
+                          id="deadlinesMenu"
+                          data-bs-toggle="dropdown"
+                          aria-haspopup="true"
+                          aria-expanded="false">
+                          <i class="icon-base ri ri-more-2-line"></i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="deadlinesMenu">
+                          <button
+                            type="button"
+                            class="dropdown-item"
+                            data-bs-toggle="modal"
+                            data-bs-target="#addDeadlineModal">
+                            Add new
+                          </button>
+                          <button
+                            type="button"
+                            class="dropdown-item"
+                            data-bs-toggle="modal"
+                            data-bs-target="#deadlineFilterStudentModal">
+                            Filter by student
+                          </button>
+                        </div>
+                      </div>
+                      {% endif %}
+                    </div>
+                    <div class="card-body p-0">
+                      <div class="nav-align-top">
+                        <ul class="nav nav-tabs nav-fill" role="tablist">
+                          <li class="nav-item">
+                            <button
+                              type="button"
+                              class="nav-link active"
+                              role="tab"
+                              data-bs-toggle="tab"
+                              data-bs-target="#deadlines-all"
+                              aria-controls="deadlines-all"
+                              aria-selected="true">
+                              All
+                            </button>
+                          </li>
+                          <li class="nav-item">
+                            <button
+                              type="button"
+                              class="nav-link"
+                              role="tab"
+                              data-bs-toggle="tab"
+                              data-bs-target="#deadlines-urgent"
+                              aria-controls="deadlines-urgent"
+                              aria-selected="false">
+                              Urgent
+                            </button>
+                          </li>
+                          <li class="nav-item">
+                            <button
+                              type="button"
+                              class="nav-link"
+                              role="tab"
+                              data-bs-toggle="tab"
+                              data-bs-target="#deadlines-standard"
+                              aria-controls="deadlines-standard"
+                              aria-selected="false">
+                              Standard
+                            </button>
+                          </li>
+                          <li class="nav-item">
+                            <button
+                              type="button"
+                              class="nav-link"
+                              role="tab"
+                              data-bs-toggle="tab"
+                              data-bs-target="#deadlines-relaxed"
+                              aria-controls="deadlines-relaxed"
+                              aria-selected="false">
+                              Relaxed
+                            </button>
+                          </li>
+                        </ul>
+                        <div class="tab-content border-0 pb-0 px-6 mx-1">
+                          <div class="tab-pane fade show active" id="deadlines-all" role="tabpanel">
+                            {% include 'partials/deadline_timeline_items.html' with deadlines=deadlines_all can_manage_deadlines=can_manage_deadlines %}
+                          </div>
+                          <div class="tab-pane fade" id="deadlines-urgent" role="tabpanel">
+                            {% include 'partials/deadline_timeline_items.html' with deadlines=deadlines_urgent can_manage_deadlines=can_manage_deadlines %}
+                          </div>
+                          <div class="tab-pane fade" id="deadlines-standard" role="tabpanel">
+                            {% include 'partials/deadline_timeline_items.html' with deadlines=deadlines_standard can_manage_deadlines=can_manage_deadlines %}
+                          </div>
+                          <div class="tab-pane fade" id="deadlines-relaxed" role="tabpanel">
+                            {% include 'partials/deadline_timeline_items.html' with deadlines=deadlines_relaxed can_manage_deadlines=can_manage_deadlines %}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!--/ Deadlines -->

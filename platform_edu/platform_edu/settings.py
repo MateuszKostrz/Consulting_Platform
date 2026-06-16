@@ -61,6 +61,13 @@ CSRF_TRUSTED_ORIGINS = [
     for origin in os.environ.get('CSRF_TRUSTED_ORIGINS', '').split(',')
     if origin.strip()
 ]
+if DEBUG:
+    CSRF_TRUSTED_ORIGINS.extend([
+        'http://127.0.0.1:8000',
+        'http://localhost:8000',
+        'http://127.0.0.1',
+        'http://localhost',
+    ])
 
 
 
@@ -125,6 +132,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'portal.middleware.LoginRequiredMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -298,10 +306,11 @@ CKEDITOR_CONFIGS = {
 SESSION_COOKIE_AGE = 30 * 24 * 60 * 60  # 30 days in seconds
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False  # Don't expire when browser closes
 SESSION_SAVE_EVERY_REQUEST = True  # Update session on every request
-SESSION_COOKIE_SECURE = USE_HTTPS
+# Secure cookies require HTTPS. In local DEBUG mode, allow cookies over http://localhost.
+SESSION_COOKIE_SECURE = USE_HTTPS and not DEBUG
 SESSION_COOKIE_HTTPONLY = True  # Prevent JavaScript access to session cookie
 SESSION_COOKIE_SAMESITE = 'Lax'  # CSRF protection
-CSRF_COOKIE_SECURE = USE_HTTPS
+CSRF_COOKIE_SECURE = USE_HTTPS and not DEBUG
 
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 

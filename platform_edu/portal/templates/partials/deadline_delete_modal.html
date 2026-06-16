@@ -1,0 +1,79 @@
+<div class="modal fade" id="deleteDeadlineModal" tabindex="-1" aria-labelledby="deleteDeadlineModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-sm">
+    <div class="modal-content">
+      <div class="modal-header border-0 pb-0">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body text-center pt-0 pb-4">
+        <div class="avatar avatar-lg mb-3 mx-auto">
+          <span class="avatar-initial rounded-circle bg-label-danger">
+            <i class="icon-base ri ri-delete-bin-line icon-28px"></i>
+          </span>
+        </div>
+        <h5 class="mb-2" id="deleteDeadlineModalLabel">Delete deadline?</h5>
+        <p class="text-body-secondary mb-1">This action cannot be undone.</p>
+        <p class="fw-medium mb-0" id="deleteDeadlineName"></p>
+      </div>
+      <div class="modal-footer border-0 justify-content-center gap-2 pt-0 pb-4">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" id="deleteDeadlineCancelBtn">Cancel</button>
+        <form method="post" action="{% url 'home' %}" id="deleteDeadlineForm" class="d-inline">
+          {% csrf_token %}
+          <input type="hidden" name="action" value="delete_deadline" />
+          <input type="hidden" name="deadline_id" value="" id="deleteDeadlineId" />
+          <button type="submit" class="btn btn-danger" id="deleteDeadlineConfirmBtn">
+            <span class="delete-deadline-label">Delete</span>
+            <span class="delete-deadline-spinner d-none">
+              <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+              Deleting...
+            </span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  const modal = document.getElementById('deleteDeadlineModal');
+  const form = document.getElementById('deleteDeadlineForm');
+  if (!modal || !form) return;
+
+  const idInput = document.getElementById('deleteDeadlineId');
+  const nameEl = document.getElementById('deleteDeadlineName');
+  const confirmBtn = document.getElementById('deleteDeadlineConfirmBtn');
+  const cancelBtn = document.getElementById('deleteDeadlineCancelBtn');
+  const label = confirmBtn ? confirmBtn.querySelector('.delete-deadline-label') : null;
+  const spinner = confirmBtn ? confirmBtn.querySelector('.delete-deadline-spinner') : null;
+
+  function resetDeleteButton() {
+    if (!confirmBtn) return;
+    confirmBtn.disabled = false;
+    if (cancelBtn) cancelBtn.disabled = false;
+    if (label) label.classList.remove('d-none');
+    if (spinner) spinner.classList.add('d-none');
+  }
+
+  document.querySelectorAll('.deadline-delete-btn').forEach(function (button) {
+    button.addEventListener('click', function () {
+      idInput.value = button.getAttribute('data-deadline-id') || '';
+      nameEl.textContent = button.getAttribute('data-deadline-name') || '';
+      resetDeleteButton();
+    });
+  });
+
+  modal.addEventListener('hidden.bs.modal', function () {
+    idInput.value = '';
+    nameEl.textContent = '';
+    resetDeleteButton();
+  });
+
+  form.addEventListener('submit', function () {
+    if (!confirmBtn) return;
+    confirmBtn.disabled = true;
+    if (cancelBtn) cancelBtn.disabled = true;
+    if (label) label.classList.add('d-none');
+    if (spinner) spinner.classList.remove('d-none');
+  });
+})();
+</script>
