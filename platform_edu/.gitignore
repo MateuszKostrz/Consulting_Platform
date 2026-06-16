@@ -1,5 +1,12 @@
 db.sqlite3
 .env
+.env.*
+!.env.example
 virt2/
+virtual2/
+venv/
 # logs/
 rag_env/
+media/
+staticfiles/
+logs/

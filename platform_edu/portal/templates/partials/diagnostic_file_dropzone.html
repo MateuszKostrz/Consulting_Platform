@@ -1,0 +1,22 @@
+<div class="file-dropzone border border-2 rounded p-4 text-center position-relative"
+     data-input-id="diag-{{ stage_key }}-{{ field_suffix }}"
+     role="button"
+     tabindex="0"
+     aria-label="Upload {{ label }}">
+  <i class="icon-base ri ri-upload-cloud-2-line icon-32px text-heading mb-2 d-block"></i>
+  <p class="mb-1 fw-medium">{{ label }}</p>
+  <p class="text-body-secondary small mb-0">Drag & drop or click to select a file</p>
+  <p class="text-body-secondary small mb-0">PDF, DOC, DOCX — max 10 MB</p>
+  <input type="file"
+         class="d-none file-dropzone-input"
+         id="diag-{{ stage_key }}-{{ field_suffix }}"
+         name="upload_file"
+         accept=".pdf,.doc,.docx" />
+  <p class="file-dropzone-filename mt-3 mb-0 small text-primary d-none"></p>
+  {% if current_file %}
+  <p class="mt-2 mb-0 small text-success">
+    Current file:
+    <a href="{{ current_file.url }}" target="_blank" rel="noopener">{{ current_file.name }}</a>
+  </p>
+  {% endif %}
+</div>

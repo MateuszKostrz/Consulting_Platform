@@ -1,0 +1,66 @@
+{% load static %}
+
+<!doctype html>
+<html
+  lang="en"
+  class="layout-navbar-fixed layout-menu-fixed layout-compact"
+  dir="ltr"
+  data-skin="default"
+  data-bs-theme="light"
+  data-assets-path="{% static 'website/' %}"
+  data-template="horizontal-menu-template">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>{{ site_name }} | Home</title>
+    <meta name="description" content="" />
+    <link rel="icon" href="{% static 'website/images/platform_logo.svg' %}">
+
+    {% include 'top_base.html' %}
+
+    <link rel="stylesheet" href="{% static 'website/css/vendor/libs/apex-charts/apex-charts.css' %}" />
+    <link rel="stylesheet" href="{% static 'website/css/vendor/libs/datatables-bs5/datatables.bootstrap5.css' %}" />
+    <link rel="stylesheet" href="{% static 'website/css/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css' %}" />
+    <link rel="stylesheet" href="{% static 'website/css/vendor/css/pages/app-logistics-dashboard.css' %}" />
+
+    <script type="text/javascript" src="{% static 'website/js/vendor/helpers.js' %}"></script>
+    <script type="text/javascript" src="{% static 'website/js/vendor/config.js' %}"></script>
+    <script>window.logisticsDashboardJsonUrl = "{% static 'website/json/logistics-dashboard.json' %}";</script>
+  </head>
+
+  <body>
+    <div class="layout-wrapper layout-navbar-full layout-horizontal layout-without-menu">
+      <div class="layout-container">
+
+        {% include 'horizontal_menu.html' %}
+
+        {% include 'logistics_dashboard_content.html' %}
+
+        {% include 'footer.html' %}
+
+        <div class="content-backdrop fade"></div>
+      </div><!-- /content-wrapper -->
+    </div><!-- /layout-page -->
+  </div><!-- /layout-container -->
+</div><!-- /layout-wrapper -->
+
+    <div class="layout-overlay layout-menu-toggle"></div>
+    <div class="drag-target"></div>
+
+    <script src="{% static 'website/js/vendor/libs/jquery/jquery.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/popper/popper.js' %}"></script>
+    <script src="{% static 'website/js/bootstrap.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/node-waves/node-waves.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/@algolia/autocomplete-js.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/pickr/pickr.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/perfect-scrollbar/perfect-scrollbar.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/hammer/hammer.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/i18n/i18n.js' %}"></script>
+    <script src="{% static 'website/js/vendor/menu.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/apex-charts/apexcharts.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/datatables-bs5/datatables-bootstrap5.js' %}"></script>
+    <script type="text/javascript" src="{% static 'website/js/main.js' %}"></script>
+    <script type="text/javascript" src="{% static 'website/js/vendors.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'website/js/app-logistics-dashboard.js' %}"></script>
+  </body>
+</html>

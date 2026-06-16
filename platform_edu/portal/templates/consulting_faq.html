@@ -1,0 +1,46 @@
+{% load static %}
+
+<!doctype html>
+<html
+  lang="en"
+  class="layout-navbar-fixed layout-menu-fixed layout-compact"
+  dir="ltr"
+  data-skin="default"
+  data-bs-theme="light"
+  data-assets-path="{% static 'website/' %}"
+  data-template="horizontal-menu-template">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>{{ site_name }} | FAQ</title>
+    <link rel="icon" href="{% static 'website/images/platform_logo.svg' %}">
+    {% include 'top_base.html' %}
+    <script type="text/javascript" src="{% static 'website/js/vendor/helpers.js' %}"></script>
+    <script type="text/javascript" src="{% static 'website/js/vendor/config.js' %}"></script>
+  </head>
+  <body>
+    <div class="layout-wrapper layout-navbar-full layout-horizontal layout-without-menu">
+      <div class="layout-container">
+        {% include 'horizontal_menu.html' %}
+        <div class="container-xxl flex-grow-1 container-p-y">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="mb-2">FAQ</h5>
+              <p class="mb-0 text-body-secondary">Frequently asked questions will be added here.</p>
+            </div>
+          </div>
+        </div>
+        {% include 'footer.html' %}
+      </div>
+    </div>
+    <script src="{% static 'website/js/vendor/libs/jquery/jquery.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/popper/popper.js' %}"></script>
+    <script src="{% static 'website/js/vendor/js/bootstrap.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/node-waves/node-waves.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/perfect-scrollbar/perfect-scrollbar.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/hammer/hammer.js' %}"></script>
+    <script src="{% static 'website/js/vendor/js/menu.js' %}"></script>
+    <script src="{% static 'website/js/vendor/js/main.js' %}"></script>
+    <script src="{% static 'website/js/vendors.min.js' %}"></script>
+  </body>
+</html>

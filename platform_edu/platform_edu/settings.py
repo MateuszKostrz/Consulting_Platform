@@ -1,6 +1,7 @@
 from pathlib import Path
 import os
-from django.utils import timezone
+
+from django.core.exceptions import ImproperlyConfigured
 from dotenv import load_dotenv
 
 
@@ -17,16 +18,49 @@ load_dotenv(BASE_DIR / '.env')
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-srfe9!+4tinmt_)q$%eoq&jpp(c3w860l7lai*x3no&-65+3s-'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-
-# Default to True for local development, False in production
 DEBUG = os.environ.get('DEBUG', 'True').lower() == 'true'
 
+SECRET_KEY = os.environ.get('SECRET_KEY')
+if not SECRET_KEY:
+    if DEBUG:
+        SECRET_KEY = 'django-insecure-local-dev-only-set-secret-key-in-env'
+    else:
+        raise ImproperlyConfigured('SECRET_KEY environment variable is required when DEBUG is False.')
 
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '3.11.241.110', 'www.academy.edunade.com', 'academy.edunade.com', 'MateuszKostrz.pythonanywhere.com' ,'test.edunade.com','www.test.edunade.com', 'example.edunade.com', 'www.example.edunade.com', 'iboost.edunade.com', 'www.iboost.edunade.com', 'apextuitionaustralia.edunade.com', 'www.apextuitionaustralia.edunade.com', 'topibtutors.edunade.com', 'www.topibtutors.edunade.com']
+_default_allowed_hosts = [
+    '127.0.0.1',
+    'localhost',
+    '3.11.241.110',
+    'www.academy.edunade.com',
+    'academy.edunade.com',
+    'MateuszKostrz.pythonanywhere.com',
+    'test.edunade.com',
+    'www.test.edunade.com',
+    'example.edunade.com',
+    'www.example.edunade.com',
+    'iboost.edunade.com',
+    'www.iboost.edunade.com',
+    'apextuitionaustralia.edunade.com',
+    'www.apextuitionaustralia.edunade.com',
+    'topibtutors.edunade.com',
+    'www.topibtutors.edunade.com',
+    'consulting.edunade.com',
+    'www.consulting.edunade.com',
+]
+_extra_allowed_hosts = [
+    host.strip()
+    for host in os.environ.get('ALLOWED_HOSTS_EXTRA', '').split(',')
+    if host.strip()
+]
+ALLOWED_HOSTS = _default_allowed_hosts + _extra_allowed_hosts
+
+USE_HTTPS = os.environ.get('USE_HTTPS', 'False').lower() == 'true'
+CSRF_TRUSTED_ORIGINS = [
+    origin.strip()
+    for origin in os.environ.get('CSRF_TRUSTED_ORIGINS', '').split(',')
+    if origin.strip()
+]
 
 
 
@@ -67,17 +101,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'ckeditor',
-    'ckeditor_uploader',
-    # 'platform_edu.apps.PaymentsConfig'
-    # 'django.contrib.staticfiles',
-    'website',
-    'django.contrib.sites',
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'allauth.socialaccount.providers.google',
-
+    'portal',
 ]
 
 
@@ -103,9 +127,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'allauth.account.middleware.AccountMiddleware',
-    'website.domain_theme_middleware.DomainThemeMiddleware',
-    'website.middleware.UpdatePremiumStatusMiddleware',
 ]
 
 ROOT_URLCONF = 'platform_edu.urls'
@@ -113,59 +134,8 @@ ROOT_URLCONF = 'platform_edu.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-         'DIRS': [os.path.join(BASE_DIR, 'templates'),
-                  os.path.join(BASE_DIR, 'website', 'templates', 'past_papers', 'math'),
-                  os.path.join(BASE_DIR, 'website', 'templates', 'past_papers', 'econ'),
-                  os.path.join(BASE_DIR, 'website', 'templates', 'past_papers', 'bio'),
-                os.path.join(BASE_DIR, 'website', 'templates', 'past_papers', 'chem'),
-                os.path.join(BASE_DIR, 'website', 'templates', 'exam_notes', 'bio'),
-                os.path.join(BASE_DIR, 'website', 'templates', 'exam_notes', 'chem'),
-                os.path.join(BASE_DIR, 'website', 'templates', 'exam_notes', 'econ'),
-                os.path.join(BASE_DIR, 'website', 'templates', 'exam_notes', 'phys'),
-                os.path.join(BASE_DIR, 'website', 'templates', 'exam_notes', 'math'),
-                os.path.join(BASE_DIR, 'website', 'templates', 'exam_notes', 'hist'),
-                os.path.join(BASE_DIR, 'website', 'templates', 'exam_notes', 'bus'),
-                os.path.join(BASE_DIR, 'website', 'templates', 'uni_reports', 'personal_statements'),
-                os.path.join(BASE_DIR, 'website', 'templates', 'uni_reports', 'cover_letters'),
-                os.path.join(BASE_DIR, 'website', 'templates', 'uni_reports', 'reports'),
-                os.path.join(BASE_DIR, 'website', 'templates', 'uni_reports', 'reference_letters'),
-                os.path.join(BASE_DIR, 'website', 'templates', 'questionbank', 'math'),
-                os.path.join(BASE_DIR, 'website', 'templates', 'questionbank', 'math', 'ai_sl'),
-                os.path.join(BASE_DIR, 'website', 'templates', 'questionbank', 'math', 'aa_sl'),
-                os.path.join(BASE_DIR, 'website', 'templates', 'questionbank', 'math', 'ai_hl'),
-                os.path.join(BASE_DIR, 'website', 'templates', 'questionbank', 'math', 'aa_hl'),
-                os.path.join(BASE_DIR, 'website', 'templates', 'questionbank', 'history'),
-                os.path.join(BASE_DIR, 'website', 'templates', 'questionbank', 'biology'),
-                os.path.join(BASE_DIR, 'website', 'templates', 'questionbank', 'physics'),
-                os.path.join(BASE_DIR, 'website', 'templates', 'questionbank', 'computer_science'),
-                os.path.join(BASE_DIR, 'website', 'templates', 'questionbank', 'computer_science', 'sl'),
-                os.path.join(BASE_DIR, 'website', 'templates', 'questionbank', 'computer_science', 'hl'),
-                os.path.join(BASE_DIR, 'website', 'templates', 'questionbank', 'physics', 'sl'),
-                os.path.join(BASE_DIR, 'website', 'templates', 'questionbank', 'physics', 'hl'),
-                os.path.join(BASE_DIR, 'website', 'templates', 'questionbank', 'chemistry', 'sl'),
-                os.path.join(BASE_DIR, 'website', 'templates', 'questionbank', 'chemistry', 'hl'),
-                os.path.join(BASE_DIR, 'website', 'templates', 'questionbank', 'biology', 'sl'),
-                os.path.join(BASE_DIR, 'website', 'templates', 'questionbank', 'biology', 'hl'),
-                os.path.join(BASE_DIR, 'website', 'templates', 'webinars'),
-                os.path.join(BASE_DIR, 'website', 'templates', 'popups'),
-                os.path.join(BASE_DIR, 'website', 'templates', 'old_stuffs'),
-                os.path.join(BASE_DIR, 'website', 'templates', 'past_papers_videos', 'math_ai_sl'),
-                os.path.join(BASE_DIR, 'website', 'templates', 'past_papers_videos', 'math_aa_sl'),
-                os.path.join(BASE_DIR, 'website', 'templates', 'past_papers_videos', 'math_aa_hl'),
-                os.path.join(BASE_DIR, 'website', 'templates', 'past_papers_videos', 'math_ai_hl'),
-                os.path.join(BASE_DIR, 'website', 'templates', 'past_papers_videos', 'physics_sl'),
-                os.path.join(BASE_DIR, 'website', 'templates', 'past_papers_videos', 'physics_hl'),
-                os.path.join(BASE_DIR, 'website', 'templates', 'past_papers_videos', 'chem_sl'),
-                os.path.join(BASE_DIR, 'website', 'templates', 'past_papers_videos', 'chem_hl'),
-                os.path.join(BASE_DIR, 'website', 'templates', 'past_papers_videos', 'comp_sci_sl'),
-                os.path.join(BASE_DIR, 'website', 'templates', 'past_papers_topics', 'math_ai_sl'),
-                os.path.join(BASE_DIR, 'website', 'templates', 'past_papers_topics', 'math_ai_hl'),
-                os.path.join(BASE_DIR, 'website', 'templates', 'past_papers_topics', 'math_aa_sl'),
-                os.path.join(BASE_DIR, 'website', 'templates', 'past_papers_topics', 'math_aa_hl'),
-                os.path.join(BASE_DIR, 'website', 'templates', 'past_papers_topics', 'physics_sl'),
-                os.path.join(BASE_DIR, 'website', 'templates', 'past_papers_topics', 'physics_hl'),
-                os.path.join(BASE_DIR, 'website', 'templates', 'subscription_stats'),
-
+         'DIRS': [
+                os.path.join(BASE_DIR, 'templates'),
                 ],
                 
         'APP_DIRS': True,
@@ -175,7 +145,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'website.context_processors.current_url_name',
+                'portal.context_processors.consulting_context',
             ],
         },
     },
@@ -197,7 +167,7 @@ WSGI_APPLICATION = 'platform_edu.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'demo_1',
+        'NAME': 'consulting',
         'USER': 'mateuszkostrz',
         'PASSWORD': os.getenv('DB_PASSWORD'),
         'HOST': os.getenv('DB_HOST'),
@@ -244,9 +214,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
-    ]
+STATICFILES_DIRS = []
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
@@ -301,7 +269,7 @@ LOGGING = {
         },
     },
     'loggers': {
-        'website.views': {
+        'portal.views': {
             'handlers': ['file', 'console'],
             'level': 'INFO',
             'propagate': False,
@@ -330,32 +298,19 @@ CKEDITOR_CONFIGS = {
 SESSION_COOKIE_AGE = 30 * 24 * 60 * 60  # 30 days in seconds
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False  # Don't expire when browser closes
 SESSION_SAVE_EVERY_REQUEST = True  # Update session on every request
-SESSION_COOKIE_SECURE = False  # Set to True in production with HTTPS
+SESSION_COOKIE_SECURE = USE_HTTPS
 SESSION_COOKIE_HTTPONLY = True  # Prevent JavaScript access to session cookie
 SESSION_COOKIE_SAMESITE = 'Lax'  # CSRF protection
+CSRF_COOKIE_SECURE = USE_HTTPS
 
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
 LOGIN_REDIRECT_URL = '/home/'
-LOGOUT_REDIRECT_URL = '/'
-
-# Allauth settings
-ACCOUNT_EMAIL_VERIFICATION = 'none'  # Skip email verification for Google users
-SOCIALACCOUNT_AUTO_SIGNUP = True     # Automatically create account on first Google login
-ACCOUNT_EMAIL_REQUIRED = True        # Email is required
-ACCOUNT_UNIQUE_EMAIL = True          # Email must be unique
-SOCIALACCOUNT_LOGIN_ON_GET = True    # Skip the intermediate confirmation page
-ACCOUNT_LOGOUT_ON_GET = True         # Allow logout via GET request
-SOCIALACCOUNT_QUERY_EMAIL = True     # Query email from social provider
-SOCIALACCOUNT_STORE_TOKENS = False   # Don't store OAuth tokens (simpler flow)
-SOCIALACCOUNT_EMAIL_AUTHENTICATION = True  # Automatically connect accounts with same email
-SOCIALACCOUNT_EMAIL_AUTHENTICATION_AUTO_CONNECT = True  # Auto-connect without asking
-ACCOUNT_USERNAME_REQUIRED = False    # Don't require a separate username
-SOCIALACCOUNT_ADAPTER = 'website.adapters.SocialAccountAdapter'  # Use email as username
+LOGOUT_REDIRECT_URL = '/login/'
+LOGIN_URL = '/login/'
 

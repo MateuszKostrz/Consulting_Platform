@@ -1,0 +1,296 @@
+{% load static %}
+
+<!-- Top Navbar (from horizontal-menu-template) -->
+<nav class="layout-navbar navbar navbar-expand-xl align-items-center" id="layout-navbar">
+  <div class="container-xxl">
+    <div class="navbar-brand app-brand demo d-none d-xl-flex py-0 me-6">
+      <a href="{% url 'home' %}" class="app-brand-link gap-2">
+        <span class="app-brand-logo demo">
+          {% if current_theme|default:"academy" == 'example' %}
+          <img src="{% static 'website/images/example_page/example_logo.svg' %}" alt="Platform Logo" height="32">
+          {% elif current_theme == 'iboost' %}
+          <img src="{% static 'website/images/iboost/iboost_logo.svg' %}" alt="Platform Logo" height="32">
+          {% elif current_theme == 'apex' %}
+          <img src="{% static 'website/images/apex_tuition/apex_logo.svg' %}" alt="Platform Logo" height="32">
+          {% elif current_theme == 'topibtutors' %}
+          <img src="{% static 'website/images/top_ib_tutors/topibtutors_logo.svg' %}" alt="Top IB Tutors" height="32">
+          {% else %}
+          <img src="{% static 'website/images/platform_logo.svg' %}" alt="Platform Logo" height="32">
+          {% endif %}
+        </span>
+        {% if current_theme|default:"academy" == 'example' %}
+        <span class="app-brand-text demo menu-text fw-semibold ms-1">Your Name</span>
+        {% elif current_theme == 'iboost' %}
+        <span class="app-brand-text demo menu-text ms-1">
+          <img src="{% static 'website/images/iboost/iboost_text_logo.svg' %}" alt="IBoost" height="28">
+        </span>
+        {% elif current_theme == 'apex' %}
+        <span class="app-brand-text demo menu-text fw-semibold ms-1">Apex Tuition</span>
+        {% elif current_theme == 'topibtutors' %}
+        <span class="app-brand-text demo menu-text fw-semibold ms-1">Top IB Tutors</span>
+        {% elif current_theme == 'consulting' %}
+        <span class="app-brand-text demo menu-text fw-semibold ms-1">{{ site_name }}</span>
+        {% else %}
+        <span class="app-brand-text demo menu-text fw-semibold ms-1">Edunade Academy</span>
+        {% endif %}
+      </a>
+      <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-xl-none">
+        <i class="icon-base ri ri-close-line icon-sm"></i>
+      </a>
+    </div>
+
+    <div class="layout-menu-toggle navbar-nav align-items-xl-center me-4 me-xl-0 d-xl-none">
+      <a class="nav-item nav-link px-0 me-xl-6" href="javascript:void(0)">
+        <i class="icon-base ri ri-menu-line icon-22px"></i>
+      </a>
+    </div>
+
+    <div class="navbar-nav-right d-flex align-items-center justify-content-end" id="navbar-collapse">
+      <ul class="navbar-nav flex-row align-items-center ms-md-auto">
+        <li class="nav-item dropdown me-sm-2 me-xl-0">
+          <a
+            class="nav-link dropdown-toggle hide-arrow btn btn-icon btn-text-secondary rounded-pill"
+            id="nav-theme"
+            href="javascript:void(0);"
+            data-bs-toggle="dropdown">
+            <i class="icon-base ri ri-sun-line icon-22px theme-icon-active"></i>
+            <span class="d-none ms-2" id="nav-theme-text">Toggle theme</span>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-theme-text">
+            <li>
+              <button type="button" class="dropdown-item align-items-center active" data-bs-theme-value="light" aria-pressed="false">
+                <span><i class="icon-base ri ri-sun-line icon-22px me-3" data-icon="sun-line"></i>Light</span>
+              </button>
+            </li>
+            <li>
+              <button type="button" class="dropdown-item align-items-center" data-bs-theme-value="dark" aria-pressed="true">
+                <span><i class="icon-base ri ri-moon-clear-line icon-22px me-3" data-icon="moon-clear-line"></i>Dark</span>
+              </button>
+            </li>
+          </ul>
+        </li>
+
+        {% if is_platform_admin %}
+        <li class="nav-item dropdown me-sm-2 me-xl-0">
+          <a
+            class="nav-link dropdown-toggle hide-arrow btn btn-icon btn-text-secondary rounded-pill"
+            href="javascript:void(0);"
+            data-bs-toggle="dropdown"
+            title="Switch student profile">
+            <i class="icon-base ri ri-group-line icon-22px"></i>
+            <span class="d-none ms-2">Student profiles</span>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li class="dropdown-header">
+              Student profiles
+              {% if admin_viewing_student_name %}
+              <small class="d-block text-body-secondary fw-normal">Viewing: {{ admin_viewing_student_name }}</small>
+              {% endif %}
+            </li>
+            {% for student in student_profiles %}
+            <li>
+              <a
+                class="dropdown-item{% if student.id == admin_viewing_student_id %} active{% endif %}"
+                href="{% url 'select-student' student.id %}">
+                <span class="fw-medium">{{ student.first_name }} {{ student.last_name }}</span>
+                <small class="d-block text-body-secondary">{{ student.email }}</small>
+              </a>
+            </li>
+            {% empty %}
+            <li><span class="dropdown-item text-body-secondary">No students yet</span></li>
+            {% endfor %}
+          </ul>
+        </li>
+        {% endif %}
+
+        <li class="nav-item dropdown-shortcuts navbar-dropdown dropdown me-sm-2 me-xl-0">
+          <a
+            class="nav-link dropdown-toggle hide-arrow btn btn-icon btn-text-secondary rounded-pill"
+            href="javascript:void(0);"
+            data-bs-toggle="dropdown"
+            data-bs-auto-close="outside"
+            aria-expanded="false">
+            <i class="icon-base ri ri-star-smile-line icon-22px"></i>
+          </a>
+          <div class="dropdown-menu dropdown-menu-end p-0">
+            <div class="dropdown-menu-header border-bottom">
+              <div class="dropdown-header d-flex align-items-center py-3">
+                <h6 class="mb-0 me-auto">Shortcuts</h6>
+              </div>
+            </div>
+            <div class="dropdown-shortcuts-list scrollable-container">
+              <div class="row row-bordered overflow-visible g-0">
+                <div class="dropdown-shortcuts-item col">
+                  <span class="dropdown-shortcuts-icon rounded-circle mb-3">
+                    <i class="icon-base ri ri-home-2-line icon-26px text-heading"></i>
+                  </span>
+                  <a href="{% url 'home' %}" class="stretched-link">Home</a>
+                  <small>Dashboard</small>
+                </div>
+                <div class="dropdown-shortcuts-item col">
+                  <span class="dropdown-shortcuts-icon rounded-circle mb-3">
+                    <i class="icon-base ri ri-user-line icon-26px text-heading"></i>
+                  </span>
+                  <a href="{% url 'personal-information' %}" class="stretched-link">Personal Info</a>
+                  <small>Your details</small>
+                </div>
+              </div>
+              <div class="row row-bordered overflow-visible g-0">
+                <div class="dropdown-shortcuts-item col">
+                  <span class="dropdown-shortcuts-icon rounded-circle mb-3">
+                    <i class="icon-base ri ri-question-line icon-26px text-heading"></i>
+                  </span>
+                  <a href="{% url 'faq' %}" class="stretched-link">FAQ</a>
+                  <small>Get answers</small>
+                </div>
+                <div class="dropdown-shortcuts-item col">
+                  <span class="dropdown-shortcuts-icon rounded-circle mb-3">
+                    <i class="icon-base ri ri-settings-4-line icon-26px text-heading"></i>
+                  </span>
+                  <a href="{% url 'personal-information' %}" class="stretched-link">Settings</a>
+                  <small>Manage profile</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+
+        <li class="nav-item dropdown me-sm-2 me-xl-0">
+          <a
+            href="https://forms.fillout.com/t/bUunccPxGaus"
+            class="nav-link dropdown-toggle hide-arrow btn btn-icon btn-text-secondary rounded-pill"
+            target="_blank">
+            <i class="icon-base ri ri-bug-line icon-22px theme-icon-active"></i>
+            <span class="d-none ms-2" id="nav-feedback-text">Report Bug</span>
+          </a>
+        </li>
+
+        <li class="nav-item navbar-dropdown dropdown-user dropdown">
+          <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
+            <div class="avatar">
+              {% if user_logged_in %}
+              <img src="{% static 'website/images/avatars/' %}{{ user_avatar }}" alt="alt" class="w-px-40 h-auto rounded-circle" />
+              {% else %}
+              <img src="{% static 'website/images/avatars/avatar0.png' %}" alt="alt" class="w-px-40 h-auto rounded-circle" />
+              {% endif %}
+            </div>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end mt-3 py-2">
+            <li>
+              {% if user_type == 'none' %}
+              <a class="dropdown-item" href="javascript:void(0);">
+                <div class="d-flex align-items-center">
+                  <div class="flex-shrink-0 me-2">
+                    <div class="avatar">
+                      <img src="{% static 'website/images/avatars/avatar0.png' %}" alt="alt" class="w-px-40 h-auto rounded-circle" />
+                    </div>
+                  </div>
+                  <div class="flex-grow-1">
+                    <h6 class="mb-0 small">Guest User</h6>
+                    <small class="text-body-secondary">Free 4ever!</small>
+                  </div>
+                </div>
+              </a>
+              {% else %}
+              <a class="dropdown-item" href="{% url 'personal-information' %}">
+                <div class="d-flex align-items-center">
+                  <div class="flex-shrink-0 me-2">
+                    <div class="avatar">
+                      {% if user_logged_in %}
+                      <img src="{% static 'website/images/avatars/' %}{{ user_avatar }}" alt="alt" class="w-px-40 h-auto rounded-circle" />
+                      {% else %}
+                      <img src="{% static 'website/images/avatars/avatar0.png' %}" alt="alt" class="w-px-40 h-auto rounded-circle" />
+                      {% endif %}
+                    </div>
+                  </div>
+                  <div class="flex-grow-1">
+                    {% if user_logged_in %}
+                    <h6 class="mb-0 small">{{ user_first_name }} {{ user_last_name }}</h6>
+                    <small class="text-body-secondary">{{ user_email }}</small>
+                    {% else %}
+                    <h6 class="mb-0 small">Guest User</h6>
+                    <small class="text-body-secondary">Free 4ever!</small>
+                    {% endif %}
+                  </div>
+                </div>
+              </a>
+              {% endif %}
+            </li>
+            <li><div class="dropdown-divider"></div></li>
+            <li>
+              <a class="dropdown-item" href="{% url 'personal-information' %}">
+                <i class="icon-base ri ri-settings-4-line icon-22px me-3"></i><span class="align-middle">Settings</span>
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="{% url 'faq' %}">
+                <i class="icon-base ri ri-question-line icon-22px me-3"></i><span class="align-middle">FAQ</span>
+              </a>
+            </li>
+            <li>
+              <div class="d-grid px-4 pt-2 pb-1">
+                {% if user_logged_in %}
+                <a class="btn btn-sm btn-danger d-flex" href="{% url 'logout' %}">
+                  <small class="align-middle">Logout</small>
+                  <i class="icon-base ri ri-logout-box-r-line ms-2 icon-16px"></i>
+                </a>
+                {% else %}
+                <a class="btn btn-sm btn-primary d-flex" href="{% url 'login' %}">
+                  <small class="align-middle">Login</small>
+                  <i class="icon-base ri ri-login-box-line ms-2 icon-16px"></i>
+                </a>
+                {% endif %}
+              </div>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="layout-page">
+  <div class="content-wrapper">
+    <!-- Horizontal Menu (from horizontal-menu-template) -->
+    <aside id="layout-menu" class="layout-menu-horizontal menu-horizontal menu flex-grow-0">
+      <div class="container-xxl d-flex h-100">
+        <ul class="menu-inner">
+          <li class="menu-item {% if current_url_name == 'home' %}active{% endif %}">
+            <a href="{% url 'home' %}" class="menu-link">
+              <i class="menu-icon icon-base ri ri-home-2-line"></i>
+              <div data-i18n="Home">Home</div>
+            </a>
+          </li>
+
+          <li class="menu-item {% if current_url_name == 'personal-information' %}active{% endif %}">
+            <a href="{% url 'personal-information' %}" class="menu-link">
+              <i class="menu-icon icon-base ri ri-user-line"></i>
+              <div data-i18n="Personal Information">Personal Information</div>
+            </a>
+          </li>
+
+          <li class="menu-item {% if current_url_name == 'academic-profile' %}active{% endif %}">
+            <a href="{% url 'academic-profile' %}" class="menu-link">
+              <i class="menu-icon icon-base ri ri-graduation-cap-line"></i>
+              <div data-i18n="Academic Profile">Academic Profile</div>
+            </a>
+          </li>
+
+          {% if personal_info_complete %}
+          <li class="menu-item {% if current_url_name == 'diagnostics' %}active{% endif %}">
+            <a href="{% url 'diagnostics' %}" class="menu-link">
+              <i class="menu-icon icon-base ri ri-pulse-line"></i>
+              <div data-i18n="Diagnostics">Diagnostics</div>
+            </a>
+          </li>
+          {% else %}
+          <li class="menu-item">
+            <span class="menu-link pe-none text-body-secondary" title="Complete Personal Information first">
+              <i class="menu-icon icon-base ri ri-lock-line"></i>
+              <div data-i18n="Diagnostics">Diagnostics</div>
+            </span>
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+    </aside>

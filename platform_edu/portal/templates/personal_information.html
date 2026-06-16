@@ -1,0 +1,197 @@
+{% load static %}
+
+<!doctype html>
+<html
+  lang="en"
+  class="layout-navbar-fixed layout-menu-fixed layout-compact"
+  dir="ltr"
+  data-skin="default"
+  data-bs-theme="light"
+  data-assets-path="{% static 'website/' %}"
+  data-template="horizontal-menu-template">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>{{ site_name }} | Personal Information</title>
+    <meta name="description" content="" />
+    <link rel="icon" href="{% static 'website/images/platform_logo.svg' %}">
+
+    {% include 'top_base.html' %}
+
+    <link rel="stylesheet" href="{% static 'website/css/vendor/libs/select2/select2.css' %}" />
+
+    <script type="text/javascript" src="{% static 'website/js/vendor/helpers.js' %}"></script>
+    <script type="text/javascript" src="{% static 'website/js/vendor/config.js' %}"></script>
+  </head>
+
+  <body>
+    <div class="layout-wrapper layout-navbar-full layout-horizontal layout-without-menu">
+      <div class="layout-container">
+
+        {% include 'horizontal_menu.html' %}
+
+        <div class="container-xxl flex-grow-1 container-p-y">
+          {% if messages %}
+          {% for message in messages %}
+          <div class="alert alert-{{ message.tags }} alert-dismissible mb-4" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+          {% endfor %}
+          {% endif %}
+
+          <div class="card mb-6">
+            <div class="card-header">
+              <h5 class="mb-0">Personal Information</h5>
+              <small class="text-body-secondary">Update your contact and identity details</small>
+            </div>
+            <form class="card-body" method="POST" action="{% url 'personal-information' %}">
+              {% csrf_token %}
+
+              <h6 class="mb-4">1. Personal Details</h6>
+              <div class="row g-5">
+                <div class="col-12">
+                  <div class="form-floating form-floating-outline">
+                    <textarea class="form-control" id="address" name="address" placeholder="Your address" style="height: 80px">{{ info.address }}</textarea>
+                    <label for="address">Address</label>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-floating form-floating-outline">
+                    <input type="email" class="form-control" id="personal_email" name="personal_email" value="{{ info.personal_email }}" placeholder="you@example.com" />
+                    <label for="personal_email">Personal Email</label>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-floating form-floating-outline">
+                    {% if is_guest %}
+                    <input type="email" class="form-control" id="edunade_email" name="edunade_email" value="{{ info.edunade_email }}" placeholder="assigned@academy.edunade.com" />
+                    <label for="edunade_email">Edunade Created Email</label>
+                    {% else %}
+                    <input type="email" class="form-control" id="edunade_email" value="{% if info.edunade_email %}{{ info.edunade_email }}{% elif info.platform_user %}{{ info.platform_user.email }}{% endif %}" placeholder="name@student.edunade.com" readonly />
+                    <label for="edunade_email">Edunade Created Email</label>
+                    {% endif %}
+                  </div>
+                  {% if not is_guest %}<div class="form-text">Assigned by Edunade — cannot be changed here</div>{% endif %}
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-floating form-floating-outline">
+                    <input type="tel" class="form-control phone-mask" id="phone_number" name="phone_number" value="{{ info.phone_number }}" placeholder="+1 234 567 8900" />
+                    <label for="phone_number">Phone Number</label>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-floating form-floating-outline">
+                    <select id="nationality" name="nationality" class="form-select">
+                      <option value="">Select nationality...</option>
+                      {% for country in nationalities %}
+                      <option value="{{ country }}" {% if info.nationality == country %}selected{% endif %}>{{ country }}</option>
+                      {% endfor %}
+                    </select>
+                    <label for="nationality">Nationality</label>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-floating form-floating-outline">
+                    <input type="text" class="form-control" id="passport_number" name="passport_number" value="{{ info.passport_number }}" placeholder="AB1234567" />
+                    <label for="passport_number">Passport Number</label>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-floating form-floating-outline">
+                    <input type="text" class="form-control" id="school_name" name="school_name" value="{{ school_name }}" placeholder="Your school name" />
+                    <label for="school_name">Name of School</label>
+                  </div>
+                </div>
+              </div>
+
+              <hr class="my-6 mx-n4" />
+
+              <h6 class="mb-4">2. Academic Background</h6>
+              <div class="row g-5">
+                <div class="col-md-6">
+                  <div class="form-floating form-floating-outline">
+                    <select id="curriculum" name="curriculum" class="form-select">
+                      <option value="IB" {% if curriculum == "IB" %}selected{% endif %}>IB</option>
+                      <option value="A-Levels" {% if curriculum == "A-Levels" %}selected{% endif %}>A-Levels</option>
+                      <option value="SAT" {% if curriculum == "SAT" %}selected{% endif %}>SAT / ACT</option>
+                      <option value="Other" {% if curriculum == "Other" %}selected{% endif %}>Other</option>
+                    </select>
+                    <label for="curriculum">Curriculum</label>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-floating form-floating-outline">
+                    <select id="graduation_year" name="graduation_year" class="form-select">
+                      <option value="">Select graduation year...</option>
+                      {% for year in graduation_years %}
+                      <option value="{{ year }}" {% if info.graduation_year == year %}selected{% endif %}>{{ year }}</option>
+                      {% endfor %}
+                    </select>
+                    <label for="graduation_year">Graduation Year</label>
+                  </div>
+                </div>
+
+                <div class="col-12">
+                  <label for="subjects" class="form-label">Subjects</label>
+                  <select id="subjects" name="subjects" class="select2 form-select" multiple>
+                    {% for value, label in ib_subjects %}
+                    <option value="{{ value }}" {% if value in selected_subjects %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                  </select>
+                  <div class="form-text">Select all subjects you are studying</div>
+                </div>
+              </div>
+
+              <div class="mt-6">
+                <button type="submit" class="btn btn-primary me-3">Save changes</button>
+                <a href="{% url 'home' %}" class="btn btn-outline-secondary">Cancel</a>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        {% include 'footer.html' %}
+
+        <div class="content-backdrop fade"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <div class="layout-overlay layout-menu-toggle"></div>
+    <div class="drag-target"></div>
+
+    <script src="{% static 'website/js/vendor/libs/jquery/jquery.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/popper/popper.js' %}"></script>
+    <script src="{% static 'website/js/bootstrap.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/node-waves/node-waves.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/@algolia/autocomplete-js.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/pickr/pickr.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/perfect-scrollbar/perfect-scrollbar.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/hammer/hammer.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/i18n/i18n.js' %}"></script>
+    <script src="{% static 'website/js/vendor/menu.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/select2/select2.js' %}"></script>
+    <script type="text/javascript" src="{% static 'website/js/main.js' %}"></script>
+    <script type="text/javascript" src="{% static 'website/js/vendors.min.js' %}"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        if (window.jQuery && jQuery.fn.select2) {
+          jQuery('#subjects').select2({
+            placeholder: 'Select your subjects',
+            allowClear: true,
+            width: '100%'
+          });
+        }
+      });
+    </script>
+  </body>
+</html>

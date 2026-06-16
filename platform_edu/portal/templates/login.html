@@ -1,0 +1,354 @@
+{% load static %}
+
+<!doctype html>
+
+<html
+  lang="en"
+  class="layout-navbar-fixed layout-menu-fixed layout-compact"
+  dir="ltr"
+  data-skin="default"
+  data-bs-theme="light"
+  data-assets-path="../../assets/"
+  data-template="vertical-menu-template">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>{{ site_name }} | Login</title>
+
+    <meta name="description" content="" />
+
+    {% if request.GET.theme == 'apex' or current_theme == 'apex' %}
+    <link rel="icon" href="{% static 'website/images/apex_tuition/apex_favicon.ico' %}">
+    <link rel="alternate icon" href="{% static 'website/images/apex_tuition/apex_logo.png' %}" type="image/png">
+    <meta property="og:image" content="https://apextutoringaustralia.edunade.com/static/website/images/apex_tuition/apex_logo.png">
+    {% elif request.GET.theme == 'topibtutors' or current_theme == 'topibtutors' %}
+    <link rel="icon" href="{% static 'website/images/top_ib_tutors/topibtutors_logo.ico' %}">
+    <link rel="alternate icon" href="{% static 'website/images/top_ib_tutors/topibtutors_logo.png' %}" type="image/png">
+    <meta property="og:image" content="https://topibtutors.edunade.com/static/website/images/top_ib_tutors/topibtutors_logo.png">
+    {% else %}
+    <link rel="icon" href="{% static 'website/images/platform_logo.svg' %}">
+    <link rel="alternate icon" href="{% static 'website/images/safari_logo2_prev_ui.png' %}" type="image/png">
+    <meta property="og:image" content="https://academy.edunade.com/static/website/images/Edunade_Vertical_Black_RGB.png">
+    {% endif %}
+
+
+    {% include 'top_base.html' %}
+
+    <!-- Page CSS -->
+    <link rel="stylesheet" href="{% static 'website/css/vendor/libs/@form-validation/form-validation.css' %}" />
+    
+
+    <!-- Page CSS -->
+    <link rel="stylesheet" href="{% static 'website/css/vendor/css/pages/page-auth.css' %}" />
+
+    <style>
+      {% if request.GET.theme == 'apex' or current_theme == 'apex' %}
+      :root {
+        --bs-primary: #0099FF !important;
+        --bs-primary-rgb: 0, 153, 255 !important;
+      }
+      .btn-primary {
+        background-color: #0099FF !important;
+        border-color: #0099FF !important;
+      }
+      .btn-primary:hover {
+        background-color: #0088e6 !important;
+        border-color: #0088e6 !important;
+      }
+      a {
+        color: #0099FF;
+      }
+      {% elif request.GET.theme == 'topibtutors' or current_theme == 'topibtutors' %}
+      :root {
+        --bs-primary: #0394FE !important;
+        --bs-primary-rgb: 3, 148, 254 !important;
+      }
+      .btn-primary {
+        background-color: #0394FE !important;
+        border-color: #0394FE !important;
+      }
+      .btn-primary:hover {
+        background-color: #0284e5 !important;
+        border-color: #0284e5 !important;
+      }
+      a {
+        color: #0394FE;
+      }
+      {% endif %}
+      
+      /* Custom Logo Loading Animation */
+      .logo-loading-container {
+        position: relative;
+        width: 200px;
+        height: 200px;
+      }
+
+      .progress-ring {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        animation: rotate-ring 1.5s linear infinite;
+      }
+
+      .progress-ring-svg {
+        width: 100%;
+        height: 100%;
+      }
+
+      .progress-ring-circle {
+        stroke-dasharray: 157.08; /* Quarter circle: 2 * PI * 95 / 4 */
+        stroke-dashoffset: 0;
+        stroke-linecap: round;
+        stroke: var(--bs-primary);
+        stroke-width: 4;
+      }
+
+      @keyframes rotate-ring {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      .logo-container {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 140px;
+        height: 140px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .platform-logo {
+        width: 120px;
+        height: auto;
+      }
+
+      /* Fade in animation for the overlay */
+      #loadingOverlay {
+        animation: fadeIn 0.3s ease-in-out;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+    </style>
+
+    <!-- Helpers -->
+    <script type="text/javascript" src="{% static 'website/js/vendor/helpers.js' %}"></script>
+
+    <!--? Template customizer: To hide customizer set displayCustomizer value false in config.js. -->
+    <!-- <script type="text/javascript" src="{% static 'website/js/vendor/template-customizer.js' %}"></script> -->
+
+    <!--? Config: Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file. -->
+
+    <script type="text/javascript" src="{% static 'website/js/vendor/config.js' %}"></script>
+  </head>
+
+  <body>
+    <!-- Layout wrapper -->
+    <div class="position-relative">
+      <div class="authentication-wrapper authentication-basic container-p-y p-4 p-sm-0">
+        <div class="authentication-inner py-6">
+          <!-- Login -->
+          <div class="card p-md-7 p-1">
+            <!-- Logo -->
+
+            {% if request.GET.theme == 'apex' or current_theme == 'apex' %}
+            <div class="app-brand justify-content-center mt-5">
+              <a href="{% url 'home' %}" class="app-brand-link gap-2">
+                <span class="app-brand-logo demo">
+                  <img src="{% static 'website/images/apex_tuition/apex_logo.svg' %}" alt="Apex Tuition Australia" height="32">
+                </span>
+                <span class="app-brand-text demo text-heading fw-semibold">Apex Tuition Australia</span>
+              </a>
+            </div>
+            {% elif request.GET.theme == 'topibtutors' or current_theme == 'topibtutors' %}
+            <div class="app-brand justify-content-center mt-5">
+              <a href="{% url 'home' %}" class="app-brand-link gap-2">
+                <span class="app-brand-logo demo">
+                  <img src="{% static 'website/images/top_ib_tutors/topibtutors_logo.svg' %}" alt="Top IB Tutors" height="32">
+                </span>
+                <span class="app-brand-text demo text-heading fw-semibold">Top IB Tutors</span>
+              </a>
+            </div>
+            {% elif current_theme|default:"academy" == 'example' %}
+            <div class="app-brand justify-content-center mt-5">
+              <a href="{% url 'home' %}" class="app-brand-link gap-2">
+                <span class="app-brand-logo demo">
+                  <img src="{% static 'website/images/example_page/example_logo.svg' %}" alt="Platform Logo" height="32">
+                </span>
+                <span class="app-brand-text demo text-heading fw-semibold">Your Name</span>
+              </a>
+            </div>
+            {% else %}
+            <div class="app-brand justify-content-center mt-5">
+              <a href="{% url 'home' %}" class="app-brand-link gap-2">
+                <span class="app-brand-logo demo">
+                  <img src="{% static 'website/images/platform_logo.svg' %}" alt="Platform Logo" height="32">
+                </span>
+                <span class="app-brand-text demo text-heading fw-semibold">{{ site_name }}</span>
+              </a>
+            </div>
+            {% endif %}
+            <!-- /Logo -->
+
+            <div class="card-body mt-1">
+              <h4 class="mb-1">Hello there! 👋</h4>
+              <p class="mb-5">Please sign-in to your account and begin your academic advernture.</p>
+
+              {% if messages %}
+              {% for message in messages %}
+              <div class="alert alert-{{ message.tags }} mb-4" role="alert">
+                {{ message }}
+              </div>
+              {% endfor %}
+              {% endif %}
+
+              <form id="formAuthentication" class="mb-5" action="{% url 'login' %}" method="POST">
+                {% csrf_token %}
+                {% if request.GET.theme == 'apex' or request.GET.theme == 'topibtutors' or current_theme == 'apex' or current_theme == 'topibtutors' %}
+                <input type="hidden" name="is_apex" value="true">
+                {% endif %}
+                <div class="form-floating form-floating-outline mb-5 form-control-validation">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="email"
+                    name="email"
+                    placeholder="Enter your email"
+                    required
+                    autofocus />
+                  <label for="email">Email</label>
+                </div>
+                <div class="mb-5">
+                  <div class="form-password-toggle form-control-validation">
+                    <div class="input-group input-group-merge">
+                      <div class="form-floating form-floating-outline">
+                        <input
+                          type="password"
+                          id="password"
+                          class="form-control"
+                          name="passwd"
+                          placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                          aria-describedby="passwd"
+                          required />
+                        <label for="password">Password</label>
+                      </div>
+                      <span class="input-group-text cursor-pointer"
+                        ><i class="icon-base ri ri-eye-off-line icon-20px"></i
+                      ></span>
+                    </div>
+                  </div>
+                </div>
+                <div class="mb-5 d-flex justify-content-between mt-5">
+                  <div class="form-check mt-2">
+                    <input class="form-check-input" type="checkbox" id="remember-me" name="remember-me" value="on" checked />
+                    <label class="form-check-label" for="remember-me"> Remember Me </label>
+                  </div>
+                </div>
+                <div class="mb-5">
+                  <button class="btn btn-primary d-grid w-100" type="submit">Sign in</button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <!-- /Login -->
+
+          <!-- Loading Overlay -->
+          <div id="loadingOverlay" class="position-fixed top-0 start-0 w-100 h-100 d-none" style="background: #ffffff; z-index: 9999;">
+            <div class="d-flex flex-column align-items-center justify-content-center h-100">
+              <!-- Custom Logo Loading Animation -->
+              <div class="logo-loading-container">
+                <div class="progress-ring">
+                  <svg class="progress-ring-svg" width="200" height="200">
+                    <circle
+                      class="progress-ring-circle"
+                      stroke="var(--bs-primary)"
+                      stroke-width="4"
+                      fill="transparent"
+                      r="95"
+                      cx="100"
+                      cy="100"/>
+                  </svg>
+                </div>
+                {% if request.GET.theme == 'apex' or current_theme == 'apex' %}
+                <div class="logo-container">
+                  <img src="{% static 'website/images/apex_tuition/apex_logo.svg' %}" alt="Apex Tuition Australia" class="platform-logo">
+                </div>
+                {% elif request.GET.theme == 'topibtutors' or current_theme == 'topibtutors' %}
+                <div class="logo-container">
+                  <img src="{% static 'website/images/top_ib_tutors/topibtutors_logo.svg' %}" alt="Top IB Tutors" class="platform-logo">
+                </div>
+                {% elif current_theme|default:"academy" == 'example' %}
+                <div class="logo-container">
+                  <img src="{% static 'website/images/example_page/example_logo.svg' %}" alt="Platform Logo" class="platform-logo">
+                </div>
+                {% else %}
+                <div class="logo-container">
+                  <img src="{% static 'website/images/platform_logo.svg' %}" alt="Platform Logo" class="platform-logo">
+                </div>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+
+          <!-- <img
+            alt="mask"
+            src="{% static 'website/images/login/login.png' %}"
+            class="authentication-image d-none d-lg-block"
+            data-app-light-img="{% static 'website/images/login/login.png' %}"
+            data-app-dark-img="{% static 'website/images/login/login.png' %}"/> -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Core JS -->
+
+    <!-- build:js assets/vendor/js/theme.js  -->
+
+    <script src="{% static 'website/js/vendor/libs/jquery/jquery.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/popper/popper.js' %}"></script>
+    <script src="{% static 'website/js/bootstrap.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/node-waves/node-waves.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/@algolia/autocomplete-js.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/pickr/pickr.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/perfect-scrollbar/perfect-scrollbar.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/hammer/hammer.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/i18n/i18n.js' %}"></script>
+
+    <script src="{% static 'website/js/vendor/menu.js' %}"></script>
+
+    <!-- endbuild -->
+
+    <!-- Vendors JS -->
+
+    <!-- Main JS -->
+
+    <script src="{% static 'website/js/vendor/libs/@form-validation/popular.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/@form-validation/bootstrap5.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/@form-validation/auto-focus.js' %}"></script>
+
+
+
+    <script type="text/javascript" src="{% static 'website/js/main.js' %}"></script>
+
+    <script type="text/javascript" src="{% static 'website/js/vendors.min.js' %}"></script>
+
+    <!-- Page JS -->
+  </body>
+</html>
