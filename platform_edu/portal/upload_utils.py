@@ -25,11 +25,13 @@ def clear_file_field(instance, field_name):
         file_field.delete(save=False)
 
 
-def replace_file_field(instance, field_name, uploaded_file):
+def assign_file_field(instance, field_name, uploaded_file):
     if not uploaded_file:
-        return
-    clear_file_field(instance, field_name)
+        return None
+    if getattr(instance, field_name):
+        return 'already_exists'
     getattr(instance, field_name).save(uploaded_file.name, uploaded_file, save=False)
+    return None
 
 
 def can_delete_academic_upload(platform_user):

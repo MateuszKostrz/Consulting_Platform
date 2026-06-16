@@ -24,6 +24,14 @@
     <script type="text/javascript" src="{% static 'website/js/vendor/config.js' %}"></script>
 
     <style>
+      .file-upload-box {
+        min-height: 13rem;
+      }
+      .uploaded-file-panel {
+        border-style: solid !important;
+        border-color: var(--bs-border-color) !important;
+        background-color: rgba(105, 108, 255, 0.04);
+      }
       .file-dropzone {
         border-style: dashed !important;
         border-color: var(--bs-border-color) !important;
@@ -116,18 +124,24 @@
                 </div>
 
                 <div class="col-md-4">
-                  {% include 'partials/uploaded_file_panel.html' with current_file=academic.transcripts field_name="transcripts" can_delete=can_delete_uploads %}
+                  {% include 'partials/uploaded_file_panel.html' with current_file=academic.transcripts field_name="transcripts" file_label="Existing Transcripts" can_delete=can_delete_uploads %}
+                  {% if not academic.transcripts %}
                   {% include 'partials/file_dropzone.html' with input_id="transcripts" input_name="transcripts" label="Transcripts" %}
+                  {% endif %}
                 </div>
 
                 <div class="col-md-4">
-                  {% include 'partials/uploaded_file_panel.html' with current_file=academic.cv_upload field_name="cv_upload" can_delete=can_delete_uploads %}
-                  {% include 'partials/file_dropzone.html' with input_id="cv_upload" input_name="cv_upload" label="Existing CV" %}
+                  {% include 'partials/uploaded_file_panel.html' with current_file=academic.cv_upload field_name="cv_upload" file_label="Existing CV" can_delete=can_delete_uploads %}
+                  {% if not academic.cv_upload %}
+                  {% include 'partials/file_dropzone.html' with input_id="cv_upload" input_name="cv_upload" label="CV" %}
+                  {% endif %}
                 </div>
 
                 <div class="col-md-4">
-                  {% include 'partials/uploaded_file_panel.html' with current_file=academic.personal_statement_upload field_name="personal_statement_upload" can_delete=can_delete_uploads %}
+                  {% include 'partials/uploaded_file_panel.html' with current_file=academic.personal_statement_upload field_name="personal_statement_upload" file_label="Existing Personal Statement" can_delete=can_delete_uploads %}
+                  {% if not academic.personal_statement_upload %}
                   {% include 'partials/file_dropzone.html' with input_id="personal_statement_upload" input_name="personal_statement_upload" label="Personal Statement" %}
+                  {% endif %}
                 </div>
 
                 <div class="col-12">

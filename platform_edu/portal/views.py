@@ -21,10 +21,10 @@ from .diagnostics_access import get_diagnostic_stage_items
 from .models import AcademicProfile, DiagnosticStage, PlatformUser
 from .upload_utils import (
     ACADEMIC_UPLOAD_FIELDS,
+    assign_file_field,
     can_delete_academic_upload,
     can_delete_diagnostic_upload,
     clear_file_field,
-    replace_file_field,
 )
 from .profile_access import (
     admin_must_select_student,
@@ -70,7 +70,7 @@ def _validate_upload(uploaded_file):
 
 
 def _assign_upload(instance, field_name, uploaded_file):
-    replace_file_field(instance, field_name, uploaded_file)
+    return assign_file_field(instance, field_name, uploaded_file)
 
 
 def _handle_academic_file_delete(request, profile, academic):
@@ -200,10 +200,14 @@ def academic_profile(request):
             'personal_statement_upload': 'Personal Statement',
         }
         upload_errors = []
-        for field_name in upload_labels:
+        for field_name, label in upload_labels.items():
             error = _validate_upload(request.FILES.get(field_name))
             if error:
-                upload_errors.append(f'{upload_labels[field_name]}: {error}')
+                upload_errors.append(f'{label}: {error}')
+            elif request.FILES.get(field_name) and getattr(academic, field_name):
+                upload_errors.append(
+                    f'{label} already uploaded. Delete it first to upload a new file.'
+                )
 
         if upload_errors:
             for error in upload_errors:
@@ -300,11 +304,15 @@ def _handle_diagnostic_upload(request, profile, platform_user):
         personal_profile=profile,
         stage_key=stage_key,
     )
+    if getattr(stage, upload_field):
+        messages.error(request, 'A file is already uploaded. Delete it first to upload a new one.')
+        return redirect('diagnostics')
+
     _assign_upload(stage, upload_field, uploaded_file)
     if upload_field == 'student_submission':
         stage.student_submitted_at = timezone.now()
     stage.save()
-    messages.success(request, 'File uploaded successfully. Replace it anytime by uploading a new file.')
+    messages.success(request, 'File uploaded successfully.')
     return redirect('diagnostics')
 
 

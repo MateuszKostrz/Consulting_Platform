@@ -1,9 +1,10 @@
 {% load portal_extras %}
 {% if current_file %}
-<div class="uploaded-file-panel border rounded p-3 mb-3 bg-light">
-  <p class="small fw-medium mb-2 mb-md-1">Current file</p>
-  <p class="small text-body-secondary mb-2 text-break">{{ current_file|basename }}</p>
-  <div class="d-flex flex-wrap gap-2">
+<div class="uploaded-file-panel file-upload-box border border-2 rounded p-4 text-center h-100 d-flex flex-column justify-content-center">
+  <i class="icon-base ri ri-file-text-line icon-32px text-heading mb-2 d-block"></i>
+  <p class="mb-1 fw-medium">{{ file_label }}</p>
+  <p class="small text-body-secondary mb-3 text-break">{{ current_file|basename }}</p>
+  <div class="d-flex flex-wrap gap-2 justify-content-center">
     <a href="{{ current_file.url }}" class="btn btn-sm btn-outline-primary" download>
       <i class="icon-base ri ri-download-line me-1"></i>Download
     </a>
@@ -21,6 +22,5 @@
     </form>
     {% endif %}
   </div>
-  <p class="small text-body-secondary mt-2 mb-0">Choose a new file below to replace it.</p>
 </div>
 {% endif %}

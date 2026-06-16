@@ -24,19 +24,17 @@
       <div class="col-md-6">
         <h6 class="mb-2">{{ config.template_label }}</h6>
         {% if stage.template_file %}
-        {% include 'partials/uploaded_file_panel.html' with current_file=stage.template_file field_name="template_file" stage_key=stage.stage_key can_delete=is_platform_admin %}
+        {% include 'partials/uploaded_file_panel.html' with current_file=stage.template_file field_name="template_file" file_label="Existing template" stage_key=stage.stage_key can_delete=is_platform_admin %}
         {% else %}
         <p class="text-body-secondary small mb-3">No file available yet. Your consultant will upload it soon.</p>
         {% endif %}
-        {% if is_platform_admin and config.allow_template_upload %}
+        {% if is_platform_admin and config.allow_template_upload and not stage.template_file %}
         <form method="post" enctype="multipart/form-data" class="diagnostic-upload-form">
           {% csrf_token %}
           <input type="hidden" name="stage_key" value="{{ stage.stage_key }}" />
           <input type="hidden" name="upload_field" value="template_file" />
           {% include 'partials/diagnostic_file_dropzone.html' with stage_key=stage.stage_key field_suffix="template" label="Upload form for student" %}
-          <button type="submit" class="btn btn-primary btn-sm mt-3">
-            {% if stage.template_file %}Replace template{% else %}Save template{% endif %}
-          </button>
+          <button type="submit" class="btn btn-primary btn-sm mt-3">Save template</button>
         </form>
         {% endif %}
       </div>
@@ -46,7 +44,7 @@
       <div class="col-md-6">
         <h6 class="mb-2">Student submission</h6>
         {% if stage.student_submission %}
-        {% include 'partials/uploaded_file_panel.html' with current_file=stage.student_submission field_name="student_submission" stage_key=stage.stage_key can_delete=user_logged_in %}
+        {% include 'partials/uploaded_file_panel.html' with current_file=stage.student_submission field_name="student_submission" file_label="Existing submission" stage_key=stage.stage_key can_delete=user_logged_in %}
         {% if stage.student_submitted_at %}
         <p class="text-body-secondary small mb-3">Uploaded {{ stage.student_submitted_at|date:"j M Y, H:i" }}</p>
         {% endif %}
@@ -55,19 +53,17 @@
         {% else %}
         <p class="text-body-secondary small mb-3">Upload your completed document here.</p>
         {% endif %}
+        {% if not stage.student_submission %}
         <form method="post" enctype="multipart/form-data" class="diagnostic-upload-form">
           {% csrf_token %}
           <input type="hidden" name="stage_key" value="{{ stage.stage_key }}" />
           <input type="hidden" name="upload_field" value="student_submission" />
           {% include 'partials/diagnostic_file_dropzone.html' with stage_key=stage.stage_key field_suffix="student" label=config.student_upload_label %}
           <button type="submit" class="btn btn-primary btn-sm mt-3">
-            {% if stage.student_submission %}
-              {% if is_platform_admin %}Replace submission{% else %}Resubmit document{% endif %}
-            {% else %}
-              {% if is_platform_admin %}Upload on behalf of student{% else %}Submit document{% endif %}
-            {% endif %}
+            {% if is_platform_admin %}Upload on behalf of student{% else %}Submit document{% endif %}
           </button>
         </form>
+        {% endif %}
       </div>
       {% endif %}
 
@@ -76,24 +72,24 @@
           {% if stage.stage_key == 'report' %}Report{% else %}{{ config.admin_upload_label }}{% endif %}
         </h6>
         {% if stage.admin_document %}
-        {% include 'partials/uploaded_file_panel.html' with current_file=stage.admin_document field_name="admin_document" stage_key=stage.stage_key can_delete=is_platform_admin %}
+        {% if stage.stage_key == 'report' %}
+        {% include 'partials/uploaded_file_panel.html' with current_file=stage.admin_document field_name="admin_document" file_label="Existing report" stage_key=stage.stage_key can_delete=is_platform_admin %}
+        {% else %}
+        {% include 'partials/uploaded_file_panel.html' with current_file=stage.admin_document field_name="admin_document" file_label="Existing document" stage_key=stage.stage_key can_delete=is_platform_admin %}
+        {% endif %}
         {% elif stage.stage_key == 'report' %}
         <p class="text-body-secondary small mb-3">Your report is not ready yet. You will be notified when it is available.</p>
         {% else %}
         <p class="text-body-secondary small mb-3">No consultant document uploaded yet.</p>
         {% endif %}
-        {% if is_platform_admin %}
+        {% if is_platform_admin and not stage.admin_document %}
         <form method="post" enctype="multipart/form-data" class="diagnostic-upload-form">
           {% csrf_token %}
           <input type="hidden" name="stage_key" value="{{ stage.stage_key }}" />
           <input type="hidden" name="upload_field" value="admin_document" />
           {% include 'partials/diagnostic_file_dropzone.html' with stage_key=stage.stage_key field_suffix="admin" label=config.admin_upload_label %}
           <button type="submit" class="btn btn-primary btn-sm mt-3">
-            {% if stage.admin_document %}
-              {% if stage.stage_key == 'report' %}Replace report{% else %}Replace document{% endif %}
-            {% else %}
-              {% if stage.stage_key == 'report' %}Publish report{% else %}Save document{% endif %}
-            {% endif %}
+            {% if stage.stage_key == 'report' %}Publish report{% else %}Save document{% endif %}
           </button>
         </form>
         {% endif %}
