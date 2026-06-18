@@ -27,6 +27,30 @@ IB_SUBJECT_CHOICES = [
 
 GRADUATION_YEARS = ['2024', '2025', '2026', '2027', '2028', '2029', '2030', 'Other']
 
+PHONE_COUNTRY_CODES = [
+    ('+44', '+44 (UK)'),
+    ('+1', '+1 (US/Canada)'),
+    ('+48', '+48 (Poland)'),
+    ('+49', '+49 (Germany)'),
+    ('+33', '+33 (France)'),
+    ('+31', '+31 (Netherlands)'),
+    ('+41', '+41 (Switzerland)'),
+    ('+353', '+353 (Ireland)'),
+    ('+61', '+61 (Australia)'),
+    ('+64', '+64 (New Zealand)'),
+    ('+971', '+971 (UAE)'),
+    ('+65', '+65 (Singapore)'),
+    ('+852', '+852 (Hong Kong)'),
+    ('+34', '+34 (Spain)'),
+    ('+39', '+39 (Italy)'),
+    ('+32', '+32 (Belgium)'),
+    ('+46', '+46 (Sweden)'),
+    ('+45', '+45 (Denmark)'),
+    ('+47', '+47 (Norway)'),
+    ('+91', '+91 (India)'),
+    ('+86', '+86 (China)'),
+]
+
 COUNTRY_CHOICES = [
     'United Kingdom', 'United States', 'Canada', 'Australia', 'Netherlands',
     'Germany', 'France', 'Switzerland', 'Singapore', 'Hong Kong', 'Ireland',
@@ -101,3 +125,6 @@ DIAGNOSTIC_STAGES = [
 ]
 
 DIAGNOSTIC_STAGE_KEYS = [stage['key'] for stage in DIAGNOSTIC_STAGES]
+
+INTERVIEW_PREP_SESSION_SLOTS = (1, 2, 3)
+INTERVIEW_FEEDBACK_EXTENSIONS = {'.pdf', '.docx'}

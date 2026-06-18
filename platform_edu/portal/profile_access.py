@@ -1,6 +1,18 @@
 import uuid
 
-from .models import AcademicProfile, PersonalProfile, PlatformUser
+from .constants import INTERVIEW_PREP_SESSION_SLOTS
+from .models import (
+    AcademicProfile,
+    PersonalProfile,
+    PlatformUser,
+    PortfolioDesign,
+    ProfileNarrative,
+    StrategicApplication,
+    InterviewPreparation,
+    InterviewPrepSession,
+    Offer,
+    Offers,
+)
 
 ADMIN_VIEWING_STUDENT_SESSION_KEY = 'admin_viewing_student_id'
 DEADLINE_FILTER_STUDENT_SESSION_KEY = 'deadline_filter_student_id'
@@ -263,3 +275,184 @@ def admin_must_select_student(request):
         and platform_user.is_admin
         and not get_admin_viewing_student_id(request)
     )
+
+
+def ensure_portfolio_design(profile, create=True):
+    if not profile:
+        return None
+    if not create:
+        try:
+            return profile.portfolio_design
+        except PortfolioDesign.DoesNotExist:
+            return None
+    portfolio, _ = PortfolioDesign.objects.get_or_create(personal_profile=profile)
+    return portfolio
+
+
+def portfolio_design_is_unlocked(profile):
+    portfolio = ensure_portfolio_design(profile, create=False)
+    return bool(portfolio and portfolio.is_unlocked)
+
+
+def portfolio_design_is_unlocked_for_platform_user(platform_user):
+    if not platform_user or not platform_user.is_student:
+        return False
+    return PortfolioDesign.objects.filter(
+        personal_profile__platform_user_id=platform_user.pk,
+        is_unlocked=True,
+    ).exists()
+
+
+def get_portfolio_design_for_request(profile, platform_user, create=True):
+    if platform_user and platform_user.is_student:
+        design = PortfolioDesign.objects.filter(
+            personal_profile__platform_user_id=platform_user.pk,
+        ).first()
+        if design:
+            return design
+    if not profile:
+        return None
+    return ensure_portfolio_design(profile, create=create)
+
+
+def ensure_strategic_application(profile, create=True):
+    if not profile:
+        return None
+    if not create:
+        try:
+            return profile.strategic_application
+        except StrategicApplication.DoesNotExist:
+            return None
+    strategic, _ = StrategicApplication.objects.get_or_create(personal_profile=profile)
+    return strategic
+
+
+def strategic_application_is_unlocked_for_platform_user(platform_user):
+    if not platform_user or not platform_user.is_student:
+        return False
+    return StrategicApplication.objects.filter(
+        personal_profile__platform_user_id=platform_user.pk,
+        is_unlocked=True,
+    ).exists()
+
+
+def get_strategic_application_for_request(profile, platform_user, create=True):
+    if platform_user and platform_user.is_student:
+        strategic = StrategicApplication.objects.filter(
+            personal_profile__platform_user_id=platform_user.pk,
+        ).first()
+        if strategic:
+            return strategic
+    if not profile:
+        return None
+    return ensure_strategic_application(profile, create=create)
+
+
+def ensure_profile_narrative(profile, create=True):
+    if not profile:
+        return None
+    if not create:
+        try:
+            return profile.profile_narrative
+        except ProfileNarrative.DoesNotExist:
+            return None
+    narrative, _ = ProfileNarrative.objects.get_or_create(personal_profile=profile)
+    return narrative
+
+
+def profile_narrative_is_unlocked_for_platform_user(platform_user):
+    if not platform_user or not platform_user.is_student:
+        return False
+    return ProfileNarrative.objects.filter(
+        personal_profile__platform_user_id=platform_user.pk,
+        is_unlocked=True,
+    ).exists()
+
+
+def get_profile_narrative_for_request(profile, platform_user, create=True):
+    if platform_user and platform_user.is_student:
+        narrative = ProfileNarrative.objects.filter(
+            personal_profile__platform_user_id=platform_user.pk,
+        ).first()
+        if narrative:
+            return narrative
+    if not profile:
+        return None
+    return ensure_profile_narrative(profile, create=create)
+
+
+def ensure_interview_preparation(profile, create=True):
+    if not profile:
+        return None
+    if not create:
+        try:
+            return profile.interview_preparation
+        except InterviewPreparation.DoesNotExist:
+            return None
+    preparation, _ = InterviewPreparation.objects.get_or_create(personal_profile=profile)
+    return preparation
+
+
+def ensure_interview_prep_sessions(profile):
+    if not profile:
+        return []
+    for slot in INTERVIEW_PREP_SESSION_SLOTS:
+        InterviewPrepSession.objects.get_or_create(
+            personal_profile=profile,
+            slot=slot,
+        )
+    return list(profile.interview_prep_sessions.order_by('slot'))
+
+
+def interview_preparation_is_unlocked_for_platform_user(platform_user):
+    if not platform_user or not platform_user.is_student:
+        return False
+    return InterviewPreparation.objects.filter(
+        personal_profile__platform_user_id=platform_user.pk,
+        is_unlocked=True,
+    ).exists()
+
+
+def get_interview_preparation_for_request(profile, platform_user, create=True):
+    if platform_user and platform_user.is_student:
+        preparation = InterviewPreparation.objects.filter(
+            personal_profile__platform_user_id=platform_user.pk,
+        ).first()
+        if preparation:
+            return preparation
+    if not profile:
+        return None
+    return ensure_interview_preparation(profile, create=create)
+
+
+def ensure_offers_access(profile, create=True):
+    if not profile:
+        return None
+    if not create:
+        try:
+            return profile.offers_access
+        except Offers.DoesNotExist:
+            return None
+    offers_access, _ = Offers.objects.get_or_create(personal_profile=profile)
+    return offers_access
+
+
+def offers_is_unlocked_for_platform_user(platform_user):
+    if not platform_user or not platform_user.is_student:
+        return False
+    return Offers.objects.filter(
+        personal_profile__platform_user_id=platform_user.pk,
+        is_unlocked=True,
+    ).exists()
+
+
+def get_offers_access_for_request(profile, platform_user, create=True):
+    if platform_user and platform_user.is_student:
+        offers_access = Offers.objects.filter(
+            personal_profile__platform_user_id=platform_user.pk,
+        ).first()
+        if offers_access:
+            return offers_access
+    if not profile:
+        return None
+    return ensure_offers_access(profile, create=create)

@@ -1,13 +1,19 @@
 import json
+import re
 import urllib.parse
 import urllib.request
 
 from django.conf import settings
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
+from django.core.validators import validate_email
 from django.http import JsonResponse
 
+from .constants import PHONE_COUNTRY_CODES
 from .models import PlatformUser
 from .profile_access import ensure_student_personal_profile
+
+VALID_PHONE_COUNTRY_CODES = {code for code, _ in PHONE_COUNTRY_CODES}
 
 
 def _register_form_context(form_data=None):
@@ -15,8 +21,16 @@ def _register_form_context(form_data=None):
     return {
         'recaptcha_site_key': settings.RECAPTCHA_SITE_KEY,
         'recaptcha_enabled': settings.RECAPTCHA_ENABLED,
+        'phone_country_codes': PHONE_COUNTRY_CODES,
         **form_data,
     }
+
+
+def _build_phone_number(country_code, local_number):
+    digits = re.sub(r'\D', '', local_number)
+    if not country_code or not digits:
+        return ''
+    return f'{country_code} {digits}'
 
 
 def _register_response(request, *, success, errors=None, redirect_url=''):
@@ -68,6 +82,9 @@ def _validate_register_form(request):
     privacy_policy = request.POST.get('privacy_policy')
     data_processing = request.POST.get('data_processing')
     recaptcha_token = request.POST.get('recaptcha_token', '').strip()
+    phone_country_code = request.POST.get('phone_country_code', '').strip()
+    phone_local = request.POST.get('phone_local', '').strip()
+    parent_email = request.POST.get('parent_email', '').strip().lower()
 
     form_data = {
         'first_name': first_name,
@@ -75,6 +92,9 @@ def _validate_register_form(request):
         'email': email,
         'user_type': user_type,
         'application_type': application_type,
+        'phone_country_code': phone_country_code,
+        'phone_local': phone_local,
+        'parent_email': parent_email,
         'privacy_policy_checked': bool(privacy_policy),
         'data_processing_checked': bool(data_processing),
     }
@@ -92,6 +112,22 @@ def _validate_register_form(request):
         errors.append('Please select a valid account type.')
     if application_type not in PlatformUser.ApplicationType.values:
         errors.append('Please select a valid application type.')
+    phone_number = ''
+    if user_type == PlatformUser.Role.STUDENT:
+        if phone_country_code not in VALID_PHONE_COUNTRY_CODES:
+            errors.append('Please select a valid country code.')
+        phone_digits = re.sub(r'\D', '', phone_local)
+        if len(phone_digits) < 6:
+            errors.append('Please enter a valid phone number.')
+        elif len(phone_digits) > 15:
+            errors.append('Phone number is too long.')
+        else:
+            phone_number = _build_phone_number(phone_country_code, phone_local)
+    if parent_email:
+        try:
+            validate_email(parent_email)
+        except ValidationError:
+            errors.append('Please enter a valid parent email address.')
     if len(password) < 8:
         errors.append('Password must be at least 8 characters long.')
     if password != confirm_password:
@@ -115,10 +151,22 @@ def _validate_register_form(request):
         'user_type': user_type,
         'application_type': application_type,
         'password': password,
+        'phone_number': phone_number,
+        'parent_email': parent_email,
     }
 
 
-def create_registered_user(*, first_name, last_name, email, user_type, application_type, password):
+def create_registered_user(
+    *,
+    first_name,
+    last_name,
+    email,
+    user_type,
+    application_type,
+    password,
+    phone_number='',
+    parent_email='',
+):
     user = User.objects.create_user(
         username=email,
         email=email,
@@ -135,5 +183,15 @@ def create_registered_user(*, first_name, last_name, email, user_type, applicati
         application_type=application_type,
     )
     if platform_user.is_student:
-        ensure_student_personal_profile(platform_user)
+        profile = ensure_student_personal_profile(platform_user)
+        update_fields = []
+        if phone_number:
+            profile.phone_number = phone_number
+            update_fields.append('phone_number')
+        if parent_email:
+            profile.parent_email = parent_email
+            update_fields.append('parent_email')
+        if update_fields:
+            update_fields.append('updated_at')
+            profile.save(update_fields=update_fields)
     return user, platform_user

@@ -291,6 +291,86 @@
             </span>
           </li>
           {% endif %}
+
+          {% if portfolio_design_unlocked or is_platform_admin %}
+          <li class="menu-item {% if current_url_name == 'portfolio-design' %}active{% endif %}">
+            <a href="{% url 'portfolio-design' %}" class="menu-link"{% if is_platform_admin and not admin_viewing_student_id %} data-requires-student{% endif %}>
+              <i class="menu-icon icon-base ri ri-layout-masonry-line"></i>
+              <div data-i18n="Portfolio Design">Portfolio Design</div>
+            </a>
+          </li>
+          {% else %}
+          <li class="menu-item">
+            <span class="menu-link pe-none text-body-secondary" title="Portfolio Design is locked">
+              <i class="menu-icon icon-base ri ri-lock-line"></i>
+              <div data-i18n="Portfolio Design">Portfolio Design</div>
+            </span>
+          </li>
+          {% endif %}
+
+          {% if strategic_application_unlocked or is_platform_admin %}
+          <li class="menu-item {% if current_url_name == 'strategic-application' %}active{% endif %}">
+            <a href="{% url 'strategic-application' %}" class="menu-link"{% if is_platform_admin and not admin_viewing_student_id %} data-requires-student{% endif %}>
+              <i class="menu-icon icon-base ri ri-compass-3-line"></i>
+              <div data-i18n="Strategic Application">Strategic Application</div>
+            </a>
+          </li>
+          {% else %}
+          <li class="menu-item">
+            <span class="menu-link pe-none text-body-secondary" title="Strategic Application is locked">
+              <i class="menu-icon icon-base ri ri-lock-line"></i>
+              <div data-i18n="Strategic Application">Strategic Application</div>
+            </span>
+          </li>
+          {% endif %}
+
+          {% if profile_narrative_unlocked or is_platform_admin %}
+          <li class="menu-item {% if current_url_name == 'profile-narrative' %}active{% endif %}">
+            <a href="{% url 'profile-narrative' %}" class="menu-link"{% if is_platform_admin and not admin_viewing_student_id %} data-requires-student{% endif %}>
+              <i class="menu-icon icon-base ri ri-book-open-line"></i>
+              <div data-i18n="Profile Narrative">Profile Narrative</div>
+            </a>
+          </li>
+          {% else %}
+          <li class="menu-item">
+            <span class="menu-link pe-none text-body-secondary" title="Profile Narrative is locked">
+              <i class="menu-icon icon-base ri ri-lock-line"></i>
+              <div data-i18n="Profile Narrative">Profile Narrative</div>
+            </span>
+          </li>
+          {% endif %}
+
+          {% if interview_preparation_unlocked or is_platform_admin %}
+          <li class="menu-item {% if current_url_name == 'interview-preparation' %}active{% endif %}">
+            <a href="{% url 'interview-preparation' %}" class="menu-link"{% if is_platform_admin and not admin_viewing_student_id %} data-requires-student{% endif %}>
+              <i class="menu-icon icon-base ri ri-vidicon-line"></i>
+              <div data-i18n="Interview Preparation">Interview Preparation</div>
+            </a>
+          </li>
+          {% else %}
+          <li class="menu-item">
+            <span class="menu-link pe-none text-body-secondary" title="Interview Preparation is locked">
+              <i class="menu-icon icon-base ri ri-lock-line"></i>
+              <div data-i18n="Interview Preparation">Interview Preparation</div>
+            </span>
+          </li>
+          {% endif %}
+
+          {% if offers_unlocked or is_platform_admin %}
+          <li class="menu-item {% if current_url_name == 'offers' %}active{% endif %}">
+            <a href="{% url 'offers' %}" class="menu-link"{% if is_platform_admin and not admin_viewing_student_id %} data-requires-student{% endif %}>
+              <i class="menu-icon icon-base ri ri-award-line"></i>
+              <div data-i18n="Offers">Offers</div>
+            </a>
+          </li>
+          {% else %}
+          <li class="menu-item">
+            <span class="menu-link pe-none text-body-secondary" title="Offers is locked">
+              <i class="menu-icon icon-base ri ri-lock-line"></i>
+              <div data-i18n="Offers">Offers</div>
+            </span>
+          </li>
+          {% endif %}
         </ul>
       </div>
     </aside>

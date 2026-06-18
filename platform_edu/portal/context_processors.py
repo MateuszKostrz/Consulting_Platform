@@ -7,6 +7,12 @@ from .profile_access import (
     get_platform_user,
     get_profile_for_request,
     get_student_platform_users,
+    portfolio_design_is_unlocked,
+    portfolio_design_is_unlocked_for_platform_user,
+    profile_narrative_is_unlocked_for_platform_user,
+    interview_preparation_is_unlocked_for_platform_user,
+    offers_is_unlocked_for_platform_user,
+    strategic_application_is_unlocked_for_platform_user,
 )
 
 
@@ -29,6 +35,7 @@ def consulting_context(request):
     student_profiles = get_student_platform_users() if platform_user and platform_user.is_admin else []
 
     is_admin = bool(platform_user and platform_user.is_admin)
+    personal_info_complete = is_admin or bool(profile and profile.is_complete())
 
     return {
         'current_url_name': url_name,
@@ -48,7 +55,28 @@ def consulting_context(request):
         'user_type': platform_user.role if platform_user else 'none',
         'is_apex_user': False,
         'is_platform_admin': is_admin,
-        'personal_info_complete': is_admin or bool(profile and profile.is_complete()),
+        'personal_info_complete': personal_info_complete,
+        'portfolio_design_unlocked': (
+            is_admin
+            or portfolio_design_is_unlocked_for_platform_user(platform_user)
+            or portfolio_design_is_unlocked(profile)
+        ),
+        'strategic_application_unlocked': (
+            is_admin
+            or strategic_application_is_unlocked_for_platform_user(platform_user)
+        ),
+        'profile_narrative_unlocked': (
+            is_admin
+            or profile_narrative_is_unlocked_for_platform_user(platform_user)
+        ),
+        'interview_preparation_unlocked': (
+            is_admin
+            or interview_preparation_is_unlocked_for_platform_user(platform_user)
+        ),
+        'offers_unlocked': (
+            is_admin
+            or offers_is_unlocked_for_platform_user(platform_user)
+        ),
         'student_profiles': student_profiles,
         'admin_viewing_student_id': get_admin_viewing_student_id(request),
         'admin_viewing_student_name': (

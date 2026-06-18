@@ -1,0 +1,138 @@
+{% load static %}
+
+<!doctype html>
+<html
+  lang="en"
+  class="layout-navbar-fixed layout-menu-fixed layout-compact"
+  dir="ltr"
+  data-skin="default"
+  data-bs-theme="light"
+  data-assets-path="{% static 'website/' %}"
+  data-template="horizontal-menu-template">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>{{ site_name }} | Portfolio Design</title>
+    <link rel="icon" href="{% static 'website/images/platform_logo.svg' %}">
+    {% include 'top_base.html' %}
+    <script type="text/javascript" src="{% static 'website/js/vendor/helpers.js' %}"></script>
+    <script type="text/javascript" src="{% static 'website/js/vendor/config.js' %}"></script>
+  </head>
+  <body>
+    <div class="layout-wrapper layout-navbar-full layout-horizontal layout-without-menu">
+      <div class="layout-container">
+        {% include 'horizontal_menu.html' %}
+        <div class="container-xxl flex-grow-1 container-p-y">
+          {% if messages %}
+          {% for message in messages %}
+          <div class="alert alert-{{ message.tags }} alert-dismissible mb-4" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+          {% endfor %}
+          {% endif %}
+
+          <div class="card mb-4">
+            <div class="card-body">
+              <h5 class="mb-2">Portfolio Design</h5>
+              <p class="mb-0 text-body-secondary">
+                Work on your portfolio design document with guidance from your consultant.
+              </p>
+              {% if is_platform_admin and admin_viewing_student_name %}
+              <p class="text-body-secondary small mt-2 mb-0">Viewing portfolio design for <strong>{{ admin_viewing_student_name }}</strong></p>
+              {% endif %}
+            </div>
+          </div>
+
+          {% if is_platform_admin %}
+          <form method="POST" action="{% url 'portfolio-design' %}">
+            {% csrf_token %}
+            <div class="card mb-4">
+              <div class="card-header d-flex align-items-center justify-content-between flex-wrap gap-3">
+                <div>
+                  <h6 class="mb-1">Student access</h6>
+                  <small class="text-body-secondary">Control whether this student can open Portfolio Design.</small>
+                </div>
+                <div class="form-check form-switch mb-0">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    role="switch"
+                    id="is_unlocked"
+                    name="is_unlocked"
+                    {% if portfolio.is_unlocked %}checked{% endif %} />
+                  <label class="form-check-label" for="is_unlocked">
+                    {% if portfolio.is_unlocked %}Unlocked{% else %}Locked{% endif %}
+                  </label>
+                </div>
+              </div>
+              <div class="card-body">
+                <label for="google_doc_url" class="form-label">Google Doc link</label>
+                <input
+                  type="url"
+                  class="form-control"
+                  id="google_doc_url"
+                  name="google_doc_url"
+                  value="{{ portfolio.google_doc_url }}"
+                  placeholder="https://docs.google.com/document/d/..." />
+                <div class="form-text">Students will see this link but cannot edit it. Click Save settings after changing the lock or link.</div>
+                <button type="submit" class="btn btn-primary mt-4">Save settings</button>
+              </div>
+            </div>
+          </form>
+          {% endif %}
+
+          <div class="card">
+            <div class="card-header">
+              <h6 class="mb-0">Portfolio document</h6>
+            </div>
+            <div class="card-body">
+              {% if portfolio.google_doc_url %}
+              <a href="{{ portfolio.google_doc_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-primary">
+                <i class="ri ri-external-link-line me-1"></i>
+                Open Google Doc
+              </a>
+              <p class="text-body-secondary small mt-3 mb-0">{{ portfolio.google_doc_url }}</p>
+              {% else %}
+              <p class="text-body-secondary mb-0">
+                {% if is_platform_admin %}
+                Add a Google Doc link above and save to share it with the student.
+                {% else %}
+                Your consultant will share the portfolio document link here soon.
+                {% endif %}
+              </p>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        {% include 'footer.html' %}
+      </div>
+    </div>
+
+    <div class="layout-overlay layout-menu-toggle"></div>
+    <div class="drag-target"></div>
+
+    <script src="{% static 'website/js/vendor/libs/jquery/jquery.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/popper/popper.js' %}"></script>
+    <script src="{% static 'website/js/bootstrap.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/node-waves/node-waves.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/perfect-scrollbar/perfect-scrollbar.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/hammer/hammer.js' %}"></script>
+    <script src="{% static 'website/js/vendor/menu.js' %}"></script>
+    <script type="text/javascript" src="{% static 'website/js/main.js' %}"></script>
+    <script type="text/javascript" src="{% static 'website/js/vendors.min.js' %}"></script>
+    {% if is_platform_admin %}
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        var toggle = document.getElementById('is_unlocked');
+        var form = toggle && toggle.closest('form');
+        if (!toggle || !form) return;
+
+        toggle.addEventListener('change', function () {
+          toggle.nextElementSibling.textContent = toggle.checked ? 'Unlocked' : 'Locked';
+        });
+      });
+    </script>
+    {% endif %}
+  </body>
+</html>

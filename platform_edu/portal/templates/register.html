@@ -201,6 +201,45 @@
                 <label for="email">Email</label>
               </div>
 
+              <div id="student-contact-fields" class="{% if user_type != 'student' %}d-none{% endif %}">
+                <div class="mb-5 form-control-validation">
+                  <label for="phone_local" class="form-label">Phone Number</label>
+                  <div class="input-group">
+                    <select
+                      id="phone_country_code"
+                      name="phone_country_code"
+                      class="form-select"
+                      style="max-width: 9rem;"
+                      aria-label="Country code">
+                      <option value="">Code</option>
+                      {% for code, label in phone_country_codes %}
+                      <option value="{{ code }}" {% if phone_country_code == code %}selected{% endif %}>{{ label }}</option>
+                      {% endfor %}
+                    </select>
+                    <input
+                      type="tel"
+                      class="form-control"
+                      id="phone_local"
+                      name="phone_local"
+                      placeholder="Phone number"
+                      value="{{ phone_local|default:'' }}"
+                      inputmode="tel"
+                      autocomplete="tel-national" />
+                  </div>
+                </div>
+
+                <div class="form-floating form-floating-outline mb-5 form-control-validation">
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="parent_email"
+                    name="parent_email"
+                    placeholder="Parent's email (optional)"
+                    value="{{ parent_email|default:'' }}"
+                    autocomplete="email" />
+                  <label for="parent_email">Parent's Email (optional)</label>
+                </div>
+              </div>
 
               <div class="form-floating form-floating-outline mb-5 form-control-validation">
                 <select id="user_type" name="user_type" class="form-select" required>
@@ -356,6 +395,24 @@
         const passwordField = document.getElementById('password');
         const confirmPasswordField = document.getElementById('confirm_password');
         const passwordMatchMessage = document.getElementById('password-match-message');
+        const userTypeField = document.getElementById('user_type');
+        const studentContactFields = document.getElementById('student-contact-fields');
+        const phoneCountryCodeField = document.getElementById('phone_country_code');
+        const phoneLocalField = document.getElementById('phone_local');
+
+        function syncStudentContactFields() {
+            const isStudent = userTypeField.value === 'student';
+            studentContactFields.classList.toggle('d-none', !isStudent);
+            phoneCountryCodeField.required = isStudent;
+            phoneLocalField.required = isStudent;
+            if (!isStudent) {
+                phoneCountryCodeField.value = '';
+                phoneLocalField.value = '';
+            }
+        }
+
+        userTypeField.addEventListener('change', syncStudentContactFields);
+        syncStudentContactFields();
         
         // Function to check password match
         function checkPasswordMatch() {

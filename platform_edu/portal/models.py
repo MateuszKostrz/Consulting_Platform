@@ -104,6 +104,7 @@ class PersonalProfile(models.Model):
     personal_email = models.EmailField(max_length=200, blank=True, default='')
     edunade_email = models.EmailField(max_length=200, blank=True, default='')
     phone_number = models.CharField(max_length=30, blank=True, default='')
+    parent_email = models.EmailField(max_length=254, blank=True, default='')
     nationality = models.CharField(max_length=100, blank=True, default='')
     passport_number = models.CharField(max_length=50, blank=True, default='')
     school_name = models.CharField(max_length=200, blank=True, default='')
@@ -273,3 +274,222 @@ class Deadline(models.Model):
     @property
     def is_approaching(self):
         return self.due_at <= timezone.now() + timedelta(days=3)
+
+
+class PortfolioDesign(models.Model):
+    personal_profile = models.OneToOneField(
+        PersonalProfile,
+        on_delete=models.CASCADE,
+        related_name='portfolio_design',
+    )
+    google_doc_url = models.URLField(max_length=500, blank=True, default='')
+    is_unlocked = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = 'Portfolio Design'
+        verbose_name_plural = 'Portfolio Designs'
+
+    def __str__(self):
+        owner = self.personal_profile
+        if owner.platform_user:
+            label = owner.platform_user.email
+        else:
+            label = owner.personal_email or owner.edunade_email or owner.pk
+        status = 'unlocked' if self.is_unlocked else 'locked'
+        return f'Portfolio Design ({label}, {status})'
+
+
+class StrategicApplication(models.Model):
+    personal_profile = models.OneToOneField(
+        PersonalProfile,
+        on_delete=models.CASCADE,
+        related_name='strategic_application',
+    )
+    is_unlocked = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = 'Strategic Application'
+        verbose_name_plural = 'Strategic Applications'
+
+    def __str__(self):
+        owner = self.personal_profile
+        if owner.platform_user:
+            label = owner.platform_user.email
+        else:
+            label = owner.personal_email or owner.edunade_email or owner.pk
+        status = 'unlocked' if self.is_unlocked else 'locked'
+        return f'Strategic Application ({label}, {status})'
+
+
+class UniversityChoice(models.Model):
+    class Riskiness(models.TextChoices):
+        VERY_RISKY = 'very_risky', 'Very risky'
+        RISKY = 'risky', 'Risky'
+        REALISTIC = 'realistic', 'Realistic'
+        SAFE = 'safe', 'Safe'
+        VERY_SAFE = 'very_safe', 'Very safe'
+
+    personal_profile = models.ForeignKey(
+        PersonalProfile,
+        on_delete=models.CASCADE,
+        related_name='university_choices',
+    )
+    university_name = models.CharField(max_length=200)
+    degree = models.CharField(max_length=200)
+    riskiness = models.CharField(
+        max_length=20,
+        choices=Riskiness.choices,
+        default=Riskiness.REALISTIC,
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = 'University Choice'
+        verbose_name_plural = 'University Choices'
+        ordering = ['university_name', 'degree', 'id']
+
+    def __str__(self):
+        return f'{self.university_name} — {self.degree} ({self.get_riskiness_display()})'
+
+
+class ProfileNarrative(models.Model):
+    personal_profile = models.OneToOneField(
+        PersonalProfile,
+        on_delete=models.CASCADE,
+        related_name='profile_narrative',
+    )
+    is_unlocked = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = 'Profile Narrative'
+        verbose_name_plural = 'Profile Narratives'
+
+    def __str__(self):
+        owner = self.personal_profile
+        if owner.platform_user:
+            label = owner.platform_user.email
+        else:
+            label = owner.personal_email or owner.edunade_email or owner.pk
+        status = 'unlocked' if self.is_unlocked else 'locked'
+        return f'Profile Narrative ({label}, {status})'
+
+
+class InterviewPreparation(models.Model):
+    personal_profile = models.OneToOneField(
+        PersonalProfile,
+        on_delete=models.CASCADE,
+        related_name='interview_preparation',
+    )
+    is_unlocked = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = 'Interview Preparation'
+        verbose_name_plural = 'Interview Preparations'
+
+    def __str__(self):
+        owner = self.personal_profile
+        if owner.platform_user:
+            label = owner.platform_user.email
+        else:
+            label = owner.personal_email or owner.edunade_email or owner.pk
+        status = 'unlocked' if self.is_unlocked else 'locked'
+        return f'Interview Preparation ({label}, {status})'
+
+
+class InterviewPrepSession(models.Model):
+    personal_profile = models.ForeignKey(
+        PersonalProfile,
+        on_delete=models.CASCADE,
+        related_name='interview_prep_sessions',
+    )
+    slot = models.PositiveSmallIntegerField()
+    meeting_link = models.URLField(max_length=500, blank=True, default='')
+    feedback_file = models.FileField(
+        upload_to='interview_prep/feedback/',
+        blank=True,
+        null=True,
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = 'Interview Prep Session'
+        verbose_name_plural = 'Interview Prep Sessions'
+        ordering = ['slot']
+        constraints = [
+            models.UniqueConstraint(
+                fields=['personal_profile', 'slot'],
+                name='unique_interview_prep_session_per_profile',
+            ),
+        ]
+
+    def __str__(self):
+        return f'Interview prep session {self.slot} ({self.personal_profile})'
+
+    @property
+    def has_meeting_link(self):
+        return bool(self.meeting_link.strip())
+
+    @property
+    def has_feedback(self):
+        return bool(self.feedback_file)
+
+    @property
+    def feedback_is_pdf(self):
+        if not self.feedback_file:
+            return False
+        return self.feedback_file.name.lower().endswith('.pdf')
+
+
+class Offers(models.Model):
+    personal_profile = models.OneToOneField(
+        PersonalProfile,
+        on_delete=models.CASCADE,
+        related_name='offers_access',
+    )
+    is_unlocked = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = 'Offers'
+        verbose_name_plural = 'Offers'
+
+    def __str__(self):
+        owner = self.personal_profile
+        if owner.platform_user:
+            label = owner.platform_user.email
+        else:
+            label = owner.personal_email or owner.edunade_email or owner.pk
+        status = 'unlocked' if self.is_unlocked else 'locked'
+        return f'Offers ({label}, {status})'
+
+
+class Offer(models.Model):
+    personal_profile = models.ForeignKey(
+        PersonalProfile,
+        on_delete=models.CASCADE,
+        related_name='offers',
+    )
+    university_name = models.CharField(max_length=200)
+    degree_name = models.CharField(max_length=200)
+    offer_requirements = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = 'Offer'
+        verbose_name_plural = 'Offers'
+        ordering = ['university_name', 'degree_name', 'id']
+
+    def __str__(self):
+        return f'{self.university_name} — {self.degree_name}'
