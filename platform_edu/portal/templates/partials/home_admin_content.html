@@ -1,0 +1,102 @@
+<!-- ADMIN HOME -->
+
+<!-- TOP ROW: deadlines left, students right -->
+<div class="row g-6 mb-6 align-items-stretch">
+
+  <!-- LEFT COLUMN: stat squares + deadlines card -->
+  <div class="col-12 col-lg-6 d-flex flex-column gap-6">
+
+    <!-- Stat squares -->
+    <div class="row g-6">
+      <div class="col-6">
+        <div class="card card-border-shadow-danger h-100">
+          <div class="card-body">
+            <div class="d-flex align-items-center mb-2">
+              <div class="avatar me-4">
+                <span class="avatar-initial rounded-3 bg-label-danger">
+                  <i class="icon-base ri ri-alarm-warning-line icon-24px"></i>
+                </span>
+              </div>
+              <h4 class="mb-0">{{ deadline_urgent_count }}</h4>
+            </div>
+            <h6 class="mb-0 fw-normal">Urgent deadlines</h6>
+          </div>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="card card-border-shadow-primary h-100">
+          <div class="card-body">
+            <div class="d-flex align-items-center mb-2">
+              <div class="avatar me-4">
+                <span class="avatar-initial rounded-3 bg-label-primary">
+                  <i class="icon-base ri ri-calendar-event-line icon-24px"></i>
+                </span>
+              </div>
+              <h4 class="mb-0">{{ deadline_today_count }}</h4>
+            </div>
+            <h6 class="mb-0 fw-normal">Deadlines today</h6>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Deadlines card -->
+    <div style="min-height: 480px;">
+      {% include 'partials/deadlines_card.html' %}
+    </div>
+
+  </div>
+  <!-- /LEFT COLUMN -->
+
+  <!-- RIGHT COLUMN: students table -->
+  <div class="col-12 col-lg-6 d-flex flex-column">
+    <div class="card flex-grow-1">
+      <div class="card-header">
+        <h5 class="card-title mb-0">Students</h5>
+      </div>
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <table class="table table-hover mb-0">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Password</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for student in students_list %}
+              <tr>
+                <td>{{ student.first_name }} {{ student.last_name }}</td>
+                <td>{{ student.email }}</td>
+                <td><code>{{ student_default_password }}</code></td>
+              </tr>
+              {% empty %}
+              <tr>
+                <td colspan="3" class="text-center text-muted py-4">No students found.</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /RIGHT COLUMN -->
+
+</div>
+<!-- /TOP ROW -->
+
+<!-- TO-DO LIST -->
+<div class="row g-6 mb-6">
+  <div class="col-12">
+    {% include 'partials/todo_list_card.html' %}
+  </div>
+</div>
+<!-- /TO-DO LIST -->
+
+<!-- WORLD CLOCKS ROW -->
+<div class="row g-6">
+  {% include 'partials/world_clocks_row.html' %}
+</div>
+<!-- /WORLD CLOCKS ROW -->

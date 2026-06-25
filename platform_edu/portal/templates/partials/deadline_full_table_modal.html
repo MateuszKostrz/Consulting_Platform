@@ -1,0 +1,57 @@
+<div class="modal fade" id="deadlineFullTableModal" tabindex="-1" aria-labelledby="deadlineFullTableModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div>
+          <h5 class="modal-title" id="deadlineFullTableModalLabel">All deadlines</h5>
+          <p class="text-body-secondary small mb-0">{{ deadline_total_count }} deadline{{ deadline_total_count|pluralize }} in total</p>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body p-0">
+        <div class="table-responsive">
+          <table class="table table-hover mb-0">
+            <thead class="table-light">
+              <tr>
+                <th>Student</th>
+                <th>Deadline</th>
+                <th>Date &amp; time</th>
+                <th>Timezone</th>
+                <th>Urgency</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for deadline in deadlines_all %}
+              <tr>
+                <td>{{ deadline.student.first_name }} {{ deadline.student.last_name }}</td>
+                <td>
+                  <span class="d-flex align-items-center gap-1">
+                    {{ deadline.name }}
+                    {% if deadline.is_approaching %}
+                    <i class="icon-base ri ri-error-warning-line text-danger" title="Due within 3 days"></i>
+                    {% endif %}
+                  </span>
+                </td>
+                <td>{{ deadline.due_at_local|date:"j M Y, H:i" }}</td>
+                <td>{{ deadline.timezone_display }}</td>
+                <td>
+                  <span class="badge bg-label-{% if deadline.urgency == 'urgent' %}danger{% elif deadline.urgency == 'standard' %}warning{% else %}info{% endif %}">
+                    {{ deadline.get_urgency_display }}
+                  </span>
+                </td>
+              </tr>
+              {% empty %}
+              <tr>
+                <td colspan="5" class="text-center text-muted py-4">No deadlines tracked yet.</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

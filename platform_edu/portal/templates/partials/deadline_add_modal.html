@@ -24,6 +24,16 @@
           </div>
           <div class="mb-4">
             <div class="form-floating form-floating-outline">
+              <select class="form-select" id="deadline_timezone" name="timezone" required>
+                {% for tz_value, tz_label in deadline_timezone_choices %}
+                <option value="{{ tz_value }}"{% if tz_value == 'Europe/Warsaw' %} selected{% endif %}>{{ tz_label }}</option>
+                {% endfor %}
+              </select>
+              <label for="deadline_timezone">Timezone</label>
+            </div>
+          </div>
+          <div class="mb-4">
+            <div class="form-floating form-floating-outline">
               <select class="form-select" id="deadline_urgency" name="urgency" required>
                 <option value="urgent">Urgent</option>
                 <option value="standard" selected>Standard</option>
@@ -70,6 +80,7 @@
   const titleEl = document.getElementById('addDeadlineModalLabel');
   const nameInput = document.getElementById('deadline_name');
   const dueAtInput = document.getElementById('deadline_due_at');
+  const timezoneInput = document.getElementById('deadline_timezone');
   const urgencyInput = document.getElementById('deadline_urgency');
   const studentInput = document.getElementById('deadline_student');
   const saveBtn = document.getElementById('deadlineSaveBtn');
@@ -94,6 +105,7 @@
     titleEl.textContent = 'Add new deadline';
     form.reset();
     urgencyInput.value = 'standard';
+    timezoneInput.value = 'Europe/Warsaw';
     resetSaveButton();
   }
 
@@ -104,6 +116,7 @@
     nameInput.value = button.getAttribute('data-deadline-name') || '';
     dueAtInput.value = button.getAttribute('data-deadline-due-at') || '';
     urgencyInput.value = button.getAttribute('data-deadline-urgency') || 'standard';
+    timezoneInput.value = button.getAttribute('data-deadline-timezone') || 'Europe/Warsaw';
     studentInput.value = button.getAttribute('data-deadline-student-id') || '';
     resetSaveButton();
   }

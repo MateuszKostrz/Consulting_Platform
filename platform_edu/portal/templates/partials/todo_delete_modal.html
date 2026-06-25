@@ -1,0 +1,68 @@
+<div class="modal fade" id="deleteTodoModal" tabindex="-1" aria-labelledby="deleteTodoModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header border-0 pb-0">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body text-center pt-0">
+        <div class="avatar avatar-lg mb-3 mx-auto">
+          <span class="avatar-initial rounded-circle bg-label-danger">
+            <i class="icon-base ri ri-delete-bin-line icon-28px"></i>
+          </span>
+        </div>
+        <h5 class="mb-2" id="deleteTodoModalLabel">Delete to-do item?</h5>
+        <p class="text-body-secondary mb-1">This action cannot be undone.</p>
+        <p class="fw-medium mb-0" id="deleteTodoName"></p>
+      </div>
+      <div class="modal-footer justify-content-center border-0 pt-0">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" id="deleteTodoCancelBtn">Cancel</button>
+        <form method="post" action="{% url 'home' %}" id="deleteTodoForm" class="d-inline">
+          {% csrf_token %}
+          <input type="hidden" name="action" value="delete_todo" />
+          <input type="hidden" name="todo_id" value="" id="deleteTodoId" />
+          <button type="submit" class="btn btn-danger" id="deleteTodoConfirmBtn">
+            <span class="delete-todo-label">Delete</span>
+            <span class="delete-todo-spinner d-none">
+              <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+              Deleting...
+            </span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  const modal = document.getElementById('deleteTodoModal');
+  const form = document.getElementById('deleteTodoForm');
+  if (!modal || !form) return;
+
+  const idInput = document.getElementById('deleteTodoId');
+  const nameEl = document.getElementById('deleteTodoName');
+  const confirmBtn = document.getElementById('deleteTodoConfirmBtn');
+  const cancelBtn = document.getElementById('deleteTodoCancelBtn');
+  const deleteLabel = confirmBtn ? confirmBtn.querySelector('.delete-todo-label') : null;
+  const deleteSpinner = confirmBtn ? confirmBtn.querySelector('.delete-todo-spinner') : null;
+
+  document.querySelectorAll('.todo-delete-btn').forEach(function (button) {
+    button.addEventListener('click', function () {
+      idInput.value = button.getAttribute('data-todo-id') || '';
+      nameEl.textContent = button.getAttribute('data-todo-name') || '';
+      if (confirmBtn) confirmBtn.disabled = false;
+      if (cancelBtn) cancelBtn.disabled = false;
+      if (deleteLabel) deleteLabel.classList.remove('d-none');
+      if (deleteSpinner) deleteSpinner.classList.add('d-none');
+    });
+  });
+
+  form.addEventListener('submit', function () {
+    if (!confirmBtn) return;
+    confirmBtn.disabled = true;
+    if (cancelBtn) cancelBtn.disabled = true;
+    if (deleteLabel) deleteLabel.classList.add('d-none');
+    if (deleteSpinner) deleteSpinner.classList.remove('d-none');
+  });
+})();
+</script>

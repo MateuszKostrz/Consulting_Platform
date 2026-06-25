@@ -1,0 +1,211 @@
+            <div class="container-xxl flex-grow-1 container-p-y">
+              {% if messages %}
+              {% for message in messages %}
+              <div class="alert alert-{{ message.tags }} alert-dismissible mb-4" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+              {% endfor %}
+              {% endif %}
+
+              {% if is_platform_admin %}
+              {% include 'partials/home_admin_content.html' %}
+              {% else %}
+              {% include 'partials/home_student_content.html' %}
+              {% endif %}
+
+            </div>
+
+            <script>
+              (function () {
+                var timeFmt = {
+                  hour: '2-digit', minute: '2-digit', hour12: false
+                };
+                var dateFmt = {
+                  weekday: 'short', month: 'short', day: 'numeric'
+                };
+
+                function updateClocks() {
+                  var now = new Date();
+                  document.querySelectorAll('.clock-time').forEach(function (el) {
+                    var tz = el.getAttribute('data-tz');
+                    el.textContent = now.toLocaleTimeString('en-GB', Object.assign({}, timeFmt, { timeZone: tz }));
+                  });
+                  document.querySelectorAll('.clock-date').forEach(function (el) {
+                    var tz = el.getAttribute('data-tz');
+                    el.textContent = now.toLocaleDateString('en-GB', Object.assign({}, dateFmt, { timeZone: tz }));
+                  });
+                }
+
+                updateClocks();
+                setInterval(updateClocks, 1000);
+              })();
+
+              (function () {
+                var PAGE_SIZE = 5;
+                var currentPage = 1;
+
+                function parseLocalDate(isoDate) {
+                  if (!isoDate) return null;
+                  var parts = isoDate.split('-');
+                  if (parts.length !== 3) return null;
+                  return new Date(+parts[0], +parts[1] - 1, +parts[2]);
+                }
+
+                function rowMatchesFilters(row, filterStudent, filterUrgency, cutoff, today) {
+                  var rowStudent = row.getAttribute('data-student-id') || '';
+                  var rowUrgency = row.getAttribute('data-urgency') || '';
+                  var rowDueDate = row.getAttribute('data-due-date') || '';
+
+                  var okStudent = (filterStudent === '' || rowStudent === filterStudent);
+                  var okUrgency = (filterUrgency === '' || rowUrgency === filterUrgency);
+                  var okDays = true;
+
+                  if (cutoff !== null) {
+                    var due = parseLocalDate(rowDueDate);
+                    okDays = due && due >= today && due <= cutoff;
+                  }
+
+                  return okStudent && okUrgency && okDays;
+                }
+
+                function renderPagination(totalPages) {
+                  var nav = document.getElementById('deadline-pagination');
+                  var list = document.getElementById('deadline-pagination-list');
+                  if (!nav || !list) return;
+
+                  if (totalPages <= 1) {
+                    nav.classList.add('d-none');
+                    list.innerHTML = '';
+                    return;
+                  }
+
+                  nav.classList.remove('d-none');
+                  list.innerHTML = '';
+
+                  function addPageItem(label, page, disabled, active) {
+                    var li = document.createElement('li');
+                    li.className = 'page-item' +
+                      (disabled ? ' disabled' : '') +
+                      (active ? ' active' : '');
+                    var btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.className = 'page-link';
+                    btn.textContent = label;
+                    if (!disabled && !active) {
+                      btn.addEventListener('click', function () {
+                        currentPage = page;
+                        applyDeadlineFilters(false);
+                      });
+                    }
+                    li.appendChild(btn);
+                    list.appendChild(li);
+                  }
+
+                  addPageItem('Prev', currentPage - 1, currentPage === 1, false);
+
+                  for (var page = 1; page <= totalPages; page++) {
+                    addPageItem(String(page), page, false, page === currentPage);
+                  }
+
+                  addPageItem('Next', currentPage + 1, currentPage === totalPages, false);
+                }
+
+                function applyDeadlineFilters(resetPage) {
+                  if (resetPage !== false) {
+                    currentPage = 1;
+                  }
+
+                  var card = document.getElementById('deadlines-card');
+                  if (!card) return;
+
+                  var selStudent = card.querySelector('#dl-filter-student');
+                  var selUrgency = card.querySelector('#dl-filter-urgency');
+                  var selDays = card.querySelector('#dl-filter-days');
+
+                  var filterStudent = selStudent ? selStudent.value : '';
+                  var filterUrgency = selUrgency ? selUrgency.value : '';
+                  var filterDays = selDays ? selDays.value : '';
+
+                  var today = new Date();
+                  today.setHours(0, 0, 0, 0);
+
+                  var cutoff = null;
+                  if (filterDays !== '') {
+                    cutoff = new Date(today.getTime() + parseInt(filterDays, 10) * 86400000);
+                  }
+
+                  var rows = card.querySelectorAll('.deadline-row');
+                  var matchingRows = [];
+
+                  rows.forEach(function (row) {
+                    if (rowMatchesFilters(row, filterStudent, filterUrgency, cutoff, today)) {
+                      matchingRows.push(row);
+                    }
+                  });
+
+                  var totalPages = Math.max(1, Math.ceil(matchingRows.length / PAGE_SIZE));
+                  if (currentPage > totalPages) {
+                    currentPage = totalPages;
+                  }
+
+                  var start = (currentPage - 1) * PAGE_SIZE;
+                  var end = start + PAGE_SIZE;
+
+                  rows.forEach(function (row) {
+                    row.classList.add('d-none');
+                    row.classList.remove('border-transparent');
+                    row.classList.add('border-dashed');
+                  });
+
+                  matchingRows.forEach(function (row, index) {
+                    var onPage = index >= start && index < end;
+                    row.classList.toggle('d-none', !onPage);
+                  });
+
+                  var visibleOnPage = matchingRows.slice(start, end);
+                  if (visibleOnPage.length) {
+                    visibleOnPage[visibleOnPage.length - 1].classList.remove('border-dashed');
+                    visibleOnPage[visibleOnPage.length - 1].classList.add('border-transparent');
+                  }
+
+                  var emptyMsg = document.getElementById('deadline-empty-msg');
+                  if (emptyMsg) {
+                    emptyMsg.classList.toggle('d-none', matchingRows.length > 0);
+                  }
+
+                  var countEl = document.getElementById('deadline-visible-count');
+                  if (countEl) {
+                    if (matchingRows.length === 0) {
+                      countEl.textContent = '0 deadlines shown';
+                    } else {
+                      countEl.textContent =
+                        matchingRows.length +
+                        (matchingRows.length === 1 ? ' deadline' : ' deadlines') +
+                        ' · page ' + currentPage + ' of ' + totalPages;
+                    }
+                  }
+
+                  renderPagination(totalPages);
+                }
+
+                function initDeadlineFilters() {
+                  var card = document.getElementById('deadlines-card');
+                  if (!card) return;
+
+                  card.querySelectorAll('.deadline-filter').forEach(function (select) {
+                    select.addEventListener('change', function () {
+                      applyDeadlineFilters(true);
+                    });
+                  });
+
+                  applyDeadlineFilters(true);
+                }
+
+                if (document.readyState === 'loading') {
+                  document.addEventListener('DOMContentLoaded', initDeadlineFilters);
+                } else {
+                  initDeadlineFilters();
+                }
+              })();
+            </script>

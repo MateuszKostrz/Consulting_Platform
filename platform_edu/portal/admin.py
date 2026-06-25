@@ -15,6 +15,7 @@ from .models import (
     PortfolioDesign,
     ProfileNarrative,
     StrategicApplication,
+    StudentTodo,
     UniversityChoice,
 )
 
@@ -153,11 +154,36 @@ class DeadlineAdmin(admin.ModelAdmin):
         'display_student',
         'urgency',
         'due_at',
+        'timezone',
         'created_at',
     )
     list_filter = ('urgency',)
     search_fields = (
         'name',
+        'student__email',
+        'student__first_name',
+        'student__last_name',
+    )
+    readonly_fields = ('created_at', 'updated_at')
+    autocomplete_fields = ('student', 'created_by')
+
+    @admin.display(description='Student')
+    def display_student(self, obj):
+        return f'{obj.student.first_name} {obj.student.last_name}'.strip() or obj.student.email
+
+
+@admin.register(StudentTodo)
+class StudentTodoAdmin(admin.ModelAdmin):
+    list_display = (
+        'name',
+        'display_student',
+        'due_date',
+        'link',
+        'created_at',
+    )
+    search_fields = (
+        'name',
+        'link',
         'student__email',
         'student__first_name',
         'student__last_name',

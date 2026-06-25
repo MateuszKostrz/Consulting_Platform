@@ -1,8 +1,11 @@
 from datetime import timedelta
+from zoneinfo import ZoneInfo
 
 from django.conf import settings
 from django.db import models
 from django.utils import timezone
+
+from .constants import DEADLINE_TIMEZONE_CHOICES
 
 
 class PlatformUser(models.Model):
@@ -242,6 +245,11 @@ class Deadline(models.Model):
 
     name = models.CharField(max_length=200)
     due_at = models.DateTimeField()
+    timezone = models.CharField(
+        max_length=64,
+        choices=DEADLINE_TIMEZONE_CHOICES,
+        default='Europe/Warsaw',
+    )
     urgency = models.CharField(
         max_length=20,
         choices=Urgency.choices,
@@ -274,6 +282,47 @@ class Deadline(models.Model):
     @property
     def is_approaching(self):
         return self.due_at <= timezone.now() + timedelta(days=3)
+
+    @property
+    def due_at_local(self):
+        return self.due_at.astimezone(ZoneInfo(self.timezone))
+
+    @property
+    def due_at_local_input(self):
+        return self.due_at_local.strftime('%Y-%m-%dT%H:%M')
+
+    @property
+    def timezone_display(self):
+        return dict(DEADLINE_TIMEZONE_CHOICES).get(self.timezone, self.timezone)
+
+
+class StudentTodo(models.Model):
+    name = models.CharField(max_length=200)
+    due_date = models.DateField()
+    link = models.URLField(max_length=500, blank=True, default='')
+    student = models.ForeignKey(
+        PlatformUser,
+        on_delete=models.CASCADE,
+        related_name='todos',
+        limit_choices_to={'role': PlatformUser.Role.STUDENT},
+    )
+    created_by = models.ForeignKey(
+        PlatformUser,
+        on_delete=models.SET_NULL,
+        related_name='created_todos',
+        null=True,
+        blank=True,
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = 'Student to-do'
+        verbose_name_plural = 'Student to-dos'
+        ordering = ['due_date', 'name']
+
+    def __str__(self):
+        return f'{self.name} ({self.student})'
 
 
 class PortfolioDesign(models.Model):

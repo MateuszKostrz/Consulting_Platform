@@ -1,0 +1,127 @@
+<div class="modal fade" id="addTodoModal" tabindex="-1" aria-labelledby="addTodoModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <form method="post" action="{% url 'home' %}" id="addTodoForm">
+        {% csrf_token %}
+        <input type="hidden" name="action" value="add_todo" id="todoFormAction" />
+        <input type="hidden" name="todo_id" value="" id="todoFormId" />
+        <div class="modal-header">
+          <h5 class="modal-title" id="addTodoModalLabel">Add to-do item</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-4">
+            <div class="form-floating form-floating-outline">
+              <input type="text" class="form-control" id="todo_name" name="name" placeholder="Item name" required />
+              <label for="todo_name">Item name</label>
+            </div>
+          </div>
+          <div class="mb-4">
+            <div class="form-floating form-floating-outline">
+              <input type="date" class="form-control" id="todo_due_date" name="due_date" required />
+              <label for="todo_due_date">Deadline</label>
+            </div>
+          </div>
+          <div class="mb-4">
+            <div class="form-floating form-floating-outline">
+              <input type="url" class="form-control" id="todo_link" name="link" placeholder="https://..." />
+              <label for="todo_link">Hyperlink</label>
+            </div>
+          </div>
+          <div>
+            <div class="form-floating form-floating-outline">
+              <select class="form-select" id="todo_student" name="student_id" required>
+                <option value="">Select a student...</option>
+                {% for student in todo_students %}
+                <option value="{{ student.id }}">{{ student.first_name }} {{ student.last_name }}</option>
+                {% endfor %}
+              </select>
+              <label for="todo_student">Student</label>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" id="todoCancelBtn">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="todoSaveBtn">
+            <span class="todo-save-label">Save item</span>
+            <span class="todo-save-spinner d-none">
+              <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+              Saving...
+            </span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  const form = document.getElementById('addTodoForm');
+  const modal = document.getElementById('addTodoModal');
+  if (!form || !modal) return;
+
+  const actionInput = document.getElementById('todoFormAction');
+  const idInput = document.getElementById('todoFormId');
+  const titleEl = document.getElementById('addTodoModalLabel');
+  const nameInput = document.getElementById('todo_name');
+  const dueDateInput = document.getElementById('todo_due_date');
+  const linkInput = document.getElementById('todo_link');
+  const studentInput = document.getElementById('todo_student');
+  const saveBtn = document.getElementById('todoSaveBtn');
+  const cancelBtn = document.getElementById('todoCancelBtn');
+  const saveLabel = saveBtn ? saveBtn.querySelector('.todo-save-label') : null;
+  const saveSpinner = saveBtn ? saveBtn.querySelector('.todo-save-spinner') : null;
+
+  function resetSaveButton() {
+    if (!saveBtn) return;
+    saveBtn.disabled = false;
+    if (cancelBtn) cancelBtn.disabled = false;
+    if (saveLabel) {
+      saveLabel.classList.remove('d-none');
+      saveLabel.textContent = actionInput.value === 'edit_todo' ? 'Save changes' : 'Save item';
+    }
+    if (saveSpinner) saveSpinner.classList.add('d-none');
+  }
+
+  function setAddMode() {
+    actionInput.value = 'add_todo';
+    idInput.value = '';
+    titleEl.textContent = 'Add to-do item';
+    form.reset();
+    resetSaveButton();
+  }
+
+  function setEditMode(button) {
+    actionInput.value = 'edit_todo';
+    idInput.value = button.getAttribute('data-todo-id') || '';
+    titleEl.textContent = 'Edit to-do item';
+    nameInput.value = button.getAttribute('data-todo-name') || '';
+    dueDateInput.value = button.getAttribute('data-todo-due-date') || '';
+    linkInput.value = button.getAttribute('data-todo-link') || '';
+    studentInput.value = button.getAttribute('data-todo-student-id') || '';
+    resetSaveButton();
+  }
+
+  document.querySelectorAll('[data-bs-target="#addTodoModal"]').forEach(function (trigger) {
+    if (trigger.classList.contains('todo-edit-btn')) return;
+    trigger.addEventListener('click', setAddMode);
+  });
+
+  document.querySelectorAll('.todo-edit-btn').forEach(function (button) {
+    button.addEventListener('click', function () {
+      setEditMode(button);
+    });
+  });
+
+  modal.addEventListener('hidden.bs.modal', setAddMode);
+
+  form.addEventListener('submit', function () {
+    if (!saveBtn) return;
+    saveBtn.disabled = true;
+    if (cancelBtn) cancelBtn.disabled = true;
+    if (saveLabel) saveLabel.classList.add('d-none');
+    if (saveSpinner) saveSpinner.classList.remove('d-none');
+  });
+})();
+</script>

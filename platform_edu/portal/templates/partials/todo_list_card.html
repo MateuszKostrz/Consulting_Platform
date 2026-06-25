@@ -1,0 +1,187 @@
+<!-- To-do list -->
+<div class="card mb-6" id="todo-list-card">
+  <div class="card-header d-flex align-items-center justify-content-between">
+    <div>
+      <h5 class="card-title mb-0">To-do list</h5>
+      <span class="text-body-secondary small" id="todo-visible-count">
+        {{ todo_total_count }} item{{ todo_total_count|pluralize }}
+      </span>
+    </div>
+    {% if can_manage_todos %}
+    <button type="button"
+            class="btn btn-sm btn-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#addTodoModal">
+      <i class="icon-base ri ri-add-line me-1"></i>Add item
+    </button>
+    {% endif %}
+  </div>
+  <div class="card-body p-0 d-flex flex-column">
+    <div class="table-responsive">
+      <table class="table table-hover mb-0">
+        <thead>
+          <tr>
+            <th>Item name</th>
+            <th>Deadline</th>
+            <th>Hyperlink</th>
+            <th>Student</th>
+            {% if can_manage_todos %}
+            <th class="text-end" style="width: 100px;">Actions</th>
+            {% endif %}
+          </tr>
+        </thead>
+        <tbody id="todo-table-body">
+          {% for todo in todos_all %}
+          <tr class="todo-row">
+            <td class="fw-medium">{{ todo.name }}</td>
+            <td>{{ todo.due_date|date:"j M Y" }}</td>
+            <td>
+              {% if todo.link %}
+              <a href="{{ todo.link }}" target="_blank" rel="noopener noreferrer" class="text-truncate d-inline-block" style="max-width: 280px;">
+                {{ todo.link }}
+              </a>
+              {% else %}
+              <span class="text-body-secondary">—</span>
+              {% endif %}
+            </td>
+            <td>{{ todo.student.first_name }} {{ todo.student.last_name }}</td>
+            {% if can_manage_todos %}
+            <td class="text-end">
+              <div class="d-flex justify-content-end gap-1">
+                <button type="button"
+                        class="btn btn-sm btn-icon btn-text-secondary todo-edit-btn"
+                        title="Edit"
+                        data-bs-toggle="modal"
+                        data-bs-target="#addTodoModal"
+                        data-todo-id="{{ todo.id }}"
+                        data-todo-name="{{ todo.name }}"
+                        data-todo-due-date="{{ todo.due_date|date:'Y-m-d' }}"
+                        data-todo-link="{{ todo.link }}"
+                        data-todo-student-id="{{ todo.student_id }}">
+                  <i class="icon-base ri ri-pencil-line icon-18px"></i>
+                </button>
+                <button type="button"
+                        class="btn btn-sm btn-icon todo-delete-btn text-danger"
+                        title="Delete"
+                        data-bs-toggle="modal"
+                        data-bs-target="#deleteTodoModal"
+                        data-todo-id="{{ todo.id }}"
+                        data-todo-name="{{ todo.name }}">
+                  <i class="icon-base ri ri-delete-bin-line icon-18px text-danger"></i>
+                </button>
+              </div>
+            </td>
+            {% endif %}
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="{% if can_manage_todos %}5{% else %}4{% endif %}" class="text-center text-muted py-4">
+              No to-do items yet.
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    {% if todos_all %}
+    <nav class="px-4 py-3 d-none" id="todo-pagination" aria-label="To-do list pagination">
+      <ul class="pagination pagination-sm justify-content-center mb-0" id="todo-pagination-list"></ul>
+    </nav>
+    {% endif %}
+  </div>
+</div>
+<!--/ To-do list -->
+
+<script>
+(function () {
+  var PAGE_SIZE = 5;
+  var currentPage = 1;
+
+  function renderTodoPagination(totalPages) {
+    var nav = document.getElementById('todo-pagination');
+    var list = document.getElementById('todo-pagination-list');
+    if (!nav || !list) return;
+
+    if (totalPages <= 1) {
+      nav.classList.add('d-none');
+      list.innerHTML = '';
+      return;
+    }
+
+    nav.classList.remove('d-none');
+    list.innerHTML = '';
+
+    function addPageItem(label, page, disabled, active) {
+      var li = document.createElement('li');
+      li.className = 'page-item' +
+        (disabled ? ' disabled' : '') +
+        (active ? ' active' : '');
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'page-link';
+      btn.textContent = label;
+      if (!disabled && !active) {
+        btn.addEventListener('click', function () {
+          currentPage = page;
+          applyTodoPagination(false);
+        });
+      }
+      li.appendChild(btn);
+      list.appendChild(li);
+    }
+
+    addPageItem('Prev', currentPage - 1, currentPage === 1, false);
+    for (var page = 1; page <= totalPages; page++) {
+      addPageItem(String(page), page, false, page === currentPage);
+    }
+    addPageItem('Next', currentPage + 1, currentPage === totalPages, false);
+  }
+
+  function applyTodoPagination(resetPage) {
+    if (resetPage !== false) {
+      currentPage = 1;
+    }
+
+    var card = document.getElementById('todo-list-card');
+    if (!card) return;
+
+    var rows = card.querySelectorAll('.todo-row');
+    var totalPages = Math.max(1, Math.ceil(rows.length / PAGE_SIZE));
+    if (currentPage > totalPages) {
+      currentPage = totalPages;
+    }
+
+    var start = (currentPage - 1) * PAGE_SIZE;
+    var end = start + PAGE_SIZE;
+
+    rows.forEach(function (row, index) {
+      row.classList.toggle('d-none', index < start || index >= end);
+    });
+
+    var countEl = document.getElementById('todo-visible-count');
+    if (countEl) {
+      if (rows.length === 0) {
+        countEl.textContent = '0 items';
+      } else {
+        countEl.textContent =
+          rows.length +
+          (rows.length === 1 ? ' item' : ' items') +
+          ' · page ' + currentPage + ' of ' + totalPages;
+      }
+    }
+
+    renderTodoPagination(totalPages);
+  }
+
+  function initTodoPagination() {
+    applyTodoPagination(true);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initTodoPagination);
+  } else {
+    initTodoPagination();
+  }
+})();
+</script>

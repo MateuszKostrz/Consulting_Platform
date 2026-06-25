@@ -1,114 +1,144 @@
-                <!-- Deadlines -->
-                <div class="col-md-6 col-xxl-4 order-0 order-xxl-4">
-                  <div class="card h-100">
-                    <div class="card-header d-flex justify-content-between">
-                      <div class="card-title mb-0">
-                        <h5 class="m-0 me-2">Deadlines</h5>
-                        <span class="text-body mb-0">
-                          {{ deadline_total_count }} deadline{{ deadline_total_count|pluralize }} tracked
-                          {% if deadline_filter_student %}
-                          for <strong>{{ deadline_filter_student.first_name }} {{ deadline_filter_student.last_name }}</strong>
-                          {% endif %}
-                        </span>
-                      </div>
-                      {% if can_manage_deadlines %}
-                      <div class="dropdown">
-                        <button
-                          class="btn btn-text-secondary rounded-pill text-body-secondary border-0 p-1"
-                          type="button"
-                          id="deadlinesMenu"
-                          data-bs-toggle="dropdown"
-                          aria-haspopup="true"
-                          aria-expanded="false">
-                          <i class="icon-base ri ri-more-2-line"></i>
-                        </button>
-                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="deadlinesMenu">
-                          <button
-                            type="button"
-                            class="dropdown-item"
-                            data-bs-toggle="modal"
-                            data-bs-target="#addDeadlineModal">
-                            Add new
-                          </button>
-                          <button
-                            type="button"
-                            class="dropdown-item"
-                            data-bs-toggle="modal"
-                            data-bs-target="#deadlineFilterStudentModal">
-                            Filter by student
-                          </button>
-                        </div>
-                      </div>
-                      {% endif %}
-                    </div>
-                    <div class="card-body p-0">
-                      <div class="nav-align-top">
-                        <ul class="nav nav-tabs nav-fill" role="tablist">
-                          <li class="nav-item">
-                            <button
-                              type="button"
-                              class="nav-link active"
-                              role="tab"
-                              data-bs-toggle="tab"
-                              data-bs-target="#deadlines-all"
-                              aria-controls="deadlines-all"
-                              aria-selected="true">
-                              All
-                            </button>
-                          </li>
-                          <li class="nav-item">
-                            <button
-                              type="button"
-                              class="nav-link"
-                              role="tab"
-                              data-bs-toggle="tab"
-                              data-bs-target="#deadlines-urgent"
-                              aria-controls="deadlines-urgent"
-                              aria-selected="false">
-                              Urgent
-                            </button>
-                          </li>
-                          <li class="nav-item">
-                            <button
-                              type="button"
-                              class="nav-link"
-                              role="tab"
-                              data-bs-toggle="tab"
-                              data-bs-target="#deadlines-standard"
-                              aria-controls="deadlines-standard"
-                              aria-selected="false">
-                              Standard
-                            </button>
-                          </li>
-                          <li class="nav-item">
-                            <button
-                              type="button"
-                              class="nav-link"
-                              role="tab"
-                              data-bs-toggle="tab"
-                              data-bs-target="#deadlines-relaxed"
-                              aria-controls="deadlines-relaxed"
-                              aria-selected="false">
-                              Relaxed
-                            </button>
-                          </li>
-                        </ul>
-                        <div class="tab-content border-0 pb-0 px-6 mx-1">
-                          <div class="tab-pane fade show active" id="deadlines-all" role="tabpanel">
-                            {% include 'partials/deadline_timeline_items.html' with deadlines=deadlines_all can_manage_deadlines=can_manage_deadlines %}
-                          </div>
-                          <div class="tab-pane fade" id="deadlines-urgent" role="tabpanel">
-                            {% include 'partials/deadline_timeline_items.html' with deadlines=deadlines_urgent can_manage_deadlines=can_manage_deadlines %}
-                          </div>
-                          <div class="tab-pane fade" id="deadlines-standard" role="tabpanel">
-                            {% include 'partials/deadline_timeline_items.html' with deadlines=deadlines_standard can_manage_deadlines=can_manage_deadlines %}
-                          </div>
-                          <div class="tab-pane fade" id="deadlines-relaxed" role="tabpanel">
-                            {% include 'partials/deadline_timeline_items.html' with deadlines=deadlines_relaxed can_manage_deadlines=can_manage_deadlines %}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <!--/ Deadlines -->
+<!-- Deadlines -->
+<div class="card h-100" id="deadlines-card">
+  <div class="card-header pb-3">
+
+    <!-- Row 1: title + dots -->
+    <div class="d-flex align-items-center justify-content-between mb-3">
+      <div>
+        <h5 class="m-0">Deadlines</h5>
+        <span class="text-body-secondary small" id="deadline-visible-count">
+          {{ deadline_total_count }} deadline{{ deadline_total_count|pluralize }} tracked
+        </span>
+      </div>
+      {% if can_manage_deadlines %}
+      <div class="dropdown">
+        <button class="btn btn-text-secondary rounded-pill text-body-secondary border-0 p-1"
+                type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="icon-base ri ri-more-2-line"></i>
+        </button>
+        <div class="dropdown-menu dropdown-menu-end">
+          <button type="button" class="dropdown-item"
+                  data-bs-toggle="modal" data-bs-target="#deadlineFullTableModal">Open full table</button>
+          <button type="button" class="dropdown-item"
+                  data-bs-toggle="modal" data-bs-target="#addDeadlineModal">Add new</button>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+
+    <!-- Row 2: 3 filter selects -->
+    <div class="d-flex flex-wrap gap-2">
+
+      {% if can_manage_deadlines %}
+      <select id="dl-filter-student" class="form-select form-select-sm w-auto deadline-filter">
+        <option value="">All students</option>
+        {% for s in deadline_students %}
+        <option value="{{ s.id }}">{{ s.first_name }} {{ s.last_name }}</option>
+        {% endfor %}
+      </select>
+      {% endif %}
+
+      <select id="dl-filter-urgency" class="form-select form-select-sm w-auto deadline-filter">
+        <option value="">All urgencies</option>
+        <option value="urgent">Urgent</option>
+        <option value="standard">Standard</option>
+        <option value="relaxed">Relaxed</option>
+      </select>
+
+      <select id="dl-filter-days" class="form-select form-select-sm w-auto deadline-filter">
+        <option value="">All time</option>
+        <option value="5">Next 5 days</option>
+        <option value="10">Next 10 days</option>
+        <option value="30">Next 30 days</option>
+        <option value="60">Next 60 days</option>
+      </select>
+
+    </div>
+  </div>
+
+  <div class="card-body p-0 d-flex flex-column">
+    <div class="px-4 pt-4 pb-2 flex-grow-1">
+
+      {% if deadlines_all %}
+      <ul class="timeline mb-0" id="deadline-timeline">
+        {% for deadline in deadlines_all %}
+        <li class="timeline-item ps-6 d-flex align-items-start border-dashed deadline-row"
+            data-student-id="{{ deadline.student_id }}"
+            data-urgency="{{ deadline.urgency }}"
+            data-due-date="{{ deadline.due_at_local|date:'Y-m-d' }}">
+          <span class="timeline-indicator-advanced border-0 shadow-none">
+            {% if deadline.is_approaching %}
+            <i class="icon-base ri ri-error-warning-fill text-danger"></i>
+            {% elif deadline.urgency == 'urgent' %}
+            <i class="icon-base ri ri-alarm-warning-line text-danger"></i>
+            {% elif deadline.urgency == 'standard' %}
+            <i class="icon-base ri ri-time-line text-warning"></i>
+            {% else %}
+            <i class="icon-base ri ri-calendar-check-line text-info"></i>
+            {% endif %}
+          </span>
+          <div class="d-flex align-items-start justify-content-between gap-2 flex-grow-1 pe-2">
+            <div class="timeline-event ps-1">
+              <div class="timeline-header">
+                <small class="{% if deadline.urgency == 'urgent' %}text-danger{% elif deadline.urgency == 'standard' %}text-warning{% else %}text-info{% endif %} text-uppercase">
+                  {{ deadline.student.first_name }} {{ deadline.student.last_name }}
+                </small>
+              </div>
+              <h6 class="my-50 d-flex align-items-center gap-1">
+                <span>{{ deadline.name }}</span>
+                {% if deadline.is_approaching %}
+                <i class="icon-base ri ri-error-warning-line text-danger" title="Due within 3 days"></i>
+                {% endif %}
+              </h6>
+              <p class="mb-0 small">
+                {{ deadline.due_at_local|date:"j M Y, H:i" }}
+                <span class="text-body-secondary">· {{ deadline.timezone_display }}</span>
+              </p>
+            </div>
+            {% if can_manage_deadlines %}
+            <div class="d-flex gap-1 flex-shrink-0">
+              <button type="button"
+                      class="btn btn-sm btn-icon btn-text-secondary deadline-edit-btn"
+                      title="Edit"
+                      data-bs-toggle="modal"
+                      data-bs-target="#addDeadlineModal"
+                      data-deadline-id="{{ deadline.id }}"
+                      data-deadline-name="{{ deadline.name }}"
+                      data-deadline-due-at="{{ deadline.due_at_local_input }}"
+                      data-deadline-urgency="{{ deadline.urgency }}"
+                      data-deadline-timezone="{{ deadline.timezone }}"
+                      data-deadline-student-id="{{ deadline.student_id }}">
+                <i class="icon-base ri ri-pencil-line icon-18px"></i>
+              </button>
+              <button type="button"
+                      class="btn btn-sm btn-icon btn-text-danger deadline-delete-btn"
+                      title="Delete"
+                      data-bs-toggle="modal"
+                      data-bs-target="#deleteDeadlineModal"
+                      data-deadline-id="{{ deadline.id }}"
+                      data-deadline-name="{{ deadline.name }}">
+                <i class="icon-base ri ri-delete-bin-line icon-18px"></i>
+              </button>
+            </div>
+            {% endif %}
+          </div>
+        </li>
+        {% endfor %}
+      </ul>
+      <p class="text-body-secondary small mb-2 d-none" id="deadline-empty-msg">
+        No deadlines match the selected filters.
+      </p>
+      {% else %}
+      <p class="text-body-secondary small mb-0">No deadlines tracked yet.</p>
+      {% endif %}
+
+    </div>
+
+    {% if deadlines_all %}
+    <nav class="px-4 pb-3 d-none" id="deadline-pagination" aria-label="Deadlines pagination">
+      <ul class="pagination pagination-sm justify-content-center mb-0" id="deadline-pagination-list"></ul>
+    </nav>
+    {% endif %}
+  </div>
+</div>
+<!--/ Deadlines -->

@@ -34,12 +34,17 @@
 
         {% include 'horizontal_menu.html' %}
 
-        {% include 'logistics_dashboard_content.html' %}
+        {% include 'home_content.html' %}
 
         {% if can_manage_deadlines %}
         {% include 'partials/deadline_add_modal.html' %}
         {% include 'partials/deadline_delete_modal.html' %}
-        {% include 'partials/deadline_filter_student_modal.html' %}
+        {% include 'partials/deadline_full_table_modal.html' %}
+        {% endif %}
+
+        {% if can_manage_todos %}
+        {% include 'partials/todo_add_modal.html' %}
+        {% include 'partials/todo_delete_modal.html' %}
         {% endif %}
 
         {% include 'footer.html' %}

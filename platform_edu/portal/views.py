@@ -1,5 +1,6 @@
 import os
-from datetime import datetime
+from datetime import date, datetime, timedelta
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 from django.contrib import messages
 from django.http import FileResponse, Http404
@@ -17,6 +18,8 @@ from .constants import (
     ALLOWED_UPLOAD_EXTENSIONS,
     BUDGET_CHOICES,
     COUNTRY_CHOICES,
+    DEADLINE_TIMEZONE_CHOICES,
+    DEADLINE_TIMEZONE_VALUES,
     DIAGNOSTIC_STAGE_KEYS,
     GRADUATION_YEARS,
     IB_SUBJECT_CHOICES,
@@ -32,6 +35,7 @@ from .models import (
     InterviewPrepSession,
     Offer,
     PlatformUser,
+    StudentTodo,
     UniversityChoice,
 )
 from .upload_utils import (
@@ -51,7 +55,6 @@ from .profile_access import (
     admin_must_select_student,
     claim_guest_profile_for_student,
     clear_admin_viewing_student,
-    clear_deadline_filter_student,
     clear_profile_session_key,
     ensure_interview_preparation,
     ensure_interview_prep_sessions,
@@ -59,7 +62,6 @@ from .profile_access import (
     ensure_portfolio_design,
     ensure_profile_narrative,
     ensure_strategic_application,
-    get_deadline_filter_student,
     get_interview_preparation_for_request,
     get_offers_access_for_request,
     get_platform_user,
@@ -73,7 +75,6 @@ from .profile_access import (
     portfolio_design_is_unlocked_for_platform_user,
     profile_narrative_is_unlocked_for_platform_user,
     set_admin_viewing_student,
-    set_deadline_filter_student,
     strategic_application_is_unlocked_for_platform_user,
     sync_profile_edunade_email,
 )
@@ -170,16 +171,22 @@ def _handle_diagnostic_file_delete(request, profile, platform_user):
     return redirect('diagnostics')
 
 
-def _parse_deadline_datetime(value):
+def _parse_deadline_datetime(value, tz_name):
     if not value:
+        return None
+    if tz_name not in DEADLINE_TIMEZONE_VALUES:
         return None
     try:
         parsed = datetime.fromisoformat(value.strip())
     except ValueError:
         return None
-    if timezone.is_naive(parsed):
-        return timezone.make_aware(parsed)
-    return parsed
+    try:
+        tz = ZoneInfo(tz_name)
+    except ZoneInfoNotFoundError:
+        return None
+    if timezone.is_aware(parsed):
+        parsed = timezone.make_naive(parsed)
+    return parsed.replace(tzinfo=tz)
 
 
 def _validate_deadline_form(request):
@@ -187,13 +194,14 @@ def _validate_deadline_form(request):
     due_at_raw = request.POST.get('due_at', '').strip()
     urgency = request.POST.get('urgency', '').strip()
     student_id = request.POST.get('student_id', '').strip()
+    tz_name = request.POST.get('timezone', '').strip()
 
     errors = []
     if not name:
         errors.append('Deadline name is required.')
-    due_at = _parse_deadline_datetime(due_at_raw)
+    due_at = _parse_deadline_datetime(due_at_raw, tz_name)
     if not due_at:
-        errors.append('A valid date and time is required.')
+        errors.append('A valid date, time, and timezone are required.')
     if urgency not in Deadline.Urgency.values:
         errors.append('Please choose a valid urgency level.')
 
@@ -208,7 +216,7 @@ def _validate_deadline_form(request):
         if not student:
             errors.append('Selected student was not found.')
 
-    return errors, name, due_at, urgency, student
+    return errors, name, due_at, urgency, student, tz_name
 
 
 def _handle_add_deadline(request, platform_user):
@@ -216,7 +224,7 @@ def _handle_add_deadline(request, platform_user):
         messages.error(request, 'Only consultants can add deadlines.')
         return redirect('home')
 
-    errors, name, due_at, urgency, student = _validate_deadline_form(request)
+    errors, name, due_at, urgency, student, tz_name = _validate_deadline_form(request)
     if errors:
         for error in errors:
             messages.error(request, error)
@@ -225,6 +233,7 @@ def _handle_add_deadline(request, platform_user):
     Deadline.objects.create(
         name=name,
         due_at=due_at,
+        timezone=tz_name,
         urgency=urgency,
         student=student,
         created_by=platform_user,
@@ -248,7 +257,7 @@ def _handle_edit_deadline(request, platform_user):
         messages.error(request, 'Deadline not found.')
         return redirect('home')
 
-    errors, name, due_at, urgency, student = _validate_deadline_form(request)
+    errors, name, due_at, urgency, student, tz_name = _validate_deadline_form(request)
     if errors:
         for error in errors:
             messages.error(request, error)
@@ -256,6 +265,7 @@ def _handle_edit_deadline(request, platform_user):
 
     deadline.name = name
     deadline.due_at = due_at
+    deadline.timezone = tz_name
     deadline.urgency = urgency
     deadline.student = student
     deadline.save()
@@ -279,39 +289,135 @@ def _handle_delete_deadline(request, platform_user):
     return redirect('home')
 
 
-def _handle_filter_deadline_student(request, platform_user):
-    if not platform_user or not platform_user.is_admin:
-        messages.error(request, 'Only consultants can filter deadlines by student.')
-        return redirect('home')
-
-    student_id = request.POST.get('student_id', '').strip()
-    if not student_id or student_id == 'all':
-        clear_deadline_filter_student(request)
-        messages.info(request, 'Showing deadlines for all students.')
-        return redirect('home')
-
-    student = PlatformUser.objects.filter(
-        pk=student_id,
-        role=PlatformUser.Role.STUDENT,
-    ).first()
-    if not student:
-        messages.error(request, 'Selected student was not found.')
-        return redirect('home')
-
-    set_deadline_filter_student(request, student.id)
-    name = f'{student.first_name} {student.last_name}'.strip() or student.email
-    messages.info(request, f'Showing deadlines for {name}.')
-    return redirect('home')
-
-
 def _get_deadlines_for_user(platform_user, request=None):
     queryset = Deadline.objects.select_related('student').order_by('due_at')
     if platform_user and platform_user.is_student:
         queryset = queryset.filter(student=platform_user)
-    elif platform_user and platform_user.is_admin and request is not None:
-        filter_student = get_deadline_filter_student(request)
-        if filter_student:
-            queryset = queryset.filter(student=filter_student)
+    return queryset
+
+
+def _normalize_todo_link(value):
+    link = value.strip()
+    if not link:
+        return ''
+    if not link.startswith(('http://', 'https://')):
+        return f'https://{link}'
+    return link
+
+
+def _parse_todo_due_date(value):
+    if not value:
+        return None
+    try:
+        return date.fromisoformat(value.strip())
+    except ValueError:
+        return None
+
+
+def _validate_todo_form(request):
+    name = request.POST.get('name', '').strip()
+    due_date_raw = request.POST.get('due_date', '').strip()
+    link_raw = request.POST.get('link', '').strip()
+    student_id = request.POST.get('student_id', '').strip()
+
+    errors = []
+    if not name:
+        errors.append('Item name is required.')
+
+    due_date = _parse_todo_due_date(due_date_raw)
+    if not due_date:
+        errors.append('A valid deadline date is required.')
+
+    link = _normalize_todo_link(link_raw)
+    if link_raw and not link:
+        errors.append('Please enter a valid hyperlink.')
+
+    student = None
+    if not student_id:
+        errors.append('Please select a student.')
+    else:
+        student = PlatformUser.objects.filter(
+            pk=student_id,
+            role=PlatformUser.Role.STUDENT,
+        ).first()
+        if not student:
+            errors.append('Selected student was not found.')
+
+    return errors, name, due_date, link, student
+
+
+def _handle_add_todo(request, platform_user):
+    if not platform_user or not platform_user.is_admin:
+        messages.error(request, 'Only consultants can add to-do items.')
+        return redirect('home')
+
+    errors, name, due_date, link, student = _validate_todo_form(request)
+    if errors:
+        for error in errors:
+            messages.error(request, error)
+        return redirect('home')
+
+    StudentTodo.objects.create(
+        name=name,
+        due_date=due_date,
+        link=link,
+        student=student,
+        created_by=platform_user,
+    )
+    messages.success(request, 'To-do item added successfully.')
+    return redirect('home')
+
+
+def _handle_edit_todo(request, platform_user):
+    if not platform_user or not platform_user.is_admin:
+        messages.error(request, 'Only consultants can edit to-do items.')
+        return redirect('home')
+
+    todo_id = request.POST.get('todo_id', '').strip()
+    if not todo_id:
+        messages.error(request, 'To-do item not found.')
+        return redirect('home')
+
+    todo = StudentTodo.objects.filter(pk=todo_id).first()
+    if not todo:
+        messages.error(request, 'To-do item not found.')
+        return redirect('home')
+
+    errors, name, due_date, link, student = _validate_todo_form(request)
+    if errors:
+        for error in errors:
+            messages.error(request, error)
+        return redirect('home')
+
+    todo.name = name
+    todo.due_date = due_date
+    todo.link = link
+    todo.student = student
+    todo.save()
+    messages.success(request, 'To-do item updated successfully.')
+    return redirect('home')
+
+
+def _handle_delete_todo(request, platform_user):
+    if not platform_user or not platform_user.is_admin:
+        messages.error(request, 'Only consultants can delete to-do items.')
+        return redirect('home')
+
+    todo_id = request.POST.get('todo_id', '').strip()
+    todo = StudentTodo.objects.filter(pk=todo_id).first()
+    if not todo:
+        messages.error(request, 'To-do item not found.')
+        return redirect('home')
+
+    todo.delete()
+    messages.success(request, 'To-do item deleted successfully.')
+    return redirect('home')
+
+
+def _get_todos_for_user(platform_user):
+    queryset = StudentTodo.objects.select_related('student').order_by('due_date', 'name')
+    if platform_user and platform_user.is_student:
+        queryset = queryset.filter(student=platform_user)
     return queryset
 
 
@@ -326,24 +432,39 @@ def home(request):
             return _handle_edit_deadline(request, platform_user)
         if action == 'delete_deadline':
             return _handle_delete_deadline(request, platform_user)
-        if action == 'filter_deadline_student':
-            return _handle_filter_deadline_student(request, platform_user)
+        if action == 'add_todo':
+            return _handle_add_todo(request, platform_user)
+        if action == 'edit_todo':
+            return _handle_edit_todo(request, platform_user)
+        if action == 'delete_todo':
+            return _handle_delete_todo(request, platform_user)
 
     deadlines = _get_deadlines_for_user(platform_user, request)
-    deadline_filter_student = (
-        get_deadline_filter_student(request)
-        if platform_user and platform_user.is_admin
-        else None
-    )
-    return render(request, 'logistics_dashboard.html', {
+    todos = _get_todos_for_user(platform_user)
+    today = timezone.localdate()
+    upcoming_end = today + timedelta(days=7)
+    can_manage = bool(platform_user and platform_user.is_admin)
+    return render(request, 'home.html', {
         'deadlines_all': deadlines,
         'deadlines_urgent': deadlines.filter(urgency=Deadline.Urgency.URGENT),
         'deadlines_standard': deadlines.filter(urgency=Deadline.Urgency.STANDARD),
         'deadlines_relaxed': deadlines.filter(urgency=Deadline.Urgency.RELAXED),
         'deadline_total_count': deadlines.count(),
-        'can_manage_deadlines': bool(platform_user and platform_user.is_admin),
-        'deadline_students': get_student_platform_users() if platform_user and platform_user.is_admin else [],
-        'deadline_filter_student': deadline_filter_student,
+        'deadline_urgent_count': deadlines.filter(urgency=Deadline.Urgency.URGENT).count(),
+        'deadline_today_count': deadlines.filter(due_at__date=today).count(),
+        'deadline_upcoming_count': deadlines.filter(
+            due_at__date__gte=today,
+            due_at__date__lte=upcoming_end,
+        ).count(),
+        'can_manage_deadlines': can_manage,
+        'can_manage_todos': can_manage,
+        'deadline_students': get_student_platform_users() if can_manage else [],
+        'todo_students': get_student_platform_users() if can_manage else [],
+        'deadline_timezone_choices': DEADLINE_TIMEZONE_CHOICES,
+        'todos_all': todos,
+        'todo_total_count': todos.count(),
+        'students_list': get_student_platform_users() if can_manage else [],
+        'student_default_password': 'Edunade2020!',
     })
 
 

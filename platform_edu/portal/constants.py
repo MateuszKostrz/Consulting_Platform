@@ -128,3 +128,19 @@ DIAGNOSTIC_STAGE_KEYS = [stage['key'] for stage in DIAGNOSTIC_STAGES]
 
 INTERVIEW_PREP_SESSION_SLOTS = (1, 2, 3)
 INTERVIEW_FEEDBACK_EXTENSIONS = {'.pdf', '.docx'}
+
+DEADLINE_TIMEZONE_CHOICES = [
+    ('Europe/Warsaw', 'Warsaw (CET)'),
+    ('Europe/London', 'London (GMT/BST)'),
+    ('Europe/Amsterdam', 'Amsterdam (CET)'),
+    ('Europe/Berlin', 'Berlin (CET)'),
+    ('Europe/Paris', 'Paris (CET)'),
+    ('America/New_York', 'New York (ET)'),
+    ('America/Los_Angeles', 'Los Angeles (PT)'),
+    ('Asia/Tokyo', 'Tokyo (JST)'),
+    ('Asia/Singapore', 'Singapore (SGT)'),
+    ('Australia/Sydney', 'Sydney (AEST)'),
+    ('UTC', 'UTC'),
+]
+
+DEADLINE_TIMEZONE_VALUES = {tz for tz, _ in DEADLINE_TIMEZONE_CHOICES}
