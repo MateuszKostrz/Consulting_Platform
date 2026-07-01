@@ -25,6 +25,8 @@ IB_SUBJECT_CHOICES = [
     ('english_b_hl', 'English B HL'),
 ]
 
+SUBJECT_OTHER_VALUE = 'other'
+
 GRADUATION_YEARS = ['2024', '2025', '2026', '2027', '2028', '2029', '2030', 'Other']
 
 PHONE_COUNTRY_CODES = [
@@ -59,16 +61,27 @@ COUNTRY_CHOICES = [
 ]
 
 BUDGET_CHOICES = [
-    ('under_10k', 'Under $10,000 / year'),
-    ('10k_25k', '$10,000 – $25,000 / year'),
-    ('25k_50k', '$25,000 – $50,000 / year'),
-    ('50k_75k', '$50,000 – $75,000 / year'),
-    ('75k_plus', '$75,000+ / year'),
+    ('under_10k', 'Under 10,000 / year'),
+    ('10k_25k', '10,000 – 25,000 / year'),
+    ('25k_50k', '25,000 – 50,000 / year'),
+    ('50k_75k', '50,000 – 75,000 / year'),
+    ('75k_plus', '75,000+ / year'),
     ('flexible', 'Flexible / not sure yet'),
 ]
 
+BUDGET_CURRENCY_CHOICES = [
+    ('USD', 'USD ($)'),
+    ('EUR', 'EUR (€)'),
+    ('GBP', 'GBP (£)'),
+    ('PLN', 'PLN (zł)'),
+]
+
+DEFAULT_BUDGET_CURRENCY = 'USD'
+
 MAX_UPLOAD_SIZE = 10 * 1024 * 1024
 ALLOWED_UPLOAD_EXTENSIONS = {'.pdf', '.doc', '.docx'}
+MAX_PROFILE_PHOTO_SIZE = 5 * 1024 * 1024
+ALLOWED_PROFILE_PHOTO_EXTENSIONS = {'.jpg', '.jpeg', '.png'}
 
 DIAGNOSTIC_STAGES = [
     {

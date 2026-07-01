@@ -1,0 +1,253 @@
+{% if is_platform_admin %}
+<div
+  class="modal fade"
+  id="adminAddStudentModal"
+  tabindex="-1"
+  aria-labelledby="adminAddStudentModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="adminAddStudentModalLabel">Add student</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form
+        id="adminAddStudentForm"
+        action="{% url 'admin-create-student' %}"
+        method="POST"
+        novalidate>
+        {% csrf_token %}
+        <div class="modal-body">
+          <div id="adminAddStudentErrors" class="alert alert-danger d-none" role="alert">
+            <ul class="mb-0" id="adminAddStudentErrorsList"></ul>
+          </div>
+
+          <div class="row g-4 align-items-start">
+            <div class="col-md-6">
+              <div class="form-floating form-floating-outline">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="admin_student_first_name"
+                  name="first_name"
+                  placeholder="First name"
+                  required />
+                <label for="admin_student_first_name">First Name</label>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-floating form-floating-outline">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="admin_student_last_name"
+                  name="last_name"
+                  placeholder="Last name"
+                  required />
+                <label for="admin_student_last_name">Last Name</label>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="form-floating form-floating-outline">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="admin_student_school_name"
+                  name="school_name"
+                  placeholder="School name" />
+                <label for="admin_student_school_name">School Name</label>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-floating form-floating-outline">
+                <select id="admin_student_application_type" name="application_type" class="form-select" required>
+                  <option value="">Select application type...</option>
+                  <option value="bachelor">Bachelor</option>
+                  <option value="masters">Masters</option>
+                  <option value="phd">PhD</option>
+                </select>
+                <label for="admin_student_application_type">Application Type</label>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-floating form-floating-outline">
+                <input
+                  type="email"
+                  class="form-control"
+                  id="admin_student_email"
+                  name="email"
+                  placeholder="Email"
+                  required />
+                <label for="admin_student_email">Email</label>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-floating form-floating-outline">
+                <input
+                  type="email"
+                  class="form-control"
+                  id="admin_student_parent_email"
+                  name="parent_email"
+                  placeholder="Parent's email (optional)"
+                  autocomplete="email" />
+                <label for="admin_student_parent_email">Parent's Email (optional)</label>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-password-toggle">
+                <div class="input-group input-group-merge">
+                  <div class="form-floating form-floating-outline">
+                    <input
+                      type="password"
+                      id="admin_student_password"
+                      class="form-control"
+                      name="password"
+                      placeholder="Password"
+                      required />
+                    <label for="admin_student_password">Password</label>
+                  </div>
+                  <span class="input-group-text cursor-pointer"><i class="icon-base ri ri-eye-off-line"></i></span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-password-toggle">
+                <div class="input-group input-group-merge">
+                  <div class="form-floating form-floating-outline">
+                    <input
+                      type="password"
+                      id="admin_student_confirm_password"
+                      class="form-control"
+                      name="confirm_password"
+                      placeholder="Confirm password"
+                      required />
+                    <label for="admin_student_confirm_password">Confirm Password</label>
+                  </div>
+                  <span class="input-group-text cursor-pointer"><i class="icon-base ri ri-eye-off-line"></i></span>
+                </div>
+                <div id="adminStudentPasswordMatchMessage" class="mt-2" style="display: none;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="adminAddStudentSubmit">Create student</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+window.addEventListener('load', function () {
+  const form = document.getElementById('adminAddStudentForm');
+  const modalEl = document.getElementById('adminAddStudentModal');
+  if (!form || !modalEl) {
+    return;
+  }
+
+  const errorsBox = document.getElementById('adminAddStudentErrors');
+  const errorsList = document.getElementById('adminAddStudentErrorsList');
+  const submitBtn = document.getElementById('adminAddStudentSubmit');
+  const passwordField = document.getElementById('admin_student_password');
+  const confirmPasswordField = document.getElementById('admin_student_confirm_password');
+  const passwordMatchMessage = document.getElementById('adminStudentPasswordMatchMessage');
+
+  function clearErrors() {
+    errorsList.innerHTML = '';
+    errorsBox.classList.add('d-none');
+  }
+
+  function showErrors(errors) {
+    errorsList.innerHTML = '';
+    errors.forEach(function (error) {
+      const item = document.createElement('li');
+      item.textContent = error;
+      errorsList.appendChild(item);
+    });
+    errorsBox.classList.remove('d-none');
+  }
+
+  function checkPasswordMatch() {
+    const password = passwordField.value;
+    const confirmPassword = confirmPasswordField.value;
+
+    if (confirmPassword === '') {
+      passwordMatchMessage.style.display = 'none';
+      confirmPasswordField.classList.remove('is-valid', 'is-invalid');
+      return null;
+    }
+
+    if (password === confirmPassword) {
+      passwordMatchMessage.innerHTML = '<small class="text-success"><i class="ri-check-line"></i> Passwords match</small>';
+      passwordMatchMessage.style.display = 'block';
+      confirmPasswordField.classList.remove('is-invalid');
+      confirmPasswordField.classList.add('is-valid');
+      return true;
+    }
+
+    passwordMatchMessage.innerHTML = '<small class="text-danger"><i class="ri-close-line"></i> Passwords do not match</small>';
+    passwordMatchMessage.style.display = 'block';
+    confirmPasswordField.classList.remove('is-valid');
+    confirmPasswordField.classList.add('is-invalid');
+    return false;
+  }
+
+  confirmPasswordField.addEventListener('input', checkPasswordMatch);
+  passwordField.addEventListener('input', function () {
+    if (confirmPasswordField.value !== '') {
+      checkPasswordMatch();
+    }
+  });
+
+  modalEl.addEventListener('hidden.bs.modal', function () {
+    form.reset();
+    clearErrors();
+    passwordMatchMessage.style.display = 'none';
+    confirmPasswordField.classList.remove('is-valid', 'is-invalid');
+  });
+
+  form.addEventListener('submit', function (event) {
+    event.preventDefault();
+    clearErrors();
+
+    const passwordsMatch = checkPasswordMatch();
+    if (passwordsMatch === false) {
+      confirmPasswordField.focus();
+      return;
+    }
+
+    submitBtn.disabled = true;
+    const formData = new FormData(form);
+
+    fetch(form.action, {
+      method: 'POST',
+      body: formData,
+      headers: {
+        'X-Requested-With': 'XMLHttpRequest',
+        'X-CSRFToken': formData.get('csrfmiddlewaretoken'),
+      },
+    })
+      .then(function (response) {
+        return response.json().then(function (data) {
+          return { ok: response.ok, data: data };
+        });
+      })
+      .then(function (result) {
+        if (result.ok && result.data.success) {
+          window.location.href = result.data.redirect_url;
+          return;
+        }
+        showErrors(result.data.errors || ['Something went wrong. Please try again.']);
+      })
+      .catch(function () {
+        showErrors(['Something went wrong. Please try again.']);
+      })
+      .finally(function () {
+        submitBtn.disabled = false;
+      });
+  });
+});
+</script>
+{% endif %}

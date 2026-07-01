@@ -1,0 +1,231 @@
+<script>
+(function () {
+  if (window.__studentProfilePhotoWidgetsReady) {
+    return;
+  }
+  window.__studentProfilePhotoWidgetsReady = true;
+
+  const ALLOWED_TYPES = ['image/jpeg', 'image/png'];
+  const ALLOWED_EXTENSIONS = ['.jpg', '.jpeg', '.png'];
+
+  function getCsrfToken() {
+    const input = document.querySelector('[name=csrfmiddlewaretoken]');
+    if (input) {
+      return input.value;
+    }
+    const match = document.cookie.match(/csrftoken=([^;]+)/);
+    return match ? decodeURIComponent(match[1]) : '';
+  }
+
+  function extensionAllowed(filename) {
+    const lower = filename.toLowerCase();
+    return ALLOWED_EXTENSIONS.some(function (ext) {
+      return lower.endsWith(ext);
+    });
+  }
+
+  function setButtonsState(widget, hasPhoto) {
+    const uploadBtn = widget.querySelector('[data-photo-upload]');
+    const downloadBtn = widget.querySelector('[data-photo-download]');
+    const deleteBtn = widget.querySelector('[data-photo-delete]');
+    if (uploadBtn) {
+      uploadBtn.classList.toggle('d-none', hasPhoto);
+    }
+    if (downloadBtn) {
+      downloadBtn.disabled = !hasPhoto;
+    }
+    if (deleteBtn) {
+      deleteBtn.classList.toggle('d-none', !hasPhoto);
+    }
+  }
+
+  function updateNavbarProfilePhoto(url) {
+    document.querySelectorAll('[data-navbar-profile-photo]').forEach(function (img) {
+      img.src = url || img.getAttribute('data-default-avatar') || img.src;
+    });
+  }
+
+  function showPreview(widget, src) {
+    const preview = widget.querySelector('[data-photo-preview]');
+    const placeholder = widget.querySelector('[data-photo-placeholder]');
+    if (!preview || !placeholder) {
+      return;
+    }
+    preview.src = src;
+    preview.classList.remove('d-none');
+    placeholder.classList.add('d-none');
+    setButtonsState(widget, true);
+  }
+
+  function clearPreview(widget) {
+    const preview = widget.querySelector('[data-photo-preview]');
+    const placeholder = widget.querySelector('[data-photo-placeholder]');
+    const input = widget.querySelector('[data-photo-input]');
+    if (input) {
+      input.value = '';
+    }
+    if (preview) {
+      preview.classList.add('d-none');
+      preview.removeAttribute('src');
+    }
+    if (placeholder) {
+      placeholder.classList.remove('d-none');
+    }
+    widget.removeAttribute('data-local-object-url');
+    widget.removeAttribute('data-photo-url');
+    setButtonsState(widget, false);
+    updateNavbarProfilePhoto('');
+  }
+
+  window.resetStudentProfilePhotoWidget = function (widget) {
+    clearPreview(widget);
+  };
+
+  function downloadPhoto(widget) {
+    const localUrl = widget.getAttribute('data-local-object-url');
+    const serverUrl = widget.getAttribute('data-download-url') || widget.getAttribute('data-photo-url');
+    const preview = widget.querySelector('[data-photo-preview]');
+    const href = localUrl || serverUrl;
+    if (!href || !preview) {
+      return;
+    }
+    const link = document.createElement('a');
+    link.href = href;
+    link.download = preview.getAttribute('data-download-name') || 'profile-photo.jpg';
+    if (!localUrl) {
+      link.target = '_blank';
+    }
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+  }
+
+  function deletePhoto(widget) {
+    const deleteFormId = widget.getAttribute('data-delete-form-id');
+    if (deleteFormId) {
+      const deleteForm = document.getElementById(deleteFormId);
+      if (deleteForm) {
+        deleteForm.submit();
+        return;
+      }
+    }
+    clearPreview(widget);
+  }
+
+  function uploadPhoto(widget, file, input) {
+    const uploadUrl = widget.getAttribute('data-upload-url');
+    const uploadBtn = widget.querySelector('[data-photo-upload]');
+    if (!uploadUrl) {
+      const objectUrl = URL.createObjectURL(file);
+      widget.setAttribute('data-local-object-url', objectUrl);
+      const preview = widget.querySelector('[data-photo-preview]');
+      if (preview) {
+        preview.setAttribute('data-download-name', file.name);
+      }
+      showPreview(widget, objectUrl);
+      setButtonsState(widget, true);
+      return;
+    }
+    if (uploadBtn) {
+      uploadBtn.disabled = true;
+    }
+
+    const formData = new FormData();
+    formData.append('profile_photo', file);
+
+    fetch(uploadUrl, {
+      method: 'POST',
+      body: formData,
+      headers: {
+        'X-Requested-With': 'XMLHttpRequest',
+        'X-CSRFToken': getCsrfToken(),
+      },
+    })
+      .then(function (response) {
+        return response.json().then(function (data) {
+          return { ok: response.ok, data: data };
+        });
+      })
+      .then(function (result) {
+        if (!result.ok || !result.data.success) {
+          throw new Error((result.data.errors && result.data.errors[0]) || 'Upload failed.');
+        }
+        widget.setAttribute('data-photo-url', result.data.photo_url);
+        widget.setAttribute('data-download-url', result.data.download_url);
+        widget.removeAttribute('data-local-object-url');
+        const preview = widget.querySelector('[data-photo-preview]');
+        if (preview) {
+          preview.setAttribute('data-download-name', file.name);
+        }
+        showPreview(widget, result.data.photo_url);
+        updateNavbarProfilePhoto(result.data.photo_url);
+        if (input) {
+          input.value = '';
+        }
+      })
+      .catch(function (error) {
+        alert(error.message || 'Could not upload photo. Please try again.');
+        if (input) {
+          input.value = '';
+        }
+      })
+      .finally(function () {
+        if (uploadBtn) {
+          uploadBtn.disabled = false;
+        }
+      });
+  }
+
+  document.querySelectorAll('[data-photo-widget]').forEach(function (widget) {
+    const input = widget.querySelector('[data-photo-input]');
+    const uploadBtn = widget.querySelector('[data-photo-upload]');
+    const downloadBtn = widget.querySelector('[data-photo-download]');
+    const deleteBtn = widget.querySelector('[data-photo-delete]');
+
+    if (uploadBtn && input) {
+      uploadBtn.addEventListener('click', function () {
+        input.click();
+      });
+    }
+
+    if (input) {
+      input.addEventListener('change', function () {
+        const file = input.files && input.files[0];
+        if (!file) {
+          return;
+        }
+        if (!ALLOWED_TYPES.includes(file.type) && !extensionAllowed(file.name)) {
+          alert('Only JPG and PNG images are allowed.');
+          input.value = '';
+          return;
+        }
+        if (file.size > 5 * 1024 * 1024) {
+          alert('Profile photo must be 5 MB or smaller.');
+          input.value = '';
+          return;
+        }
+        uploadPhoto(widget, file, input);
+      });
+    }
+
+    if (downloadBtn) {
+      downloadBtn.addEventListener('click', function () {
+        downloadPhoto(widget);
+      });
+    }
+
+    if (deleteBtn) {
+      deleteBtn.addEventListener('click', function () {
+        if (widget.getAttribute('data-photo-url') && !widget.getAttribute('data-local-object-url')) {
+          if (!window.confirm('Delete this profile photo?')) {
+            return;
+          }
+        }
+        deletePhoto(widget);
+      });
+    }
+
+    setButtonsState(widget, Boolean(widget.getAttribute('data-photo-url')));
+  });
+})();
+</script>

@@ -1,0 +1,208 @@
+<div class="col-12" id="budgetExpectationsSection" data-rates-url="{% url 'budget-exchange-rates' %}">
+  <div class="row g-4">
+    <div class="col-md-4">
+      <div class="form-floating form-floating-outline">
+        <select id="budget_currency" name="budget_currency" class="form-select">
+          {% for code, label in budget_currency_choices %}
+          <option value="{{ code }}" {% if academic.budget_currency|default:"USD" == code %}selected{% endif %}>{{ label }}</option>
+          {% endfor %}
+        </select>
+        <label for="budget_currency">Currency preference</label>
+      </div>
+    </div>
+
+    <div class="col-md-8">
+      <div class="form-floating form-floating-outline">
+        <select id="budget_expectations" name="budget_expectations" class="form-select">
+          <option value="">Select budget range...</option>
+          {% for value, label in budget_choices %}
+          <option value="{{ value }}" {% if academic.budget_expectations == value %}selected{% endif %}>{{ label }}</option>
+          {% endfor %}
+        </select>
+        <label for="budget_expectations">Annual budget range</label>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-5 pt-2">
+    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+      <label class="form-label mb-0">Quick currency converter</label>
+      <small class="text-body-secondary" id="budgetConverterRateNote">Loading live rates…</small>
+    </div>
+
+    <div class="row g-4 align-items-end">
+      <div class="col-sm-4">
+        <div class="form-floating form-floating-outline">
+          <input
+            type="number"
+            min="0"
+            step="any"
+            class="form-control"
+            id="budget_converter_amount"
+            value="10000"
+            placeholder="Amount" />
+          <label for="budget_converter_amount">Amount</label>
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <div class="form-floating form-floating-outline">
+          <select id="budget_converter_from" class="form-select">
+            {% for code, label in budget_currency_choices %}
+            <option value="{{ code }}">{{ code }}</option>
+            {% endfor %}
+          </select>
+          <label for="budget_converter_from">From</label>
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <div class="form-floating form-floating-outline">
+          <select id="budget_converter_to" class="form-select">
+            {% for code, label in budget_currency_choices %}
+            <option value="{{ code }}" {% if code == "EUR" %}selected{% endif %}>{{ code }}</option>
+            {% endfor %}
+          </select>
+          <label for="budget_converter_to">To</label>
+        </div>
+      </div>
+      <div class="col-sm-2">
+        <div class="small text-body-secondary mb-1">Result</div>
+        <div class="fw-medium" id="budget_converter_result">—</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  if (window.__budgetExpectationsReady) {
+    return;
+  }
+  window.__budgetExpectationsReady = true;
+
+  const CURRENCY_FORMATTERS = {
+    USD: new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }),
+    EUR: new Intl.NumberFormat('en-US', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }),
+    GBP: new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'GBP', maximumFractionDigits: 0 }),
+    PLN: new Intl.NumberFormat('pl-PL', { style: 'currency', currency: 'PLN', maximumFractionDigits: 0 }),
+  };
+
+  function initBudgetSection() {
+    const section = document.getElementById('budgetExpectationsSection');
+    const currencySelect = document.getElementById('budget_currency');
+    const amountInput = document.getElementById('budget_converter_amount');
+    const fromSelect = document.getElementById('budget_converter_from');
+    const toSelect = document.getElementById('budget_converter_to');
+    const resultEl = document.getElementById('budget_converter_result');
+    const rateNoteEl = document.getElementById('budgetConverterRateNote');
+    if (!section || !currencySelect) {
+      return;
+    }
+
+    const ratesUrl = section.getAttribute('data-rates-url');
+    let exchangeRates = null;
+
+    function formatMoney(currency, amount) {
+      const formatter = CURRENCY_FORMATTERS[currency];
+      if (formatter) {
+        return formatter.format(amount);
+      }
+      return amount.toFixed(2) + ' ' + currency;
+    }
+
+    function convertAmount() {
+      if (!amountInput || !fromSelect || !toSelect || !resultEl) {
+        return;
+      }
+
+      const amount = parseFloat(amountInput.value);
+      const fromCurrency = fromSelect.value;
+      const toCurrency = toSelect.value;
+
+      if (Number.isNaN(amount) || amountInput.value.trim() === '') {
+        resultEl.textContent = '—';
+        return;
+      }
+
+      if (fromCurrency === toCurrency) {
+        resultEl.textContent = formatMoney(toCurrency, amount);
+        return;
+      }
+
+      if (!exchangeRates) {
+        resultEl.textContent = '…';
+        return;
+      }
+
+      const fromRate = exchangeRates[fromCurrency];
+      const toRate = exchangeRates[toCurrency];
+      if (!fromRate || !toRate) {
+        resultEl.textContent = '—';
+        return;
+      }
+
+      const converted = amount * (toRate / fromRate);
+      resultEl.textContent = formatMoney(toCurrency, converted);
+    }
+
+    function loadExchangeRates() {
+      if (!ratesUrl) {
+        if (rateNoteEl) {
+          rateNoteEl.textContent = 'Rates unavailable';
+        }
+        return;
+      }
+
+      fetch(ratesUrl, { headers: { Accept: 'application/json' } })
+        .then(function (response) {
+          if (!response.ok) {
+            throw new Error('Rate fetch failed');
+          }
+          return response.json();
+        })
+        .then(function (data) {
+          exchangeRates = data.rates || null;
+          if (rateNoteEl) {
+            const date = data.date || 'today';
+            rateNoteEl.textContent = 'Live rates (ECB), updated ' + date;
+          }
+          convertAmount();
+        })
+        .catch(function () {
+          if (rateNoteEl) {
+            rateNoteEl.textContent = 'Live rates unavailable right now';
+          }
+          if (resultEl) {
+            resultEl.textContent = '—';
+          }
+        });
+    }
+
+    currencySelect.addEventListener('change', function () {
+      if (fromSelect) {
+        fromSelect.value = currencySelect.value;
+      }
+      convertAmount();
+    });
+
+    [amountInput, fromSelect, toSelect].forEach(function (element) {
+      if (element) {
+        element.addEventListener('input', convertAmount);
+        element.addEventListener('change', convertAmount);
+      }
+    });
+
+    if (fromSelect) {
+      fromSelect.value = currencySelect.value || 'USD';
+    }
+
+    convertAmount();
+    loadExchangeRates();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initBudgetSection);
+  } else {
+    initBudgetSection();
+  }
+})();
+</script>

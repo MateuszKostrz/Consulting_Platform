@@ -15,6 +15,7 @@ from .models import (
 )
 
 ADMIN_VIEWING_STUDENT_SESSION_KEY = 'admin_viewing_student_id'
+ADMIN_IMPERSONATOR_USER_ID_KEY = 'admin_impersonator_user_id'
 DEADLINE_FILTER_STUDENT_SESSION_KEY = 'deadline_filter_student_id'
 PROFILE_SESSION_KEY = 'profile_session_key'
 
@@ -26,6 +27,7 @@ PERSONAL_PROFILE_MERGE_FIELDS = (
     'nationality',
     'passport_number',
     'school_name',
+    'school_address',
     'curriculum',
     'graduation_year',
     'subjects',
@@ -38,7 +40,11 @@ ACADEMIC_PROFILE_MERGE_FIELDS = (
     'awards_competitions',
     'intended_course_interests',
     'country_preferences',
+    'primary_course_preference',
+    'secondary_course_preference',
+    'excluded_countries_cities',
     'budget_expectations',
+    'budget_currency',
     'parent_input',
     'career_goals',
 )
@@ -79,6 +85,39 @@ def clear_admin_viewing_student(request):
     if ADMIN_VIEWING_STUDENT_SESSION_KEY in request.session:
         del request.session[ADMIN_VIEWING_STUDENT_SESSION_KEY]
         request.session.modified = True
+
+
+def is_impersonating(request):
+    return bool(request.session.get(ADMIN_IMPERSONATOR_USER_ID_KEY))
+
+
+def get_impersonator_user_id(request):
+    return request.session.get(ADMIN_IMPERSONATOR_USER_ID_KEY)
+
+
+def set_impersonator_user_id(request, user_id):
+    request.session[ADMIN_IMPERSONATOR_USER_ID_KEY] = user_id
+    request.session.modified = True
+
+
+def clear_impersonator_user_id(request):
+    if ADMIN_IMPERSONATOR_USER_ID_KEY in request.session:
+        del request.session[ADMIN_IMPERSONATOR_USER_ID_KEY]
+        request.session.modified = True
+
+
+def get_impersonator_user(request):
+    from django.contrib.auth import get_user_model
+
+    user_id = get_impersonator_user_id(request)
+    if not user_id:
+        return None
+    User = get_user_model()
+    try:
+        return User.objects.get(pk=user_id)
+    except User.DoesNotExist:
+        clear_impersonator_user_id(request)
+        return None
 
 
 def get_deadline_filter_student_id(request):

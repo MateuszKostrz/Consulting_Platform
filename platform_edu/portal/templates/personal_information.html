@@ -45,33 +45,54 @@
               <h5 class="mb-0">Personal Information</h5>
               <small class="text-body-secondary">Update your contact and identity details</small>
             </div>
-            <form class="card-body" method="POST" action="{% url 'personal-information' %}">
+            <form class="card-body" method="POST" action="{% url 'personal-information' %}" enctype="multipart/form-data">
               {% csrf_token %}
 
               <h6 class="mb-4">1. Personal Details</h6>
-              <div class="row g-5">
-                <div class="col-12">
-                  <div class="form-floating form-floating-outline">
-                    <textarea class="form-control" id="address" name="address" placeholder="Your address" style="height: 80px">{{ info.address }}</textarea>
-                    <label for="address">Address</label>
+
+              <div class="row g-4 align-items-start mb-1">
+                <div class="col-lg-8">
+                  <div class="row g-4">
+                    <div class="col-md-6">
+                      <div class="form-floating form-floating-outline">
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="first_name"
+                          name="first_name"
+                          value="{% if info.platform_user %}{{ info.platform_user.first_name }}{% else %}{{ user_first_name }}{% endif %}"
+                          placeholder="First name"
+                          readonly />
+                        <label for="first_name">First Name</label>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-floating form-floating-outline">
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="last_name"
+                          name="last_name"
+                          value="{% if info.platform_user %}{{ info.platform_user.last_name }}{% else %}{{ user_last_name }}{% endif %}"
+                          placeholder="Last name"
+                          readonly />
+                        <label for="last_name">Last Name</label>
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <div class="form-floating form-floating-outline">
+                        <textarea class="form-control" id="address" name="address" placeholder="Your address" style="height: 80px">{{ info.address }}</textarea>
+                        <label for="address">Address</label>
+                      </div>
+                    </div>
                   </div>
                 </div>
-
-                <div class="col-md-6">
-                  <div class="form-floating form-floating-outline">
-                    <input type="email" class="form-control" id="personal_email" name="personal_email" value="{{ info.personal_email }}" placeholder="you@example.com" />
-                    <label for="personal_email">Personal Email</label>
-                  </div>
+                <div class="col-lg-4">
+                  {% include 'partials/student_profile_photo_widget.html' with widget_id='personalInfoPhoto' photo_url=profile_photo_url download_url=profile_photo_download_url upload_url=profile_photo_upload_url delete_form_id='deleteProfilePhotoForm' compact=True %}
                 </div>
+              </div>
 
-                <div class="col-md-6">
-                  <div class="form-floating form-floating-outline">
-                    <input type="email" class="form-control" id="edunade_email" value="{% if info.edunade_email %}{{ info.edunade_email }}{% elif info.platform_user %}{{ info.platform_user.email }}{% endif %}" placeholder="name@student.edunade.com" readonly />
-                    <label for="edunade_email">Edunade Created Email</label>
-                  </div>
-                  <div class="form-text">Assigned by Edunade — cannot be changed here</div>
-                </div>
-
+              <div class="row g-4">
                 <div class="col-md-6">
                   <div class="form-floating form-floating-outline">
                     <input type="tel" class="form-control phone-mask" id="phone_number" name="phone_number" value="{{ info.phone_number }}" placeholder="+1 234 567 8900" />
@@ -104,12 +125,34 @@
                     <label for="school_name">Name of School</label>
                   </div>
                 </div>
+
+                <div class="col-md-6">
+                  <div class="form-floating form-floating-outline">
+                    <input type="email" class="form-control" id="personal_email" name="personal_email" value="{{ info.personal_email }}" placeholder="you@example.com" />
+                    <label for="personal_email">Personal Email</label>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-floating form-floating-outline">
+                    <input type="email" class="form-control" id="edunade_email" value="{% if info.edunade_email %}{{ info.edunade_email }}{% elif info.platform_user %}{{ info.platform_user.email }}{% endif %}" placeholder="name@student.edunade.com" readonly />
+                    <label for="edunade_email">Edunade Created Email</label>
+                  </div>
+                  <div class="form-text">Assigned by Edunade — cannot be changed here</div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-floating form-floating-outline">
+                    <textarea class="form-control" id="school_address" name="school_address" placeholder="School address" style="height: 80px">{{ info.school_address }}</textarea>
+                    <label for="school_address">School Address</label>
+                  </div>
+                </div>
               </div>
 
               <hr class="my-6 mx-n4" />
 
               <h6 class="mb-4">2. Academic Background</h6>
-              <div class="row g-5">
+              <div class="row g-4">
                 <div class="col-md-6">
                   <div class="form-floating form-floating-outline">
                     <select id="curriculum" name="curriculum" class="form-select">
@@ -134,21 +177,17 @@
                   </div>
                 </div>
 
-                <div class="col-12">
-                  <label for="subjects" class="form-label">Subjects</label>
-                  <select id="subjects" name="subjects" class="select2 form-select" multiple>
-                    {% for value, label in ib_subjects %}
-                    <option value="{{ value }}" {% if value in selected_subjects %}selected{% endif %}>{{ label }}</option>
-                    {% endfor %}
-                  </select>
-                  <div class="form-text">Select all subjects you are studying</div>
-                </div>
+                {% include 'partials/subjects_field.html' %}
               </div>
 
               <div class="mt-6">
                 <button type="submit" class="btn btn-primary me-3">Save changes</button>
                 <a href="{% url 'home' %}" class="btn btn-outline-secondary">Cancel</a>
               </div>
+            </form>
+            <form id="deleteProfilePhotoForm" method="POST" action="{% url 'personal-information' %}" class="d-none">
+              {% csrf_token %}
+              <input type="hidden" name="action" value="delete_profile_photo" />
             </form>
           </div>
         </div>
@@ -177,16 +216,7 @@
     <script src="{% static 'website/js/vendor/libs/select2/select2.js' %}"></script>
     <script type="text/javascript" src="{% static 'website/js/main.js' %}"></script>
     <script type="text/javascript" src="{% static 'website/js/vendors.min.js' %}"></script>
-    <script>
-      document.addEventListener('DOMContentLoaded', function () {
-        if (window.jQuery && jQuery.fn.select2) {
-          jQuery('#subjects').select2({
-            placeholder: 'Select your subjects',
-            allowClear: true,
-            width: '100%'
-          });
-        }
-      });
-    </script>
+    {% include 'partials/subjects_field.js.html' %}
+    {% include 'partials/student_profile_photo_widget.js.html' %}
   </body>
 </html>

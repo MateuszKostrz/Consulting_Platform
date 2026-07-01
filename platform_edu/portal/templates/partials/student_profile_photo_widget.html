@@ -1,0 +1,48 @@
+{% load static %}
+<div
+  class="student-profile-photo-widget text-center {% if compact %}ms-lg-auto{% endif %}"
+  data-photo-widget
+  data-widget-id="{{ widget_id }}"
+  {% if photo_url %}data-photo-url="{{ photo_url }}"{% endif %}
+  {% if download_url %}data-download-url="{{ download_url }}"{% endif %}
+  {% if delete_form_id %}data-delete-form-id="{{ delete_form_id }}"{% endif %}
+  {% if upload_url %}data-upload-url="{{ upload_url }}"{% endif %}
+  style="max-width: {% if compact %}192px{% else %}192px{% endif %};">
+  <div
+    class="border rounded overflow-hidden bg-body-secondary bg-opacity-10 mb-2 mx-auto"
+    style="width: 192px; height: 192px;">
+    <img
+      src="{% if photo_url %}{{ photo_url }}{% else %}{% static 'website/images/avatars/avatar0.png' %}{% endif %}"
+      alt="Profile photo"
+      class="w-100 h-100 object-fit-cover {% if not photo_url %}d-none{% endif %}"
+      data-photo-preview />
+    <div
+      class="w-100 h-100 d-flex align-items-center justify-content-center text-body-secondary {% if photo_url %}d-none{% endif %}"
+      data-photo-placeholder>
+      <i class="icon-base ri ri-user-line icon-48px"></i>
+    </div>
+  </div>
+  <input
+    type="file"
+    id="{{ widget_id }}Input"
+    name="{{ input_name|default:'profile_photo' }}"
+    accept=".jpg,.jpeg,.png,image/jpeg,image/png"
+    class="d-none"
+    data-photo-input />
+  <div class="d-flex flex-wrap justify-content-center gap-1">
+    <button
+      type="button"
+      class="btn btn-sm btn-outline-primary px-2 {% if photo_url %}d-none{% endif %}"
+      data-photo-upload>Upload</button>
+    <button
+      type="button"
+      class="btn btn-sm btn-outline-secondary px-2"
+      data-photo-download
+      {% if not photo_url %}disabled{% endif %}>Download</button>
+    <button
+      type="button"
+      class="btn btn-sm btn-outline-danger px-2 {% if not photo_url %}d-none{% endif %}"
+      data-photo-delete>Delete</button>
+  </div>
+  <small class="text-body-secondary d-block mt-1" style="font-size: 0.7rem;">JPG or PNG</small>
+</div>

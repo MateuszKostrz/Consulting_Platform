@@ -1,0 +1,183 @@
+<script>
+(function () {
+  if (window.__subjectsFieldReady) {
+    return;
+  }
+  window.__subjectsFieldReady = true;
+
+  const OTHER_VALUE = 'other';
+
+  function getValues(selectEl) {
+    if (window.jQuery && jQuery(selectEl).data('select2')) {
+      return jQuery(selectEl).val() || [];
+    }
+    return Array.from(selectEl.selectedOptions).map(function (opt) {
+      return opt.value;
+    });
+  }
+
+  function setValues(selectEl, values) {
+    if (window.jQuery && jQuery(selectEl).data('select2')) {
+      jQuery(selectEl).val(values).trigger('change');
+      return;
+    }
+    Array.from(selectEl.options).forEach(function (opt) {
+      opt.selected = values.indexOf(opt.value) !== -1;
+    });
+    selectEl.dispatchEvent(new Event('change'));
+  }
+
+  function setValuesQuietly(selectEl, values) {
+    selectEl.dataset.subjectsSyncing = '1';
+    if (window.jQuery && jQuery(selectEl).data('select2')) {
+      jQuery(selectEl).val(values).trigger('change.select2');
+    } else {
+      Array.from(selectEl.options).forEach(function (opt) {
+        opt.selected = values.indexOf(opt.value) !== -1;
+      });
+    }
+    delete selectEl.dataset.subjectsSyncing;
+  }
+
+  function addCustomOption(selectEl, label) {
+    const trimmed = label.trim();
+    if (!trimmed || trimmed === OTHER_VALUE) {
+      return false;
+    }
+    const exists = Array.from(selectEl.options).some(function (opt) {
+      return opt.value === trimmed;
+    });
+    if (!exists) {
+      const option = document.createElement('option');
+      option.value = trimmed;
+      option.textContent = trimmed;
+      option.selected = true;
+      option.setAttribute('data-custom-subject', '1');
+      const otherOption = selectEl.querySelector('[data-subjects-other-option]');
+      selectEl.insertBefore(option, otherOption);
+    } else {
+      Array.from(selectEl.options).forEach(function (opt) {
+        if (opt.value === trimmed) {
+          opt.selected = true;
+        }
+      });
+    }
+    return true;
+  }
+
+  function applyOtherInput(selectEl) {
+    const field = selectEl.closest('[data-subjects-field]');
+    if (!field) {
+      return;
+    }
+    const otherInput = field.querySelector('[data-subjects-other-input]');
+    if (!otherInput || !otherInput.value.trim()) {
+      return;
+    }
+
+    const parts = otherInput.value.split(',');
+    let added = false;
+    parts.forEach(function (part) {
+      if (addCustomOption(selectEl, part)) {
+        added = true;
+      }
+    });
+
+    if (!added) {
+      return;
+    }
+
+    otherInput.value = '';
+    const values = getValues(selectEl).filter(function (value) {
+      return value !== OTHER_VALUE;
+    });
+    setValuesQuietly(selectEl, values);
+    hideOtherWrap(field);
+  }
+
+  function hideOtherWrap(field) {
+    const wrap = field.querySelector('[data-subjects-other-wrap]');
+    const otherInput = field.querySelector('[data-subjects-other-input]');
+    if (wrap) {
+      wrap.classList.add('d-none');
+    }
+    if (otherInput) {
+      otherInput.required = false;
+      otherInput.value = '';
+    }
+  }
+
+  function showOtherWrap(field) {
+    const wrap = field.querySelector('[data-subjects-other-wrap]');
+    const otherInput = field.querySelector('[data-subjects-other-input]');
+    if (wrap) {
+      wrap.classList.remove('d-none');
+    }
+    if (otherInput) {
+      otherInput.required = true;
+      otherInput.focus();
+    }
+  }
+
+  function syncOtherField(selectEl) {
+    if (selectEl.dataset.subjectsSyncing) {
+      return;
+    }
+    const field = selectEl.closest('[data-subjects-field]');
+    if (!field) {
+      return;
+    }
+    const values = getValues(selectEl);
+    if (values.indexOf(OTHER_VALUE) === -1) {
+      return;
+    }
+    showOtherWrap(field);
+    setValuesQuietly(
+      selectEl,
+      values.filter(function (value) {
+        return value !== OTHER_VALUE;
+      })
+    );
+  }
+
+  function initSubjectsSelect(selectEl) {
+    if (window.jQuery && jQuery.fn.select2) {
+      jQuery(selectEl).select2({
+        placeholder: 'Select your subjects',
+        allowClear: true,
+        width: '100%',
+      });
+      jQuery(selectEl).on('change', function () {
+        syncOtherField(selectEl);
+      });
+    } else {
+      selectEl.addEventListener('change', function () {
+        syncOtherField(selectEl);
+      });
+    }
+
+    const field = selectEl.closest('[data-subjects-field]');
+    const otherInput = field && field.querySelector('[data-subjects-other-input]');
+    if (otherInput) {
+      otherInput.addEventListener('keydown', function (event) {
+        if (event.key === 'Enter') {
+          event.preventDefault();
+          applyOtherInput(selectEl);
+        }
+      });
+      otherInput.addEventListener('blur', function () {
+        applyOtherInput(selectEl);
+      });
+    }
+
+    const form = selectEl.closest('form');
+    if (form) {
+      form.addEventListener('submit', function () {
+        applyOtherInput(selectEl);
+      });
+    }
+  }
+
+  document.querySelectorAll('[data-subjects-select]').forEach(initSubjectsSelect);
+})();
+</script>

@@ -1,0 +1,322 @@
+<div class="col-12 activity-entry-section" id="extracurricularActivitiesSection">
+  <label class="form-label">Extracurricular activities</label>
+
+  <div class="table-responsive">
+    <table class="table table-bordered align-middle mb-2">
+      <thead class="table-light">
+        <tr>
+          <th style="min-width: 10rem;">Activity name</th>
+          <th style="min-width: 8rem;">Date</th>
+          <th style="min-width: 10rem;">Location</th>
+          <th style="min-width: 14rem;">Description</th>
+          <th class="text-center" style="width: 6rem;">Actions</th>
+        </tr>
+      </thead>
+      <tbody data-activity-table>
+        {% for row in activity_entries %}
+        <tr
+          data-activity-row
+          data-row-index="{{ forloop.counter }}"
+          {% if not row.name and not row.date and not row.location and not row.description %}class="is-row-editing"{% endif %}>
+          <td>
+            <span class="activity-view-value">{{ row.name|default:"—" }}</span>
+            <input
+              type="text"
+              class="form-control form-control-sm activity-edit-input"
+              name="activity_{{ forloop.counter }}_name"
+              value="{{ row.name }}"
+              placeholder="Activity name" />
+          </td>
+          <td>
+            <span class="activity-view-value">{{ row.date|default:"—" }}</span>
+            <input
+              type="text"
+              class="form-control form-control-sm activity-edit-input"
+              name="activity_{{ forloop.counter }}_date"
+              value="{{ row.date }}"
+              placeholder="Date" />
+          </td>
+          <td>
+            <span class="activity-view-value">{{ row.location|default:"—" }}</span>
+            <input
+              type="text"
+              class="form-control form-control-sm activity-edit-input"
+              name="activity_{{ forloop.counter }}_location"
+              value="{{ row.location }}"
+              placeholder="Location" />
+          </td>
+          <td>
+            <span class="activity-view-value">{{ row.description|default:"—" }}</span>
+            <input
+              type="text"
+              class="form-control form-control-sm activity-edit-input"
+              name="activity_{{ forloop.counter }}_description"
+              value="{{ row.description }}"
+              placeholder="Description" />
+          </td>
+          <td class="text-center">
+            <div class="d-flex justify-content-center gap-1">
+              <button
+                type="button"
+                class="btn btn-sm btn-icon btn-text-secondary"
+                data-edit-activity-row
+                title="Edit row">
+                <i class="icon-base ri ri-pencil-line icon-18px"></i>
+              </button>
+              <button
+                type="button"
+                class="btn btn-sm btn-icon btn-text-danger"
+                data-remove-activity-row
+                title="Remove row">
+                <i class="icon-base ri ri-delete-bin-line"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <button type="button" class="btn btn-sm btn-outline-primary" data-add-activity-row>
+    Add
+  </button>
+</div>
+
+<div class="modal fade" id="deleteActivityModal" tabindex="-1" aria-labelledby="deleteActivityModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header border-0 pb-0">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body text-center pt-0">
+        <div class="avatar avatar-lg mb-3 mx-auto">
+          <span class="avatar-initial rounded-circle bg-label-danger">
+            <i class="icon-base ri ri-delete-bin-line icon-28px"></i>
+          </span>
+        </div>
+        <h5 class="mb-2" id="deleteActivityModalLabel">Delete activity?</h5>
+        <p class="text-body-secondary mb-1">This entry will be removed when you save changes.</p>
+        <p class="fw-medium mb-0" id="deleteActivityName"></p>
+      </div>
+      <div class="modal-footer justify-content-center border-0 pt-0">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-danger" id="deleteActivityConfirmBtn">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  [data-activity-row]:not(.is-row-editing) .activity-edit-input {
+    display: none;
+  }
+
+  [data-activity-row].is-row-editing .activity-view-value {
+    display: none;
+  }
+</style>
+
+<script type="text/template" id="activityRowTemplate">
+  <tr data-activity-row class="is-row-editing">
+    <td>
+      <span class="activity-view-value">—</span>
+      <input type="text" class="form-control form-control-sm activity-edit-input" data-field="name" placeholder="Activity name" />
+    </td>
+    <td>
+      <span class="activity-view-value">—</span>
+      <input type="text" class="form-control form-control-sm activity-edit-input" data-field="date" placeholder="Date" />
+    </td>
+    <td>
+      <span class="activity-view-value">—</span>
+      <input type="text" class="form-control form-control-sm activity-edit-input" data-field="location" placeholder="Location" />
+    </td>
+    <td>
+      <span class="activity-view-value">—</span>
+      <input type="text" class="form-control form-control-sm activity-edit-input" data-field="description" placeholder="Description" />
+    </td>
+    <td class="text-center">
+      <div class="d-flex justify-content-center gap-1">
+        <button type="button" class="btn btn-sm btn-icon btn-text-secondary" data-edit-activity-row title="Edit row">
+          <i class="icon-base ri ri-pencil-line icon-18px"></i>
+        </button>
+        <button type="button" class="btn btn-sm btn-icon btn-text-danger" data-remove-activity-row title="Remove row">
+          <i class="icon-base ri ri-delete-bin-line"></i>
+        </button>
+      </div>
+    </td>
+  </tr>
+</script>
+
+<script>
+(function () {
+  if (window.__activityEntryTablesReady) {
+    return;
+  }
+  window.__activityEntryTablesReady = true;
+
+  const section = document.getElementById('extracurricularActivitiesSection');
+  const templateEl = document.getElementById('activityRowTemplate');
+  if (!section || !templateEl) {
+    return;
+  }
+
+  const tbody = section.querySelector('[data-activity-table]');
+  const deleteModalEl = document.getElementById('deleteActivityModal');
+  const deleteNameEl = document.getElementById('deleteActivityName');
+  const deleteConfirmBtn = document.getElementById('deleteActivityConfirmBtn');
+  let deleteModal = null;
+  let rowPendingDelete = null;
+
+  function getDeleteModal() {
+    if (!deleteModalEl || !window.bootstrap) {
+      return null;
+    }
+    if (!deleteModal) {
+      deleteModal = window.bootstrap.Modal.getOrCreateInstance(deleteModalEl);
+    }
+    return deleteModal;
+  }
+
+  function activityRowLabel(row) {
+    const nameInput = row.querySelector('input[name$="_name"]');
+    const name = nameInput && nameInput.value.trim();
+    return name || 'this activity';
+  }
+
+  function removeRow(row) {
+    if (!row) {
+      return;
+    }
+    row.remove();
+  }
+
+  function syncViewValues(row) {
+    row.querySelectorAll('.activity-edit-input[name]').forEach(function (input) {
+      const view = input.previousElementSibling;
+      if (view && view.classList.contains('activity-view-value')) {
+        const value = input.value.trim();
+        view.textContent = value || '—';
+      }
+    });
+  }
+
+  function setRowEditing(row, enabled) {
+    if (!row) {
+      return;
+    }
+    if (!enabled) {
+      syncViewValues(row);
+    }
+    row.classList.toggle('is-row-editing', enabled);
+  }
+
+  function closeOtherRows(activeRow) {
+    tbody.querySelectorAll('[data-activity-row].is-row-editing').forEach(function (row) {
+      if (row !== activeRow) {
+        setRowEditing(row, false);
+      }
+    });
+  }
+
+  function nextRowIndex() {
+    let maxIndex = 0;
+    tbody.querySelectorAll('[data-activity-row]').forEach(function (row) {
+      const input = row.querySelector('input[name]');
+      if (!input) {
+        return;
+      }
+      const match = input.name.match(/^activity_(\d+)_/);
+      if (match) {
+        maxIndex = Math.max(maxIndex, parseInt(match[1], 10));
+      }
+    });
+    return maxIndex + 1;
+  }
+
+  function addRow() {
+    closeOtherRows(null);
+    const index = nextRowIndex();
+    const wrapper = document.createElement('tbody');
+    wrapper.innerHTML = templateEl.innerHTML.trim();
+    const row = wrapper.firstElementChild;
+    row.setAttribute('data-row-index', String(index));
+    row.querySelectorAll('[data-field]').forEach(function (input) {
+      const field = input.getAttribute('data-field');
+      input.name = 'activity_' + index + '_' + field;
+      input.removeAttribute('data-field');
+    });
+    tbody.appendChild(row);
+    const firstInput = row.querySelector('input');
+    if (firstInput) {
+      firstInput.focus();
+    }
+  }
+
+  section.addEventListener('click', function (event) {
+    const addBtn = event.target.closest('[data-add-activity-row]');
+    if (addBtn) {
+      addRow();
+      return;
+    }
+
+    const editRowBtn = event.target.closest('[data-edit-activity-row]');
+    if (editRowBtn) {
+      const row = editRowBtn.closest('[data-activity-row]');
+      if (!row) {
+        return;
+      }
+      const isEditing = row.classList.contains('is-row-editing');
+      if (isEditing) {
+        setRowEditing(row, false);
+      } else {
+        closeOtherRows(row);
+        setRowEditing(row, true);
+        const firstInput = row.querySelector('.activity-edit-input');
+        if (firstInput) {
+          firstInput.focus();
+        }
+      }
+      return;
+    }
+
+    const removeBtn = event.target.closest('[data-remove-activity-row]');
+    if (removeBtn) {
+      const row = removeBtn.closest('[data-activity-row]');
+      if (!row) {
+        return;
+      }
+      rowPendingDelete = row;
+      if (deleteNameEl) {
+        deleteNameEl.textContent = activityRowLabel(row);
+      }
+      const modal = getDeleteModal();
+      if (modal) {
+        modal.show();
+      } else if (window.confirm('Delete ' + activityRowLabel(row) + '?')) {
+        removeRow(row);
+        rowPendingDelete = null;
+      }
+    }
+  });
+
+  if (deleteConfirmBtn) {
+    deleteConfirmBtn.addEventListener('click', function () {
+      if (rowPendingDelete) {
+        removeRow(rowPendingDelete);
+        rowPendingDelete = null;
+      }
+      const modal = getDeleteModal();
+      if (modal) {
+        modal.hide();
+      }
+    });
+  }
+
+  if (deleteModalEl) {
+    deleteModalEl.addEventListener('hidden.bs.modal', function () {
+      rowPendingDelete = null;
+    });
+  }
+})();
+</script>

@@ -12,6 +12,7 @@ from django.http import JsonResponse
 from .constants import PHONE_COUNTRY_CODES
 from .models import PlatformUser
 from .profile_access import ensure_student_personal_profile
+from .upload_utils import replace_profile_photo, validate_profile_photo
 
 VALID_PHONE_COUNTRY_CODES = {code for code, _ in PHONE_COUNTRY_CODES}
 
@@ -156,6 +157,55 @@ def _validate_register_form(request):
     }
 
 
+def _validate_admin_student_form(request):
+    """Validate admin-created student accounts (no recaptcha / policy checkboxes)."""
+    first_name = request.POST.get('first_name', '').strip()
+    last_name = request.POST.get('last_name', '').strip()
+    email = request.POST.get('email', '').strip().lower()
+    application_type = request.POST.get('application_type', '').strip()
+    password = request.POST.get('password', '')
+    confirm_password = request.POST.get('confirm_password', '')
+    parent_email = request.POST.get('parent_email', '').strip().lower()
+    school_name = request.POST.get('school_name', '').strip()
+    profile_photo = request.FILES.get('profile_photo')
+
+    errors = []
+    if not first_name:
+        errors.append('First name is required.')
+    if not last_name:
+        errors.append('Last name is required.')
+    if not email:
+        errors.append('Email is required.')
+    elif User.objects.filter(email__iexact=email).exists() or User.objects.filter(username__iexact=email).exists():
+        errors.append('An account with this email already exists.')
+    if application_type not in PlatformUser.ApplicationType.values:
+        errors.append('Please select a valid application type.')
+    if parent_email:
+        try:
+            validate_email(parent_email)
+        except ValidationError:
+            errors.append('Please enter a valid parent email address.')
+    if len(password) < 8:
+        errors.append('Password must be at least 8 characters long.')
+    if password != confirm_password:
+        errors.append('Passwords do not match.')
+    photo_error = validate_profile_photo(profile_photo)
+    if photo_error:
+        errors.append(photo_error)
+
+    return errors, {
+        'first_name': first_name,
+        'last_name': last_name,
+        'email': email,
+        'user_type': PlatformUser.Role.STUDENT,
+        'application_type': application_type,
+        'password': password,
+        'parent_email': parent_email,
+        'school_name': school_name,
+        'profile_photo': profile_photo,
+    }
+
+
 def create_registered_user(
     *,
     first_name,
@@ -166,6 +216,9 @@ def create_registered_user(
     password,
     phone_number='',
     parent_email='',
+    school_name='',
+    school_address='',
+    profile_photo=None,
 ):
     user = User.objects.create_user(
         username=email,
@@ -184,14 +237,15 @@ def create_registered_user(
     )
     if platform_user.is_student:
         profile = ensure_student_personal_profile(platform_user)
-        update_fields = []
         if phone_number:
             profile.phone_number = phone_number
-            update_fields.append('phone_number')
         if parent_email:
             profile.parent_email = parent_email
-            update_fields.append('parent_email')
-        if update_fields:
-            update_fields.append('updated_at')
-            profile.save(update_fields=update_fields)
+        if school_name:
+            profile.school_name = school_name
+        if school_address:
+            profile.school_address = school_address
+        if profile_photo:
+            replace_profile_photo(profile, profile_photo)
+        profile.save()
     return user, platform_user

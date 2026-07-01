@@ -1,0 +1,176 @@
+{% load static %}
+<div class="col-12">
+  <div class="d-flex flex-column gap-5">
+    <div>
+      <label class="form-label">Country preferences</label>
+      <p class="text-body-secondary small mb-3">Rank countries in order of preference (1 = most preferred). Drag to reorder.</p>
+
+      <ul class="list-group mb-3" id="orderedCountryList">
+        {% for country in ordered_countries %}
+        <li class="list-group-item d-flex align-items-center gap-2 ordered-country-row">
+          <span class="badge bg-label-primary country-rank flex-shrink-0">{{ forloop.counter }}</span>
+          <span class="text-body-secondary ordered-country-handle flex-shrink-0" title="Drag to reorder">
+            <i class="icon-base ri ri-draggable icon-18px"></i>
+          </span>
+          <select name="country_preferences" class="form-select form-select-sm ordered-country-select">
+            <option value="">Select country...</option>
+            {% for choice in country_choices %}
+            <option value="{{ choice }}" {% if choice == country %}selected{% endif %}>{{ choice }}</option>
+            {% endfor %}
+          </select>
+          <button
+            type="button"
+            class="btn btn-sm btn-icon btn-text-danger flex-shrink-0 ordered-country-remove"
+            title="Remove"
+            {% if forloop.first and ordered_countries|length == 1 %}disabled{% endif %}>
+            <i class="icon-base ri ri-delete-bin-line"></i>
+          </button>
+        </li>
+        {% endfor %}
+      </ul>
+
+      <button type="button" class="btn btn-sm btn-outline-primary" id="addOrderedCountryBtn">
+        Add country
+      </button>
+    </div>
+
+    <div class="form-floating form-floating-outline">
+      <textarea
+        class="form-control"
+        id="excluded_countries_cities"
+        name="excluded_countries_cities"
+        placeholder="e.g. Remote cities, specific regions..."
+        style="height: 100px">{{ academic.excluded_countries_cities }}</textarea>
+      <label for="excluded_countries_cities">Any countries/cities you don't want to study in</label>
+    </div>
+
+    <div>
+      <label class="form-label mb-3">Course preferences</label>
+      <div class="d-flex flex-column gap-4">
+        <div class="form-floating form-floating-outline">
+          <input
+            type="text"
+            class="form-control"
+            id="primary_course_preference"
+            name="primary_course_preference"
+            value="{{ academic.primary_course_preference }}"
+            placeholder="e.g. Computer Science" />
+          <label for="primary_course_preference">Primary preference for the course</label>
+        </div>
+
+        <div class="form-floating form-floating-outline">
+          <input
+            type="text"
+            class="form-control"
+            id="secondary_course_preference"
+            name="secondary_course_preference"
+            value="{{ academic.secondary_course_preference }}"
+            placeholder="e.g. Economics" />
+          <label for="secondary_course_preference">Secondary preference for the course</label>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/template" id="orderedCountryRowTemplate">
+  <li class="list-group-item d-flex align-items-center gap-2 ordered-country-row">
+    <span class="badge bg-label-primary country-rank flex-shrink-0">1</span>
+    <span class="text-body-secondary ordered-country-handle flex-shrink-0" title="Drag to reorder">
+      <i class="icon-base ri ri-draggable icon-18px"></i>
+    </span>
+    <select name="country_preferences" class="form-select form-select-sm ordered-country-select">
+      <option value="">Select country...</option>
+      {% for choice in country_choices %}
+      <option value="{{ choice }}">{{ choice }}</option>
+      {% endfor %}
+    </select>
+    <button type="button" class="btn btn-sm btn-icon btn-text-danger flex-shrink-0 ordered-country-remove" title="Remove">
+      <i class="icon-base ri ri-delete-bin-line"></i>
+    </button>
+  </li>
+</script>
+
+<script src="{% static 'website/js/vendor/libs/sortablejs/sortable.js' %}"></script>
+<script>
+(function () {
+  if (window.__orderedCountryListReady) {
+    return;
+  }
+  window.__orderedCountryListReady = true;
+
+  function initOrderedCountryList() {
+    const list = document.getElementById('orderedCountryList');
+    const addBtn = document.getElementById('addOrderedCountryBtn');
+    const templateEl = document.getElementById('orderedCountryRowTemplate');
+    if (!list || !addBtn || !templateEl) {
+      return;
+    }
+
+    function syncRanks() {
+      list.querySelectorAll('.ordered-country-row').forEach(function (row, index) {
+        const rank = row.querySelector('.country-rank');
+        if (rank) {
+          rank.textContent = String(index + 1);
+        }
+      });
+    }
+
+    function syncRemoveButtons() {
+      const rows = list.querySelectorAll('.ordered-country-row');
+      rows.forEach(function (row) {
+        const btn = row.querySelector('.ordered-country-remove');
+        if (btn) {
+          btn.disabled = rows.length <= 1;
+        }
+      });
+    }
+
+    function addRow() {
+      const wrapper = document.createElement('ul');
+      wrapper.innerHTML = templateEl.innerHTML.trim();
+      const row = wrapper.firstElementChild;
+      list.appendChild(row);
+      syncRanks();
+      syncRemoveButtons();
+      const select = row.querySelector('select');
+      if (select) {
+        select.focus();
+      }
+    }
+
+    addBtn.addEventListener('click', addRow);
+
+    list.addEventListener('click', function (event) {
+      const removeBtn = event.target.closest('.ordered-country-remove');
+      if (!removeBtn) {
+        return;
+      }
+      const row = removeBtn.closest('.ordered-country-row');
+      if (!row || list.querySelectorAll('.ordered-country-row').length <= 1) {
+        return;
+      }
+      row.remove();
+      syncRanks();
+      syncRemoveButtons();
+    });
+
+    if (window.Sortable) {
+      Sortable.create(list, {
+        handle: '.ordered-country-handle',
+        animation: 150,
+        onSort: syncRanks,
+      });
+    }
+
+    syncRanks();
+    syncRemoveButtons();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initOrderedCountryList);
+  } else {
+    initOrderedCountryList();
+  }
+})();
+</script>

@@ -111,6 +111,8 @@ class PersonalProfile(models.Model):
     nationality = models.CharField(max_length=100, blank=True, default='')
     passport_number = models.CharField(max_length=50, blank=True, default='')
     school_name = models.CharField(max_length=200, blank=True, default='')
+    school_address = models.TextField(blank=True, default='')
+    profile_photo = models.ImageField(upload_to='personal/profile_photos/', blank=True, null=True)
     curriculum = models.CharField(max_length=50, blank=True, default='')
     graduation_year = models.CharField(max_length=20, blank=True, default='')
     subjects = models.TextField(blank=True, default='')
@@ -162,7 +164,11 @@ class AcademicProfile(models.Model):
     )
     intended_course_interests = models.TextField(blank=True, default='')
     country_preferences = models.TextField(blank=True, default='')
+    primary_course_preference = models.CharField(max_length=200, blank=True, default='')
+    secondary_course_preference = models.CharField(max_length=200, blank=True, default='')
+    excluded_countries_cities = models.TextField(blank=True, default='')
     budget_expectations = models.CharField(max_length=50, blank=True, default='')
+    budget_currency = models.CharField(max_length=3, blank=True, default='USD')
     parent_input = models.TextField(blank=True, default='')
     career_goals = models.TextField(blank=True, default='')
     created_at = models.DateTimeField(auto_now_add=True)
@@ -174,6 +180,68 @@ class AcademicProfile(models.Model):
 
     def __str__(self):
         return f'Academic profile ({self.personal_profile})'
+
+
+class AcademicActivityEntry(models.Model):
+    class Category(models.TextChoices):
+        TEST = 'test', 'Standardised Test'
+        EXTRACURRICULAR = 'extracurricular', 'Extracurricular Activity'
+        AWARD = 'award', 'Award / Competition'
+
+    academic_profile = models.ForeignKey(
+        AcademicProfile,
+        on_delete=models.CASCADE,
+        related_name='activity_entries',
+    )
+    category = models.CharField(max_length=20, choices=Category.choices)
+    sort_order = models.PositiveSmallIntegerField(default=1)
+    name = models.CharField(max_length=200, blank=True, default='')
+    date = models.CharField(max_length=100, blank=True, default='')
+    location = models.CharField(max_length=200, blank=True, default='')
+    description = models.TextField(blank=True, default='')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = 'Academic Activity Entry'
+        verbose_name_plural = 'Academic Activity Entries'
+        ordering = ['category', 'sort_order']
+
+    def __str__(self):
+        label = self.name or self.description or f'Entry {self.sort_order}'
+        return f'{self.get_category_display()}: {label}'
+
+
+class ReferenceContact(models.Model):
+    academic_profile = models.ForeignKey(
+        AcademicProfile,
+        on_delete=models.CASCADE,
+        related_name='reference_contacts',
+    )
+    sort_order = models.PositiveSmallIntegerField(default=1)
+    name = models.CharField(max_length=150, blank=True, default='')
+    position = models.CharField(max_length=150, blank=True, default='')
+    email = models.EmailField(max_length=254, blank=True, default='')
+    institution = models.CharField(max_length=200, blank=True, default='')
+    phone = models.CharField(max_length=30, blank=True, default='')
+    relation_to_student = models.CharField(max_length=150, blank=True, default='')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = 'Reference Contact'
+        verbose_name_plural = 'Reference Contacts'
+        ordering = ['sort_order']
+        constraints = [
+            models.UniqueConstraint(
+                fields=['academic_profile', 'sort_order'],
+                name='unique_reference_contact_order_per_profile',
+            ),
+        ]
+
+    def __str__(self):
+        label = self.name or self.email or self.institution or f'Contact {self.sort_order}'
+        return f'{label} ({self.academic_profile})'
 
 
 class DiagnosticStage(models.Model):

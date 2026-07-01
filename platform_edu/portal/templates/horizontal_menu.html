@@ -1,5 +1,23 @@
 {% load static %}
 
+<style>
+  .navbar-profile-avatar {
+    width: 40px;
+    height: 40px;
+    overflow: hidden;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .navbar-profile-avatar > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+</style>
+
 <!-- Top Navbar (from horizontal-menu-template) -->
 <nav class="layout-navbar navbar navbar-expand-xl align-items-center" id="layout-navbar">
   <div class="container-xxl">
@@ -80,21 +98,46 @@
             <i class="icon-base ri ri-group-line icon-22px"></i>
             <span class="d-none ms-2">Student profiles</span>
           </a>
-          <ul class="dropdown-menu dropdown-menu-end">
-            <li class="dropdown-header">
-              Student profiles
-              {% if admin_viewing_student_name %}
-              <small class="d-block text-body-secondary fw-normal">Viewing: {{ admin_viewing_student_name }}</small>
-              {% endif %}
+          <ul class="dropdown-menu dropdown-menu-end" style="min-width: 16rem;">
+            <li class="dropdown-header pb-2">
+              <div class="d-flex align-items-start justify-content-between gap-2">
+                <div class="me-2">
+                  Student profiles
+                  {% if admin_viewing_student_name %}
+                  <small class="d-block text-body-secondary fw-normal">Viewing: {{ admin_viewing_student_name }}</small>
+                  {% endif %}
+                </div>
+                <button
+                  type="button"
+                  class="btn btn-icon btn-sm btn-text-secondary rounded-pill flex-shrink-0 mt-n1"
+                  data-bs-toggle="modal"
+                  data-bs-target="#adminAddStudentModal"
+                  title="Add student"
+                  onclick="event.stopPropagation();">
+                  <i class="icon-base ri ri-add-line icon-18px"></i>
+                </button>
+              </div>
             </li>
             {% for student in student_profiles %}
             <li>
-              <a
-                class="dropdown-item{% if student.id == admin_viewing_student_id %} active{% endif %}"
-                href="{% url 'select-student' student.id %}">
-                <span class="fw-medium">{{ student.first_name }} {{ student.last_name }}</span>
-                <small class="d-block text-body-secondary">{{ student.email }}</small>
-              </a>
+              <div class="dropdown-item d-flex align-items-center gap-2 py-2{% if student.id == admin_viewing_student_id %} active{% endif %}">
+                <a
+                  class="flex-grow-1 text-body text-decoration-none{% if student.id == admin_viewing_student_id %} active{% endif %}"
+                  href="{% url 'select-student' student.id %}">
+                  <span class="fw-medium d-block">{{ student.first_name }} {{ student.last_name }}</span>
+                  <small class="text-body-secondary">{{ student.email }}</small>
+                </a>
+                <a
+                  href="{% url 'preview-student' student.id %}"
+                  class="btn btn-sm btn-icon btn-text-secondary flex-shrink-0 student-preview-btn"
+                  data-bs-toggle="tooltip"
+                  data-bs-placement="left"
+                  title="Preview"
+                  aria-label="Preview as student"
+                  onclick="event.stopPropagation();">
+                  <i class="icon-base ri ri-eye-line icon-18px"></i>
+                </a>
+              </div>
             </li>
             {% empty %}
             <li><span class="dropdown-item text-body-secondary">No students yet</span></li>
@@ -155,23 +198,17 @@
           </div>
         </li>
 
-        <li class="nav-item dropdown me-sm-2 me-xl-0">
-          <a
-            href="https://forms.fillout.com/t/bUunccPxGaus"
-            class="nav-link dropdown-toggle hide-arrow btn btn-icon btn-text-secondary rounded-pill"
-            target="_blank">
-            <i class="icon-base ri ri-bug-line icon-22px theme-icon-active"></i>
-            <span class="d-none ms-2" id="nav-feedback-text">Report Bug</span>
-          </a>
-        </li>
-
         <li class="nav-item navbar-dropdown dropdown-user dropdown">
           <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
-            <div class="avatar">
+            <div class="avatar navbar-profile-avatar">
               {% if user_logged_in %}
-              <img src="{% static 'website/images/avatars/' %}{{ user_avatar }}" alt="alt" class="w-px-40 h-auto rounded-circle" />
+              <img
+                src="{% if user_profile_photo_url %}{{ user_profile_photo_url }}{% else %}{% static 'website/images/avatars/avatar0.png' %}{% endif %}"
+                alt="Profile photo"
+                data-navbar-profile-photo
+                data-default-avatar="{% static 'website/images/avatars/avatar0.png' %}" />
               {% else %}
-              <img src="{% static 'website/images/avatars/avatar0.png' %}" alt="alt" class="w-px-40 h-auto rounded-circle" />
+              <img src="{% static 'website/images/avatars/avatar0.png' %}" alt="Profile photo" />
               {% endif %}
             </div>
           </a>
@@ -181,8 +218,8 @@
               <a class="dropdown-item" href="javascript:void(0);">
                 <div class="d-flex align-items-center">
                   <div class="flex-shrink-0 me-2">
-                    <div class="avatar">
-                      <img src="{% static 'website/images/avatars/avatar0.png' %}" alt="alt" class="w-px-40 h-auto rounded-circle" />
+                    <div class="avatar navbar-profile-avatar">
+                      <img src="{% static 'website/images/avatars/avatar0.png' %}" alt="Profile photo" />
                     </div>
                   </div>
                   <div class="flex-grow-1">
@@ -195,11 +232,13 @@
               <a class="dropdown-item" href="{% url 'personal-information' %}"{% if is_platform_admin and not admin_viewing_student_id %} data-requires-student{% endif %}>
                 <div class="d-flex align-items-center">
                   <div class="flex-shrink-0 me-2">
-                    <div class="avatar">
-                      {% if user_logged_in %}
-                      <img src="{% static 'website/images/avatars/' %}{{ user_avatar }}" alt="alt" class="w-px-40 h-auto rounded-circle" />
+                    <div class="avatar navbar-profile-avatar">
+                      {% if user_profile_photo_url %}
+                      <img src="{{ user_profile_photo_url }}" alt="Profile photo" data-navbar-profile-photo data-default-avatar="{% static 'website/images/avatars/avatar0.png' %}" />
+                      {% elif user_logged_in %}
+                      <img src="{% static 'website/images/avatars/avatar0.png' %}" alt="Profile photo" data-navbar-profile-photo data-default-avatar="{% static 'website/images/avatars/avatar0.png' %}" />
                       {% else %}
-                      <img src="{% static 'website/images/avatars/avatar0.png' %}" alt="alt" class="w-px-40 h-auto rounded-circle" />
+                      <img src="{% static 'website/images/avatars/avatar0.png' %}" alt="Profile photo" />
                       {% endif %}
                     </div>
                   </div>
@@ -217,6 +256,14 @@
               {% endif %}
             </li>
             <li><div class="dropdown-divider"></div></li>
+            {% if is_impersonating %}
+            <li>
+              <a class="dropdown-item" href="{% url 'exit-student-preview' %}">
+                <i class="icon-base ri ri-shield-user-line icon-22px me-3"></i><span class="align-middle">Return to admin account</span>
+              </a>
+            </li>
+            <li><div class="dropdown-divider"></div></li>
+            {% endif %}
             <li>
               <a class="dropdown-item" href="{% url 'personal-information' %}"{% if is_platform_admin and not admin_viewing_student_id %} data-requires-student{% endif %}>
                 <i class="icon-base ri ri-settings-4-line icon-22px me-3"></i><span class="align-middle">Settings</span>
@@ -373,4 +420,14 @@
           {% endif %}
         </ul>
       </div>
+      <script>
+      window.addEventListener('load', function () {
+        if (typeof bootstrap === 'undefined') {
+          return;
+        }
+        document.querySelectorAll('.student-preview-btn[data-bs-toggle="tooltip"]').forEach(function (el) {
+          new bootstrap.Tooltip(el, { container: 'body', trigger: 'hover' });
+        });
+      });
+      </script>
     </aside>

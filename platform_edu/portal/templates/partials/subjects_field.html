@@ -1,0 +1,26 @@
+<div class="col-md-6" data-subjects-field>
+  <label for="{{ field_id|default:'subjects' }}" class="form-label">Subjects</label>
+  <select id="{{ field_id|default:'subjects' }}" name="subjects" class="select2-subjects form-select" multiple data-subjects-select>
+    {% for value, label in ib_subjects %}
+    <option value="{{ value }}" {% if value in selected_subjects %}selected{% endif %}>{{ label }}</option>
+    {% endfor %}
+    {% for custom in custom_subjects %}
+    <option value="{{ custom }}" selected data-custom-subject="1">{{ custom }}</option>
+    {% endfor %}
+    <option value="other" data-subjects-other-option="1">Other</option>
+  </select>
+  <div class="mt-3 d-none" data-subjects-other-wrap>
+    <div class="form-floating form-floating-outline">
+      <input
+        type="text"
+        class="form-control"
+        id="{{ field_id|default:'subjects' }}Other"
+        name="subjects_other"
+        value=""
+        placeholder="Enter subject name"
+        data-subjects-other-input />
+      <label for="{{ field_id|default:'subjects' }}Other">Specify other subject(s)</label>
+    </div>
+    <div class="form-text">Press Enter or click away to add. Separate multiple with commas.</div>
+  </div>
+</div>

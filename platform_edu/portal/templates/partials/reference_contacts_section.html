@@ -1,0 +1,141 @@
+<div class="col-12" id="referenceContactsSection" data-visible-count="{{ reference_contacts_visible|default:1 }}">
+  <h6 class="mb-1">Reference contact</h6>
+  <p class="text-body-secondary small mb-4">If unsure, put a school official who is most responsive.</p>
+
+  <div id="referenceContactsList">
+    {% for contact in reference_contacts %}
+    <div
+      class="reference-contact-block {% if forloop.counter > reference_contacts_visible %}d-none{% endif %}"
+      data-ref-contact-index="{{ forloop.counter }}">
+      {% if not forloop.first %}
+      <hr class="my-4" />
+      <p class="small fw-medium mb-3">Reference contact {{ forloop.counter }}</p>
+      {% endif %}
+      <div class="row g-4">
+        <div class="col-md-6">
+          <div class="form-floating form-floating-outline">
+            <input
+              type="text"
+              class="form-control"
+              id="ref_contact_{{ forloop.counter }}_name"
+              name="ref_contact_{{ forloop.counter }}_name"
+              value="{{ contact.name }}"
+              placeholder="Name" />
+            <label for="ref_contact_{{ forloop.counter }}_name">Name</label>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-floating form-floating-outline">
+            <input
+              type="text"
+              class="form-control"
+              id="ref_contact_{{ forloop.counter }}_position"
+              name="ref_contact_{{ forloop.counter }}_position"
+              value="{{ contact.position }}"
+              placeholder="Position" />
+            <label for="ref_contact_{{ forloop.counter }}_position">Position</label>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-floating form-floating-outline">
+            <input
+              type="email"
+              class="form-control"
+              id="ref_contact_{{ forloop.counter }}_email"
+              name="ref_contact_{{ forloop.counter }}_email"
+              value="{{ contact.email }}"
+              placeholder="Email" />
+            <label for="ref_contact_{{ forloop.counter }}_email">Email</label>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-floating form-floating-outline">
+            <input
+              type="text"
+              class="form-control"
+              id="ref_contact_{{ forloop.counter }}_institution"
+              name="ref_contact_{{ forloop.counter }}_institution"
+              value="{{ contact.institution }}"
+              placeholder="Institution" />
+            <label for="ref_contact_{{ forloop.counter }}_institution">Institution</label>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-floating form-floating-outline">
+            <input
+              type="tel"
+              class="form-control"
+              id="ref_contact_{{ forloop.counter }}_phone"
+              name="ref_contact_{{ forloop.counter }}_phone"
+              value="{{ contact.phone }}"
+              placeholder="Phone" />
+            <label for="ref_contact_{{ forloop.counter }}_phone">Phone</label>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-floating form-floating-outline">
+            <input
+              type="text"
+              class="form-control"
+              id="ref_contact_{{ forloop.counter }}_relation_to_student"
+              name="ref_contact_{{ forloop.counter }}_relation_to_student"
+              value="{{ contact.relation_to_student }}"
+              placeholder="Relation to student" />
+            <label for="ref_contact_{{ forloop.counter }}_relation_to_student">Relation to student</label>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <button
+    type="button"
+    class="btn btn-sm btn-outline-primary mt-3"
+    id="addReferenceContactBtn">
+    Add more
+  </button>
+</div>
+
+<script>
+(function () {
+  if (window.__referenceContactsReady) {
+    return;
+  }
+  window.__referenceContactsReady = true;
+
+  document.addEventListener('DOMContentLoaded', function () {
+    const section = document.getElementById('referenceContactsSection');
+    const addBtn = document.getElementById('addReferenceContactBtn');
+    if (!section || !addBtn) {
+      return;
+    }
+
+    const maxContacts = {{ reference_contacts_max|default:3 }};
+    let visibleCount = parseInt(section.getAttribute('data-visible-count') || '1', 10);
+
+    function updateAddButton() {
+      addBtn.classList.toggle('d-none', visibleCount >= maxContacts);
+    }
+
+    function showBlock(index) {
+      const block = section.querySelector('[data-ref-contact-index="' + index + '"]');
+      if (block) {
+        block.classList.remove('d-none');
+      }
+    }
+
+    updateAddButton();
+
+    addBtn.addEventListener('click', function () {
+      if (visibleCount >= maxContacts) {
+        return;
+      }
+      visibleCount += 1;
+      showBlock(visibleCount);
+      section.setAttribute('data-visible-count', String(visibleCount));
+      updateAddButton();
+    });
+  });
+})();
+</script>

@@ -19771,3 +19771,29 @@ Traceback (most recent call last):
     raise NoReverseMatch(msg)
 django.urls.exceptions.NoReverseMatch: Reverse for 'preview-interview-feedback' not found. 'preview-interview-feedback' is not a valid view function or pattern name.
 ERROR 2026-06-18 13:10:12,443 "GET /interview-preparation/ HTTP/1.1" 500 185604
+ERROR 2026-07-01 11:52:18,714 Internal Server Error: /academic-profile/
+Traceback (most recent call last):
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/core/handlers/base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/platform_edu/portal/views.py", line 611, in academic_profile
+    selected_subjects, custom_subjects = subjects_for_form(profile.subjects)
+                                         ^^^^^^^^^^^^^^^^^
+NameError: name 'subjects_for_form' is not defined
+ERROR 2026-07-01 11:52:18,719 "GET /academic-profile/ HTTP/1.1" 500 74759
+ERROR 2026-07-01 11:52:22,820 Internal Server Error: /academic-profile/
+Traceback (most recent call last):
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/core/handlers/base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/platform_edu/portal/views.py", line 611, in academic_profile
+    selected_subjects, custom_subjects = subjects_for_form(profile.subjects)
+                                         ^^^^^^^^^^^^^^^^^
+NameError: name 'subjects_for_form' is not defined
+ERROR 2026-07-01 11:52:22,829 "GET /academic-profile/ HTTP/1.1" 500 74759

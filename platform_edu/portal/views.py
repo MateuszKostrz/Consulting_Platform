@@ -3,7 +3,7 @@ from datetime import date, datetime, timedelta
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 from django.contrib import messages
-from django.http import FileResponse, Http404
+from django.http import FileResponse, Http404, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
@@ -17,6 +17,7 @@ from urllib.parse import urlencode
 from .constants import (
     ALLOWED_UPLOAD_EXTENSIONS,
     BUDGET_CHOICES,
+    BUDGET_CURRENCY_CHOICES,
     COUNTRY_CHOICES,
     DEADLINE_TIMEZONE_CHOICES,
     DEADLINE_TIMEZONE_VALUES,
@@ -27,7 +28,18 @@ from .constants import (
     INTERVIEW_PREP_SESSION_SLOTS,
     MAX_UPLOAD_SIZE,
 )
-from .diagnostics_access import get_diagnostic_stage_items
+from .reference_contacts_utils import (
+    MAX_REFERENCE_CONTACTS,
+    reference_contacts_for_form,
+    save_reference_contacts,
+)
+from .budget_utils import budget_exchange_rates_response, save_budget_fields
+from .course_wishes_utils import ordered_countries_for_form, save_course_wishes
+from .activity_entries_utils import (
+    activity_entries_for_form,
+    save_activity_entries,
+)
+from .subjects_utils import subjects_for_form, subjects_from_post
 from .models import (
     AcademicProfile,
     Deadline,
@@ -44,10 +56,12 @@ from .upload_utils import (
     can_delete_academic_upload,
     can_delete_diagnostic_upload,
     clear_file_field,
+    replace_profile_photo,
 )
 from .register_utils import (
     _register_form_context,
     _register_response,
+    _validate_admin_student_form,
     _validate_register_form,
     create_registered_user,
 )
@@ -55,6 +69,7 @@ from .profile_access import (
     admin_must_select_student,
     claim_guest_profile_for_student,
     clear_admin_viewing_student,
+    clear_impersonator_user_id,
     clear_profile_session_key,
     ensure_interview_preparation,
     ensure_interview_prep_sessions,
@@ -62,6 +77,8 @@ from .profile_access import (
     ensure_portfolio_design,
     ensure_profile_narrative,
     ensure_strategic_application,
+    get_admin_viewing_student,
+    get_impersonator_user,
     get_interview_preparation_for_request,
     get_offers_access_for_request,
     get_platform_user,
@@ -71,10 +88,12 @@ from .profile_access import (
     get_strategic_application_for_request,
     get_student_platform_users,
     interview_preparation_is_unlocked_for_platform_user,
+    is_impersonating,
     offers_is_unlocked_for_platform_user,
     portfolio_design_is_unlocked_for_platform_user,
     profile_narrative_is_unlocked_for_platform_user,
     set_admin_viewing_student,
+    set_impersonator_user_id,
     strategic_application_is_unlocked_for_platform_user,
     sync_profile_edunade_email,
 )
@@ -414,7 +433,7 @@ def _handle_delete_todo(request, platform_user):
     return redirect('home')
 
 
-def _get_todos_for_user(platform_user):
+def _get_todos_for_user(platform_user, request=None):
     queryset = StudentTodo.objects.select_related('student').order_by('due_date', 'name')
     if platform_user and platform_user.is_student:
         queryset = queryset.filter(student=platform_user)
@@ -440,7 +459,7 @@ def home(request):
             return _handle_delete_todo(request, platform_user)
 
     deadlines = _get_deadlines_for_user(platform_user, request)
-    todos = _get_todos_for_user(platform_user)
+    todos = _get_todos_for_user(platform_user, request)
     today = timezone.localdate()
     upcoming_end = today + timedelta(days=7)
     can_manage = bool(platform_user and platform_user.is_admin)
@@ -485,6 +504,15 @@ def personal_information(request):
     sync_profile_edunade_email(profile)
 
     if request.method == 'POST':
+        if request.POST.get('action') == 'delete_profile_photo':
+            if profile.profile_photo:
+                clear_file_field(profile, 'profile_photo')
+                profile.save(update_fields=['profile_photo', 'updated_at'])
+                messages.success(request, 'Profile photo deleted.')
+            else:
+                messages.info(request, 'No profile photo to delete.')
+            return redirect('personal-information')
+
         profile.address = request.POST.get('address', '').strip()
         profile.personal_email = request.POST.get('personal_email', '').strip()
         if profile.platform_user_id:
@@ -495,22 +523,36 @@ def personal_information(request):
         profile.nationality = request.POST.get('nationality', '').strip()
         profile.passport_number = request.POST.get('passport_number', '').strip()
         profile.school_name = request.POST.get('school_name', '').strip()
+        profile.school_address = request.POST.get('school_address', '').strip()
         profile.curriculum = request.POST.get('curriculum', '').strip()
         profile.graduation_year = request.POST.get('graduation_year', '').strip()
-        profile.subjects = ', '.join(request.POST.getlist('subjects'))
+        profile.subjects = subjects_from_post(request)
+
+        uploaded_photo = request.FILES.get('profile_photo')
+        if uploaded_photo:
+            photo_error = replace_profile_photo(profile, uploaded_photo)
+            if photo_error:
+                messages.error(request, photo_error)
+                return redirect('personal-information')
+
         profile.save()
+        profile.refresh_from_db()
         messages.success(request, 'Personal information saved successfully.')
 
-    selected_subjects = [s.strip() for s in profile.subjects.split(',') if s.strip()]
+    selected_subjects, custom_subjects = subjects_for_form(profile.subjects)
 
     return render(request, 'personal_information.html', {
         'info': profile,
         'school_name': profile.school_name,
         'curriculum': profile.curriculum,
         'selected_subjects': selected_subjects,
+        'custom_subjects': custom_subjects,
         'ib_subjects': IB_SUBJECT_CHOICES,
         'nationalities': _NATIONALITY_CHOICES,
         'graduation_years': GRADUATION_YEARS,
+        'profile_photo_url': profile.profile_photo.url if profile.profile_photo else '',
+        'profile_photo_download_url': reverse('download-profile-photo') if profile.profile_photo else '',
+        'profile_photo_upload_url': reverse('upload-profile-photo'),
     })
 
 
@@ -523,77 +565,39 @@ def academic_profile(request):
         return _redirect_admin_without_student(request)
 
     academic = _get_or_create_academic(profile)
-    platform_user = get_platform_user(request)
 
     if request.method == 'POST':
-        if request.POST.get('action') == 'delete_file':
-            return _handle_academic_file_delete(request, profile, academic)
+        academic.predicted_grades = request.POST.get('predicted_grades', '').strip()
+        academic.intended_course_interests = request.POST.get(
+            'intended_course_interests', ''
+        ).strip()
+        save_course_wishes(academic, request)
+        save_budget_fields(academic, request)
+        academic.parent_input = request.POST.get('parent_input', '').strip()
+        academic.save()
+        save_reference_contacts(academic, request)
+        save_activity_entries(academic, request)
+        messages.success(request, 'Academic profile saved successfully.')
 
-        upload_labels = {
-            'transcripts': 'Transcripts',
-            'cv_upload': 'CV',
-            'personal_statement_upload': 'Personal Statement',
-        }
-        upload_errors = []
-        for field_name, label in upload_labels.items():
-            error = _validate_upload(request.FILES.get(field_name))
-            if error:
-                upload_errors.append(f'{label}: {error}')
-            elif request.FILES.get(field_name) and getattr(academic, field_name):
-                upload_errors.append(
-                    f'{label} already uploaded. Delete it first to upload a new file.'
-                )
-
-        if upload_errors:
-            for error in upload_errors:
-                messages.error(request, error)
-        else:
-            profile.school_name = request.POST.get('school_name', '').strip()
-            profile.curriculum = request.POST.get('curriculum', '').strip()
-            profile.graduation_year = request.POST.get('graduation_year', '').strip()
-            profile.subjects = ', '.join(request.POST.getlist('subjects'))
-            profile.save()
-
-            academic.predicted_grades = request.POST.get('predicted_grades', '').strip()
-            academic.standardized_tests = request.POST.get('standardized_tests', '').strip()
-            academic.extracurricular_activities = request.POST.get(
-                'extracurricular_activities', ''
-            ).strip()
-            academic.awards_competitions = request.POST.get('awards_competitions', '').strip()
-            academic.intended_course_interests = request.POST.get(
-                'intended_course_interests', ''
-            ).strip()
-            academic.country_preferences = ', '.join(request.POST.getlist('country_preferences'))
-            academic.budget_expectations = request.POST.get('budget_expectations', '').strip()
-            academic.parent_input = request.POST.get('parent_input', '').strip()
-            academic.career_goals = request.POST.get('career_goals', '').strip()
-
-            _assign_upload(academic, 'transcripts', request.FILES.get('transcripts'))
-            _assign_upload(academic, 'cv_upload', request.FILES.get('cv_upload'))
-            _assign_upload(
-                academic,
-                'personal_statement_upload',
-                request.FILES.get('personal_statement_upload'),
-            )
-            academic.save()
-            messages.success(request, 'Academic profile saved successfully.')
-
-    selected_subjects = [s.strip() for s in profile.subjects.split(',') if s.strip()]
-    selected_countries = [
-        c.strip() for c in academic.country_preferences.split(',') if c.strip()
-    ]
+    reference_contacts, reference_contacts_visible = reference_contacts_for_form(academic)
+    activity_entries = activity_entries_for_form(academic)
 
     return render(request, 'academic_profile.html', {
         'profile': profile,
         'academic': academic,
-        'selected_subjects': selected_subjects,
-        'selected_countries': selected_countries,
-        'ib_subjects': IB_SUBJECT_CHOICES,
-        'graduation_years': GRADUATION_YEARS,
         'country_choices': COUNTRY_CHOICES,
+        'ordered_countries': ordered_countries_for_form(academic),
         'budget_choices': BUDGET_CHOICES,
-        'can_delete_uploads': can_delete_academic_upload(platform_user),
+        'budget_currency_choices': BUDGET_CURRENCY_CHOICES,
+        'reference_contacts': reference_contacts,
+        'reference_contacts_visible': reference_contacts_visible,
+        'reference_contacts_max': MAX_REFERENCE_CONTACTS,
+        'activity_entries': activity_entries,
     })
+
+
+def budget_exchange_rates(request):
+    return budget_exchange_rates_response()
 
 
 def _handle_diagnostic_upload(request, profile, platform_user):
@@ -1239,6 +1243,90 @@ def register_view(request):
 
 
 @login_required
+def upload_profile_photo(request):
+    if admin_must_select_student(request):
+        return JsonResponse(
+            {'success': False, 'errors': ['Select a student profile first.']},
+            status=400,
+        )
+
+    profile = _get_or_create_profile(request)
+    if profile is None:
+        return JsonResponse(
+            {'success': False, 'errors': ['Profile not found.']},
+            status=404,
+        )
+
+    if request.method != 'POST':
+        return JsonResponse(
+            {'success': False, 'errors': ['Invalid request.']},
+            status=405,
+        )
+
+    uploaded_photo = request.FILES.get('profile_photo')
+    if not uploaded_photo:
+        return JsonResponse(
+            {'success': False, 'errors': ['No photo provided.']},
+            status=400,
+        )
+
+    photo_error = replace_profile_photo(profile, uploaded_photo)
+    if photo_error:
+        return JsonResponse({'success': False, 'errors': [photo_error]})
+
+    profile.save()
+    profile.refresh_from_db()
+    return JsonResponse({
+        'success': True,
+        'photo_url': profile.profile_photo.url,
+        'download_url': reverse('download-profile-photo'),
+    })
+
+
+@login_required
+def download_profile_photo(request):
+    if admin_must_select_student(request):
+        return _redirect_admin_without_student(request)
+
+    profile = _get_or_create_profile(request)
+    if profile is None or not profile.profile_photo:
+        raise Http404
+
+    filename = os.path.basename(profile.profile_photo.name)
+    return FileResponse(
+        profile.profile_photo.open('rb'),
+        as_attachment=True,
+        filename=filename,
+    )
+
+
+@login_required
+def admin_create_student(request):
+    platform_user = get_platform_user(request)
+    if not platform_user or not platform_user.is_admin:
+        return JsonResponse(
+            {'success': False, 'errors': ['Only admins can create students.']},
+            status=403,
+        )
+
+    if request.method != 'POST':
+        return redirect('home')
+
+    errors, cleaned = _validate_admin_student_form(request)
+    if errors:
+        return JsonResponse({'success': False, 'errors': errors})
+
+    _, student = create_registered_user(**cleaned)
+    set_admin_viewing_student(request, student)
+    name = f'{student.first_name} {student.last_name}'.strip() or student.email
+    messages.success(request, f'Student {name} created successfully.')
+    return JsonResponse({
+        'success': True,
+        'redirect_url': reverse('personal-information'),
+    })
+
+
+@login_required
 def select_student_profile(request, student_id):
     platform_user = get_platform_user(request)
     if not platform_user or not platform_user.is_admin:
@@ -1256,7 +1344,44 @@ def select_student_profile(request, student_id):
     return redirect('personal-information')
 
 
+@login_required
+def preview_student_profile(request, student_id):
+    if is_impersonating(request):
+        messages.error(request, 'You are already viewing the platform as a student.')
+        return redirect('home')
+
+    platform_user = get_platform_user(request)
+    if not platform_user or not platform_user.is_admin:
+        messages.error(request, 'Only admins can preview student profiles.')
+        return redirect('home')
+
+    student = get_object_or_404(PlatformUser, pk=student_id, role=PlatformUser.Role.STUDENT)
+    set_impersonator_user_id(request, request.user.pk)
+    clear_admin_viewing_student(request)
+    auth_login(request, student.user)
+    return redirect('home')
+
+
+@login_required
+def exit_student_preview(request):
+    if not is_impersonating(request):
+        return redirect('home')
+
+    admin_user = get_impersonator_user(request)
+    clear_impersonator_user_id(request)
+    clear_admin_viewing_student(request)
+    if admin_user:
+        auth_login(request, admin_user)
+        messages.info(request, 'Returned to your admin account.')
+    else:
+        auth_logout(request)
+        messages.info(request, 'Admin session expired. Please log in again.')
+        return redirect('login')
+    return redirect('home')
+
+
 def logout_view(request):
+    clear_impersonator_user_id(request)
     clear_admin_viewing_student(request)
     auth_logout(request)
     return redirect('login')

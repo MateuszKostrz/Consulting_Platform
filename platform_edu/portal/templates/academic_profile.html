@@ -18,32 +18,18 @@
 
     {% include 'top_base.html' %}
 
-    <link rel="stylesheet" href="{% static 'website/css/vendor/libs/select2/select2.css' %}" />
+    <style>
+      .profile-section-divider {
+        border: 0;
+        border-top: 3px solid #6d6b77;
+        height: 0;
+        margin: 0;
+        opacity: 1;
+      }
+    </style>
 
     <script type="text/javascript" src="{% static 'website/js/vendor/helpers.js' %}"></script>
     <script type="text/javascript" src="{% static 'website/js/vendor/config.js' %}"></script>
-
-    <style>
-      .file-upload-box {
-        min-height: 13rem;
-      }
-      .uploaded-file-panel {
-        border-style: solid !important;
-        border-color: var(--bs-border-color) !important;
-        background-color: rgba(105, 108, 255, 0.04);
-      }
-      .file-dropzone {
-        border-style: dashed !important;
-        border-color: var(--bs-border-color) !important;
-        cursor: pointer;
-        transition: border-color 0.2s ease, background-color 0.2s ease;
-      }
-      .file-dropzone:hover,
-      .file-dropzone.is-dragover {
-        border-color: var(--bs-primary) !important;
-        background-color: rgba(105, 108, 255, 0.04);
-      }
-    </style>
   </head>
 
   <body>
@@ -63,153 +49,52 @@
           {% endif %}
 
           <div class="card mb-6">
-            <div class="card-header">
-              <h5 class="mb-0">Academic Profile</h5>
-              <small class="text-body-secondary">Your academic background, documents, and university wishes</small>
-            </div>
 
-            <form class="card-body" method="POST" action="{% url 'academic-profile' %}" enctype="multipart/form-data">
+
+            <form class="card-body" method="POST" action="{% url 'academic-profile' %}">
               {% csrf_token %}
 
-              <h6 class="mb-1">Profile</h6>
-              <p class="text-body-secondary small mb-4">School details carry over from Personal Information and stay in sync when you save here.</p>
-
               <div class="row g-5">
-                <div class="col-md-6">
-                  <div class="form-floating form-floating-outline">
-                    <input type="text" class="form-control" id="school_name" name="school_name" value="{{ profile.school_name }}" placeholder="Your school name" />
-                    <label for="school_name">Name of School</label>
-                  </div>
-                </div>
-
-                <div class="col-md-6">
-                  <div class="form-floating form-floating-outline">
-                    <select id="curriculum" name="curriculum" class="form-select">
-                      <option value="IB" {% if profile.curriculum == "IB" %}selected{% endif %}>IB</option>
-                      <option value="A-Levels" {% if profile.curriculum == "A-Levels" %}selected{% endif %}>A-Levels</option>
-                      <option value="SAT" {% if profile.curriculum == "SAT" %}selected{% endif %}>SAT / ACT</option>
-                      <option value="Other" {% if profile.curriculum == "Other" %}selected{% endif %}>Other</option>
-                    </select>
-                    <label for="curriculum">Curriculum</label>
-                  </div>
-                </div>
-
-                <div class="col-md-6">
-                  <div class="form-floating form-floating-outline">
-                    <select id="graduation_year" name="graduation_year" class="form-select">
-                      <option value="">Select graduation year...</option>
-                      {% for year in graduation_years %}
-                      <option value="{{ year }}" {% if profile.graduation_year == year %}selected{% endif %}>{{ year }}</option>
-                      {% endfor %}
-                    </select>
-                    <label for="graduation_year">Graduation Year</label>
-                  </div>
-                </div>
-
-                <div class="col-12">
-                  <label for="subjects" class="form-label">Subjects</label>
-                  <select id="subjects" name="subjects" class="select2 form-select" multiple>
-                    {% for value, label in ib_subjects %}
-                    <option value="{{ value }}" {% if value in selected_subjects %}selected{% endif %}>{{ label }}</option>
-                    {% endfor %}
-                  </select>
-                </div>
+                {% include 'partials/profile_section_header.html' with section_title="Academic background" section_subtitle="Grades, references, and activities outside the classroom" %}
 
                 <div class="col-12">
                   <div class="form-floating form-floating-outline">
-                    <textarea class="form-control" id="predicted_grades" name="predicted_grades" placeholder="e.g. Math AA HL: 7, Physics HL: 6" style="height: 100px">{{ academic.predicted_grades }}</textarea>
-                    <label for="predicted_grades">Predicted Grades</label>
-                  </div>
-                  <div class="form-text">List predicted grades per subject</div>
-                </div>
-
-                <div class="col-md-4">
-                  {% include 'partials/uploaded_file_panel.html' with current_file=academic.transcripts field_name="transcripts" file_label="Existing Transcripts" can_delete=can_delete_uploads %}
-                  {% if not academic.transcripts %}
-                  {% include 'partials/file_dropzone.html' with input_id="transcripts" input_name="transcripts" label="Transcripts" %}
-                  {% endif %}
-                </div>
-
-                <div class="col-md-4">
-                  {% include 'partials/uploaded_file_panel.html' with current_file=academic.cv_upload field_name="cv_upload" file_label="Existing CV" can_delete=can_delete_uploads %}
-                  {% if not academic.cv_upload %}
-                  {% include 'partials/file_dropzone.html' with input_id="cv_upload" input_name="cv_upload" label="CV" %}
-                  {% endif %}
-                </div>
-
-                <div class="col-md-4">
-                  {% include 'partials/uploaded_file_panel.html' with current_file=academic.personal_statement_upload field_name="personal_statement_upload" file_label="Existing Personal Statement" can_delete=can_delete_uploads %}
-                  {% if not academic.personal_statement_upload %}
-                  {% include 'partials/file_dropzone.html' with input_id="personal_statement_upload" input_name="personal_statement_upload" label="Personal Statement" %}
-                  {% endif %}
-                </div>
-
-                <div class="col-12">
-                  <div class="form-floating form-floating-outline">
-                    <textarea class="form-control" id="standardized_tests" name="standardized_tests" placeholder="SAT, ACT, IELTS, TOEFL, etc." style="height: 80px">{{ academic.standardized_tests }}</textarea>
-                    <label for="standardized_tests">Standardised Tests (if applicable)</label>
+                    <textarea class="form-control" id="predicted_grades" name="predicted_grades" placeholder="e.g. A*, A, B or IB 40+" style="height: 100px">{{ academic.predicted_grades }}</textarea>
+                    <label for="predicted_grades">What grade am I aiming for</label>
                   </div>
                 </div>
 
-                <div class="col-12">
-                  <div class="form-floating form-floating-outline">
-                    <textarea class="form-control" id="extracurricular_activities" name="extracurricular_activities" placeholder="Clubs, sports, volunteering..." style="height: 100px">{{ academic.extracurricular_activities }}</textarea>
-                    <label for="extracurricular_activities">Extracurricular Activities</label>
-                  </div>
-                </div>
+                {% include 'partials/reference_contacts_section.html' %}
 
-                <div class="col-12">
-                  <div class="form-floating form-floating-outline">
-                    <textarea class="form-control" id="awards_competitions" name="awards_competitions" placeholder="Awards, olympiads, competitions..." style="height: 100px">{{ academic.awards_competitions }}</textarea>
-                    <label for="awards_competitions">Awards / Competitions</label>
-                  </div>
-                </div>
-              </div>
+                {% include 'partials/academic_activity_tables.html' %}
 
-              <hr class="my-6 mx-n4" />
+                {% include 'partials/profile_section_divider.html' %}
 
-              <h6 class="mb-4">Wishes</h6>
+                {% include 'partials/profile_section_header.html' with section_title="Study preferences" section_subtitle="Where and what you want to study" %}
 
-              <div class="row g-5">
                 <div class="col-12">
                   <div class="form-floating form-floating-outline">
                     <textarea class="form-control" id="intended_course_interests" name="intended_course_interests" placeholder="e.g. Computer Science, Economics, Medicine" style="height: 100px">{{ academic.intended_course_interests }}</textarea>
-                    <label for="intended_course_interests">Intended Course Interests</label>
+                    <label for="intended_course_interests">Intended course interests</label>
                   </div>
                 </div>
 
-                <div class="col-12">
-                  <label for="country_preferences" class="form-label">Country Preferences</label>
-                  <select id="country_preferences" name="country_preferences" class="select2 form-select" multiple>
-                    {% for country in country_choices %}
-                    <option value="{{ country }}" {% if country in selected_countries %}selected{% endif %}>{{ country }}</option>
-                    {% endfor %}
-                  </select>
-                </div>
+                {% include 'partials/course_wishes_fields.html' %}
 
-                <div class="col-md-6">
-                  <div class="form-floating form-floating-outline">
-                    <select id="budget_expectations" name="budget_expectations" class="form-select">
-                      <option value="">Select budget range...</option>
-                      {% for value, label in budget_choices %}
-                      <option value="{{ value }}" {% if academic.budget_expectations == value %}selected{% endif %}>{{ label }}</option>
-                      {% endfor %}
-                    </select>
-                    <label for="budget_expectations">Budget Expectations</label>
-                  </div>
-                </div>
+                {% include 'partials/profile_section_divider.html' %}
+
+                {% include 'partials/profile_section_header.html' with section_title="Budget" section_subtitle="Select your currency, then choose your expected annual budget in that currency" %}
+
+                {% include 'partials/budget_expectations_section.html' %}
+
+                {% include 'partials/profile_section_divider.html' %}
+
+                {% include 'partials/profile_section_header.html' with section_title="Family input" section_subtitle="Notes or preferences from parents or guardians" %}
 
                 <div class="col-12">
                   <div class="form-floating form-floating-outline">
                     <textarea class="form-control" id="parent_input" name="parent_input" placeholder="Any preferences or notes from parents" style="height: 100px">{{ academic.parent_input }}</textarea>
-                    <label for="parent_input">Parent Input</label>
-                  </div>
-                </div>
-
-                <div class="col-12">
-                  <div class="form-floating form-floating-outline">
-                    <textarea class="form-control" id="career_goals" name="career_goals" placeholder="What do you want to do after university?" style="height: 100px">{{ academic.career_goals }}</textarea>
-                    <label for="career_goals">Career Goals</label>
+                    <label for="parent_input">Parent input</label>
                   </div>
                 </div>
               </div>
@@ -243,66 +128,7 @@
     <script src="{% static 'website/js/vendor/libs/hammer/hammer.js' %}"></script>
     <script src="{% static 'website/js/vendor/libs/i18n/i18n.js' %}"></script>
     <script src="{% static 'website/js/vendor/menu.js' %}"></script>
-    <script src="{% static 'website/js/vendor/libs/select2/select2.js' %}"></script>
     <script type="text/javascript" src="{% static 'website/js/main.js' %}"></script>
     <script type="text/javascript" src="{% static 'website/js/vendors.min.js' %}"></script>
-    <script>
-      document.addEventListener('DOMContentLoaded', function () {
-        if (window.jQuery && jQuery.fn.select2) {
-          jQuery('#subjects, #country_preferences').select2({
-            placeholder: 'Select options',
-            allowClear: true,
-            width: '100%'
-          });
-        }
-
-        document.querySelectorAll('.file-dropzone').forEach(function (zone) {
-          var input = zone.querySelector('.file-dropzone-input');
-          var filenameEl = zone.querySelector('.file-dropzone-filename');
-
-          function showFilename(file) {
-            if (!file || !filenameEl) return;
-            filenameEl.textContent = 'Selected: ' + file.name;
-            filenameEl.classList.remove('d-none');
-          }
-
-          zone.addEventListener('click', function () {
-            input.click();
-          });
-
-          zone.addEventListener('keydown', function (event) {
-            if (event.key === 'Enter' || event.key === ' ') {
-              event.preventDefault();
-              input.click();
-            }
-          });
-
-          input.addEventListener('change', function () {
-            if (input.files.length) {
-              showFilename(input.files[0]);
-            }
-          });
-
-          zone.addEventListener('dragover', function (event) {
-            event.preventDefault();
-            zone.classList.add('is-dragover');
-          });
-
-          zone.addEventListener('dragleave', function () {
-            zone.classList.remove('is-dragover');
-          });
-
-          zone.addEventListener('drop', function (event) {
-            event.preventDefault();
-            zone.classList.remove('is-dragover');
-            if (!event.dataTransfer.files.length) return;
-            var transfer = new DataTransfer();
-            transfer.items.add(event.dataTransfer.files[0]);
-            input.files = transfer.files;
-            showFilename(input.files[0]);
-          });
-        });
-      });
-    </script>
   </body>
 </html>
