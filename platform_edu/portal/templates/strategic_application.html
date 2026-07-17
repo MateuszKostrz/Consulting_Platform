@@ -26,13 +26,25 @@
         font-size: 1.25rem;
         line-height: 1;
       }
-      .university-add-btn {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding-block: calc(0.8555rem - 1px);
-        padding-inline: 1rem;
-        min-height: calc(1.375em + 1.711rem + 2px);
+      .university-choice-handle {
+        cursor: grab;
+      }
+      .university-choice-handle:active {
+        cursor: grabbing;
+      }
+      .university-choice-sortable-ghost {
+        opacity: 0.5;
+      }
+      .university-choices-locked {
+        opacity: 0.55;
+      }
+      .university-choices-locked .form-control,
+      .university-choices-locked .form-select,
+      .university-choices-locked .btn {
+        pointer-events: none;
+      }
+      .university-choices-locked .university-choice-handle {
+        cursor: not-allowed;
       }
     </style>
   </head>
@@ -62,37 +74,6 @@
             </div>
           </div>
 
-          {% if is_platform_admin %}
-          <form method="POST" action="{% url 'strategic-application' %}">
-            {% csrf_token %}
-            <input type="hidden" name="action" value="admin_settings" />
-            <div class="card mb-4">
-              <div class="card-header d-flex align-items-center justify-content-between flex-wrap gap-3">
-                <div>
-                  <h6 class="mb-1">Student access</h6>
-                  <small class="text-body-secondary">Control whether this student can open Strategic Application.</small>
-                </div>
-                <div class="form-check form-switch mb-0">
-                  <input
-                    class="form-check-input"
-                    type="checkbox"
-                    role="switch"
-                    id="is_unlocked"
-                    name="is_unlocked"
-                    {% if strategic.is_unlocked %}checked{% endif %} />
-                  <label class="form-check-label" for="is_unlocked">
-                    {% if strategic.is_unlocked %}Unlocked{% else %}Locked{% endif %}
-                  </label>
-                </div>
-              </div>
-              <div class="card-body">
-                <div class="form-text mb-3">Click Save settings after changing the lock.</div>
-                <button type="submit" class="btn btn-primary">Save settings</button>
-              </div>
-            </div>
-          </form>
-          {% endif %}
-
           <div class="card mb-4">
             <div class="card-header">
               <h6 class="mb-0">Portfolio document</h6>
@@ -117,19 +98,33 @@
               <h6 class="mb-0">University choices</h6>
             </div>
             <div class="card-body">
-              <form method="POST" action="{% url 'strategic-application' %}" class="mb-4">
+              {% if strategic.choices_approved_at %}
+              <div class="alert alert-success py-2 mb-4" role="status">
+                Signed and approved on {{ strategic.choices_approved_at|date:"j M Y, H:i" }}.
+                {% if is_platform_admin %}
+                As admin, you can still edit this list.
+                {% endif %}
+              </div>
+              {% endif %}
+
+              <div id="universityChoicesSection" class="{% if choices_locked %}university-choices-locked{% endif %}">
+              <form method="POST" action="{% url 'strategic-application' %}" class="mb-4" id="addUniversityChoiceForm">
                 {% csrf_token %}
                 <input type="hidden" name="action" value="add_choice" />
                 <div class="row g-4 align-items-end">
-                  <div class="col-md-4">
+                  <div class="col-md-3">
                     <label for="university_name" class="form-label">University name</label>
                     <input type="text" class="form-control" id="university_name" name="university_name" placeholder="e.g. University of Oxford" required />
+                  </div>
+                  <div class="col-md-2">
+                    <label for="country" class="form-label">Country</label>
+                    <input type="text" class="form-control" id="country" name="country" placeholder="e.g. United Kingdom" required />
                   </div>
                   <div class="col-md-3">
                     <label for="degree" class="form-label">Degree</label>
                     <input type="text" class="form-control" id="degree" name="degree" placeholder="e.g. BSc Economics" required />
                   </div>
-                  <div class="col-md-3">
+                  <div class="col-md-2">
                     <label for="riskiness" class="form-label">Riskiness</label>
                     <select class="form-select" id="riskiness" name="riskiness" required>
                       {% for value, label in riskiness_choices %}
@@ -138,27 +133,37 @@
                     </select>
                   </div>
                   <div class="col-md-2">
-                    <label class="form-label user-select-none" style="visibility: hidden;" aria-hidden="true">Add</label>
-                    <button type="submit" class="btn btn-primary w-100 university-add-btn">Add</button>
+                    <button type="submit" class="btn btn-primary w-100">Add</button>
                   </div>
                 </div>
               </form>
 
               {% if university_choices %}
+              <p class="text-body-secondary small mb-3">
+                {% if choices_locked %}Your approved university list.{% else %}Drag rows to reorder your choices.{% endif %}
+              </p>
               <div class="table-responsive">
                 <table class="table table-hover align-middle mb-0">
                   <thead>
                     <tr>
+                      <th style="width: 2.5rem;"></th>
                       <th>University</th>
+                      <th>Country</th>
                       <th>Degree</th>
                       <th>Riskiness</th>
                       <th class="text-end">Actions</th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody id="universityChoicesTableBody">
                     {% for choice in university_choices %}
-                    <tr>
+                    <tr data-choice-id="{{ choice.id }}">
+                      <td>
+                        <span class="university-choice-handle text-body-secondary" title="Drag to reorder">
+                          <i class="icon-base ri ri-draggable icon-18px"></i>
+                        </span>
+                      </td>
                       <td>{{ choice.university_name }}</td>
+                      <td>{{ choice.country|default:"—" }}</td>
                       <td>{{ choice.degree }}</td>
                       <td>{{ choice.get_riskiness_display }}</td>
                       <td class="text-end text-nowrap">
@@ -168,6 +173,7 @@
                           title="Edit"
                           data-choice-id="{{ choice.id }}"
                           data-university-name="{{ choice.university_name }}"
+                          data-country="{{ choice.country }}"
                           data-degree="{{ choice.degree }}"
                           data-riskiness="{{ choice.riskiness }}">
                           <i class="ri ri-pencil-line"></i>
@@ -188,6 +194,25 @@
               </div>
               {% else %}
               <p class="text-body-secondary mb-0">No university choices yet. Add your first choice above.</p>
+              {% endif %}
+              </div>
+
+              {% if choices_locked %}
+              <p class="text-body-secondary small mt-3 mb-0">
+                This list has been signed and approved. To make changes, please message your mentor.
+              </p>
+              {% endif %}
+
+              {% if show_approve_button %}
+              <div class="mt-4 pt-3 border-top">
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  data-bs-toggle="modal"
+                  data-bs-target="#approveChoicesModal">
+                  Sign and approve
+                </button>
+              </div>
               {% endif %}
             </div>
           </div>
@@ -211,6 +236,10 @@
               <div class="mb-4">
                 <label for="edit_university_name" class="form-label">University name</label>
                 <input type="text" class="form-control" id="edit_university_name" name="university_name" required />
+              </div>
+              <div class="mb-4">
+                <label for="edit_country" class="form-label">Country</label>
+                <input type="text" class="form-control" id="edit_country" name="country" placeholder="e.g. United Kingdom" required />
               </div>
               <div class="mb-4">
                 <label for="edit_degree" class="form-label">Degree</label>
@@ -257,6 +286,31 @@
       </div>
     </div>
 
+    <div class="modal fade" id="approveChoicesModal" tabindex="-1" aria-labelledby="approveChoicesModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <form method="POST" action="{% url 'strategic-application' %}">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="approve_choices" />
+            <div class="modal-header">
+              <h5 class="modal-title" id="approveChoicesModalLabel">Sign and approve</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <p class="mb-0">
+                Are you sure you want to approve this list of universities and programmes?
+                Once approved, you will not be able to change it yourself.
+              </p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+              <button type="submit" class="btn btn-primary">Yes, approve</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
     <div class="layout-overlay layout-menu-toggle"></div>
     <div class="drag-target"></div>
 
@@ -269,8 +323,10 @@
     <script src="{% static 'website/js/vendor/menu.js' %}"></script>
     <script type="text/javascript" src="{% static 'website/js/main.js' %}"></script>
     <script type="text/javascript" src="{% static 'website/js/vendors.min.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/sortablejs/sortable.js' %}"></script>
     <script>
       document.addEventListener('DOMContentLoaded', function () {
+        var choicesLocked = {{ choices_locked|yesno:"true,false" }};
         var editModalEl = document.getElementById('editUniversityChoiceModal');
         var deleteModalEl = document.getElementById('deleteUniversityChoiceModal');
         var editModal = editModalEl ? bootstrap.Modal.getOrCreateInstance(editModalEl) : null;
@@ -278,8 +334,12 @@
 
         document.querySelectorAll('.university-edit-btn').forEach(function (button) {
           button.addEventListener('click', function () {
+            if (choicesLocked) {
+              return;
+            }
             document.getElementById('edit_choice_id').value = button.dataset.choiceId;
             document.getElementById('edit_university_name').value = button.dataset.universityName;
+            document.getElementById('edit_country').value = button.dataset.country || '';
             document.getElementById('edit_degree').value = button.dataset.degree;
             document.getElementById('edit_riskiness').value = button.dataset.riskiness;
             if (editModal) editModal.show();
@@ -288,28 +348,55 @@
 
         document.querySelectorAll('.university-delete-btn').forEach(function (button) {
           button.addEventListener('click', function () {
+            if (choicesLocked) {
+              return;
+            }
             document.getElementById('delete_choice_id').value = button.dataset.choiceId;
             document.getElementById('delete_university_name').textContent = button.dataset.universityName;
             if (deleteModal) deleteModal.show();
           });
         });
 
-        var toggle = document.getElementById('is_unlocked');
-        if (toggle) {
-          toggle.addEventListener('change', function () {
-            toggle.nextElementSibling.textContent = toggle.checked ? 'Unlocked' : 'Locked';
+        var tbody = document.getElementById('universityChoicesTableBody');
+        var csrfInput = document.querySelector('input[name="csrfmiddlewaretoken"]');
+
+        function getCsrfToken() {
+          return csrfInput ? csrfInput.value : '';
+        }
+
+        function saveReorder() {
+          if (!tbody || choicesLocked) {
+            return;
+          }
+          var formData = new FormData();
+          formData.append('action', 'reorder_choices');
+          formData.append('csrfmiddlewaretoken', getCsrfToken());
+          tbody.querySelectorAll('tr[data-choice-id]').forEach(function (row) {
+            formData.append('choice_ids', row.getAttribute('data-choice-id'));
+          });
+
+          fetch(window.location.href, {
+            method: 'POST',
+            body: formData,
+            headers: { 'X-Requested-With': 'XMLHttpRequest' },
+            credentials: 'same-origin',
+          }).then(function (response) {
+            if (!response.ok) {
+              window.location.reload();
+            }
+          }).catch(function () {
+            window.location.reload();
           });
         }
 
-        function syncAddButtonHeight() {
-          var riskinessField = document.getElementById('riskiness');
-          var addButton = document.querySelector('.university-add-btn');
-          if (!riskinessField || !addButton) return;
-          addButton.style.height = riskinessField.getBoundingClientRect().height + 'px';
+        if (tbody && window.Sortable && !choicesLocked) {
+          Sortable.create(tbody, {
+            handle: '.university-choice-handle',
+            animation: 150,
+            ghostClass: 'university-choice-sortable-ghost',
+            onEnd: saveReorder,
+          });
         }
-
-        syncAddButtonHeight();
-        window.addEventListener('resize', syncAddButtonHeight);
       });
     </script>
   </body>

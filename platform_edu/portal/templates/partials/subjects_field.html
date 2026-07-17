@@ -4,23 +4,35 @@
     {% for value, label in ib_subjects %}
     <option value="{{ value }}" {% if value in selected_subjects %}selected{% endif %}>{{ label }}</option>
     {% endfor %}
-    {% for custom in custom_subjects %}
-    <option value="{{ custom }}" selected data-custom-subject="1">{{ custom }}</option>
-    {% endfor %}
-    <option value="other" data-subjects-other-option="1">Other</option>
   </select>
-  <div class="mt-3 d-none" data-subjects-other-wrap>
-    <div class="form-floating form-floating-outline">
-      <input
-        type="text"
-        class="form-control"
-        id="{{ field_id|default:'subjects' }}Other"
-        name="subjects_other"
-        value=""
-        placeholder="Enter subject name"
-        data-subjects-other-input />
-      <label for="{{ field_id|default:'subjects' }}Other">Specify other subject(s)</label>
+
+  <div class="mt-3" data-custom-subjects-wrap>
+    <label class="form-label mb-2">Other subjects</label>
+    <div data-custom-subjects-list>
+      {% for custom in custom_subjects %}
+      <div class="input-group mb-2" data-custom-subject-row>
+        <input
+          type="text"
+          class="form-control"
+          name="subjects_custom"
+          value="{{ custom }}"
+          placeholder="Subject name" />
+        <button type="button" class="btn btn-outline-secondary" data-remove-custom-subject aria-label="Remove subject">&times;</button>
+      </div>
+      {% endfor %}
     </div>
-    <div class="form-text">Press Enter or click away to add. Separate multiple with commas.</div>
+    <button type="button" class="btn btn-sm btn-outline-primary" data-add-custom-subject>Add another</button>
   </div>
 </div>
+
+<template id="customSubjectRowTemplate">
+  <div class="input-group mb-2" data-custom-subject-row>
+    <input
+      type="text"
+      class="form-control"
+      name="subjects_custom"
+      value=""
+      placeholder="Subject name" />
+    <button type="button" class="btn btn-outline-secondary" data-remove-custom-subject aria-label="Remove subject">&times;</button>
+  </div>
+</template>

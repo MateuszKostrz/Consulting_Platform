@@ -1,0 +1,249 @@
+{% load static portal_extras %}
+
+<!doctype html>
+<html
+  lang="en"
+  class="layout-navbar-fixed layout-menu-fixed layout-compact"
+  dir="ltr"
+  data-skin="default"
+  data-bs-theme="light"
+  data-assets-path="{% static 'website/' %}"
+  data-template="horizontal-menu-template">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>{{ site_name }} | Results</title>
+    <link rel="icon" href="{% static 'website/images/platform_logo.svg' %}">
+    {% include 'top_base.html' %}
+    <script type="text/javascript" src="{% static 'website/js/vendor/helpers.js' %}"></script>
+    <script type="text/javascript" src="{% static 'website/js/vendor/config.js' %}"></script>
+    <style>
+      .results-action-btn {
+        width: 2.375rem;
+        height: 2.375rem;
+      }
+      .results-action-btn i {
+        font-size: 1.25rem;
+        line-height: 1;
+      }
+      .results-add-btn {
+        min-height: calc(1.375em + 1.711rem + 2px);
+      }
+      .results-file-picker-name {
+        display: block;
+        margin-top: 0.25rem;
+        min-height: 1.25rem;
+        max-height: 2.5rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        word-break: break-word;
+      }
+      .results-file-picker-btn {
+        min-height: calc(1.375em + 1.711rem + 2px);
+      }
+      .results-add-form-row {
+        align-items: start;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="layout-wrapper layout-navbar-full layout-horizontal layout-without-menu">
+      <div class="layout-container">
+        {% include 'horizontal_menu.html' %}
+        <div class="container-xxl flex-grow-1 container-p-y">
+          {% if messages %}
+          {% for message in messages %}
+          <div class="alert alert-{{ message.tags }} alert-dismissible mb-4" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+          {% endfor %}
+          {% endif %}
+
+          <div class="card mb-4">
+            <div class="card-body">
+              <h5 class="mb-2">Results</h5>
+              <p class="mb-0 text-body-secondary">
+                {% if is_platform_admin %}
+                Upload result documents such as transcripts, CVs, and final diplomas for the student to download.
+                {% else %}
+                View and download your result documents shared by your consultant.
+                {% endif %}
+              </p>
+              {% if is_platform_admin and admin_viewing_student_name %}
+              <p class="text-body-secondary small mt-2 mb-0">Viewing results for <strong>{{ admin_viewing_student_name }}</strong></p>
+              {% endif %}
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <h6 class="mb-0">{% if is_platform_admin %}Documents{% else %}Your documents{% endif %}</h6>
+            </div>
+            <div class="card-body">
+              {% if is_platform_admin %}
+              <form method="POST" action="{% url 'results' %}" enctype="multipart/form-data" class="mb-4">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="add_document" />
+                <div class="row g-4 results-add-form-row">
+                  <div class="col-md-4">
+                    <label for="document_type" class="form-label">Document type</label>
+                    <select class="form-select" id="document_type" name="document_type" required>
+                      <option value="" selected disabled>Select type</option>
+                      {% for value, label in result_document_type_choices %}
+                      <option value="{{ value }}">{{ label }}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-label">Document</label>
+                    <div class="results-file-picker">
+                      <input
+                        type="file"
+                        class="d-none results-file-input"
+                        id="document_file"
+                        name="document_file"
+                        accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                        required />
+                      <button type="button" class="btn btn-outline-secondary w-100 results-file-picker-btn">Choose file</button>
+                      <span class="small text-body-secondary results-file-picker-name" title="">No file chosen</span>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-label user-select-none" style="visibility: hidden;" aria-hidden="true">Upload</label>
+                    <button type="submit" class="btn btn-primary w-100 results-add-btn">Add document</button>
+                  </div>
+                </div>
+                <div class="form-text mt-2">PDF or Word documents only, up to 10 MB.</div>
+              </form>
+              {% endif %}
+
+              {% if document_entries %}
+              <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                  <thead>
+                    <tr>
+                      <th>Type</th>
+                      <th>File</th>
+                      <th>Uploaded</th>
+                      <th class="text-end">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for document in document_entries %}
+                    <tr>
+                      <td>{{ document.get_document_type_display }}</td>
+                      <td class="text-break">{{ document.document_file|basename }}</td>
+                      <td>{{ document.created_at|date:"M j, Y" }}</td>
+                      <td class="text-end text-nowrap">
+                        <a href="{{ document.document_file.url }}" class="btn btn-sm btn-outline-primary" download>
+                          <i class="ri ri-download-line me-1"></i>
+                          Download
+                        </a>
+                        {% if is_platform_admin %}
+                        <button
+                          type="button"
+                          class="btn btn-icon btn-text-danger results-delete-btn results-action-btn ms-1"
+                          title="Delete"
+                          data-document-id="{{ document.id }}"
+                          data-document-label="{{ document.get_document_type_display }}">
+                          <i class="ri ri-delete-bin-line"></i>
+                        </button>
+                        {% endif %}
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+              {% else %}
+              <p class="text-body-secondary mb-0">
+                {% if is_platform_admin %}
+                No documents yet. Add the first document above.
+                {% else %}
+                No documents have been added yet. Your consultant will share them here.
+                {% endif %}
+              </p>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        {% include 'footer.html' %}
+      </div>
+    </div>
+
+    {% if is_platform_admin %}
+    <div class="modal fade" id="deleteDocumentModal" tabindex="-1" aria-labelledby="deleteDocumentModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <form method="POST" action="{% url 'results' %}">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="delete_document" />
+            <input type="hidden" name="document_id" id="delete_document_id" value="" />
+            <div class="modal-header">
+              <h5 class="modal-title" id="deleteDocumentModalLabel">Delete document</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <p class="mb-0">Are you sure you want to delete <strong id="delete_document_label"></strong>?</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+              <button type="submit" class="btn btn-danger">Delete</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
+    <div class="layout-overlay layout-menu-toggle"></div>
+    <div class="drag-target"></div>
+
+    <script src="{% static 'website/js/vendor/libs/jquery/jquery.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/popper/popper.js' %}"></script>
+    <script src="{% static 'website/js/bootstrap.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/node-waves/node-waves.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/perfect-scrollbar/perfect-scrollbar.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/hammer/hammer.js' %}"></script>
+    <script src="{% static 'website/js/vendor/menu.js' %}"></script>
+    <script type="text/javascript" src="{% static 'website/js/main.js' %}"></script>
+    <script type="text/javascript" src="{% static 'website/js/vendors.min.js' %}"></script>
+    {% if is_platform_admin %}
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        var deleteModalEl = document.getElementById('deleteDocumentModal');
+        var deleteModal = deleteModalEl ? bootstrap.Modal.getOrCreateInstance(deleteModalEl) : null;
+
+        document.querySelectorAll('.results-delete-btn').forEach(function (button) {
+          button.addEventListener('click', function () {
+            document.getElementById('delete_document_id').value = button.dataset.documentId;
+            document.getElementById('delete_document_label').textContent = button.dataset.documentLabel;
+            if (deleteModal) deleteModal.show();
+          });
+        });
+
+        document.querySelectorAll('.results-file-picker').forEach(function (picker) {
+          var input = picker.querySelector('.results-file-input');
+          var nameLabel = picker.querySelector('.results-file-picker-name');
+          var chooseButton = picker.querySelector('.results-file-picker-btn');
+          if (!input || !nameLabel || !chooseButton) return;
+
+          chooseButton.addEventListener('click', function () {
+            input.click();
+          });
+
+          input.addEventListener('change', function () {
+            var hasFile = input.files.length > 0;
+            var fileName = hasFile ? input.files[0].name : 'No file chosen';
+            nameLabel.textContent = fileName;
+            nameLabel.title = hasFile ? fileName : '';
+            nameLabel.classList.toggle('text-primary', hasFile);
+            nameLabel.classList.toggle('text-body-secondary', !hasFile);
+          });
+        });
+      });
+    </script>
+    {% endif %}
+  </body>
+</html>

@@ -1,3 +1,4 @@
+import os
 from datetime import timedelta
 from zoneinfo import ZoneInfo
 
@@ -5,7 +6,7 @@ from django.conf import settings
 from django.db import models
 from django.utils import timezone
 
-from .constants import DEADLINE_TIMEZONE_CHOICES
+from .constants import DEADLINE_TIMEZONE_CHOICES, RESULT_DOCUMENT_TYPE_CHOICES
 
 
 class PlatformUser(models.Model):
@@ -39,6 +40,12 @@ class PlatformUser(models.Model):
         default='',
     )
     account_created_at = models.DateTimeField(null=True, blank=True)
+    visible_password = models.CharField(
+        max_length=128,
+        blank=True,
+        default='',
+        help_text='Last known password, stored for admin reference when the account is created.',
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -107,13 +114,17 @@ class PersonalProfile(models.Model):
     personal_email = models.EmailField(max_length=200, blank=True, default='')
     edunade_email = models.EmailField(max_length=200, blank=True, default='')
     phone_number = models.CharField(max_length=30, blank=True, default='')
+    parent_first_name = models.CharField(max_length=100, blank=True, default='')
+    parent_last_name = models.CharField(max_length=100, blank=True, default='')
     parent_email = models.EmailField(max_length=254, blank=True, default='')
+    parent_phone = models.CharField(max_length=30, blank=True, default='')
     nationality = models.CharField(max_length=100, blank=True, default='')
     passport_number = models.CharField(max_length=50, blank=True, default='')
     school_name = models.CharField(max_length=200, blank=True, default='')
     school_address = models.TextField(blank=True, default='')
     profile_photo = models.ImageField(upload_to='personal/profile_photos/', blank=True, null=True)
     curriculum = models.CharField(max_length=50, blank=True, default='')
+    curriculum_other = models.CharField(max_length=200, blank=True, default='')
     graduation_year = models.CharField(max_length=20, blank=True, default='')
     subjects = models.TextField(blank=True, default='')
     created_at = models.DateTimeField(auto_now_add=True)
@@ -425,6 +436,7 @@ class StrategicApplication(models.Model):
         related_name='strategic_application',
     )
     is_unlocked = models.BooleanField(default=False)
+    choices_approved_at = models.DateTimeField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -456,19 +468,21 @@ class UniversityChoice(models.Model):
         related_name='university_choices',
     )
     university_name = models.CharField(max_length=200)
+    country = models.CharField(max_length=100, blank=True, default='')
     degree = models.CharField(max_length=200)
     riskiness = models.CharField(
         max_length=20,
         choices=Riskiness.choices,
         default=Riskiness.REALISTIC,
     )
+    sort_order = models.PositiveSmallIntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         verbose_name = 'University Choice'
         verbose_name_plural = 'University Choices'
-        ordering = ['university_name', 'degree', 'id']
+        ordering = ['sort_order', 'id']
 
     def __str__(self):
         return f'{self.university_name} — {self.degree} ({self.get_riskiness_display()})'
@@ -481,6 +495,9 @@ class ProfileNarrative(models.Model):
         related_name='profile_narrative',
     )
     is_unlocked = models.BooleanField(default=False)
+    personal_statement_google_doc_url = models.URLField(max_length=500, blank=True, default='')
+    cv_google_doc_url = models.URLField(max_length=500, blank=True, default='')
+    application_essays_google_doc_url = models.URLField(max_length=500, blank=True, default='')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -600,6 +617,11 @@ class Offer(models.Model):
     university_name = models.CharField(max_length=200)
     degree_name = models.CharField(max_length=200)
     offer_requirements = models.TextField()
+    attachment_file = models.FileField(
+        upload_to='offers/attachments/',
+        blank=True,
+        null=True,
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -610,3 +632,84 @@ class Offer(models.Model):
 
     def __str__(self):
         return f'{self.university_name} — {self.degree_name}'
+
+    @property
+    def has_attachment(self):
+        return bool(self.attachment_file)
+
+    @property
+    def attachment_is_pdf(self):
+        if not self.attachment_file:
+            return False
+        return os.path.splitext(self.attachment_file.name)[1].lower() == '.pdf'
+
+
+class Results(models.Model):
+    personal_profile = models.OneToOneField(
+        PersonalProfile,
+        on_delete=models.CASCADE,
+        related_name='results_access',
+    )
+    is_unlocked = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = 'Results'
+        verbose_name_plural = 'Results'
+
+    def __str__(self):
+        owner = self.personal_profile
+        if owner.platform_user:
+            label = owner.platform_user.email
+        else:
+            label = owner.personal_email or owner.edunade_email or owner.pk
+        status = 'unlocked' if self.is_unlocked else 'locked'
+        return f'Results ({label}, {status})'
+
+
+class ResultDocument(models.Model):
+    personal_profile = models.ForeignKey(
+        PersonalProfile,
+        on_delete=models.CASCADE,
+        related_name='result_documents',
+    )
+    document_type = models.CharField(max_length=50, choices=RESULT_DOCUMENT_TYPE_CHOICES)
+    document_file = models.FileField(upload_to='results/documents/')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = 'Result Document'
+        verbose_name_plural = 'Result Documents'
+        ordering = ['-created_at', 'id']
+
+    def __str__(self):
+        return f'{self.get_document_type_display()} ({self.personal_profile})'
+
+
+class StudentSectionAccess(models.Model):
+    platform_user = models.OneToOneField(
+        PlatformUser,
+        on_delete=models.CASCADE,
+        related_name='section_access',
+        limit_choices_to={'role': PlatformUser.Role.STUDENT},
+    )
+    personal_information = models.BooleanField(null=True, blank=True)
+    academic_profile = models.BooleanField(null=True, blank=True)
+    diagnostics = models.BooleanField(null=True, blank=True)
+    portfolio_design = models.BooleanField(null=True, blank=True)
+    strategic_application = models.BooleanField(null=True, blank=True)
+    profile_narrative = models.BooleanField(null=True, blank=True)
+    interview_preparation = models.BooleanField(null=True, blank=True)
+    offers = models.BooleanField(null=True, blank=True)
+    results = models.BooleanField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = 'Student Section Access'
+        verbose_name_plural = 'Student Section Access'
+
+    def __str__(self):
+        return f'Section access ({self.platform_user})'

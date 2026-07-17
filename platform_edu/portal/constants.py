@@ -83,55 +83,45 @@ ALLOWED_UPLOAD_EXTENSIONS = {'.pdf', '.doc', '.docx'}
 MAX_PROFILE_PHOTO_SIZE = 5 * 1024 * 1024
 ALLOWED_PROFILE_PHOTO_EXTENSIONS = {'.jpg', '.jpeg', '.png'}
 
+DIAGNOSTIC_CALL_BOOKING_URL = 'https://calendly.com/edunade/diagnostics'
+
 DIAGNOSTIC_STAGES = [
     {
         'key': 'readiness',
         'step': 1,
-        'title': 'Readiness & Profile Assessment',
+        'title': 'Schedule a call',
         'description': (
-            'A Zoom call with your Edunade consultant. Download the assessment form, '
-            'complete it after your session, and upload it here.'
+            'Book a call with your Edunade consultant. We get to know you and '
+            'assess your preferences and situation in relation to your ambitions.'
         ),
         'mandatory': False,
-        'template_label': 'Assessment form',
-        'student_upload_label': 'Completed assessment form',
-        'admin_upload_label': 'Consultant materials',
-        'allow_student_upload': True,
-        'allow_template_upload': True,
-    },
-    {
-        'key': 'homework',
-        'step': 2,
-        'title': 'Profile Self-Assessment (Homework)',
-        'description': 'Download the self-assessment form, complete it, and upload your answers. This step is required.',
-        'mandatory': True,
-        'template_label': 'Self-assessment form',
-        'student_upload_label': 'Completed self-assessment',
-        'admin_upload_label': 'Consultant feedback',
-        'allow_student_upload': True,
-        'allow_template_upload': True,
+        'template_label': None,
+        'student_upload_label': None,
+        'admin_upload_label': None,
+        'allow_student_upload': False,
+        'allow_template_upload': False,
     },
     {
         'key': 'test',
-        'step': 3,
-        'title': 'Diagnostic Test',
-        'description': 'Download the diagnostic test, complete it, and submit your answers on the platform.',
+        'step': 2,
+        'title': 'Download exam',
+        'description': 'Download the diagnostic exam, complete it, and return it as instructed by your consultant.',
         'mandatory': False,
-        'template_label': 'Diagnostic test',
-        'student_upload_label': 'Completed test submission',
-        'admin_upload_label': 'Marked test / notes',
-        'allow_student_upload': True,
+        'template_label': 'Diagnostic exam',
+        'student_upload_label': None,
+        'admin_upload_label': None,
+        'allow_student_upload': False,
         'allow_template_upload': True,
     },
     {
         'key': 'report',
-        'step': 4,
-        'title': 'Diagnostics Report',
-        'description': 'Your personalised diagnostics report prepared by Edunade. Available as a PDF once ready.',
+        'step': 3,
+        'title': 'Receive report',
+        'description': 'Your personalised diagnostics report, prepared after your call and exam.',
         'mandatory': False,
         'template_label': None,
         'student_upload_label': None,
-        'admin_upload_label': 'Diagnostics report (PDF)',
+        'admin_upload_label': 'Diagnostics report',
         'allow_student_upload': False,
         'allow_template_upload': False,
     },
@@ -141,6 +131,17 @@ DIAGNOSTIC_STAGE_KEYS = [stage['key'] for stage in DIAGNOSTIC_STAGES]
 
 INTERVIEW_PREP_SESSION_SLOTS = (1, 2, 3)
 INTERVIEW_FEEDBACK_EXTENSIONS = {'.pdf', '.docx'}
+
+RESULT_DOCUMENT_TYPE_CHOICES = [
+    ('transcript', 'Transcript'),
+    ('cv', 'CV'),
+    ('final_diploma', 'Final diploma'),
+    ('language_certificate', 'Language certificate'),
+    ('exam_results', 'Exam results'),
+    ('other', 'Other'),
+]
+
+RESULT_DOCUMENT_TYPE_VALUES = {value for value, _ in RESULT_DOCUMENT_TYPE_CHOICES}
 
 DEADLINE_TIMEZONE_CHOICES = [
     ('Europe/Warsaw', 'Warsaw (CET)'),

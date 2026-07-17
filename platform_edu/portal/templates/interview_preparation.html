@@ -44,37 +44,6 @@
             </div>
           </div>
 
-          {% if is_platform_admin %}
-          <form method="POST" action="{% url 'interview-preparation' %}" class="mb-4">
-            {% csrf_token %}
-            <input type="hidden" name="action" value="admin_settings" />
-            <div class="card">
-              <div class="card-header d-flex align-items-center justify-content-between flex-wrap gap-3">
-                <div>
-                  <h6 class="mb-1">Student access</h6>
-                  <small class="text-body-secondary">Control whether this student can open Interview Preparation.</small>
-                </div>
-                <div class="form-check form-switch mb-0">
-                  <input
-                    class="form-check-input"
-                    type="checkbox"
-                    role="switch"
-                    id="is_unlocked"
-                    name="is_unlocked"
-                    {% if preparation.is_unlocked %}checked{% endif %} />
-                  <label class="form-check-label" for="is_unlocked">
-                    {% if preparation.is_unlocked %}Unlocked{% else %}Locked{% endif %}
-                  </label>
-                </div>
-              </div>
-              <div class="card-body">
-                <div class="form-text mb-3">Click Save settings after changing the lock.</div>
-                <button type="submit" class="btn btn-primary">Save settings</button>
-              </div>
-            </div>
-          </form>
-          {% endif %}
-
           {% if session_items %}
           {% for session in session_items %}
           <div class="card mb-4">
@@ -197,15 +166,5 @@
     <script src="{% static 'website/js/vendor/menu.js' %}"></script>
     <script type="text/javascript" src="{% static 'website/js/main.js' %}"></script>
     <script type="text/javascript" src="{% static 'website/js/vendors.min.js' %}"></script>
-    <script>
-      document.addEventListener('DOMContentLoaded', function () {
-        var toggle = document.getElementById('is_unlocked');
-        if (toggle) {
-          toggle.addEventListener('change', function () {
-            toggle.nextElementSibling.textContent = toggle.checked ? 'Unlocked' : 'Locked';
-          });
-        }
-      });
-    </script>
   </body>
 </html>

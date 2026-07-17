@@ -22,11 +22,14 @@ from .constants import (
     DEADLINE_TIMEZONE_CHOICES,
     DEADLINE_TIMEZONE_VALUES,
     DIAGNOSTIC_STAGE_KEYS,
+    DIAGNOSTIC_CALL_BOOKING_URL,
     GRADUATION_YEARS,
     IB_SUBJECT_CHOICES,
     INTERVIEW_FEEDBACK_EXTENSIONS,
     INTERVIEW_PREP_SESSION_SLOTS,
     MAX_UPLOAD_SIZE,
+    RESULT_DOCUMENT_TYPE_CHOICES,
+    RESULT_DOCUMENT_TYPE_VALUES,
 )
 from .reference_contacts_utils import (
     MAX_REFERENCE_CONTACTS,
@@ -35,11 +38,17 @@ from .reference_contacts_utils import (
 )
 from .budget_utils import budget_exchange_rates_response, save_budget_fields
 from .course_wishes_utils import ordered_countries_for_form, save_course_wishes
+from .diagnostics_access import get_diagnostic_stage_items
 from .activity_entries_utils import (
     activity_entries_for_form,
     save_activity_entries,
 )
-from .subjects_utils import subjects_for_form, subjects_from_post
+from .section_access_utils import (
+    save_section_access_from_post,
+    section_access_rows_for_student,
+    student_can_access_section,
+)
+from .subjects_utils import curriculum_for_form, curriculum_from_post, subjects_for_form, subjects_from_post
 from .models import (
     AcademicProfile,
     Deadline,
@@ -47,6 +56,7 @@ from .models import (
     InterviewPrepSession,
     Offer,
     PlatformUser,
+    ResultDocument,
     StudentTodo,
     UniversityChoice,
 )
@@ -73,28 +83,21 @@ from .profile_access import (
     clear_profile_session_key,
     ensure_interview_preparation,
     ensure_interview_prep_sessions,
-    ensure_offers_access,
     ensure_portfolio_design,
     ensure_profile_narrative,
     ensure_strategic_application,
     get_admin_viewing_student,
     get_impersonator_user,
     get_interview_preparation_for_request,
-    get_offers_access_for_request,
     get_platform_user,
     get_profile_for_request,
     get_portfolio_design_for_request,
     get_profile_narrative_for_request,
     get_strategic_application_for_request,
     get_student_platform_users,
-    interview_preparation_is_unlocked_for_platform_user,
     is_impersonating,
-    offers_is_unlocked_for_platform_user,
-    portfolio_design_is_unlocked_for_platform_user,
-    profile_narrative_is_unlocked_for_platform_user,
     set_admin_viewing_student,
     set_impersonator_user_id,
-    strategic_application_is_unlocked_for_platform_user,
     sync_profile_edunade_email,
 )
 
@@ -114,6 +117,27 @@ def _get_or_create_profile(request):
 def _get_or_create_academic(profile):
     academic, _ = AcademicProfile.objects.get_or_create(personal_profile=profile)
     return academic
+
+
+_SECTION_LABELS = {
+    'personal_information': 'Personal Information',
+    'academic_profile': 'Academic Profile',
+    'diagnostics': 'Diagnostics',
+    'portfolio_design': 'Portfolio Design',
+    'strategic_application': 'Strategic Application',
+    'profile_narrative': 'Profile Narrative',
+    'interview_preparation': 'Interview Preparation',
+    'offers': 'Offers',
+    'results': 'Results',
+}
+
+
+def _require_section_access(request, platform_user, profile, section_key):
+    if student_can_access_section(request, platform_user, profile, section_key):
+        return None
+    label = _SECTION_LABELS.get(section_key, 'This section')
+    messages.warning(request, f'{label} is not available for your account.')
+    return redirect('home')
 
 
 def _validate_upload(uploaded_file):
@@ -483,7 +507,6 @@ def home(request):
         'todos_all': todos,
         'todo_total_count': todos.count(),
         'students_list': get_student_platform_users() if can_manage else [],
-        'student_default_password': 'Edunade2020!',
     })
 
 
@@ -500,6 +523,13 @@ def personal_information(request):
     profile = _get_or_create_profile(request)
     if profile is None:
         return _redirect_admin_without_student(request)
+
+    platform_user = get_platform_user(request)
+    blocked = _require_section_access(
+        request, platform_user, profile, 'personal_information',
+    )
+    if blocked:
+        return blocked
 
     sync_profile_edunade_email(profile)
 
@@ -524,7 +554,11 @@ def personal_information(request):
         profile.passport_number = request.POST.get('passport_number', '').strip()
         profile.school_name = request.POST.get('school_name', '').strip()
         profile.school_address = request.POST.get('school_address', '').strip()
-        profile.curriculum = request.POST.get('curriculum', '').strip()
+        profile.parent_first_name = request.POST.get('parent_first_name', '').strip()
+        profile.parent_last_name = request.POST.get('parent_last_name', '').strip()
+        profile.parent_email = request.POST.get('parent_email', '').strip()
+        profile.parent_phone = request.POST.get('parent_phone', '').strip()
+        profile.curriculum, profile.curriculum_other = curriculum_from_post(request)
         profile.graduation_year = request.POST.get('graduation_year', '').strip()
         profile.subjects = subjects_from_post(request)
 
@@ -540,11 +574,16 @@ def personal_information(request):
         messages.success(request, 'Personal information saved successfully.')
 
     selected_subjects, custom_subjects = subjects_for_form(profile.subjects)
+    curriculum_select, curriculum_other = curriculum_for_form(
+        profile.curriculum,
+        profile.curriculum_other,
+    )
 
     return render(request, 'personal_information.html', {
         'info': profile,
         'school_name': profile.school_name,
-        'curriculum': profile.curriculum,
+        'curriculum': curriculum_select,
+        'curriculum_other': curriculum_other,
         'selected_subjects': selected_subjects,
         'custom_subjects': custom_subjects,
         'ib_subjects': IB_SUBJECT_CHOICES,
@@ -564,6 +603,13 @@ def academic_profile(request):
     if profile is None:
         return _redirect_admin_without_student(request)
 
+    platform_user = get_platform_user(request)
+    blocked = _require_section_access(
+        request, platform_user, profile, 'academic_profile',
+    )
+    if blocked:
+        return blocked
+
     academic = _get_or_create_academic(profile)
 
     if request.method == 'POST':
@@ -579,12 +625,14 @@ def academic_profile(request):
         save_activity_entries(academic, request)
         messages.success(request, 'Academic profile saved successfully.')
 
-    reference_contacts, reference_contacts_visible = reference_contacts_for_form(academic)
+    reference_contacts, reference_contacts_visible = reference_contacts_for_form(academic, profile)
     activity_entries = activity_entries_for_form(academic)
 
     return render(request, 'academic_profile.html', {
         'profile': profile,
         'academic': academic,
+        'school_name': profile.school_name,
+        'school_address': profile.school_address,
         'country_choices': COUNTRY_CHOICES,
         'ordered_countries': ordered_countries_for_form(academic),
         'budget_choices': BUDGET_CHOICES,
@@ -664,25 +712,18 @@ def diagnostics(request):
         return _redirect_admin_without_student(request)
 
     platform_user = get_platform_user(request)
-    if not (platform_user and platform_user.is_admin) and not profile.is_complete():
-        messages.warning(
-            request,
-            'Please complete all fields in Personal Information before accessing Diagnostics.',
-        )
-        return redirect('personal-information')
+    blocked = _require_section_access(request, platform_user, profile, 'diagnostics')
+    if blocked:
+        return blocked
 
     if request.method == 'POST':
         return _handle_diagnostic_upload(request, profile, platform_user)
 
     stage_items = get_diagnostic_stage_items(profile)
-    homework_stage = next(
-        (item['stage'] for item in stage_items if item['stage'].stage_key == 'homework'),
-        None,
-    )
 
     return render(request, 'diagnostics.html', {
         'stage_items': stage_items,
-        'homework_complete': bool(homework_stage and homework_stage.has_student_submission),
+        'diagnostic_booking_url': DIAGNOSTIC_CALL_BOOKING_URL,
     })
 
 
@@ -702,22 +743,20 @@ def portfolio_design(request):
     if portfolio is None:
         portfolio = ensure_portfolio_design(profile)
 
-    if not is_admin and not portfolio_design_is_unlocked_for_platform_user(platform_user):
-        messages.warning(
-            request,
-            'Portfolio Design is not available yet. Your consultant will unlock it when ready.',
-        )
-        return redirect('home')
+    blocked = _require_section_access(
+        request, platform_user, profile, 'portfolio_design',
+    )
+    if blocked:
+        return blocked
 
     if request.method == 'POST':
         if not is_admin:
             messages.error(request, 'You do not have permission to change these settings.')
             return redirect('portfolio-design')
 
-        portfolio.is_unlocked = request.POST.get('is_unlocked') == 'on'
         portfolio.google_doc_url = request.POST.get('google_doc_url', '').strip()
         portfolio.save()
-        messages.success(request, 'Portfolio Design settings saved.')
+        messages.success(request, 'Portfolio Design document link saved.')
         return redirect('portfolio-design')
 
     return render(request, 'portfolio_design.html', {
@@ -727,12 +766,15 @@ def portfolio_design(request):
 
 def _validate_university_choice_post(request):
     university_name = request.POST.get('university_name', '').strip()
+    country = request.POST.get('country', '').strip()
     degree = request.POST.get('degree', '').strip()
     riskiness = request.POST.get('riskiness', '').strip()
     errors = []
 
     if not university_name:
         errors.append('University name is required.')
+    if not country:
+        errors.append('Country is required.')
     if not degree:
         errors.append('Degree is required.')
     if riskiness not in UniversityChoice.Riskiness.values:
@@ -740,9 +782,15 @@ def _validate_university_choice_post(request):
 
     return errors, {
         'university_name': university_name,
+        'country': country,
         'degree': degree,
         'riskiness': riskiness,
     }
+
+
+def _next_university_choice_sort_order(profile):
+    last = profile.university_choices.order_by('-sort_order').first()
+    return (last.sort_order + 1) if last else 1
 
 
 def _get_university_choice_for_profile(profile, choice_id):
@@ -753,16 +801,64 @@ def _get_university_choice_for_profile(profile, choice_id):
     )
 
 
+def _choices_are_locked(strategic, is_admin):
+    return bool(strategic.choices_approved_at) and not is_admin
+
+
+def _blocked_choice_mutation_response(request):
+    message = (
+        'This list has been signed and approved. '
+        'Please message your mentor if you need to make changes.'
+    )
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        return JsonResponse({'success': False, 'error': message}, status=403)
+    messages.warning(request, message)
+    return redirect('strategic-application')
+
+
 def _handle_strategic_application_post(request, profile, strategic, is_admin):
     action = request.POST.get('action', '').strip()
 
-    if action == 'admin_settings':
-        if not is_admin:
-            messages.error(request, 'You do not have permission to change these settings.')
+    if action == 'approve_choices':
+        if is_admin:
+            messages.error(request, 'Only students can sign and approve their university list.')
             return redirect('strategic-application')
-        strategic.is_unlocked = request.POST.get('is_unlocked') == 'on'
-        strategic.save()
-        messages.success(request, 'Strategic Application settings saved.')
+        if strategic.choices_approved_at:
+            messages.info(request, 'Your university list is already approved.')
+            return redirect('strategic-application')
+        if not profile.university_choices.exists():
+            messages.error(request, 'Add at least one university choice before approving.')
+            return redirect('strategic-application')
+        strategic.choices_approved_at = timezone.now()
+        strategic.save(update_fields=['choices_approved_at', 'updated_at'])
+        messages.success(request, 'Your university list has been signed and approved.')
+        return redirect('strategic-application')
+
+    if _choices_are_locked(strategic, is_admin) and action in {
+        'reorder_choices',
+        'add_choice',
+        'edit_choice',
+        'delete_choice',
+    }:
+        return _blocked_choice_mutation_response(request)
+
+    if action == 'reorder_choices':
+        ordered_ids = request.POST.getlist('choice_ids')
+        seen = set()
+        for index, choice_id in enumerate(ordered_ids, start=1):
+            if not choice_id or choice_id in seen:
+                continue
+            seen.add(choice_id)
+            choice = UniversityChoice.objects.filter(
+                pk=choice_id,
+                personal_profile=profile,
+            ).first()
+            if choice:
+                choice.sort_order = index
+                choice.save(update_fields=['sort_order', 'updated_at'])
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return JsonResponse({'success': True})
+        messages.success(request, 'University choices reordered.')
         return redirect('strategic-application')
 
     if action in {'add_choice', 'edit_choice'}:
@@ -775,6 +871,7 @@ def _handle_strategic_application_post(request, profile, strategic, is_admin):
         if action == 'add_choice':
             UniversityChoice.objects.create(
                 personal_profile=profile,
+                sort_order=_next_university_choice_sort_order(profile),
                 **cleaned,
             )
             messages.success(request, 'University choice added.')
@@ -785,6 +882,7 @@ def _handle_strategic_application_post(request, profile, strategic, is_admin):
             request.POST.get('choice_id', '').strip(),
         )
         choice.university_name = cleaned['university_name']
+        choice.country = cleaned['country']
         choice.degree = cleaned['degree']
         choice.riskiness = cleaned['riskiness']
         choice.save()
@@ -819,26 +917,55 @@ def strategic_application(request):
     if strategic is None:
         strategic = ensure_strategic_application(profile)
 
-    if not is_admin and not strategic_application_is_unlocked_for_platform_user(platform_user):
-        messages.warning(
-            request,
-            'Strategic Application is not available yet. Your consultant will unlock it when ready.',
-        )
-        return redirect('home')
+    blocked = _require_section_access(
+        request, platform_user, profile, 'strategic_application',
+    )
+    if blocked:
+        return blocked
 
     portfolio = get_portfolio_design_for_request(profile, platform_user, create=False)
 
     if request.method == 'POST':
         return _handle_strategic_application_post(request, profile, strategic, is_admin)
 
-    university_choices = profile.university_choices.all()
+    university_choices = profile.university_choices.order_by('sort_order', 'id')
+    choices_locked = _choices_are_locked(strategic, is_admin)
 
     return render(request, 'strategic_application.html', {
         'strategic': strategic,
         'portfolio': portfolio,
         'university_choices': university_choices,
         'riskiness_choices': UniversityChoice.Riskiness.choices,
+        'choices_locked': choices_locked,
+        'show_approve_button': (
+            not is_admin
+            and not strategic.choices_approved_at
+            and university_choices.exists()
+        ),
     })
+
+
+def _profile_narrative_sections(narrative):
+    return (
+        {
+            'key': 'personal_statement',
+            'title': 'Personal Statement',
+            'field_name': 'personal_statement_google_doc_url',
+            'url': narrative.personal_statement_google_doc_url,
+        },
+        {
+            'key': 'cv',
+            'title': 'CV',
+            'field_name': 'cv_google_doc_url',
+            'url': narrative.cv_google_doc_url,
+        },
+        {
+            'key': 'application_essays',
+            'title': 'Application Essays',
+            'field_name': 'application_essays_google_doc_url',
+            'url': narrative.application_essays_google_doc_url,
+        },
+    )
 
 
 def profile_narrative(request):
@@ -856,25 +983,31 @@ def profile_narrative(request):
     if narrative is None:
         narrative = ensure_profile_narrative(profile)
 
-    if not is_admin and not profile_narrative_is_unlocked_for_platform_user(platform_user):
-        messages.warning(
-            request,
-            'Profile Narrative is not available yet. Your consultant will unlock it when ready.',
-        )
-        return redirect('home')
+    blocked = _require_section_access(
+        request, platform_user, profile, 'profile_narrative',
+    )
+    if blocked:
+        return blocked
 
     if request.method == 'POST':
         if not is_admin:
             messages.error(request, 'You do not have permission to change these settings.')
             return redirect('profile-narrative')
 
-        narrative.is_unlocked = request.POST.get('is_unlocked') == 'on'
+        narrative.personal_statement_google_doc_url = request.POST.get(
+            'personal_statement_google_doc_url', '',
+        ).strip()
+        narrative.cv_google_doc_url = request.POST.get('cv_google_doc_url', '').strip()
+        narrative.application_essays_google_doc_url = request.POST.get(
+            'application_essays_google_doc_url', '',
+        ).strip()
         narrative.save()
-        messages.success(request, 'Profile Narrative settings saved.')
+        messages.success(request, 'Profile Narrative document links saved.')
         return redirect('profile-narrative')
 
     return render(request, 'profile_narrative.html', {
         'narrative': narrative,
+        'narrative_sections': _profile_narrative_sections(narrative),
     })
 
 
@@ -909,15 +1042,6 @@ def _get_interview_session_items(profile, is_admin):
 
 def _handle_interview_preparation_post(request, profile, preparation, is_admin):
     action = request.POST.get('action', '').strip()
-
-    if action == 'admin_settings':
-        if not is_admin:
-            messages.error(request, 'You do not have permission to change these settings.')
-            return redirect('interview-preparation')
-        preparation.is_unlocked = request.POST.get('is_unlocked') == 'on'
-        preparation.save()
-        messages.success(request, 'Interview Preparation settings saved.')
-        return redirect('interview-preparation')
 
     if not is_admin:
         messages.error(request, 'You do not have permission to perform this action.')
@@ -984,12 +1108,11 @@ def interview_preparation(request):
     if preparation is None:
         preparation = ensure_interview_preparation(profile)
 
-    if not is_admin and not interview_preparation_is_unlocked_for_platform_user(platform_user):
-        messages.warning(
-            request,
-            'Interview Preparation is not available yet. Your consultant will unlock it when ready.',
-        )
-        return redirect('home')
+    blocked = _require_section_access(
+        request, platform_user, profile, 'interview_preparation',
+    )
+    if blocked:
+        return blocked
 
     if request.method == 'POST':
         return _handle_interview_preparation_post(request, profile, preparation, is_admin)
@@ -1013,7 +1136,9 @@ def _get_interview_feedback_session_for_request(request, session_id):
     platform_user = get_platform_user(request)
     is_admin = bool(platform_user and platform_user.is_admin)
 
-    if not is_admin and not interview_preparation_is_unlocked_for_platform_user(platform_user):
+    if not student_can_access_section(
+        request, platform_user, profile, 'interview_preparation',
+    ):
         return None
 
     try:
@@ -1070,17 +1195,23 @@ def _get_offer_for_profile(profile, offer_id):
     )
 
 
-def _handle_offers_post(request, profile, offers_access, is_admin):
+def _save_offer_attachment(offer, uploaded_file):
+    upload_error = _validate_upload(uploaded_file)
+    if upload_error:
+        return upload_error
+    clear_file_field(offer, 'attachment_file')
+    offer.attachment_file.save(uploaded_file.name, uploaded_file, save=False)
+    offer.save(update_fields=['attachment_file', 'updated_at'])
+    return None
+
+
+def _handle_offers_post(request, profile, is_admin):
     action = request.POST.get('action', '').strip()
 
-    if action == 'admin_settings':
+    if action in {'add_offer', 'edit_offer', 'delete_offer', 'delete_offer_attachment', 'upload_offer_attachment'}:
         if not is_admin:
-            messages.error(request, 'You do not have permission to change these settings.')
+            messages.error(request, 'You do not have permission to perform this action.')
             return redirect('offers')
-        offers_access.is_unlocked = request.POST.get('is_unlocked') == 'on'
-        offers_access.save()
-        messages.success(request, 'Offers settings saved.')
-        return redirect('offers')
 
     if action in {'add_offer', 'edit_offer'}:
         errors, cleaned = _validate_offer_post(request)
@@ -1089,11 +1220,20 @@ def _handle_offers_post(request, profile, offers_access, is_admin):
                 messages.error(request, error)
             return redirect('offers')
 
+        uploaded_file = request.FILES.get('attachment_file')
+        if uploaded_file:
+            upload_error = _validate_upload(uploaded_file)
+            if upload_error:
+                messages.error(request, upload_error)
+                return redirect('offers')
+
         if action == 'add_offer':
-            Offer.objects.create(
+            offer = Offer.objects.create(
                 personal_profile=profile,
                 **cleaned,
             )
+            if uploaded_file:
+                offer.attachment_file.save(uploaded_file.name, uploaded_file, save=True)
             messages.success(request, 'Offer added.')
             return redirect('offers')
 
@@ -1104,8 +1244,43 @@ def _handle_offers_post(request, profile, offers_access, is_admin):
         offer.university_name = cleaned['university_name']
         offer.degree_name = cleaned['degree_name']
         offer.offer_requirements = cleaned['offer_requirements']
+        if uploaded_file:
+            clear_file_field(offer, 'attachment_file')
+            offer.attachment_file.save(uploaded_file.name, uploaded_file, save=False)
         offer.save()
         messages.success(request, 'Offer updated.')
+        return redirect('offers')
+
+    if action == 'upload_offer_attachment':
+        offer = _get_offer_for_profile(
+            profile,
+            request.POST.get('offer_id', '').strip(),
+        )
+        uploaded_file = request.FILES.get('attachment_file')
+        if not uploaded_file:
+            messages.error(request, 'Please choose a file to upload.')
+            return redirect('offers')
+        if offer.attachment_file:
+            messages.error(request, 'Delete the current document before uploading a new one.')
+            return redirect('offers')
+        upload_error = _save_offer_attachment(offer, uploaded_file)
+        if upload_error:
+            messages.error(request, upload_error)
+            return redirect('offers')
+        messages.success(request, 'Offer document uploaded.')
+        return redirect('offers')
+
+    if action == 'delete_offer_attachment':
+        offer = _get_offer_for_profile(
+            profile,
+            request.POST.get('offer_id', '').strip(),
+        )
+        if not offer.attachment_file:
+            messages.error(request, 'This offer has no document to delete.')
+            return redirect('offers')
+        clear_file_field(offer, 'attachment_file')
+        offer.save(update_fields=['attachment_file', 'updated_at'])
+        messages.success(request, 'Offer document deleted.')
         return redirect('offers')
 
     if action == 'delete_offer':
@@ -1113,6 +1288,7 @@ def _handle_offers_post(request, profile, offers_access, is_admin):
             profile,
             request.POST.get('offer_id', '').strip(),
         )
+        clear_file_field(offer, 'attachment_file')
         offer.delete()
         messages.success(request, 'Offer deleted.')
         return redirect('offers')
@@ -1132,30 +1308,146 @@ def offers(request):
     platform_user = get_platform_user(request)
     is_admin = bool(platform_user and platform_user.is_admin)
 
-    offers_access = get_offers_access_for_request(profile, platform_user)
-    if offers_access is None:
-        offers_access = ensure_offers_access(profile)
-
-    if not is_admin and not offers_is_unlocked_for_platform_user(platform_user):
-        messages.warning(
-            request,
-            'Offers is not available yet. Your consultant will unlock it when ready.',
-        )
-        return redirect('home')
+    blocked = _require_section_access(request, platform_user, profile, 'offers')
+    if blocked:
+        return blocked
 
     if request.method == 'POST':
-        return _handle_offers_post(request, profile, offers_access, is_admin)
+        return _handle_offers_post(request, profile, is_admin)
 
     offer_entries = profile.offers.all()
 
     return render(request, 'offers.html', {
-        'offers_access': offers_access,
         'offer_entries': offer_entries,
+    })
+
+
+def _validate_result_document_post(request):
+    document_type = request.POST.get('document_type', '').strip()
+    uploaded_file = request.FILES.get('document_file')
+    errors = []
+
+    if document_type not in RESULT_DOCUMENT_TYPE_VALUES:
+        errors.append('Please select a document type.')
+    if not uploaded_file:
+        errors.append('Please choose a file to upload.')
+
+    return errors, document_type, uploaded_file
+
+
+def _get_result_document_for_profile(profile, document_id):
+    return get_object_or_404(
+        ResultDocument,
+        pk=document_id,
+        personal_profile=profile,
+    )
+
+
+def _handle_results_post(request, profile, is_admin):
+    action = request.POST.get('action', '').strip()
+
+    if action in {'add_document', 'delete_document'} and not is_admin:
+        messages.error(request, 'You do not have permission to perform this action.')
+        return redirect('results')
+
+    if action == 'add_document':
+        errors, document_type, uploaded_file = _validate_result_document_post(request)
+        if errors:
+            for error in errors:
+                messages.error(request, error)
+            return redirect('results')
+
+        upload_error = _validate_upload(uploaded_file)
+        if upload_error:
+            messages.error(request, upload_error)
+            return redirect('results')
+
+        document = ResultDocument(
+            personal_profile=profile,
+            document_type=document_type,
+        )
+        document.document_file.save(uploaded_file.name, uploaded_file, save=True)
+        messages.success(request, 'Document added.')
+        return redirect('results')
+
+    if action == 'delete_document':
+        document = _get_result_document_for_profile(
+            profile,
+            request.POST.get('document_id', '').strip(),
+        )
+        clear_file_field(document, 'document_file')
+        document.delete()
+        messages.success(request, 'Document deleted.')
+        return redirect('results')
+
+    messages.error(request, 'Unknown action.')
+    return redirect('results')
+
+
+def results(request):
+    if admin_must_select_student(request):
+        return _redirect_admin_without_student(request)
+
+    profile = _get_or_create_profile(request)
+    if profile is None:
+        return _redirect_admin_without_student(request)
+
+    platform_user = get_platform_user(request)
+    is_admin = bool(platform_user and platform_user.is_admin)
+
+    blocked = _require_section_access(request, platform_user, profile, 'results')
+    if blocked:
+        return blocked
+
+    if request.method == 'POST':
+        return _handle_results_post(request, profile, is_admin)
+
+    document_entries = profile.result_documents.all()
+
+    return render(request, 'results.html', {
+        'document_entries': document_entries,
+        'result_document_type_choices': RESULT_DOCUMENT_TYPE_CHOICES,
     })
 
 
 def faq(request):
     return render(request, 'consulting_faq.html')
+
+
+@login_required
+def admin_student_access(request):
+    platform_user = get_platform_user(request)
+    if not platform_user or not platform_user.is_admin:
+        messages.error(request, 'Only admins can manage student access.')
+        return redirect('home')
+
+    students = get_student_platform_users()
+    selected_student_id = request.GET.get('student') or request.POST.get('student_id')
+    if not selected_student_id and students:
+        selected_student_id = str(students[0].id)
+
+    selected_student = None
+    section_rows = []
+    if selected_student_id:
+        selected_student = get_object_or_404(
+            PlatformUser,
+            pk=selected_student_id,
+            role=PlatformUser.Role.STUDENT,
+        )
+        if request.method == 'POST':
+            save_section_access_from_post(selected_student, request)
+            messages.success(
+                request,
+                f'Access settings saved for {selected_student.first_name} {selected_student.last_name}.',
+            )
+            return redirect(f'{reverse("admin-student-access")}?student={selected_student.id}')
+        section_rows = section_access_rows_for_student(selected_student)
+
+    return render(request, 'admin_student_access.html', {
+        'students': students,
+        'selected_student': selected_student,
+        'section_rows': section_rows,
+    })
 
 
 @ensure_csrf_cookie

@@ -14,6 +14,8 @@ from .models import (
     PlatformUser,
     PortfolioDesign,
     ProfileNarrative,
+    ResultDocument,
+    Results,
     StrategicApplication,
     StudentTodo,
     UniversityChoice,
@@ -49,7 +51,7 @@ class PlatformUserAdmin(admin.ModelAdmin):
     )
     list_filter = ('role', 'application_type')
     search_fields = ('email', 'first_name', 'last_name')
-    readonly_fields = ('account_created_at', 'created_at', 'updated_at')
+    readonly_fields = ('account_created_at', 'created_at', 'updated_at', 'visible_password')
     fields = (
         'user',
         'first_name',
@@ -57,6 +59,7 @@ class PlatformUserAdmin(admin.ModelAdmin):
         'email',
         'role',
         'application_type',
+        'visible_password',
         'account_created_at',
         'created_at',
         'updated_at',
@@ -261,6 +264,15 @@ class ProfileNarrativeAdmin(admin.ModelAdmin):
     )
     readonly_fields = ('created_at', 'updated_at')
     autocomplete_fields = ('personal_profile',)
+    fields = (
+        'personal_profile',
+        'is_unlocked',
+        'personal_statement_google_doc_url',
+        'cv_google_doc_url',
+        'application_essays_google_doc_url',
+        'created_at',
+        'updated_at',
+    )
 
     @admin.display(description='Student')
     def display_student(self, obj):
@@ -355,12 +367,61 @@ class OfferAdmin(admin.ModelAdmin):
         'university_name',
         'degree_name',
         'display_student',
+        'has_attachment',
         'updated_at',
     )
     search_fields = (
         'university_name',
         'degree_name',
         'offer_requirements',
+        'personal_profile__platform_user__email',
+        'personal_profile__personal_email',
+        'personal_profile__edunade_email',
+    )
+    readonly_fields = ('created_at', 'updated_at')
+    autocomplete_fields = ('personal_profile',)
+
+    @admin.display(description='Student')
+    def display_student(self, obj):
+        platform_user = obj.personal_profile.platform_user
+        if platform_user:
+            return platform_user.email
+        return obj.personal_profile.personal_email or obj.personal_profile.edunade_email or '—'
+
+
+@admin.register(Results)
+class ResultsAdmin(admin.ModelAdmin):
+    list_display = (
+        'display_student',
+        'is_unlocked',
+        'updated_at',
+    )
+    list_filter = ('is_unlocked',)
+    search_fields = (
+        'personal_profile__platform_user__email',
+        'personal_profile__personal_email',
+        'personal_profile__edunade_email',
+    )
+    readonly_fields = ('created_at', 'updated_at')
+    autocomplete_fields = ('personal_profile',)
+
+    @admin.display(description='Student')
+    def display_student(self, obj):
+        platform_user = obj.personal_profile.platform_user
+        if platform_user:
+            return platform_user.email
+        return obj.personal_profile.personal_email or obj.personal_profile.edunade_email or '—'
+
+
+@admin.register(ResultDocument)
+class ResultDocumentAdmin(admin.ModelAdmin):
+    list_display = (
+        'document_type',
+        'display_student',
+        'updated_at',
+    )
+    list_filter = ('document_type',)
+    search_fields = (
         'personal_profile__platform_user__email',
         'personal_profile__personal_email',
         'personal_profile__edunade_email',

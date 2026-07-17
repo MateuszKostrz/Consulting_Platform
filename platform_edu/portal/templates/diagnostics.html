@@ -18,27 +18,16 @@
     <script type="text/javascript" src="{% static 'website/js/vendor/helpers.js' %}"></script>
     <script type="text/javascript" src="{% static 'website/js/vendor/config.js' %}"></script>
     <style>
-      .file-upload-box {
-        min-height: 13rem;
+      .diagnostics-step-card {
+        height: 100%;
       }
-      .uploaded-file-panel {
-        border-style: solid !important;
-        border-color: var(--bs-border-color) !important;
-        background-color: rgba(105, 108, 255, 0.04);
-      }
-      .file-dropzone {
-        border-style: dashed !important;
-        border-color: var(--bs-border-color) !important;
-        cursor: pointer;
-        transition: border-color 0.2s ease, background-color 0.2s ease;
-      }
-      .file-dropzone:hover,
-      .file-dropzone.is-dragover {
-        border-color: var(--bs-primary) !important;
-        background-color: rgba(105, 108, 255, 0.04);
-      }
-      .diagnostic-stage-card:last-child {
-        margin-bottom: 0 !important;
+      .diagnostics-step-icon {
+        width: 3rem;
+        height: 3rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
       }
     </style>
   </head>
@@ -59,24 +48,22 @@
           <div class="card mb-4">
             <div class="card-body">
               <h5 class="mb-2">Diagnostics</h5>
-              <p class="mb-0 text-body-secondary">
-                Your diagnostics journey has four steps. Download each document, complete it, and upload your work.
-                Your consultant will share materials and publish your final report here.
+              <p class="mb-3 text-body-secondary">
+                Your assessment has two parts. First, we have a call to get to know you better — we look at
+                your preferences and situation in relation to your ambitions. Second, you take a diagnostic
+                exam. Once both are complete, you receive your personalised report here.
               </p>
-              {% if not homework_complete and not is_platform_admin %}
-              <div class="alert alert-warning mt-3 mb-0" role="alert">
-                Step 2 (Profile Self-Assessment) is required. Please complete and upload it.
-              </div>
-              {% endif %}
               {% if is_platform_admin and admin_viewing_student_name %}
-              <p class="text-body-secondary small mt-2 mb-0">Viewing diagnostics for <strong>{{ admin_viewing_student_name }}</strong></p>
+              <p class="text-body-secondary small mb-0">Viewing diagnostics for <strong>{{ admin_viewing_student_name }}</strong></p>
               {% endif %}
             </div>
           </div>
 
-          {% for item in stage_items %}
-          {% include 'partials/diagnostic_stage_card.html' with stage=item.stage config=item.config %}
-          {% endfor %}
+          <div class="row g-4">
+            {% for item in stage_items %}
+            {% include 'partials/diagnostics_step_card.html' with stage=item.stage config=item.config %}
+            {% endfor %}
+          </div>
         </div>
         {% include 'footer.html' %}
       </div>
@@ -90,56 +77,5 @@
     <script src="{% static 'website/js/vendor/menu.js' %}"></script>
     <script type="text/javascript" src="{% static 'website/js/main.js' %}"></script>
     <script type="text/javascript" src="{% static 'website/js/vendors.min.js' %}"></script>
-    <script>
-      document.addEventListener('DOMContentLoaded', function () {
-        document.querySelectorAll('.file-dropzone').forEach(function (zone) {
-          var input = zone.querySelector('.file-dropzone-input');
-          var filenameEl = zone.querySelector('.file-dropzone-filename');
-          if (!input) return;
-
-          function showFilename(file) {
-            if (!filenameEl) return;
-            filenameEl.textContent = 'Selected: ' + file.name;
-            filenameEl.classList.remove('d-none');
-          }
-
-          zone.addEventListener('click', function () {
-            input.click();
-          });
-
-          zone.addEventListener('keydown', function (event) {
-            if (event.key === 'Enter' || event.key === ' ') {
-              event.preventDefault();
-              input.click();
-            }
-          });
-
-          input.addEventListener('change', function () {
-            if (input.files.length) {
-              showFilename(input.files[0]);
-            }
-          });
-
-          zone.addEventListener('dragover', function (event) {
-            event.preventDefault();
-            zone.classList.add('is-dragover');
-          });
-
-          zone.addEventListener('dragleave', function () {
-            zone.classList.remove('is-dragover');
-          });
-
-          zone.addEventListener('drop', function (event) {
-            event.preventDefault();
-            zone.classList.remove('is-dragover');
-            if (!event.dataTransfer.files.length) return;
-            var transfer = new DataTransfer();
-            transfer.items.add(event.dataTransfer.files[0]);
-            input.files = transfer.files;
-            showFilename(input.files[0]);
-          });
-        });
-      });
-    </script>
   </body>
 </html>

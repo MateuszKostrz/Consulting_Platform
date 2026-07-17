@@ -1,0 +1,330 @@
+<style>
+  .consulting-pathway-menu {
+    border-block-end: 1px solid var(--bs-border-color);
+    background: var(--bs-body-bg);
+  }
+
+  .consulting-pathway-nav {
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    padding-block: 0.75rem 0.875rem;
+    cursor: grab;
+  }
+
+  .consulting-pathway-nav.is-dragging {
+    cursor: grabbing;
+    user-select: none;
+  }
+
+  .consulting-pathway-nav.is-dragging .consulting-pathway-link {
+    pointer-events: none;
+  }
+
+  .consulting-pathway-nav::-webkit-scrollbar {
+    height: 4px;
+  }
+
+  .consulting-pathway-nav::-webkit-scrollbar-thumb {
+    background: color-mix(in sRGB, var(--bs-primary) 30%, var(--bs-border-color));
+    border-radius: 999px;
+  }
+
+  .consulting-pathway-list {
+    display: flex;
+    align-items: flex-start;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    min-width: max-content;
+    gap: 0;
+  }
+
+  .consulting-pathway-item {
+    flex-shrink: 0;
+    width: 7.25rem;
+  }
+
+  .consulting-pathway-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.375rem;
+    width: 100%;
+    min-height: 100%;
+    padding: 0.5rem 0.375rem;
+    border-radius: 0.375rem;
+    border: 1px solid transparent;
+    text-decoration: none;
+    color: var(--bs-heading-color);
+    text-align: center;
+    transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  }
+
+  .consulting-pathway-link i {
+    font-size: 1.375rem;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  .consulting-pathway-link span {
+    font-size: 0.75rem;
+    font-weight: 400;
+    line-height: 1.25;
+    white-space: normal;
+    word-break: break-word;
+    hyphens: auto;
+  }
+
+  .consulting-pathway-link:hover:not(.is-disabled) {
+    background: color-mix(in sRGB, var(--bs-primary) 8%, transparent);
+    color: var(--bs-primary);
+  }
+
+  .consulting-pathway-item.is-active .consulting-pathway-link {
+    background: color-mix(in sRGB, var(--bs-primary) 12%, transparent);
+    border-color: color-mix(in sRGB, var(--bs-primary) 28%, transparent);
+    color: var(--bs-primary);
+  }
+
+  .consulting-pathway-item.is-active .consulting-pathway-link span {
+    font-weight: 600;
+  }
+
+  .consulting-pathway-item.is-locked .consulting-pathway-link {
+    color: var(--bs-secondary-color);
+    cursor: not-allowed;
+  }
+
+  .consulting-pathway-separator {
+    flex: 0 0 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-self: flex-start;
+    margin-top: 1.125rem;
+    color: color-mix(in sRGB, var(--bs-primary) 65%, var(--bs-body-color));
+    user-select: none;
+    pointer-events: none;
+  }
+
+  .consulting-pathway-separator i {
+    font-size: 1.25rem;
+    line-height: 1;
+    opacity: 1;
+    font-weight: 600;
+  }
+
+  .consulting-pathway-separator.is-muted {
+    color: var(--bs-secondary-color);
+    opacity: 0.75;
+  }
+</style>
+
+<aside id="layout-menu" class="layout-menu-horizontal menu-horizontal menu flex-grow-0 consulting-pathway-menu">
+  <div class="container-xxl">
+    <nav class="consulting-pathway-nav" aria-label="Consulting pathway">
+      <ul class="consulting-pathway-list">
+
+        <li class="consulting-pathway-item{% if current_url_name == 'home' %} is-active{% endif %}">
+          <a href="{% url 'home' %}" class="consulting-pathway-link">
+            <i class="icon-base ri ri-home-2-line"></i>
+            <span>Home</span>
+          </a>
+        </li>
+        <li class="consulting-pathway-separator" aria-hidden="true"><i class="icon-base ri ri-arrow-right-line"></i></li>
+
+        <li class="consulting-pathway-item{% if current_url_name == 'personal-information' %} is-active{% endif %}{% if not personal_information_unlocked %} is-locked{% endif %}">
+          {% if personal_information_unlocked %}
+          <a href="{% url 'personal-information' %}" class="consulting-pathway-link"{% if is_platform_admin and not admin_viewing_student_id %} data-requires-student{% endif %}>
+            <i class="icon-base ri ri-user-line"></i>
+            <span>Personal Information</span>
+          </a>
+          {% else %}
+          <span class="consulting-pathway-link is-disabled" title="Personal Information is locked">
+            <i class="icon-base ri ri-lock-line"></i>
+            <span>Personal Information</span>
+          </span>
+          {% endif %}
+        </li>
+        <li class="consulting-pathway-separator{% if not personal_information_unlocked %} is-muted{% endif %}" aria-hidden="true"><i class="icon-base ri ri-arrow-right-line"></i></li>
+
+        <li class="consulting-pathway-item{% if current_url_name == 'academic-profile' %} is-active{% endif %}{% if not academic_profile_unlocked %} is-locked{% endif %}">
+          {% if academic_profile_unlocked %}
+          <a href="{% url 'academic-profile' %}" class="consulting-pathway-link"{% if is_platform_admin and not admin_viewing_student_id %} data-requires-student{% endif %}>
+            <i class="icon-base ri ri-graduation-cap-line"></i>
+            <span>Academic Profile</span>
+          </a>
+          {% else %}
+          <span class="consulting-pathway-link is-disabled" title="Academic Profile is locked">
+            <i class="icon-base ri ri-lock-line"></i>
+            <span>Academic Profile</span>
+          </span>
+          {% endif %}
+        </li>
+        <li class="consulting-pathway-separator{% if not academic_profile_unlocked %} is-muted{% endif %}" aria-hidden="true"><i class="icon-base ri ri-arrow-right-line"></i></li>
+
+        <li class="consulting-pathway-item{% if current_url_name == 'diagnostics' %} is-active{% endif %}{% if not diagnostics_unlocked %} is-locked{% endif %}">
+          {% if diagnostics_unlocked %}
+          <a href="{% url 'diagnostics' %}" class="consulting-pathway-link"{% if is_platform_admin and not admin_viewing_student_id %} data-requires-student{% endif %}>
+            <i class="icon-base ri ri-pulse-line"></i>
+            <span>Diagnostics</span>
+          </a>
+          {% else %}
+          <span class="consulting-pathway-link is-disabled" title="Diagnostics is locked">
+            <i class="icon-base ri ri-lock-line"></i>
+            <span>Diagnostics</span>
+          </span>
+          {% endif %}
+        </li>
+        <li class="consulting-pathway-separator{% if not diagnostics_unlocked %} is-muted{% endif %}" aria-hidden="true"><i class="icon-base ri ri-arrow-right-line"></i></li>
+
+        <li class="consulting-pathway-item{% if current_url_name == 'portfolio-design' %} is-active{% endif %}{% if not portfolio_design_unlocked %} is-locked{% endif %}">
+          {% if portfolio_design_unlocked %}
+          <a href="{% url 'portfolio-design' %}" class="consulting-pathway-link"{% if is_platform_admin and not admin_viewing_student_id %} data-requires-student{% endif %}>
+            <i class="icon-base ri ri-layout-masonry-line"></i>
+            <span>Portfolio Design</span>
+          </a>
+          {% else %}
+          <span class="consulting-pathway-link is-disabled" title="Portfolio Design is locked">
+            <i class="icon-base ri ri-lock-line"></i>
+            <span>Portfolio Design</span>
+          </span>
+          {% endif %}
+        </li>
+        <li class="consulting-pathway-separator{% if not portfolio_design_unlocked %} is-muted{% endif %}" aria-hidden="true"><i class="icon-base ri ri-arrow-right-line"></i></li>
+
+        <li class="consulting-pathway-item{% if current_url_name == 'strategic-application' %} is-active{% endif %}{% if not strategic_application_unlocked %} is-locked{% endif %}">
+          {% if strategic_application_unlocked %}
+          <a href="{% url 'strategic-application' %}" class="consulting-pathway-link"{% if is_platform_admin and not admin_viewing_student_id %} data-requires-student{% endif %}>
+            <i class="icon-base ri ri-compass-3-line"></i>
+            <span>Strategic Application</span>
+          </a>
+          {% else %}
+          <span class="consulting-pathway-link is-disabled" title="Strategic Application is locked">
+            <i class="icon-base ri ri-lock-line"></i>
+            <span>Strategic Application</span>
+          </span>
+          {% endif %}
+        </li>
+        <li class="consulting-pathway-separator{% if not strategic_application_unlocked %} is-muted{% endif %}" aria-hidden="true"><i class="icon-base ri ri-arrow-right-line"></i></li>
+
+        <li class="consulting-pathway-item{% if current_url_name == 'profile-narrative' %} is-active{% endif %}{% if not profile_narrative_unlocked %} is-locked{% endif %}">
+          {% if profile_narrative_unlocked %}
+          <a href="{% url 'profile-narrative' %}" class="consulting-pathway-link"{% if is_platform_admin and not admin_viewing_student_id %} data-requires-student{% endif %}>
+            <i class="icon-base ri ri-book-open-line"></i>
+            <span>Profile Narrative</span>
+          </a>
+          {% else %}
+          <span class="consulting-pathway-link is-disabled" title="Profile Narrative is locked">
+            <i class="icon-base ri ri-lock-line"></i>
+            <span>Profile Narrative</span>
+          </span>
+          {% endif %}
+        </li>
+        <li class="consulting-pathway-separator{% if not profile_narrative_unlocked %} is-muted{% endif %}" aria-hidden="true"><i class="icon-base ri ri-arrow-right-line"></i></li>
+
+        <li class="consulting-pathway-item{% if current_url_name == 'interview-preparation' %} is-active{% endif %}{% if not interview_preparation_unlocked %} is-locked{% endif %}">
+          {% if interview_preparation_unlocked %}
+          <a href="{% url 'interview-preparation' %}" class="consulting-pathway-link"{% if is_platform_admin and not admin_viewing_student_id %} data-requires-student{% endif %}>
+            <i class="icon-base ri ri-vidicon-line"></i>
+            <span>Interview Preparation</span>
+          </a>
+          {% else %}
+          <span class="consulting-pathway-link is-disabled" title="Interview Preparation is locked">
+            <i class="icon-base ri ri-lock-line"></i>
+            <span>Interview Preparation</span>
+          </span>
+          {% endif %}
+        </li>
+        <li class="consulting-pathway-separator{% if not interview_preparation_unlocked %} is-muted{% endif %}" aria-hidden="true"><i class="icon-base ri ri-arrow-right-line"></i></li>
+
+        <li class="consulting-pathway-item{% if current_url_name == 'offers' %} is-active{% endif %}{% if not offers_unlocked %} is-locked{% endif %}">
+          {% if offers_unlocked %}
+          <a href="{% url 'offers' %}" class="consulting-pathway-link"{% if is_platform_admin and not admin_viewing_student_id %} data-requires-student{% endif %}>
+            <i class="icon-base ri ri-award-line"></i>
+            <span>Offers</span>
+          </a>
+          {% else %}
+          <span class="consulting-pathway-link is-disabled" title="Offers is locked">
+            <i class="icon-base ri ri-lock-line"></i>
+            <span>Offers</span>
+          </span>
+          {% endif %}
+        </li>
+        <li class="consulting-pathway-separator{% if not offers_unlocked %} is-muted{% endif %}" aria-hidden="true"><i class="icon-base ri ri-arrow-right-line"></i></li>
+
+        <li class="consulting-pathway-item{% if current_url_name == 'results' %} is-active{% endif %}{% if not results_unlocked %} is-locked{% endif %}">
+          {% if results_unlocked %}
+          <a href="{% url 'results' %}" class="consulting-pathway-link"{% if is_platform_admin and not admin_viewing_student_id %} data-requires-student{% endif %}>
+            <i class="icon-base ri ri-file-chart-line"></i>
+            <span>Results</span>
+          </a>
+          {% else %}
+          <span class="consulting-pathway-link is-disabled" title="Results is locked">
+            <i class="icon-base ri ri-lock-line"></i>
+            <span>Results</span>
+          </span>
+          {% endif %}
+        </li>
+
+      </ul>
+    </nav>
+  </div>
+</aside>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var nav = document.querySelector('.consulting-pathway-nav');
+  if (!nav) return;
+
+  var isDragging = false;
+  var didDrag = false;
+  var startX = 0;
+  var scrollStart = 0;
+  var dragThreshold = 4;
+
+  nav.addEventListener('mousedown', function (event) {
+    if (event.button !== 0) return;
+    isDragging = true;
+    didDrag = false;
+    startX = event.pageX;
+    scrollStart = nav.scrollLeft;
+    nav.classList.add('is-dragging');
+  });
+
+  window.addEventListener('mousemove', function (event) {
+    if (!isDragging) return;
+    var delta = event.pageX - startX;
+    if (Math.abs(delta) > dragThreshold) {
+      didDrag = true;
+    }
+    nav.scrollLeft = scrollStart - delta;
+  });
+
+  function stopDragging() {
+    if (!isDragging) return;
+    isDragging = false;
+    nav.classList.remove('is-dragging');
+  }
+
+  window.addEventListener('mouseup', stopDragging);
+  nav.addEventListener('mouseleave', stopDragging);
+
+  nav.addEventListener('click', function (event) {
+    if (didDrag) {
+      event.preventDefault();
+      event.stopPropagation();
+      didDrag = false;
+    }
+  }, true);
+
+  var active = nav.querySelector('.consulting-pathway-item.is-active');
+  if (active) {
+    var target = active.offsetLeft - (nav.clientWidth / 2) + (active.offsetWidth / 2);
+    nav.scrollTo({ left: Math.max(0, target), behavior: 'smooth' });
+  }
+});
+</script>

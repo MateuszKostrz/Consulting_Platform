@@ -48,26 +48,11 @@
           <form method="POST" action="{% url 'portfolio-design' %}">
             {% csrf_token %}
             <div class="card mb-4">
-              <div class="card-header d-flex align-items-center justify-content-between flex-wrap gap-3">
-                <div>
-                  <h6 class="mb-1">Student access</h6>
-                  <small class="text-body-secondary">Control whether this student can open Portfolio Design.</small>
-                </div>
-                <div class="form-check form-switch mb-0">
-                  <input
-                    class="form-check-input"
-                    type="checkbox"
-                    role="switch"
-                    id="is_unlocked"
-                    name="is_unlocked"
-                    {% if portfolio.is_unlocked %}checked{% endif %} />
-                  <label class="form-check-label" for="is_unlocked">
-                    {% if portfolio.is_unlocked %}Unlocked{% else %}Locked{% endif %}
-                  </label>
-                </div>
+              <div class="card-header">
+                <h6 class="mb-0">Google Doc link</h6>
               </div>
               <div class="card-body">
-                <label for="google_doc_url" class="form-label">Google Doc link</label>
+                <label for="google_doc_url" class="form-label">Document URL</label>
                 <input
                   type="url"
                   class="form-control"
@@ -75,8 +60,8 @@
                   name="google_doc_url"
                   value="{{ portfolio.google_doc_url }}"
                   placeholder="https://docs.google.com/document/d/..." />
-                <div class="form-text">Students will see this link but cannot edit it. Click Save settings after changing the lock or link.</div>
-                <button type="submit" class="btn btn-primary mt-4">Save settings</button>
+                <div class="form-text">Students will see this link but cannot edit it.</div>
+                <button type="submit" class="btn btn-primary mt-4">Save document link</button>
               </div>
             </div>
           </form>
@@ -121,18 +106,5 @@
     <script src="{% static 'website/js/vendor/menu.js' %}"></script>
     <script type="text/javascript" src="{% static 'website/js/main.js' %}"></script>
     <script type="text/javascript" src="{% static 'website/js/vendors.min.js' %}"></script>
-    {% if is_platform_admin %}
-    <script>
-      document.addEventListener('DOMContentLoaded', function () {
-        var toggle = document.getElementById('is_unlocked');
-        var form = toggle && toggle.closest('form');
-        if (!toggle || !form) return;
-
-        toggle.addEventListener('change', function () {
-          toggle.nextElementSibling.textContent = toggle.checked ? 'Unlocked' : 'Locked';
-        });
-      });
-    </script>
-    {% endif %}
   </body>
 </html>

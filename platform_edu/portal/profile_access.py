@@ -12,6 +12,7 @@ from .models import (
     InterviewPrepSession,
     Offer,
     Offers,
+    Results,
 )
 
 ADMIN_VIEWING_STUDENT_SESSION_KEY = 'admin_viewing_student_id'
@@ -28,7 +29,12 @@ PERSONAL_PROFILE_MERGE_FIELDS = (
     'passport_number',
     'school_name',
     'school_address',
+    'parent_first_name',
+    'parent_last_name',
+    'parent_email',
+    'parent_phone',
     'curriculum',
+    'curriculum_other',
     'graduation_year',
     'subjects',
 )
@@ -495,3 +501,36 @@ def get_offers_access_for_request(profile, platform_user, create=True):
     if not profile:
         return None
     return ensure_offers_access(profile, create=create)
+
+
+def ensure_results_access(profile, create=True):
+    if not profile:
+        return None
+    if not create:
+        try:
+            return profile.results_access
+        except Results.DoesNotExist:
+            return None
+    results_access, _ = Results.objects.get_or_create(personal_profile=profile)
+    return results_access
+
+
+def results_is_unlocked_for_platform_user(platform_user):
+    if not platform_user or not platform_user.is_student:
+        return False
+    return Results.objects.filter(
+        personal_profile__platform_user_id=platform_user.pk,
+        is_unlocked=True,
+    ).exists()
+
+
+def get_results_access_for_request(profile, platform_user, create=True):
+    if platform_user and platform_user.is_student:
+        results_access = Results.objects.filter(
+            personal_profile__platform_user_id=platform_user.pk,
+        ).first()
+        if results_access:
+            return results_access
+    if not profile:
+        return None
+    return ensure_results_access(profile, create=create)

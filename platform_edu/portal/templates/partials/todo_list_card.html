@@ -1,20 +1,30 @@
 <!-- To-do list -->
 <div class="card mb-6" id="todo-list-card">
-  <div class="card-header d-flex align-items-center justify-content-between">
+  <div class="card-header d-flex align-items-center justify-content-between flex-wrap gap-3">
     <div>
       <h5 class="card-title mb-0">To-do list</h5>
       <span class="text-body-secondary small" id="todo-visible-count">
         {{ todo_total_count }} item{{ todo_total_count|pluralize }}
       </span>
     </div>
-    {% if can_manage_todos %}
-    <button type="button"
-            class="btn btn-sm btn-primary"
-            data-bs-toggle="modal"
-            data-bs-target="#addTodoModal">
-      <i class="icon-base ri ri-add-line me-1"></i>Add item
-    </button>
-    {% endif %}
+    <div class="d-flex align-items-center gap-2 flex-wrap">
+      {% if can_manage_todos %}
+      <select id="todo-filter-student" class="form-select form-select-sm w-auto todo-filter">
+        <option value="">All students</option>
+        {% for student in todo_students %}
+        <option value="{{ student.id }}">{{ student.first_name }} {{ student.last_name }}</option>
+        {% endfor %}
+      </select>
+      {% endif %}
+      {% if can_manage_todos %}
+      <button type="button"
+              class="btn btn-sm btn-primary"
+              data-bs-toggle="modal"
+              data-bs-target="#addTodoModal">
+        <i class="icon-base ri ri-add-line me-1"></i>Add item
+      </button>
+      {% endif %}
+    </div>
   </div>
   <div class="card-body p-0 d-flex flex-column">
     <div class="table-responsive">
@@ -32,7 +42,7 @@
         </thead>
         <tbody id="todo-table-body">
           {% for todo in todos_all %}
-          <tr class="todo-row">
+          <tr class="todo-row" data-student-id="{{ todo.student_id }}">
             <td class="fw-medium">{{ todo.name }}</td>
             <td>{{ todo.due_date|date:"j M Y" }}</td>
             <td>
@@ -80,6 +90,11 @@
             </td>
           </tr>
           {% endfor %}
+          <tr id="todo-empty-msg" class="d-none">
+            <td colspan="{% if can_manage_todos %}5{% else %}4{% endif %}" class="text-center text-muted py-4">
+              No to-do items match the selected filters.
+            </td>
+          </tr>
         </tbody>
       </table>
     </div>
@@ -97,6 +112,11 @@
 (function () {
   var PAGE_SIZE = 5;
   var currentPage = 1;
+
+  function rowMatchesTodoFilters(row, filterStudent) {
+    var rowStudent = row.getAttribute('data-student-id') || '';
+    return filterStudent === '' || rowStudent === filterStudent;
+  }
 
   function renderTodoPagination(totalPages) {
     var nav = document.getElementById('todo-pagination');
@@ -146,8 +166,19 @@
     var card = document.getElementById('todo-list-card');
     if (!card) return;
 
+    var selStudent = card.querySelector('#todo-filter-student');
+    var filterStudent = selStudent ? selStudent.value : '';
+
     var rows = card.querySelectorAll('.todo-row');
-    var totalPages = Math.max(1, Math.ceil(rows.length / PAGE_SIZE));
+    var matchingRows = [];
+
+    rows.forEach(function (row) {
+      if (rowMatchesTodoFilters(row, filterStudent)) {
+        matchingRows.push(row);
+      }
+    });
+
+    var totalPages = Math.max(1, Math.ceil(matchingRows.length / PAGE_SIZE));
     if (currentPage > totalPages) {
       currentPage = totalPages;
     }
@@ -155,18 +186,28 @@
     var start = (currentPage - 1) * PAGE_SIZE;
     var end = start + PAGE_SIZE;
 
-    rows.forEach(function (row, index) {
-      row.classList.toggle('d-none', index < start || index >= end);
+    rows.forEach(function (row) {
+      row.classList.add('d-none');
     });
+
+    matchingRows.forEach(function (row, index) {
+      var onPage = index >= start && index < end;
+      row.classList.toggle('d-none', !onPage);
+    });
+
+    var emptyMsg = document.getElementById('todo-empty-msg');
+    if (emptyMsg) {
+      emptyMsg.classList.toggle('d-none', matchingRows.length > 0 || rows.length === 0);
+    }
 
     var countEl = document.getElementById('todo-visible-count');
     if (countEl) {
-      if (rows.length === 0) {
-        countEl.textContent = '0 items';
+      if (matchingRows.length === 0) {
+        countEl.textContent = rows.length === 0 ? '0 items' : '0 items shown';
       } else {
         countEl.textContent =
-          rows.length +
-          (rows.length === 1 ? ' item' : ' items') +
+          matchingRows.length +
+          (matchingRows.length === 1 ? ' item' : ' items') +
           ' · page ' + currentPage + ' of ' + totalPages;
       }
     }
@@ -175,6 +216,15 @@
   }
 
   function initTodoPagination() {
+    var card = document.getElementById('todo-list-card');
+    if (!card) return;
+
+    card.querySelectorAll('.todo-filter').forEach(function (select) {
+      select.addEventListener('change', function () {
+        applyTodoPagination(true);
+      });
+    });
+
     applyTodoPagination(true);
   }
 

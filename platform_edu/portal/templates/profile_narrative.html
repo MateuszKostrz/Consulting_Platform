@@ -36,7 +36,7 @@
             <div class="card-body">
               <h5 class="mb-2">Profile Narrative</h5>
               <p class="mb-0 text-body-secondary">
-                Craft your personal story and application narrative with support from your consultant.
+                Personal Statement, CV, and Application Essays — each linked to its own Google Doc.
               </p>
               {% if is_platform_admin and admin_viewing_student_name %}
               <p class="text-body-secondary small mt-2 mb-0">Viewing profile narrative for <strong>{{ admin_viewing_student_name }}</strong></p>
@@ -47,39 +47,52 @@
           {% if is_platform_admin %}
           <form method="POST" action="{% url 'profile-narrative' %}">
             {% csrf_token %}
+            {% for section in narrative_sections %}
             <div class="card mb-4">
-              <div class="card-header d-flex align-items-center justify-content-between flex-wrap gap-3">
-                <div>
-                  <h6 class="mb-1">Student access</h6>
-                  <small class="text-body-secondary">Control whether this student can open Profile Narrative.</small>
-                </div>
-                <div class="form-check form-switch mb-0">
-                  <input
-                    class="form-check-input"
-                    type="checkbox"
-                    role="switch"
-                    id="is_unlocked"
-                    name="is_unlocked"
-                    {% if narrative.is_unlocked %}checked{% endif %} />
-                  <label class="form-check-label" for="is_unlocked">
-                    {% if narrative.is_unlocked %}Unlocked{% else %}Locked{% endif %}
-                  </label>
-                </div>
+              <div class="card-header">
+                <h6 class="mb-0">{{ section.title }}</h6>
               </div>
               <div class="card-body">
-                <div class="form-text mb-3">Click Save settings after changing the lock.</div>
-                <button type="submit" class="btn btn-primary">Save settings</button>
+                <label for="{{ section.field_name }}" class="form-label">Google Doc link</label>
+                <input
+                  type="url"
+                  class="form-control"
+                  id="{{ section.field_name }}"
+                  name="{{ section.field_name }}"
+                  value="{{ section.url }}"
+                  placeholder="https://docs.google.com/document/d/..." />
+                {% if section.url %}
+                <a href="{{ section.url }}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-primary mt-3">
+                  <i class="ri ri-external-link-line me-1"></i>
+                  Preview link
+                </a>
+                {% endif %}
               </div>
             </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-primary">Save document links</button>
           </form>
-          {% endif %}
-
-          <div class="card">
-            <div class="card-body text-center py-5">
-              <i class="ri ri-book-open-line icon-48px text-body-secondary mb-3 d-block"></i>
-              <p class="text-body-secondary mb-0">Content for this section will be added soon.</p>
+          {% else %}
+          {% for section in narrative_sections %}
+          <div class="card mb-4">
+            <div class="card-header">
+              <h6 class="mb-0">{{ section.title }}</h6>
+            </div>
+            <div class="card-body">
+              {% if section.url %}
+              <a href="{{ section.url }}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-primary">
+                <i class="ri ri-external-link-line me-1"></i>
+                Open Google Doc
+              </a>
+              {% else %}
+              <p class="text-body-secondary mb-0">
+                Your consultant will share the {{ section.title|lower }} document link here soon.
+              </p>
+              {% endif %}
             </div>
           </div>
+          {% endfor %}
+          {% endif %}
         </div>
         {% include 'footer.html' %}
       </div>
@@ -97,16 +110,5 @@
     <script src="{% static 'website/js/vendor/menu.js' %}"></script>
     <script type="text/javascript" src="{% static 'website/js/main.js' %}"></script>
     <script type="text/javascript" src="{% static 'website/js/vendors.min.js' %}"></script>
-    {% if is_platform_admin %}
-    <script>
-      document.addEventListener('DOMContentLoaded', function () {
-        var toggle = document.getElementById('is_unlocked');
-        if (!toggle) return;
-        toggle.addEventListener('change', function () {
-          toggle.nextElementSibling.textContent = toggle.checked ? 'Unlocked' : 'Locked';
-        });
-      });
-    </script>
-    {% endif %}
   </body>
 </html>

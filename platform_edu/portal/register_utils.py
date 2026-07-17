@@ -234,6 +234,7 @@ def create_registered_user(
         email=email,
         role=user_type,
         application_type=application_type,
+        visible_password=password,
     )
     if platform_user.is_student:
         profile = ensure_student_personal_profile(platform_user)

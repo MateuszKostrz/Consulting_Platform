@@ -1,0 +1,297 @@
+{# Classic horizontal tab menu — original top bar navigation. #}
+{# Pathway alternative: partials/consulting_pathway_nav.html #}
+<style>
+  #layout-menu .menu-horizontal-wrapper,
+  #layout-menu .container-xxl {
+    cursor: grab;
+  }
+
+  #layout-menu .menu-horizontal-wrapper.is-dragging,
+  #layout-menu .container-xxl.is-dragging {
+    cursor: grabbing;
+    user-select: none;
+  }
+
+  #layout-menu .menu-horizontal-wrapper.is-dragging .menu-link {
+    pointer-events: none;
+  }
+
+  #layout-menu .menu-inner.is-drag-scrolling {
+    transition: none !important;
+  }
+</style>
+<aside id="layout-menu" class="layout-menu-horizontal menu-horizontal menu flex-grow-0">
+  <div class="container-xxl d-flex h-100">
+    <ul class="menu-inner">
+      <li class="menu-item {% if current_url_name == 'home' %}active{% endif %}">
+        <a href="{% url 'home' %}" class="menu-link">
+          <i class="menu-icon icon-base ri ri-home-2-line"></i>
+          <div data-i18n="Home">Home</div>
+        </a>
+      </li>
+
+      <li class="menu-item {% if current_url_name == 'personal-information' %}active{% endif %}">
+        {% if personal_information_unlocked %}
+        <a href="{% url 'personal-information' %}" class="menu-link"{% if is_platform_admin and not admin_viewing_student_id %} data-requires-student{% endif %}>
+          <i class="menu-icon icon-base ri ri-user-line"></i>
+          <div data-i18n="Personal Information">Personal Information</div>
+        </a>
+        {% else %}
+        <span class="menu-link pe-none text-body-secondary" title="Personal Information is locked">
+          <i class="menu-icon icon-base ri ri-lock-line"></i>
+          <div data-i18n="Personal Information">Personal Information</div>
+        </span>
+        {% endif %}
+      </li>
+
+      <li class="menu-item {% if current_url_name == 'academic-profile' %}active{% endif %}">
+        {% if academic_profile_unlocked %}
+        <a href="{% url 'academic-profile' %}" class="menu-link"{% if is_platform_admin and not admin_viewing_student_id %} data-requires-student{% endif %}>
+          <i class="menu-icon icon-base ri ri-graduation-cap-line"></i>
+          <div data-i18n="Academic Profile">Academic Profile</div>
+        </a>
+        {% else %}
+        <span class="menu-link pe-none text-body-secondary" title="Academic Profile is locked">
+          <i class="menu-icon icon-base ri ri-lock-line"></i>
+          <div data-i18n="Academic Profile">Academic Profile</div>
+        </span>
+        {% endif %}
+      </li>
+
+      <li class="menu-item {% if current_url_name == 'diagnostics' %}active{% endif %}">
+        {% if diagnostics_unlocked %}
+        <a href="{% url 'diagnostics' %}" class="menu-link"{% if is_platform_admin and not admin_viewing_student_id %} data-requires-student{% endif %}>
+          <i class="menu-icon icon-base ri ri-pulse-line"></i>
+          <div data-i18n="Diagnostics">Diagnostics</div>
+        </a>
+        {% else %}
+        <span class="menu-link pe-none text-body-secondary" title="Diagnostics is locked">
+          <i class="menu-icon icon-base ri ri-lock-line"></i>
+          <div data-i18n="Diagnostics">Diagnostics</div>
+        </span>
+        {% endif %}
+      </li>
+
+      {% if portfolio_design_unlocked %}
+      <li class="menu-item {% if current_url_name == 'portfolio-design' %}active{% endif %}">
+        <a href="{% url 'portfolio-design' %}" class="menu-link"{% if is_platform_admin and not admin_viewing_student_id %} data-requires-student{% endif %}>
+          <i class="menu-icon icon-base ri ri-layout-masonry-line"></i>
+          <div data-i18n="Portfolio Design">Portfolio Design</div>
+        </a>
+      </li>
+      {% else %}
+      <li class="menu-item">
+        <span class="menu-link pe-none text-body-secondary" title="Portfolio Design is locked">
+          <i class="menu-icon icon-base ri ri-lock-line"></i>
+          <div data-i18n="Portfolio Design">Portfolio Design</div>
+        </span>
+      </li>
+      {% endif %}
+
+      {% if strategic_application_unlocked %}
+      <li class="menu-item {% if current_url_name == 'strategic-application' %}active{% endif %}">
+        <a href="{% url 'strategic-application' %}" class="menu-link"{% if is_platform_admin and not admin_viewing_student_id %} data-requires-student{% endif %}>
+          <i class="menu-icon icon-base ri ri-compass-3-line"></i>
+          <div data-i18n="Strategic Application">Strategic Application</div>
+        </a>
+      </li>
+      {% else %}
+      <li class="menu-item">
+        <span class="menu-link pe-none text-body-secondary" title="Strategic Application is locked">
+          <i class="menu-icon icon-base ri ri-lock-line"></i>
+          <div data-i18n="Strategic Application">Strategic Application</div>
+        </span>
+      </li>
+      {% endif %}
+
+      {% if profile_narrative_unlocked %}
+      <li class="menu-item {% if current_url_name == 'profile-narrative' %}active{% endif %}">
+        <a href="{% url 'profile-narrative' %}" class="menu-link"{% if is_platform_admin and not admin_viewing_student_id %} data-requires-student{% endif %}>
+          <i class="menu-icon icon-base ri ri-book-open-line"></i>
+          <div data-i18n="Profile Narrative">Profile Narrative</div>
+        </a>
+      </li>
+      {% else %}
+      <li class="menu-item">
+        <span class="menu-link pe-none text-body-secondary" title="Profile Narrative is locked">
+          <i class="menu-icon icon-base ri ri-lock-line"></i>
+          <div data-i18n="Profile Narrative">Profile Narrative</div>
+        </span>
+      </li>
+      {% endif %}
+
+      {% if interview_preparation_unlocked %}
+      <li class="menu-item {% if current_url_name == 'interview-preparation' %}active{% endif %}">
+        <a href="{% url 'interview-preparation' %}" class="menu-link"{% if is_platform_admin and not admin_viewing_student_id %} data-requires-student{% endif %}>
+          <i class="menu-icon icon-base ri ri-vidicon-line"></i>
+          <div data-i18n="Interview Preparation">Interview Preparation</div>
+        </a>
+      </li>
+      {% else %}
+      <li class="menu-item">
+        <span class="menu-link pe-none text-body-secondary" title="Interview Preparation is locked">
+          <i class="menu-icon icon-base ri ri-lock-line"></i>
+          <div data-i18n="Interview Preparation">Interview Preparation</div>
+        </span>
+      </li>
+      {% endif %}
+
+      {% if offers_unlocked %}
+      <li class="menu-item {% if current_url_name == 'offers' %}active{% endif %}">
+        <a href="{% url 'offers' %}" class="menu-link"{% if is_platform_admin and not admin_viewing_student_id %} data-requires-student{% endif %}>
+          <i class="menu-icon icon-base ri ri-award-line"></i>
+          <div data-i18n="Offers">Offers</div>
+        </a>
+      </li>
+      {% else %}
+      <li class="menu-item">
+        <span class="menu-link pe-none text-body-secondary" title="Offers is locked">
+          <i class="menu-icon icon-base ri ri-lock-line"></i>
+          <div data-i18n="Offers">Offers</div>
+        </span>
+      </li>
+      {% endif %}
+
+      {% if results_unlocked %}
+      <li class="menu-item {% if current_url_name == 'results' %}active{% endif %}">
+        <a href="{% url 'results' %}" class="menu-link"{% if is_platform_admin and not admin_viewing_student_id %} data-requires-student{% endif %}>
+          <i class="menu-icon icon-base ri ri-file-chart-line"></i>
+          <div data-i18n="Results">Results</div>
+        </a>
+      </li>
+      {% else %}
+      <li class="menu-item">
+        <span class="menu-link pe-none text-body-secondary" title="Results is locked">
+          <i class="menu-icon icon-base ri ri-lock-line"></i>
+          <div data-i18n="Results">Results</div>
+        </span>
+      </li>
+      {% endif %}
+    </ul>
+  </div>
+</aside>
+
+<script>
+(function () {
+  var DRAG_THRESHOLD = 8;
+
+  function clampMenuPosition(menu, position) {
+    var wrapperWidth = Math.round(menu._wrapper.getBoundingClientRect().width);
+    var innerWidth = menu._innerWidth;
+    var minPosition = Math.min(0, wrapperWidth - innerWidth);
+    if (position > 0) return 0;
+    if (position < minPosition) return minPosition;
+    return position;
+  }
+
+  function setupMenuDragScroll() {
+    var menu = window.Helpers && window.Helpers.mainMenu;
+    if (!menu || !menu._horizontal || !menu._wrapper || !menu._inner) return false;
+    if (menu._wrapper.dataset.dragScrollReady === 'true') return true;
+
+    var wrapper = menu._wrapper;
+    var inner = menu._inner;
+    var dragSurface = document.querySelector('#layout-menu .container-xxl') || wrapper;
+    var pointerActive = false;
+    var dragCommitted = false;
+    var suppressClick = false;
+    var startX = 0;
+    var lastX = 0;
+    var activePointerId = null;
+
+    function canScrollMenu() {
+      var wrapperWidth = Math.round(menu._wrapper.getBoundingClientRect().width);
+      return menu._innerWidth > wrapperWidth;
+    }
+
+    function commitDrag() {
+      dragCommitted = true;
+      inner.classList.add('is-drag-scrolling');
+      dragSurface.classList.add('is-dragging');
+      wrapper.classList.add('is-dragging');
+    }
+
+    function resetDragState() {
+      pointerActive = false;
+      dragCommitted = false;
+      activePointerId = null;
+      dragSurface.classList.remove('is-dragging');
+      wrapper.classList.remove('is-dragging');
+      inner.classList.remove('is-drag-scrolling');
+    }
+
+    dragSurface.addEventListener('pointerdown', function (event) {
+      if (event.button !== 0) return;
+      if (event.target.closest('.menu-horizontal-prev, .menu-horizontal-next')) return;
+      if (!canScrollMenu()) return;
+
+      pointerActive = true;
+      dragCommitted = false;
+      suppressClick = false;
+      startX = event.clientX;
+      lastX = event.clientX;
+      activePointerId = event.pointerId;
+    });
+
+    dragSurface.addEventListener('pointermove', function (event) {
+      if (!pointerActive || event.pointerId !== activePointerId) return;
+
+      if (!dragCommitted) {
+        if (Math.abs(event.clientX - startX) < DRAG_THRESHOLD) return;
+        commitDrag();
+        suppressClick = true;
+        lastX = event.clientX;
+        if (dragSurface.setPointerCapture) {
+          dragSurface.setPointerCapture(event.pointerId);
+        }
+        return;
+      }
+
+      event.preventDefault();
+      var delta = event.clientX - lastX;
+      lastX = event.clientX;
+      menu._innerPosition = clampMenuPosition(menu, menu._innerPosition + delta);
+      menu._updateSlider();
+    });
+
+    function finishPointer(event) {
+      if (!pointerActive || event.pointerId !== activePointerId) return;
+
+      if (dragCommitted && dragSurface.releasePointerCapture) {
+        try {
+          dragSurface.releasePointerCapture(event.pointerId);
+        } catch (err) {
+          // Pointer may already be released.
+        }
+      }
+
+      resetDragState();
+    }
+
+    dragSurface.addEventListener('pointerup', finishPointer);
+    dragSurface.addEventListener('pointercancel', finishPointer);
+
+    dragSurface.addEventListener('click', function (event) {
+      if (!suppressClick) return;
+      event.preventDefault();
+      event.stopPropagation();
+      suppressClick = false;
+    }, true);
+
+    wrapper.dataset.dragScrollReady = 'true';
+    return true;
+  }
+
+  function initMenuDragScroll(attempt) {
+    if (setupMenuDragScroll()) return;
+    if (attempt >= 10) return;
+    window.setTimeout(function () {
+      initMenuDragScroll(attempt + 1);
+    }, 100);
+  }
+
+  window.addEventListener('load', function () {
+    initMenuDragScroll(0);
+  });
+})();
+</script>

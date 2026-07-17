@@ -1,0 +1,126 @@
+{% load static %}
+
+<!doctype html>
+<html
+  lang="en"
+  class="layout-navbar-fixed layout-menu-fixed layout-compact"
+  dir="ltr"
+  data-skin="default"
+  data-bs-theme="light"
+  data-assets-path="{% static 'website/' %}"
+  data-template="horizontal-menu-template">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>{{ site_name }} | Manage Student Access</title>
+    <link rel="icon" href="{% static 'website/images/platform_logo.svg' %}">
+    {% include 'top_base.html' %}
+    <script type="text/javascript" src="{% static 'website/js/vendor/helpers.js' %}"></script>
+    <script type="text/javascript" src="{% static 'website/js/vendor/config.js' %}"></script>
+  </head>
+  <body>
+    <div class="layout-wrapper layout-navbar-full layout-horizontal layout-without-menu">
+      <div class="layout-container">
+        {% include 'horizontal_menu.html' %}
+        <div class="container-xxl flex-grow-1 container-p-y">
+          {% if messages %}
+          {% for message in messages %}
+          <div class="alert alert-{{ message.tags }} alert-dismissible mb-4" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+          {% endfor %}
+          {% endif %}
+
+          <div class="card mb-4">
+            <div class="card-body">
+              <h5 class="mb-2">Manage student access</h5>
+              <p class="mb-0 text-body-secondary">
+                Choose a student and control which parts of the platform they can access.
+                Use <strong>Allowed</strong> to grant early access (for example Diagnostics before Personal Information is complete),
+                or <strong>Blocked</strong> to hide a section. <strong>Default</strong> follows the normal platform rules.
+              </p>
+            </div>
+          </div>
+
+          {% if not students %}
+          <div class="alert alert-info mb-0">No students yet. Create a student account first.</div>
+          {% else %}
+          <div class="card">
+            <div class="card-body">
+              <form method="get" class="row g-3 align-items-end mb-4">
+                <div class="col-md-8">
+                  <label for="studentSelect" class="form-label">Student</label>
+                  <select id="studentSelect" name="student" class="form-select" onchange="this.form.submit()">
+                    {% for student in students %}
+                    <option value="{{ student.id }}" {% if selected_student and student.id == selected_student.id %}selected{% endif %}>
+                      {{ student.first_name }} {{ student.last_name }} — {{ student.email }}
+                    </option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </form>
+
+              {% if selected_student %}
+              <form method="post">
+                {% csrf_token %}
+                <input type="hidden" name="student_id" value="{{ selected_student.id }}" />
+
+                <div class="table-responsive">
+                  <table class="table table-hover align-middle">
+                    <thead class="table-light">
+                      <tr>
+                        <th>Section</th>
+                        <th>Default rule</th>
+                        <th style="min-width: 12rem;">Access</th>
+                        <th>Effective</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for row in section_rows %}
+                      <tr>
+                        <td class="fw-medium">{{ row.label }}</td>
+                        <td class="text-body-secondary small">{{ row.default_rule }}</td>
+                        <td>
+                          <select class="form-select form-select-sm" name="access_{{ row.key }}">
+                            <option value="default" {% if row.mode == 'default' %}selected{% endif %}>Default</option>
+                            <option value="enabled" {% if row.mode == 'enabled' %}selected{% endif %}>Allowed</option>
+                            <option value="disabled" {% if row.mode == 'disabled' %}selected{% endif %}>Blocked</option>
+                          </select>
+                        </td>
+                        <td>
+                          {% if row.effective_access %}
+                          <span class="badge bg-label-success">Available</span>
+                          {% else %}
+                          <span class="badge bg-label-secondary">Locked</span>
+                          {% endif %}
+                        </td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+
+                <div class="mt-4">
+                  <button type="submit" class="btn btn-primary">Save access settings</button>
+                </div>
+              </form>
+              {% endif %}
+            </div>
+          </div>
+          {% endif %}
+        </div>
+        {% include 'footer.html' %}
+      </div>
+    </div>
+    <script src="{% static 'website/js/vendor/libs/jquery/jquery.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/popper/popper.js' %}"></script>
+    <script src="{% static 'website/js/bootstrap.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/node-waves/node-waves.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/perfect-scrollbar/perfect-scrollbar.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/hammer/hammer.js' %}"></script>
+    <script src="{% static 'website/js/vendor/menu.js' %}"></script>
+    <script type="text/javascript" src="{% static 'website/js/main.js' %}"></script>
+    <script type="text/javascript" src="{% static 'website/js/vendors.min.js' %}"></script>
+  </body>
+</html>

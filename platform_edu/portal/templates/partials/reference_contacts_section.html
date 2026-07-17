@@ -55,11 +55,23 @@
               class="form-control"
               id="ref_contact_{{ forloop.counter }}_institution"
               name="ref_contact_{{ forloop.counter }}_institution"
-              value="{{ contact.institution }}"
+              value="{% if contact.institution %}{{ contact.institution }}{% elif forloop.first and school_name %}{{ school_name }}{% endif %}"
               placeholder="Institution" />
             <label for="ref_contact_{{ forloop.counter }}_institution">Institution</label>
           </div>
         </div>
+        {% if forloop.first %}
+        <div class="col-12">
+          <label class="form-label" for="ref_school_address">School address</label>
+          <textarea
+            class="form-control"
+            id="ref_school_address"
+            rows="3"
+            readonly
+            placeholder="Add your school address in Personal Information">{{ school_address }}</textarea>
+          <div class="form-text">Filled automatically from Personal Information</div>
+        </div>
+        {% endif %}
         <div class="col-md-6">
           <div class="form-floating form-floating-outline">
             <input

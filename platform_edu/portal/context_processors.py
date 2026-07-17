@@ -1,7 +1,6 @@
 from django.urls import resolve
 
 from .constants import PHONE_COUNTRY_CODES
-from .models import PlatformUser
 from .profile_access import (
     get_admin_viewing_student,
     get_admin_viewing_student_id,
@@ -9,13 +8,8 @@ from .profile_access import (
     get_profile_for_request,
     get_student_platform_users,
     is_impersonating,
-    portfolio_design_is_unlocked,
-    portfolio_design_is_unlocked_for_platform_user,
-    profile_narrative_is_unlocked_for_platform_user,
-    interview_preparation_is_unlocked_for_platform_user,
-    offers_is_unlocked_for_platform_user,
-    strategic_application_is_unlocked_for_platform_user,
 )
+from .section_access_utils import student_has_section_access
 
 
 def consulting_context(request):
@@ -42,32 +36,24 @@ def consulting_context(request):
 
     student_profiles = get_student_platform_users() if show_admin_ui else []
 
+    access_user = platform_user
+    access_profile = profile
+    if impersonating and platform_user and platform_user.is_student:
+        access_user = platform_user
+        access_profile = profile
+    elif show_admin_ui and viewing_student:
+        access_user = viewing_student
+        access_profile = viewing_student.get_personal_profile()
+
     personal_info_complete = show_admin_ui or bool(profile and profile.is_complete())
     user_profile_photo_url = ''
     if profile and profile.profile_photo:
         user_profile_photo_url = profile.profile_photo.url
 
-    portfolio_design_unlocked = (
-        is_admin
-        or portfolio_design_is_unlocked_for_platform_user(platform_user)
-        or portfolio_design_is_unlocked(profile)
-    )
-    strategic_application_unlocked = (
-        is_admin
-        or strategic_application_is_unlocked_for_platform_user(platform_user)
-    )
-    profile_narrative_unlocked = (
-        is_admin
-        or profile_narrative_is_unlocked_for_platform_user(platform_user)
-    )
-    interview_preparation_unlocked = (
-        is_admin
-        or interview_preparation_is_unlocked_for_platform_user(platform_user)
-    )
-    offers_unlocked = (
-        is_admin
-        or offers_is_unlocked_for_platform_user(platform_user)
-    )
+    def section_unlocked(section_key):
+        if show_admin_ui and not impersonating:
+            return True
+        return student_has_section_access(access_user, access_profile, section_key)
 
     return {
         'current_url_name': url_name,
@@ -90,11 +76,15 @@ def consulting_context(request):
         'is_platform_admin': show_admin_ui,
         'is_impersonating': impersonating,
         'personal_info_complete': personal_info_complete,
-        'portfolio_design_unlocked': portfolio_design_unlocked,
-        'strategic_application_unlocked': strategic_application_unlocked,
-        'profile_narrative_unlocked': profile_narrative_unlocked,
-        'interview_preparation_unlocked': interview_preparation_unlocked,
-        'offers_unlocked': offers_unlocked,
+        'personal_information_unlocked': section_unlocked('personal_information'),
+        'academic_profile_unlocked': section_unlocked('academic_profile'),
+        'diagnostics_unlocked': section_unlocked('diagnostics'),
+        'portfolio_design_unlocked': section_unlocked('portfolio_design'),
+        'strategic_application_unlocked': section_unlocked('strategic_application'),
+        'profile_narrative_unlocked': section_unlocked('profile_narrative'),
+        'interview_preparation_unlocked': section_unlocked('interview_preparation'),
+        'offers_unlocked': section_unlocked('offers'),
+        'results_unlocked': section_unlocked('results'),
         'student_profiles': student_profiles,
         'admin_viewing_student_id': get_admin_viewing_student_id(request),
         'admin_viewing_student_name': (

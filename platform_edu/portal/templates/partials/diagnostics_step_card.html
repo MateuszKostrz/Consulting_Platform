@@ -1,0 +1,92 @@
+<div class="col-md-4">
+  <div class="card diagnostics-step-card">
+    <div class="card-body d-flex flex-column">
+      <div class="d-flex align-items-center gap-3 mb-3">
+        <span class="diagnostics-step-icon bg-label-primary text-primary">
+          {% if stage.stage_key == 'readiness' %}
+          <i class="icon-base ri ri-calendar-schedule-line icon-24px"></i>
+          {% elif stage.stage_key == 'test' %}
+          <i class="icon-base ri ri-file-download-line icon-24px"></i>
+          {% else %}
+          <i class="icon-base ri ri-file-chart-line icon-24px"></i>
+          {% endif %}
+        </span>
+        <div>
+          <span class="badge bg-label-primary rounded-pill mb-1">Step {{ config.step }}</span>
+          <h5 class="mb-0">{{ config.title }}</h5>
+        </div>
+      </div>
+
+      <p class="text-body-secondary small mb-4">{{ config.description }}</p>
+
+      <div class="mt-auto">
+        {% if stage.stage_key == 'readiness' %}
+        <a href="{{ diagnostic_booking_url }}" class="btn btn-primary w-100" target="_blank" rel="noopener noreferrer">
+          <i class="icon-base ri ri-calendar-line me-1"></i>
+          Schedule a call
+        </a>
+
+        {% elif stage.stage_key == 'test' %}
+        {% if stage.template_file %}
+        <a href="{{ stage.template_file.url }}" class="btn btn-primary w-100" download>
+          <i class="icon-base ri ri-download-line me-1"></i>
+          Download exam
+        </a>
+        {% else %}
+        <button type="button" class="btn btn-outline-secondary w-100" disabled>
+          Exam not available yet
+        </button>
+        <p class="text-body-secondary small mt-2 mb-0">Your consultant will upload the exam here.</p>
+        {% endif %}
+
+        {% if is_platform_admin %}
+        <div class="mt-3 pt-3 border-top">
+          {% if stage.template_file %}
+          {% include 'partials/uploaded_file_panel.html' with current_file=stage.template_file field_name="template_file" file_label="Current exam file" stage_key=stage.stage_key can_delete=True %}
+          {% else %}
+          <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="hidden" name="stage_key" value="{{ stage.stage_key }}" />
+            <input type="hidden" name="upload_field" value="template_file" />
+            <label class="form-label small mb-1">Upload exam for student</label>
+            <input type="file" class="form-control form-control-sm mb-2" name="upload_file" accept=".pdf,.doc,.docx" required />
+            <button type="submit" class="btn btn-sm btn-primary">Upload exam</button>
+          </form>
+          {% endif %}
+        </div>
+        {% endif %}
+
+        {% elif stage.stage_key == 'report' %}
+        {% if stage.admin_document %}
+        <a href="{{ stage.admin_document.url }}" class="btn btn-primary w-100" download>
+          <i class="icon-base ri ri-download-line me-1"></i>
+          Download report
+        </a>
+        {% else %}
+        <button type="button" class="btn btn-outline-secondary w-100" disabled>
+          Report not ready yet
+        </button>
+        <p class="text-body-secondary small mt-2 mb-0">Your report will appear here after your call and exam.</p>
+        {% endif %}
+
+        {% if is_platform_admin %}
+        <div class="mt-3 pt-3 border-top">
+          {% if stage.admin_document %}
+          {% include 'partials/uploaded_file_panel.html' with current_file=stage.admin_document field_name="admin_document" file_label="Current report" stage_key=stage.stage_key can_delete=True %}
+          {% else %}
+          <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="hidden" name="stage_key" value="{{ stage.stage_key }}" />
+            <input type="hidden" name="upload_field" value="admin_document" />
+            <label class="form-label small mb-1">Upload report for student</label>
+            <input type="file" class="form-control form-control-sm mb-2" name="upload_file" accept=".pdf,.doc,.docx" required />
+            <button type="submit" class="btn btn-sm btn-primary">Publish report</button>
+          </form>
+          {% endif %}
+        </div>
+        {% endif %}
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,4 +1,4 @@
-{% load static %}
+{% load static portal_extras %}
 
 <!doctype html>
 <html
@@ -34,6 +34,24 @@
         padding-inline: 1rem;
         min-height: calc(1.375em + 1.711rem + 2px);
       }
+      .offer-attachment-name {
+        word-break: break-word;
+      }
+      .offer-file-picker-name {
+        display: block;
+        margin-top: 0.25rem;
+        min-height: 1.25rem;
+        max-height: 2.5rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        word-break: break-word;
+      }
+      .offer-file-picker-btn {
+        min-height: calc(1.375em + 1.711rem + 2px);
+      }
+      .offer-add-form-row {
+        align-items: start;
+      }
     </style>
   </head>
   <body>
@@ -54,7 +72,11 @@
             <div class="card-body">
               <h5 class="mb-2">Offers</h5>
               <p class="mb-0 text-body-secondary">
-                Track your university offers and the requirements for each one.
+                {% if is_platform_admin %}
+                Add university offers and attach the offer letter or requirements document for the student to download.
+                {% else %}
+                View your university offers and download the documents shared by your consultant.
+                {% endif %}
               </p>
               {% if is_platform_admin and admin_viewing_student_name %}
               <p class="text-body-secondary small mt-2 mb-0">Viewing offers for <strong>{{ admin_viewing_student_name }}</strong></p>
@@ -62,64 +84,49 @@
             </div>
           </div>
 
-          {% if is_platform_admin %}
-          <form method="POST" action="{% url 'offers' %}" class="mb-4">
-            {% csrf_token %}
-            <input type="hidden" name="action" value="admin_settings" />
-            <div class="card">
-              <div class="card-header d-flex align-items-center justify-content-between flex-wrap gap-3">
-                <div>
-                  <h6 class="mb-1">Student access</h6>
-                  <small class="text-body-secondary">Control whether this student can open Offers.</small>
-                </div>
-                <div class="form-check form-switch mb-0">
-                  <input
-                    class="form-check-input"
-                    type="checkbox"
-                    role="switch"
-                    id="is_unlocked"
-                    name="is_unlocked"
-                    {% if offers_access.is_unlocked %}checked{% endif %} />
-                  <label class="form-check-label" for="is_unlocked">
-                    {% if offers_access.is_unlocked %}Unlocked{% else %}Locked{% endif %}
-                  </label>
-                </div>
-              </div>
-              <div class="card-body">
-                <div class="form-text mb-3">Click Save settings after changing the lock.</div>
-                <button type="submit" class="btn btn-primary">Save settings</button>
-              </div>
-            </div>
-          </form>
-          {% endif %}
-
           <div class="card">
             <div class="card-header">
-              <h6 class="mb-0">Your offers</h6>
+              <h6 class="mb-0">{% if is_platform_admin %}Student offers{% else %}Your offers{% endif %}</h6>
             </div>
             <div class="card-body">
-              <form method="POST" action="{% url 'offers' %}" class="mb-4">
+              {% if is_platform_admin %}
+              <form method="POST" action="{% url 'offers' %}" enctype="multipart/form-data" class="mb-4">
                 {% csrf_token %}
                 <input type="hidden" name="action" value="add_offer" />
-                <div class="row g-4 align-items-end">
+                <div class="row g-4 offer-add-form-row">
                   <div class="col-md-3">
                     <label for="university_name" class="form-label">University</label>
                     <input type="text" class="form-control" id="university_name" name="university_name" placeholder="e.g. University of Oxford" required />
                   </div>
-                  <div class="col-md-3">
+                  <div class="col-md-2">
                     <label for="degree_name" class="form-label">Degree name</label>
                     <input type="text" class="form-control" id="degree_name" name="degree_name" placeholder="e.g. BSc Economics" required />
                   </div>
-                  <div class="col-md-4">
+                  <div class="col-md-3">
                     <label for="offer_requirements" class="form-label">Offer requirements</label>
                     <input type="text" class="form-control" id="offer_requirements" name="offer_requirements" placeholder="e.g. AAA including Mathematics" required />
                   </div>
                   <div class="col-md-2">
+                    <label class="form-label">Document (optional)</label>
+                    <div class="offer-file-picker">
+                      <input
+                        type="file"
+                        class="d-none offer-file-input"
+                        id="attachment_file"
+                        name="attachment_file"
+                        accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" />
+                      <button type="button" class="btn btn-outline-secondary w-100 offer-file-picker-btn">Choose file</button>
+                      <span class="small text-body-secondary offer-file-picker-name" title="">No file chosen</span>
+                    </div>
+                  </div>
+                  <div class="col-md-2">
                     <label class="form-label user-select-none" style="visibility: hidden;" aria-hidden="true">Add</label>
-                    <button type="submit" class="btn btn-primary w-100 offer-add-btn">Add</button>
+                    <button type="submit" class="btn btn-primary w-100 offer-add-btn">Add offer</button>
                   </div>
                 </div>
+                <div class="form-text mt-2">PDF or Word documents only, up to 10 MB.</div>
               </form>
+              {% endif %}
 
               {% if offer_entries %}
               <div class="table-responsive">
@@ -129,7 +136,10 @@
                       <th>University</th>
                       <th>Degree</th>
                       <th>Offer requirements</th>
+                      <th>Document</th>
+                      {% if is_platform_admin %}
                       <th class="text-end">Actions</th>
+                      {% endif %}
                     </tr>
                   </thead>
                   <tbody>
@@ -138,6 +148,50 @@
                       <td>{{ offer.university_name }}</td>
                       <td>{{ offer.degree_name }}</td>
                       <td>{{ offer.offer_requirements }}</td>
+                      <td>
+                        {% if offer.has_attachment %}
+                        <div class="d-flex flex-wrap align-items-center gap-2">
+                          <span class="small text-body-secondary offer-attachment-name" title="{{ offer.attachment_file|basename }}">
+                            {{ offer.attachment_file|basename }}
+                          </span>
+                          <a href="{{ offer.attachment_file.url }}" class="btn btn-sm btn-outline-primary" download>
+                            <i class="ri ri-download-line me-1"></i>
+                            Download
+                          </a>
+                          {% if is_platform_admin %}
+                          <form method="POST" action="{% url 'offers' %}" class="d-inline" onsubmit="return confirm('Delete this document?');">
+                            {% csrf_token %}
+                            <input type="hidden" name="action" value="delete_offer_attachment" />
+                            <input type="hidden" name="offer_id" value="{{ offer.id }}" />
+                            <button type="submit" class="btn btn-sm btn-outline-danger">
+                              <i class="ri ri-delete-bin-line me-1"></i>
+                              Delete
+                            </button>
+                          </form>
+                          {% endif %}
+                        </div>
+                        {% elif is_platform_admin %}
+                        <form method="POST" action="{% url 'offers' %}" enctype="multipart/form-data" class="offer-file-picker">
+                          {% csrf_token %}
+                          <input type="hidden" name="action" value="upload_offer_attachment" />
+                          <input type="hidden" name="offer_id" value="{{ offer.id }}" />
+                          <input
+                            type="file"
+                            class="d-none offer-file-input"
+                            name="attachment_file"
+                            accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                            required />
+                          <div class="d-flex flex-wrap align-items-center gap-2">
+                            <button type="button" class="btn btn-sm btn-outline-secondary offer-file-picker-btn">Choose file</button>
+                            <button type="submit" class="btn btn-sm btn-primary">Upload</button>
+                          </div>
+                          <span class="small text-body-secondary offer-file-picker-name d-block mt-2">No file chosen</span>
+                        </form>
+                        {% else %}
+                        <span class="text-body-secondary small">No document yet</span>
+                        {% endif %}
+                      </td>
+                      {% if is_platform_admin %}
                       <td class="text-end text-nowrap">
                         <button
                           type="button"
@@ -146,7 +200,9 @@
                           data-offer-id="{{ offer.id }}"
                           data-university-name="{{ offer.university_name }}"
                           data-degree-name="{{ offer.degree_name }}"
-                          data-offer-requirements="{{ offer.offer_requirements }}">
+                          data-offer-requirements="{{ offer.offer_requirements }}"
+                          data-has-attachment="{% if offer.has_attachment %}true{% else %}false{% endif %}"
+                          data-attachment-name="{{ offer.attachment_file|basename }}">
                           <i class="ri ri-pencil-line"></i>
                         </button>
                         <button
@@ -158,13 +214,20 @@
                           <i class="ri ri-delete-bin-line"></i>
                         </button>
                       </td>
+                      {% endif %}
                     </tr>
                     {% endfor %}
                   </tbody>
                 </table>
               </div>
               {% else %}
-              <p class="text-body-secondary mb-0">No offers yet. Add your first offer above.</p>
+              <p class="text-body-secondary mb-0">
+                {% if is_platform_admin %}
+                No offers yet. Add the first offer above.
+                {% else %}
+                No offers have been added yet. Your consultant will share them here.
+                {% endif %}
+              </p>
               {% endif %}
             </div>
           </div>
@@ -173,10 +236,11 @@
       </div>
     </div>
 
+    {% if is_platform_admin %}
     <div class="modal fade" id="editOfferModal" tabindex="-1" aria-labelledby="editOfferModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-          <form method="POST" action="{% url 'offers' %}">
+          <form method="POST" action="{% url 'offers' %}" enctype="multipart/form-data">
             {% csrf_token %}
             <input type="hidden" name="action" value="edit_offer" />
             <input type="hidden" name="offer_id" id="edit_offer_id" value="" />
@@ -193,9 +257,24 @@
                 <label for="edit_degree_name" class="form-label">Degree name</label>
                 <input type="text" class="form-control" id="edit_degree_name" name="degree_name" required />
               </div>
-              <div>
+              <div class="mb-4">
                 <label for="edit_offer_requirements" class="form-label">Offer requirements</label>
                 <input type="text" class="form-control" id="edit_offer_requirements" name="offer_requirements" required />
+              </div>
+              <div>
+                <label class="form-label">Replace document (optional)</label>
+                <p class="small text-body-secondary mb-2" id="edit_current_attachment"></p>
+                <div class="offer-file-picker">
+                  <input
+                    type="file"
+                    class="d-none offer-file-input"
+                    id="edit_attachment_file"
+                    name="attachment_file"
+                    accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" />
+                  <button type="button" class="btn btn-outline-secondary offer-file-picker-btn">Choose file</button>
+                  <span class="small text-body-secondary offer-file-picker-name d-block mt-2">No file chosen</span>
+                </div>
+                <div class="form-text mt-2">Uploading a new file replaces the current document. PDF or Word only, up to 10 MB.</div>
               </div>
             </div>
             <div class="modal-footer">
@@ -229,6 +308,7 @@
         </div>
       </div>
     </div>
+    {% endif %}
 
     <div class="layout-overlay layout-menu-toggle"></div>
     <div class="drag-target"></div>
@@ -242,6 +322,7 @@
     <script src="{% static 'website/js/vendor/menu.js' %}"></script>
     <script type="text/javascript" src="{% static 'website/js/main.js' %}"></script>
     <script type="text/javascript" src="{% static 'website/js/vendors.min.js' %}"></script>
+    {% if is_platform_admin %}
     <script>
       document.addEventListener('DOMContentLoaded', function () {
         var editModalEl = document.getElementById('editOfferModal');
@@ -255,6 +336,23 @@
             document.getElementById('edit_university_name').value = button.dataset.universityName;
             document.getElementById('edit_degree_name').value = button.dataset.degreeName;
             document.getElementById('edit_offer_requirements').value = button.dataset.offerRequirements;
+            var currentAttachment = document.getElementById('edit_current_attachment');
+            var attachmentInput = document.getElementById('edit_attachment_file');
+            if (button.dataset.hasAttachment === 'true') {
+              currentAttachment.textContent = 'Current document: ' + button.dataset.attachmentName;
+            } else {
+              currentAttachment.textContent = 'No document uploaded yet.';
+            }
+            if (attachmentInput) {
+              attachmentInput.value = '';
+              var editPickerName = editModalEl.querySelector('.offer-file-picker-name');
+              if (editPickerName) {
+                editPickerName.textContent = 'No file chosen';
+                editPickerName.title = '';
+                editPickerName.classList.remove('text-primary');
+                editPickerName.classList.add('text-body-secondary');
+              }
+            }
             if (editModal) editModal.show();
           });
         });
@@ -267,12 +365,25 @@
           });
         });
 
-        var toggle = document.getElementById('is_unlocked');
-        if (toggle) {
-          toggle.addEventListener('change', function () {
-            toggle.nextElementSibling.textContent = toggle.checked ? 'Unlocked' : 'Locked';
+        document.querySelectorAll('.offer-file-picker').forEach(function (picker) {
+          var input = picker.querySelector('.offer-file-input');
+          var nameLabel = picker.querySelector('.offer-file-picker-name');
+          var chooseButton = picker.querySelector('.offer-file-picker-btn');
+          if (!input || !nameLabel || !chooseButton) return;
+
+          chooseButton.addEventListener('click', function () {
+            input.click();
           });
-        }
+
+          input.addEventListener('change', function () {
+            var hasFile = input.files.length > 0;
+            var fileName = hasFile ? input.files[0].name : 'No file chosen';
+            nameLabel.textContent = fileName;
+            nameLabel.title = hasFile ? fileName : '';
+            nameLabel.classList.toggle('text-primary', hasFile);
+            nameLabel.classList.toggle('text-body-secondary', !hasFile);
+          });
+        });
 
         function syncAddButtonHeight() {
           var requirementsField = document.getElementById('offer_requirements');
@@ -285,5 +396,6 @@
         window.addEventListener('resize', syncAddButtonHeight);
       });
     </script>
+    {% endif %}
   </body>
 </html>

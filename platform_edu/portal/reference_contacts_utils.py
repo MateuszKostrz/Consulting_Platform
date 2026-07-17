@@ -16,11 +16,14 @@ def _empty_reference_contact():
     return {field: '' for field in REFERENCE_CONTACT_FIELDS}
 
 
-def reference_contacts_for_form(academic):
+def reference_contacts_for_form(academic, personal_profile=None):
     stored = {
         contact.sort_order: contact
         for contact in academic.reference_contacts.order_by('sort_order')
     }
+    default_institution = ''
+    if personal_profile:
+        default_institution = (personal_profile.school_name or '').strip()
     rows = []
     visible = 1
     for index in range(1, MAX_REFERENCE_CONTACTS + 1):
@@ -29,6 +32,8 @@ def reference_contacts_for_form(academic):
             row = {field: getattr(contact, field, '') or '' for field in REFERENCE_CONTACT_FIELDS}
         else:
             row = _empty_reference_contact()
+        if index == 1 and not row['institution'] and default_institution:
+            row['institution'] = default_institution
         rows.append(row)
         if any(row.values()):
             visible = index

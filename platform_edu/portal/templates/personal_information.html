@@ -119,10 +119,14 @@
                   </div>
                 </div>
 
-                <div class="col-md-6">
+                <div class="col-md-6 d-flex flex-column gap-4">
                   <div class="form-floating form-floating-outline">
                     <input type="text" class="form-control" id="school_name" name="school_name" value="{{ school_name }}" placeholder="Your school name" />
                     <label for="school_name">Name of School</label>
+                  </div>
+                  <div class="form-floating form-floating-outline">
+                    <textarea class="form-control" id="school_address" name="school_address" placeholder="School address" style="height: 80px">{{ info.school_address }}</textarea>
+                    <label for="school_address">School Address</label>
                   </div>
                 </div>
 
@@ -140,28 +144,64 @@
                   </div>
                   <div class="form-text">Assigned by Edunade — cannot be changed here</div>
                 </div>
+              </div>
 
+              <hr class="my-6 mx-n4" />
+
+              <h6 class="mb-4">2. Parents' / Guardian Details</h6>
+              <div class="row g-4">
                 <div class="col-md-6">
                   <div class="form-floating form-floating-outline">
-                    <textarea class="form-control" id="school_address" name="school_address" placeholder="School address" style="height: 80px">{{ info.school_address }}</textarea>
-                    <label for="school_address">School Address</label>
+                    <input type="text" class="form-control" id="parent_first_name" name="parent_first_name" value="{{ info.parent_first_name }}" placeholder="Parent or guardian first name" />
+                    <label for="parent_first_name">Name</label>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-floating form-floating-outline">
+                    <input type="text" class="form-control" id="parent_last_name" name="parent_last_name" value="{{ info.parent_last_name }}" placeholder="Parent or guardian surname" />
+                    <label for="parent_last_name">Surname</label>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-floating form-floating-outline">
+                    <input type="email" class="form-control" id="parent_email" name="parent_email" value="{{ info.parent_email }}" placeholder="parent@example.com" />
+                    <label for="parent_email">Email</label>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-floating form-floating-outline">
+                    <input type="tel" class="form-control phone-mask" id="parent_phone" name="parent_phone" value="{{ info.parent_phone }}" placeholder="+1 234 567 8900" />
+                    <label for="parent_phone">Phone</label>
                   </div>
                 </div>
               </div>
 
               <hr class="my-6 mx-n4" />
 
-              <h6 class="mb-4">2. Academic Background</h6>
+              <h6 class="mb-4">3. Academic Background</h6>
               <div class="row g-4">
-                <div class="col-md-6">
+                <div class="col-md-6 d-flex flex-column gap-4" data-curriculum-field>
                   <div class="form-floating form-floating-outline">
-                    <select id="curriculum" name="curriculum" class="form-select">
+                    <select id="curriculum" name="curriculum" class="form-select" data-curriculum-select>
                       <option value="IB" {% if curriculum == "IB" %}selected{% endif %}>IB</option>
                       <option value="A-Levels" {% if curriculum == "A-Levels" %}selected{% endif %}>A-Levels</option>
                       <option value="SAT" {% if curriculum == "SAT" %}selected{% endif %}>SAT / ACT</option>
                       <option value="Other" {% if curriculum == "Other" %}selected{% endif %}>Other</option>
                     </select>
                     <label for="curriculum">Curriculum</label>
+                  </div>
+                  <div class="{% if curriculum != 'Other' %}d-none{% endif %}" data-curriculum-other-wrap>
+                    <div class="form-floating form-floating-outline">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="curriculum_other"
+                        name="curriculum_other"
+                        value="{{ curriculum_other }}"
+                        placeholder="Enter your curriculum"
+                        data-curriculum-other-input />
+                      <label for="curriculum_other">Specify curriculum</label>
+                    </div>
                   </div>
                 </div>
 

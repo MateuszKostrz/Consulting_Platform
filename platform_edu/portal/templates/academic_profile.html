@@ -55,13 +55,16 @@
               {% csrf_token %}
 
               <div class="row g-5">
-                {% include 'partials/profile_section_header.html' with section_title="Academic background" section_subtitle="Grades, references, and activities outside the classroom" %}
+                {% include 'partials/profile_section_header.html' with section_title="Academic background" section_subtitle="References and activities outside the classroom" %}
 
                 <div class="col-12">
-                  <div class="form-floating form-floating-outline">
-                    <textarea class="form-control" id="predicted_grades" name="predicted_grades" placeholder="e.g. A*, A, B or IB 40+" style="height: 100px">{{ academic.predicted_grades }}</textarea>
-                    <label for="predicted_grades">What grade am I aiming for</label>
-                  </div>
+                  <h6 class="mb-3">What grade am I aiming for</h6>
+                  <textarea
+                    class="form-control"
+                    id="predicted_grades"
+                    name="predicted_grades"
+                    placeholder="e.g. A*, A, B or IB 40+"
+                    rows="4">{{ academic.predicted_grades }}</textarea>
                 </div>
 
                 {% include 'partials/reference_contacts_section.html' %}
