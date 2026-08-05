@@ -1,0 +1,26 @@
+{% if is_platform_admin and admin_viewing_student_name %}
+<div
+  class="modal fade"
+  id="clearStudentSelectionModal"
+  tabindex="-1"
+  aria-labelledby="clearStudentSelectionModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="clearStudentSelectionModalLabel">Clear student selection</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Stop viewing <strong>{{ admin_viewing_student_name }}</strong> and return to the admin home page?
+      </div>
+      <div class="modal-footer border-0 pt-0 pb-4">
+        <div class="d-flex flex-wrap justify-content-end align-items-center gap-2 w-100">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+          <a href="{% url 'clear-student-selection' %}" class="btn btn-primary" id="clearStudentSelectionConfirmBtn">Clear selection</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}

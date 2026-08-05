@@ -4,6 +4,8 @@ from django.contrib.auth.models import User
 
 from .models import (
     AcademicProfile,
+    ApplicationLogistics,
+    ApplicationLogisticsPortal,
     Deadline,
     DiagnosticStage,
     InterviewPreparation,
@@ -273,6 +275,60 @@ class ProfileNarrativeAdmin(admin.ModelAdmin):
         'created_at',
         'updated_at',
     )
+
+    @admin.display(description='Student')
+    def display_student(self, obj):
+        platform_user = obj.personal_profile.platform_user
+        if platform_user:
+            return platform_user.email
+        return obj.personal_profile.personal_email or obj.personal_profile.edunade_email or '—'
+
+
+@admin.register(ApplicationLogistics)
+class ApplicationLogisticsAdmin(admin.ModelAdmin):
+    list_display = (
+        'display_student',
+        'is_unlocked',
+        'updated_at',
+    )
+    list_filter = ('is_unlocked',)
+    search_fields = (
+        'personal_profile__platform_user__email',
+        'personal_profile__personal_email',
+        'personal_profile__edunade_email',
+    )
+    readonly_fields = ('created_at', 'updated_at')
+    autocomplete_fields = ('personal_profile',)
+
+    @admin.display(description='Student')
+    def display_student(self, obj):
+        platform_user = obj.personal_profile.platform_user
+        if platform_user:
+            return platform_user.email
+        return obj.personal_profile.personal_email or obj.personal_profile.edunade_email or '—'
+
+
+@admin.register(ApplicationLogisticsPortal)
+class ApplicationLogisticsPortalAdmin(admin.ModelAdmin):
+    list_display = (
+        'portal_name',
+        'display_student',
+        'portal_link',
+        'username',
+        'sort_order',
+        'updated_at',
+    )
+    list_filter = ('sort_order',)
+    search_fields = (
+        'portal_name',
+        'portal_link',
+        'username',
+        'personal_profile__platform_user__email',
+        'personal_profile__personal_email',
+        'personal_profile__edunade_email',
+    )
+    readonly_fields = ('created_at', 'updated_at')
+    autocomplete_fields = ('personal_profile',)
 
     @admin.display(description='Student')
     def display_student(self, obj):

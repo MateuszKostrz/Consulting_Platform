@@ -1,8 +1,9 @@
 import uuid
 
-from .constants import INTERVIEW_PREP_SESSION_SLOTS
+from .constants import GRADUATION_YEARS, INTERVIEW_PREP_SESSION_SLOTS
 from .models import (
     AcademicProfile,
+    ApplicationLogistics,
     PersonalProfile,
     PlatformUser,
     PortfolioDesign,
@@ -33,6 +34,10 @@ PERSONAL_PROFILE_MERGE_FIELDS = (
     'parent_last_name',
     'parent_email',
     'parent_phone',
+    'parent2_first_name',
+    'parent2_last_name',
+    'parent2_email',
+    'parent2_phone',
     'curriculum',
     'curriculum_other',
     'graduation_year',
@@ -158,7 +163,19 @@ def get_deadline_filter_student(request):
 def get_student_platform_users():
     return PlatformUser.objects.filter(
         role=PlatformUser.Role.STUDENT,
-    ).order_by('last_name', 'first_name', 'email')
+    ).select_related('personal_profile').order_by('last_name', 'first_name', 'email')
+
+
+def graduation_years_for_student_filter(student_profiles):
+    """Graduation years that have at least one student, preserving standard order."""
+    present = set()
+    for student in student_profiles:
+        profile = student.get_personal_profile()
+        if profile and profile.graduation_year:
+            present.add(profile.graduation_year.strip())
+    ordered = [year for year in GRADUATION_YEARS if year in present]
+    extras = sorted(present - set(GRADUATION_YEARS))
+    return ordered + extras
 
 
 def get_admin_viewing_student(request):
@@ -424,6 +441,39 @@ def get_profile_narrative_for_request(profile, platform_user, create=True):
     if not profile:
         return None
     return ensure_profile_narrative(profile, create=create)
+
+
+def ensure_application_logistics(profile, create=True):
+    if not profile:
+        return None
+    if not create:
+        try:
+            return profile.application_logistics
+        except ApplicationLogistics.DoesNotExist:
+            return None
+    logistics, _ = ApplicationLogistics.objects.get_or_create(personal_profile=profile)
+    return logistics
+
+
+def application_logistics_is_unlocked_for_platform_user(platform_user):
+    if not platform_user or not platform_user.is_student:
+        return False
+    return ApplicationLogistics.objects.filter(
+        personal_profile__platform_user_id=platform_user.pk,
+        is_unlocked=True,
+    ).exists()
+
+
+def get_application_logistics_for_request(profile, platform_user, create=True):
+    if platform_user and platform_user.is_student:
+        logistics = ApplicationLogistics.objects.filter(
+            personal_profile__platform_user_id=platform_user.pk,
+        ).first()
+        if logistics:
+            return logistics
+    if not profile:
+        return None
+    return ensure_application_logistics(profile, create=create)
 
 
 def ensure_interview_preparation(profile, create=True):

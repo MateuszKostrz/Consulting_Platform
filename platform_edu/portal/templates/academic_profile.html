@@ -51,8 +51,16 @@
           <div class="card mb-6">
 
 
-            <form class="card-body" method="POST" action="{% url 'academic-profile' %}">
+            <form
+              class="card-body"
+              method="POST"
+              action="{% url 'academic-profile' %}"
+              data-section-form-guard
+              data-continue-url="{{ section_continue_url }}"
+              data-continue-section="{{ section_continue_url_name }}"
+              data-cancel-url="{% url 'home' %}">
               {% csrf_token %}
+              <input type="hidden" name="next_section" value="" data-section-next-input />
 
               <div class="row g-5">
                 {% include 'partials/profile_section_header.html' with section_title="Academic background" section_subtitle="References and activities outside the classroom" %}
@@ -102,15 +110,14 @@
                 </div>
               </div>
 
-              <div class="mt-6">
-                <button type="submit" class="btn btn-primary me-3">Save changes</button>
-                <a href="{% url 'home' %}" class="btn btn-outline-secondary">Cancel</a>
-              </div>
+              {% include 'partials/section_form_actions.html' %}
             </form>
           </div>
         </div>
 
         {% include 'footer.html' %}
+
+        {% include 'partials/unsaved_changes_modal.html' %}
 
         <div class="content-backdrop fade"></div>
       </div>
@@ -133,5 +140,6 @@
     <script src="{% static 'website/js/vendor/menu.js' %}"></script>
     <script type="text/javascript" src="{% static 'website/js/main.js' %}"></script>
     <script type="text/javascript" src="{% static 'website/js/vendors.min.js' %}"></script>
+    {% include 'partials/section_form_guard.js.html' %}
   </body>
 </html>

@@ -16,6 +16,7 @@ urlpatterns = [
     path('portfolio-design/', views.portfolio_design, name='portfolio-design'),
     path('strategic-application/', views.strategic_application, name='strategic-application'),
     path('profile-narrative/', views.profile_narrative, name='profile-narrative'),
+    path('application-logistics/', views.application_logistics, name='application-logistics'),
     path(
         'interview-preparation/feedback/<int:session_id>/preview/',
         views.preview_interview_feedback,
@@ -30,6 +31,7 @@ urlpatterns = [
     path('create-student/', views.admin_create_student, name='admin-create-student'),
     path('student-access/', views.admin_student_access, name='admin-student-access'),
     path('select-student/<int:student_id>/', views.select_student_profile, name='select-student'),
+    path('clear-student-selection/', views.clear_student_selection, name='clear-student-selection'),
     path('preview-student/<int:student_id>/', views.preview_student_profile, name='preview-student'),
     path('exit-student-preview/', views.exit_student_preview, name='exit-student-preview'),
     path('logout/', views.logout_view, name='logout'),

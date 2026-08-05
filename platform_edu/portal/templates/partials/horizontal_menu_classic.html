@@ -120,6 +120,22 @@
       </li>
       {% endif %}
 
+      {% if application_logistics_unlocked %}
+      <li class="menu-item {% if current_url_name == 'application-logistics' %}active{% endif %}">
+        <a href="{% url 'application-logistics' %}" class="menu-link"{% if is_platform_admin and not admin_viewing_student_id %} data-requires-student{% endif %}>
+          <i class="menu-icon icon-base ri ri-links-line"></i>
+          <div data-i18n="Application Logistics">Application Logistics</div>
+        </a>
+      </li>
+      {% else %}
+      <li class="menu-item">
+        <span class="menu-link pe-none text-body-secondary" title="Application Logistics is locked">
+          <i class="menu-icon icon-base ri ri-lock-line"></i>
+          <div data-i18n="Application Logistics">Application Logistics</div>
+        </span>
+      </li>
+      {% endif %}
+
       {% if interview_preparation_unlocked %}
       <li class="menu-item {% if current_url_name == 'interview-preparation' %}active{% endif %}">
         <a href="{% url 'interview-preparation' %}" class="menu-link"{% if is_platform_admin and not admin_viewing_student_id %} data-requires-student{% endif %}>

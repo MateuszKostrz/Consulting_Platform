@@ -118,6 +118,10 @@ class PersonalProfile(models.Model):
     parent_last_name = models.CharField(max_length=100, blank=True, default='')
     parent_email = models.EmailField(max_length=254, blank=True, default='')
     parent_phone = models.CharField(max_length=30, blank=True, default='')
+    parent2_first_name = models.CharField(max_length=100, blank=True, default='')
+    parent2_last_name = models.CharField(max_length=100, blank=True, default='')
+    parent2_email = models.EmailField(max_length=254, blank=True, default='')
+    parent2_phone = models.CharField(max_length=30, blank=True, default='')
     nationality = models.CharField(max_length=100, blank=True, default='')
     passport_number = models.CharField(max_length=50, blank=True, default='')
     school_name = models.CharField(max_length=200, blank=True, default='')
@@ -515,6 +519,54 @@ class ProfileNarrative(models.Model):
         return f'Profile Narrative ({label}, {status})'
 
 
+class ApplicationLogistics(models.Model):
+    personal_profile = models.OneToOneField(
+        PersonalProfile,
+        on_delete=models.CASCADE,
+        related_name='application_logistics',
+    )
+    is_unlocked = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = 'Application Logistics'
+        verbose_name_plural = 'Application Logistics'
+
+    def __str__(self):
+        owner = self.personal_profile
+        if owner.platform_user:
+            label = owner.platform_user.email
+        else:
+            label = owner.personal_email or owner.edunade_email or owner.pk
+        status = 'unlocked' if self.is_unlocked else 'locked'
+        return f'Application Logistics ({label}, {status})'
+
+
+class ApplicationLogisticsPortal(models.Model):
+    personal_profile = models.ForeignKey(
+        PersonalProfile,
+        on_delete=models.CASCADE,
+        related_name='application_logistics_portals',
+    )
+    portal_name = models.CharField(max_length=200)
+    portal_link = models.URLField(max_length=500, blank=True, default='')
+    username = models.CharField(max_length=200, blank=True, default='')
+    password = models.CharField(max_length=200, blank=True, default='')
+    comments = models.TextField(blank=True, default='')
+    sort_order = models.PositiveSmallIntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = 'Application Logistics Portal'
+        verbose_name_plural = 'Application Logistics Portals'
+        ordering = ['sort_order', 'id']
+
+    def __str__(self):
+        return self.portal_name
+
+
 class InterviewPreparation(models.Model):
     personal_profile = models.OneToOneField(
         PersonalProfile,
@@ -701,6 +753,7 @@ class StudentSectionAccess(models.Model):
     portfolio_design = models.BooleanField(null=True, blank=True)
     strategic_application = models.BooleanField(null=True, blank=True)
     profile_narrative = models.BooleanField(null=True, blank=True)
+    application_logistics = models.BooleanField(null=True, blank=True)
     interview_preparation = models.BooleanField(null=True, blank=True)
     offers = models.BooleanField(null=True, blank=True)
     results = models.BooleanField(null=True, blank=True)

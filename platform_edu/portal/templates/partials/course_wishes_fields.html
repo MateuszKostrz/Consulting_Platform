@@ -46,28 +46,15 @@
 
     <div>
       <label class="form-label mb-3">Course preferences</label>
-      <div class="d-flex flex-column gap-4">
-        <div class="form-floating form-floating-outline">
-          <input
-            type="text"
-            class="form-control"
-            id="primary_course_preference"
-            name="primary_course_preference"
-            value="{{ academic.primary_course_preference }}"
-            placeholder="e.g. Computer Science" />
-          <label for="primary_course_preference">Primary preference for the course</label>
-        </div>
-
-        <div class="form-floating form-floating-outline">
-          <input
-            type="text"
-            class="form-control"
-            id="secondary_course_preference"
-            name="secondary_course_preference"
-            value="{{ academic.secondary_course_preference }}"
-            placeholder="e.g. Economics" />
-          <label for="secondary_course_preference">Secondary preference for the course</label>
-        </div>
+      <div class="form-floating form-floating-outline">
+        <input
+          type="text"
+          class="form-control"
+          id="secondary_course_preference"
+          name="secondary_course_preference"
+          value="{{ academic.secondary_course_preference }}"
+          placeholder="e.g. Economics" />
+        <label for="secondary_course_preference">Course preference</label>
       </div>
     </div>
   </div>

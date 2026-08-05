@@ -226,6 +226,21 @@
         </li>
         <li class="consulting-pathway-separator{% if not profile_narrative_unlocked %} is-muted{% endif %}" aria-hidden="true"><i class="icon-base ri ri-arrow-right-line"></i></li>
 
+        <li class="consulting-pathway-item{% if current_url_name == 'application-logistics' %} is-active{% endif %}{% if not application_logistics_unlocked %} is-locked{% endif %}">
+          {% if application_logistics_unlocked %}
+          <a href="{% url 'application-logistics' %}" class="consulting-pathway-link"{% if is_platform_admin and not admin_viewing_student_id %} data-requires-student{% endif %}>
+            <i class="icon-base ri ri-links-line"></i>
+            <span>Application Logistics</span>
+          </a>
+          {% else %}
+          <span class="consulting-pathway-link is-disabled" title="Application Logistics is locked">
+            <i class="icon-base ri ri-lock-line"></i>
+            <span>Application Logistics</span>
+          </span>
+          {% endif %}
+        </li>
+        <li class="consulting-pathway-separator{% if not application_logistics_unlocked %} is-muted{% endif %}" aria-hidden="true"><i class="icon-base ri ri-arrow-right-line"></i></li>
+
         <li class="consulting-pathway-item{% if current_url_name == 'interview-preparation' %} is-active{% endif %}{% if not interview_preparation_unlocked %} is-locked{% endif %}">
           {% if interview_preparation_unlocked %}
           <a href="{% url 'interview-preparation' %}" class="consulting-pathway-link"{% if is_platform_admin and not admin_viewing_student_id %} data-requires-student{% endif %}>

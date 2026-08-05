@@ -149,8 +149,11 @@
             </div>
           </div>
           {% endif %}
+
+          {% include 'partials/section_navigation.html' %}
         </div>
         {% include 'footer.html' %}
+        {% include 'partials/unsaved_changes_modal.html' %}
       </div>
     </div>
 
@@ -166,5 +169,6 @@
     <script src="{% static 'website/js/vendor/menu.js' %}"></script>
     <script type="text/javascript" src="{% static 'website/js/main.js' %}"></script>
     <script type="text/javascript" src="{% static 'website/js/vendors.min.js' %}"></script>
+    {% include 'partials/section_form_guard.js.html' %}
   </body>
 </html>

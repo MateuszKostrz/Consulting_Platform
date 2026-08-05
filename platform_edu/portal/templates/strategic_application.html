@@ -216,8 +216,11 @@
               {% endif %}
             </div>
           </div>
+
+          {% include 'partials/section_navigation.html' %}
         </div>
         {% include 'footer.html' %}
+        {% include 'partials/unsaved_changes_modal.html' %}
       </div>
     </div>
 
@@ -399,5 +402,6 @@
         }
       });
     </script>
+    {% include 'partials/section_form_guard.js.html' %}
   </body>
 </html>

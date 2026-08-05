@@ -1,0 +1,7 @@
+<div
+  data-section-nav-only
+  data-continue-url="{{ section_continue_url }}"
+  data-continue-section="{{ section_continue_url_name }}"
+  data-cancel-url="{% url 'home' %}">
+  {% include 'partials/section_form_actions.html' with show_save=False %}
+</div>

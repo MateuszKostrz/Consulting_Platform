@@ -45,8 +45,18 @@
               <h5 class="mb-0">Personal Information</h5>
               <small class="text-body-secondary">Update your contact and identity details</small>
             </div>
-            <form class="card-body" method="POST" action="{% url 'personal-information' %}" enctype="multipart/form-data">
+            <form
+              class="card-body"
+              id="personalInfoForm"
+              method="POST"
+              action="{% url 'personal-information' %}"
+              enctype="multipart/form-data"
+              data-section-form-guard
+              data-continue-url="{{ section_continue_url }}"
+              data-continue-section="{{ section_continue_url_name }}"
+              data-cancel-url="{% url 'home' %}">
               {% csrf_token %}
+              <input type="hidden" name="next_section" value="" data-section-next-input />
 
               <h6 class="mb-4">1. Personal Details</h6>
 
@@ -92,7 +102,7 @@
                 </div>
               </div>
 
-              <div class="row g-4">
+              <div class="row g-4 align-items-stretch">
                 <div class="col-md-6">
                   <div class="form-floating form-floating-outline">
                     <input type="tel" class="form-control phone-mask" id="phone_number" name="phone_number" value="{{ info.phone_number }}" placeholder="+1 234 567 8900" />
@@ -119,37 +129,39 @@
                   </div>
                 </div>
 
-                <div class="col-md-6 d-flex flex-column gap-4">
+                <div class="col-md-6">
                   <div class="form-floating form-floating-outline">
                     <input type="text" class="form-control" id="school_name" name="school_name" value="{{ school_name }}" placeholder="Your school name" />
                     <label for="school_name">Name of School</label>
                   </div>
-                  <div class="form-floating form-floating-outline">
-                    <textarea class="form-control" id="school_address" name="school_address" placeholder="School address" style="height: 80px">{{ info.school_address }}</textarea>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-floating form-floating-outline h-100">
+                    <textarea class="form-control h-100" id="school_address" name="school_address" placeholder="School address" style="min-height: 9.5rem">{{ info.school_address }}</textarea>
                     <label for="school_address">School Address</label>
                   </div>
                 </div>
 
-                <div class="col-md-6">
+                <div class="col-md-6 d-flex flex-column gap-4">
                   <div class="form-floating form-floating-outline">
                     <input type="email" class="form-control" id="personal_email" name="personal_email" value="{{ info.personal_email }}" placeholder="you@example.com" />
                     <label for="personal_email">Personal Email</label>
                   </div>
-                </div>
-
-                <div class="col-md-6">
                   <div class="form-floating form-floating-outline">
                     <input type="email" class="form-control" id="edunade_email" value="{% if info.edunade_email %}{{ info.edunade_email }}{% elif info.platform_user %}{{ info.platform_user.email }}{% endif %}" placeholder="name@student.edunade.com" readonly />
                     <label for="edunade_email">Edunade Created Email</label>
                   </div>
-                  <div class="form-text">Assigned by Edunade — cannot be changed here</div>
+                  <div class="form-text mt-n3">Assigned by Edunade — cannot be changed here</div>
                 </div>
               </div>
 
               <hr class="my-6 mx-n4" />
 
               <h6 class="mb-4">2. Parents' / Guardian Details</h6>
-              <div class="row g-4">
+
+              <p class="text-body-secondary small mb-3">Parent / Guardian 1</p>
+              <div class="row g-4 mb-4">
                 <div class="col-md-6">
                   <div class="form-floating form-floating-outline">
                     <input type="text" class="form-control" id="parent_first_name" name="parent_first_name" value="{{ info.parent_first_name }}" placeholder="Parent or guardian first name" />
@@ -172,6 +184,34 @@
                   <div class="form-floating form-floating-outline">
                     <input type="tel" class="form-control phone-mask" id="parent_phone" name="parent_phone" value="{{ info.parent_phone }}" placeholder="+1 234 567 8900" />
                     <label for="parent_phone">Phone</label>
+                  </div>
+                </div>
+              </div>
+
+              <p class="text-body-secondary small mb-3">Parent / Guardian 2</p>
+              <div class="row g-4">
+                <div class="col-md-6">
+                  <div class="form-floating form-floating-outline">
+                    <input type="text" class="form-control" id="parent2_first_name" name="parent2_first_name" value="{{ info.parent2_first_name }}" placeholder="Second parent or guardian first name" />
+                    <label for="parent2_first_name">Name</label>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-floating form-floating-outline">
+                    <input type="text" class="form-control" id="parent2_last_name" name="parent2_last_name" value="{{ info.parent2_last_name }}" placeholder="Second parent or guardian surname" />
+                    <label for="parent2_last_name">Surname</label>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-floating form-floating-outline">
+                    <input type="email" class="form-control" id="parent2_email" name="parent2_email" value="{{ info.parent2_email }}" placeholder="parent2@example.com" />
+                    <label for="parent2_email">Email</label>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-floating form-floating-outline">
+                    <input type="tel" class="form-control phone-mask" id="parent2_phone" name="parent2_phone" value="{{ info.parent2_phone }}" placeholder="+1 234 567 8900" />
+                    <label for="parent2_phone">Phone</label>
                   </div>
                 </div>
               </div>
@@ -220,10 +260,7 @@
                 {% include 'partials/subjects_field.html' %}
               </div>
 
-              <div class="mt-6">
-                <button type="submit" class="btn btn-primary me-3">Save changes</button>
-                <a href="{% url 'home' %}" class="btn btn-outline-secondary">Cancel</a>
-              </div>
+              {% include 'partials/section_form_actions.html' %}
             </form>
             <form id="deleteProfilePhotoForm" method="POST" action="{% url 'personal-information' %}" class="d-none">
               {% csrf_token %}
@@ -233,6 +270,8 @@
         </div>
 
         {% include 'footer.html' %}
+
+        {% include 'partials/unsaved_changes_modal.html' %}
 
         <div class="content-backdrop fade"></div>
       </div>
@@ -258,5 +297,6 @@
     <script type="text/javascript" src="{% static 'website/js/vendors.min.js' %}"></script>
     {% include 'partials/subjects_field.js.html' %}
     {% include 'partials/student_profile_photo_widget.js.html' %}
+    {% include 'partials/section_form_guard.js.html' %}
   </body>
 </html>

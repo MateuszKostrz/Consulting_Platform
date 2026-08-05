@@ -19,9 +19,6 @@ def save_course_wishes(academic, request):
         if country.strip()
     ]
     academic.country_preferences = ', '.join(countries)
-    academic.primary_course_preference = request.POST.get(
-        'primary_course_preference', ''
-    ).strip()
     academic.secondary_course_preference = request.POST.get(
         'secondary_course_preference', ''
     ).strip()

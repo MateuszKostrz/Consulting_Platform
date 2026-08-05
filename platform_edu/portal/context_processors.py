@@ -1,4 +1,4 @@
-from django.urls import resolve
+from django.urls import resolve, reverse
 
 from .constants import PHONE_COUNTRY_CODES
 from .profile_access import (
@@ -7,9 +7,11 @@ from .profile_access import (
     get_platform_user,
     get_profile_for_request,
     get_student_platform_users,
+    graduation_years_for_student_filter,
     is_impersonating,
 )
 from .section_access_utils import student_has_section_access
+from .section_navigation import next_section_url_name
 
 
 def consulting_context(request):
@@ -55,8 +57,12 @@ def consulting_context(request):
             return True
         return student_has_section_access(access_user, access_profile, section_key)
 
+    continue_section = next_section_url_name(url_name)
+
     return {
         'current_url_name': url_name,
+        'section_continue_url_name': continue_section,
+        'section_continue_url': reverse(continue_section),
         'current_theme': 'consulting',
         'site_name': site_name,
         'role_label': role_label,
@@ -82,10 +88,12 @@ def consulting_context(request):
         'portfolio_design_unlocked': section_unlocked('portfolio_design'),
         'strategic_application_unlocked': section_unlocked('strategic_application'),
         'profile_narrative_unlocked': section_unlocked('profile_narrative'),
+        'application_logistics_unlocked': section_unlocked('application_logistics'),
         'interview_preparation_unlocked': section_unlocked('interview_preparation'),
         'offers_unlocked': section_unlocked('offers'),
         'results_unlocked': section_unlocked('results'),
         'student_profiles': student_profiles,
+        'student_graduation_years': graduation_years_for_student_filter(student_profiles),
         'admin_viewing_student_id': get_admin_viewing_student_id(request),
         'admin_viewing_student_name': (
             f'{viewing_student.first_name} {viewing_student.last_name}'.strip()

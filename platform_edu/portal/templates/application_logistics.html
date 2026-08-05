@@ -1,0 +1,354 @@
+{% load static %}
+
+<!doctype html>
+<html
+  lang="en"
+  class="layout-navbar-fixed layout-menu-fixed layout-compact"
+  dir="ltr"
+  data-skin="default"
+  data-bs-theme="light"
+  data-assets-path="{% static 'website/' %}"
+  data-template="horizontal-menu-template">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>{{ site_name }} | Application Logistics</title>
+    <link rel="icon" href="{% static 'website/images/platform_logo.svg' %}">
+    {% include 'top_base.html' %}
+    <script type="text/javascript" src="{% static 'website/js/vendor/helpers.js' %}"></script>
+    <script type="text/javascript" src="{% static 'website/js/vendor/config.js' %}"></script>
+    <style>
+      .portal-action-btn {
+        width: 2.375rem;
+        height: 2.375rem;
+      }
+      .portal-action-btn i {
+        font-size: 1.25rem;
+        line-height: 1;
+      }
+      .portal-handle {
+        cursor: grab;
+      }
+      .portal-handle:active {
+        cursor: grabbing;
+      }
+      .portal-sortable-ghost {
+        opacity: 0.5;
+      }
+      .portal-add-row .col-md-3 {
+        display: flex;
+        align-items: stretch;
+      }
+      .portal-add-btn {
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="layout-wrapper layout-navbar-full layout-horizontal layout-without-menu">
+      <div class="layout-container">
+        {% include 'horizontal_menu.html' %}
+        <div class="container-xxl flex-grow-1 container-p-y">
+          {% if messages %}
+          {% for message in messages %}
+          <div class="alert alert-{{ message.tags }} alert-dismissible mb-4" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+          {% endfor %}
+          {% endif %}
+
+          <div class="card mb-4">
+            <div class="card-body">
+              <h5 class="mb-2">Application Logistics</h5>
+              <p class="mb-0 text-body-secondary">
+                Keep track of application portal links, login details, and notes for each university or platform.
+              </p>
+              {% if is_platform_admin and admin_viewing_student_name %}
+              <p class="text-body-secondary small mt-2 mb-0">Viewing application logistics for <strong>{{ admin_viewing_student_name }}</strong></p>
+              {% endif %}
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <h6 class="mb-0">Application portals</h6>
+            </div>
+            <div class="card-body">
+              {% if can_manage_portals %}
+              <form method="POST" action="{% url 'application-logistics' %}" class="mb-4" id="addPortalForm">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="add_portal" />
+                <div class="row g-4">
+                  <div class="col-md-3">
+                    <label for="portal_name" class="form-label">Portal name</label>
+                    <input type="text" class="form-control" id="portal_name" name="portal_name" placeholder="e.g. UCAS" required />
+                  </div>
+                  <div class="col-md-3">
+                    <label for="portal_link" class="form-label">Portal link</label>
+                    <input type="url" class="form-control" id="portal_link" name="portal_link" placeholder="https://..." />
+                  </div>
+                  <div class="col-md-3">
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" class="form-control" id="username" name="username" />
+                  </div>
+                  <div class="col-md-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="text" class="form-control" id="password" name="password" />
+                  </div>
+                  <div class="col-12">
+                    <label for="comments" class="form-label">Comments</label>
+                    <div class="row g-4 portal-add-row">
+                      <div class="col-md-9">
+                        <textarea class="form-control" id="comments" name="comments" rows="2" placeholder="Optional notes"></textarea>
+                      </div>
+                      <div class="col-md-3">
+                        <button type="submit" class="btn btn-primary portal-add-btn">Add</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+              {% endif %}
+
+              {% if portals %}
+              {% if can_manage_portals %}
+              <p class="text-body-secondary small mb-3">Drag rows to reorder your portals.</p>
+              <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                  <thead>
+                    <tr>
+                      <th style="width: 2.5rem;"></th>
+                      <th>Portal name</th>
+                      <th>Portal link</th>
+                      <th>Username</th>
+                      <th>Password</th>
+                      <th>Comments</th>
+                      <th class="text-end">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="applicationPortalsTableBody">
+                    {% for portal in portals %}
+                    <tr data-portal-id="{{ portal.id }}">
+                      <td>
+                        <span class="portal-handle text-body-secondary" title="Drag to reorder">
+                          <i class="icon-base ri ri-draggable icon-18px"></i>
+                        </span>
+                        <textarea class="d-none portal-comments-source" id="portal-comments-{{ portal.id }}">{{ portal.comments }}</textarea>
+                      </td>
+                      <td>{{ portal.portal_name }}</td>
+                      <td>
+                        {% if portal.portal_link %}
+                        <a href="{{ portal.portal_link }}" target="_blank" rel="noopener noreferrer" class="text-break">{{ portal.portal_link }}</a>
+                        {% else %}
+                        <span class="text-body-secondary">—</span>
+                        {% endif %}
+                      </td>
+                      <td>{{ portal.username|default:"—" }}</td>
+                      <td>{{ portal.password|default:"—" }}</td>
+                      <td class="text-break">{{ portal.comments|default:"—"|linebreaksbr }}</td>
+                      <td class="text-end text-nowrap">
+                        <button
+                          type="button"
+                          class="btn btn-icon btn-text-secondary portal-edit-btn portal-action-btn"
+                          title="Edit"
+                          data-portal-id="{{ portal.id }}"
+                          data-portal-name="{{ portal.portal_name }}"
+                          data-portal-link="{{ portal.portal_link }}"
+                          data-username="{{ portal.username }}"
+                          data-password="{{ portal.password }}">
+                          <i class="ri ri-pencil-line"></i>
+                        </button>
+                        <button
+                          type="button"
+                          class="btn btn-icon btn-text-danger portal-delete-btn portal-action-btn"
+                          title="Delete"
+                          data-portal-id="{{ portal.id }}"
+                          data-portal-name="{{ portal.portal_name }}">
+                          <i class="ri ri-delete-bin-line"></i>
+                        </button>
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+              {% else %}
+              {% include 'partials/credential_portals_table.html' with credential_portals=portals %}
+              {% endif %}
+              {% else %}
+              <p class="text-body-secondary mb-0">
+                {% if can_manage_portals %}
+                No portals yet. Add your first portal above.
+                {% else %}
+                No application portals have been added yet.
+                {% endif %}
+              </p>
+              {% endif %}
+            </div>
+          </div>
+
+          {% include 'partials/section_navigation.html' %}
+        </div>
+        {% include 'footer.html' %}
+        {% include 'partials/unsaved_changes_modal.html' %}
+      </div>
+    </div>
+
+    {% if can_manage_portals %}
+    <div class="modal fade" id="editPortalModal" tabindex="-1" aria-labelledby="editPortalModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+          <form method="POST" action="{% url 'application-logistics' %}">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="edit_portal" />
+            <input type="hidden" name="portal_id" id="edit_portal_id" value="" />
+            <div class="modal-header">
+              <h5 class="modal-title" id="editPortalModalLabel">Edit portal</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="row g-4">
+                <div class="col-md-6">
+                  <label for="edit_portal_name" class="form-label">Portal name</label>
+                  <input type="text" class="form-control" id="edit_portal_name" name="portal_name" required />
+                </div>
+                <div class="col-md-6">
+                  <label for="edit_portal_link" class="form-label">Portal link</label>
+                  <input type="url" class="form-control" id="edit_portal_link" name="portal_link" placeholder="https://..." />
+                </div>
+                <div class="col-md-6">
+                  <label for="edit_username" class="form-label">Username</label>
+                  <input type="text" class="form-control" id="edit_username" name="username" />
+                </div>
+                <div class="col-md-6">
+                  <label for="edit_password" class="form-label">Password</label>
+                  <input type="text" class="form-control" id="edit_password" name="password" />
+                </div>
+                <div class="col-12">
+                  <label for="edit_comments" class="form-label">Comments</label>
+                  <textarea class="form-control" id="edit_comments" name="comments" rows="3"></textarea>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+              <button type="submit" class="btn btn-primary">Save changes</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="deletePortalModal" tabindex="-1" aria-labelledby="deletePortalModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <form method="POST" action="{% url 'application-logistics' %}">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="delete_portal" />
+            <input type="hidden" name="portal_id" id="delete_portal_id" value="" />
+            <div class="modal-header">
+              <h5 class="modal-title" id="deletePortalModalLabel">Delete portal</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <p class="mb-0">Are you sure you want to delete <strong id="delete_portal_name"></strong>?</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+              <button type="submit" class="btn btn-danger">Delete</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
+    <div class="layout-overlay layout-menu-toggle"></div>
+    <div class="drag-target"></div>
+
+    <script src="{% static 'website/js/vendor/libs/jquery/jquery.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/popper/popper.js' %}"></script>
+    <script src="{% static 'website/js/bootstrap.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/node-waves/node-waves.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/perfect-scrollbar/perfect-scrollbar.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/hammer/hammer.js' %}"></script>
+    <script src="{% static 'website/js/vendor/menu.js' %}"></script>
+    <script type="text/javascript" src="{% static 'website/js/main.js' %}"></script>
+    <script type="text/javascript" src="{% static 'website/js/vendors.min.js' %}"></script>
+    {% if can_manage_portals %}
+    <script src="{% static 'website/js/vendor/libs/sortablejs/sortable.js' %}"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        var editModalEl = document.getElementById('editPortalModal');
+        var deleteModalEl = document.getElementById('deletePortalModal');
+        var editModal = editModalEl ? bootstrap.Modal.getOrCreateInstance(editModalEl) : null;
+        var deleteModal = deleteModalEl ? bootstrap.Modal.getOrCreateInstance(deleteModalEl) : null;
+
+        document.querySelectorAll('.portal-edit-btn').forEach(function (button) {
+          button.addEventListener('click', function () {
+            document.getElementById('edit_portal_id').value = button.dataset.portalId;
+            document.getElementById('edit_portal_name').value = button.dataset.portalName;
+            document.getElementById('edit_portal_link').value = button.dataset.portalLink || '';
+            document.getElementById('edit_username').value = button.dataset.username || '';
+            document.getElementById('edit_password').value = button.dataset.password || '';
+            var commentsSource = document.getElementById('portal-comments-' + button.dataset.portalId);
+            document.getElementById('edit_comments').value = commentsSource ? commentsSource.value : '';
+            if (editModal) editModal.show();
+          });
+        });
+
+        document.querySelectorAll('.portal-delete-btn').forEach(function (button) {
+          button.addEventListener('click', function () {
+            document.getElementById('delete_portal_id').value = button.dataset.portalId;
+            document.getElementById('delete_portal_name').textContent = button.dataset.portalName;
+            if (deleteModal) deleteModal.show();
+          });
+        });
+
+        var tbody = document.getElementById('applicationPortalsTableBody');
+        var csrfInput = document.querySelector('input[name="csrfmiddlewaretoken"]');
+
+        function getCsrfToken() {
+          return csrfInput ? csrfInput.value : '';
+        }
+
+        function saveReorder() {
+          if (!tbody) {
+            return;
+          }
+          var formData = new FormData();
+          formData.append('action', 'reorder_portals');
+          formData.append('csrfmiddlewaretoken', getCsrfToken());
+          tbody.querySelectorAll('tr[data-portal-id]').forEach(function (row) {
+            formData.append('portal_ids', row.getAttribute('data-portal-id'));
+          });
+
+          fetch(window.location.href, {
+            method: 'POST',
+            body: formData,
+            headers: { 'X-Requested-With': 'XMLHttpRequest' },
+            credentials: 'same-origin',
+          }).then(function (response) {
+            if (!response.ok) {
+              window.location.reload();
+            }
+          }).catch(function () {
+            window.location.reload();
+          });
+        }
+
+        if (tbody && window.Sortable) {
+          Sortable.create(tbody, {
+            handle: '.portal-handle',
+            animation: 150,
+            ghostClass: 'portal-sortable-ghost',
+            onEnd: saveReorder,
+          });
+        }
+      });
+    </script>
+    {% endif %}
+    {% include 'partials/section_form_guard.js.html' %}
+  </body>
+</html>

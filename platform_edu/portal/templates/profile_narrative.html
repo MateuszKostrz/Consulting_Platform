@@ -45,8 +45,15 @@
           </div>
 
           {% if is_platform_admin %}
-          <form method="POST" action="{% url 'profile-narrative' %}">
+          <form
+            method="POST"
+            action="{% url 'profile-narrative' %}"
+            data-section-form-guard
+            data-continue-url="{{ section_continue_url }}"
+            data-continue-section="{{ section_continue_url_name }}"
+            data-cancel-url="{% url 'home' %}">
             {% csrf_token %}
+            <input type="hidden" name="next_section" value="" data-section-next-input />
             {% for section in narrative_sections %}
             <div class="card mb-4">
               <div class="card-header">
@@ -70,7 +77,7 @@
               </div>
             </div>
             {% endfor %}
-            <button type="submit" class="btn btn-primary">Save document links</button>
+            {% include 'partials/section_form_actions.html' %}
           </form>
           {% else %}
           {% for section in narrative_sections %}
@@ -93,8 +100,13 @@
           </div>
           {% endfor %}
           {% endif %}
+
+          {% if not is_platform_admin %}
+          {% include 'partials/section_navigation.html' %}
+          {% endif %}
         </div>
         {% include 'footer.html' %}
+        {% include 'partials/unsaved_changes_modal.html' %}
       </div>
     </div>
 
@@ -110,5 +122,6 @@
     <script src="{% static 'website/js/vendor/menu.js' %}"></script>
     <script type="text/javascript" src="{% static 'website/js/main.js' %}"></script>
     <script type="text/javascript" src="{% static 'website/js/vendors.min.js' %}"></script>
+    {% include 'partials/section_form_guard.js.html' %}
   </body>
 </html>

@@ -3,6 +3,76 @@
 
 {% include 'partials/admin_student_picker_modal.html' %}
 {% include 'partials/admin_add_student_modal.html' %}
+{% include 'partials/clear_student_selection_modal.html' %}
+
+<script>
+window.addEventListener('load', function () {
+  if (typeof bootstrap === 'undefined') {
+    return;
+  }
+  document.querySelectorAll('.student-preview-btn[data-bs-toggle="tooltip"]').forEach(function (el) {
+    new bootstrap.Tooltip(el, { container: 'body', trigger: 'hover' });
+  });
+
+  var studentDropdown = document.querySelector('.navbar-dropdown.dropdown-students');
+  var studentList = document.getElementById('studentProfilesDropdownList');
+  if (studentDropdown && studentList) {
+    studentList.addEventListener('wheel', function (event) {
+      event.stopPropagation();
+    }, { passive: true });
+
+    studentList.addEventListener('touchmove', function (event) {
+      event.stopPropagation();
+    }, { passive: true });
+
+    studentDropdown.addEventListener('shown.bs.dropdown', function () {
+      studentList.style.overflowY = 'auto';
+    });
+
+    var filterButtons = studentDropdown.querySelectorAll('.student-year-filter');
+    var studentItems = studentList.querySelectorAll('.student-profile-item');
+    var emptyState = studentList.querySelector('.student-profiles-empty');
+    var noMatchState = studentList.querySelector('.student-profiles-no-match');
+
+    function applyGraduationYearFilter(selectedYear) {
+      var visibleCount = 0;
+
+      filterButtons.forEach(function (button) {
+        var isActive = button.getAttribute('data-graduation-year') === selectedYear;
+        button.classList.toggle('btn-primary', isActive);
+        button.classList.toggle('btn-outline-secondary', !isActive);
+        button.classList.toggle('active', isActive);
+      });
+
+      studentItems.forEach(function (item) {
+        var itemYear = item.getAttribute('data-graduation-year') || '';
+        var showItem = selectedYear === 'all' || itemYear === selectedYear;
+        item.classList.toggle('d-none', !showItem);
+        if (showItem) {
+          visibleCount += 1;
+        }
+      });
+
+      if (noMatchState) {
+        noMatchState.classList.toggle('d-none', visibleCount > 0 || !studentItems.length);
+      }
+      if (emptyState) {
+        emptyState.classList.toggle('d-none', studentItems.length > 0);
+      }
+    }
+
+    filterButtons.forEach(function (button) {
+      button.addEventListener('click', function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        applyGraduationYearFilter(button.getAttribute('data-graduation-year') || 'all');
+      });
+    });
+
+    applyGraduationYearFilter('all');
+  }
+});
+</script>
 
 <footer class="content-footer footer bg-footer-theme">
   <div class="container-xxl">

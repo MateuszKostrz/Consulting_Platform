@@ -48,9 +48,11 @@ from .section_access_utils import (
     section_access_rows_for_student,
     student_can_access_section,
 )
+from .section_navigation import redirect_after_section_save
 from .subjects_utils import curriculum_for_form, curriculum_from_post, subjects_for_form, subjects_from_post
 from .models import (
     AcademicProfile,
+    ApplicationLogisticsPortal,
     Deadline,
     DiagnosticStage,
     InterviewPrepSession,
@@ -79,8 +81,10 @@ from .profile_access import (
     admin_must_select_student,
     claim_guest_profile_for_student,
     clear_admin_viewing_student,
+    clear_deadline_filter_student,
     clear_impersonator_user_id,
     clear_profile_session_key,
+    ensure_application_logistics,
     ensure_interview_preparation,
     ensure_interview_prep_sessions,
     ensure_portfolio_design,
@@ -88,6 +92,7 @@ from .profile_access import (
     ensure_strategic_application,
     get_admin_viewing_student,
     get_impersonator_user,
+    get_application_logistics_for_request,
     get_interview_preparation_for_request,
     get_platform_user,
     get_profile_for_request,
@@ -126,6 +131,7 @@ _SECTION_LABELS = {
     'portfolio_design': 'Portfolio Design',
     'strategic_application': 'Strategic Application',
     'profile_narrative': 'Profile Narrative',
+    'application_logistics': 'Application Logistics',
     'interview_preparation': 'Interview Preparation',
     'offers': 'Offers',
     'results': 'Results',
@@ -487,6 +493,7 @@ def home(request):
     today = timezone.localdate()
     upcoming_end = today + timedelta(days=7)
     can_manage = bool(platform_user and platform_user.is_admin)
+    credential_portals = _get_credential_portals_for_home(request, platform_user)
     return render(request, 'home.html', {
         'deadlines_all': deadlines,
         'deadlines_urgent': deadlines.filter(urgency=Deadline.Urgency.URGENT),
@@ -507,7 +514,19 @@ def home(request):
         'todos_all': todos,
         'todo_total_count': todos.count(),
         'students_list': get_student_platform_users() if can_manage else [],
+        'credential_portals': credential_portals,
     })
+
+
+def _get_credential_portals_for_home(request, platform_user):
+    if not platform_user or not platform_user.is_student:
+        return []
+    profile = get_profile_for_request(request, create=False)
+    if not profile:
+        return []
+    if not student_can_access_section(request, platform_user, profile, 'application_logistics'):
+        return []
+    return list(profile.application_logistics_portals.order_by('sort_order', 'id'))
 
 
 def _redirect_admin_without_student(request):
@@ -558,6 +577,10 @@ def personal_information(request):
         profile.parent_last_name = request.POST.get('parent_last_name', '').strip()
         profile.parent_email = request.POST.get('parent_email', '').strip()
         profile.parent_phone = request.POST.get('parent_phone', '').strip()
+        profile.parent2_first_name = request.POST.get('parent2_first_name', '').strip()
+        profile.parent2_last_name = request.POST.get('parent2_last_name', '').strip()
+        profile.parent2_email = request.POST.get('parent2_email', '').strip()
+        profile.parent2_phone = request.POST.get('parent2_phone', '').strip()
         profile.curriculum, profile.curriculum_other = curriculum_from_post(request)
         profile.graduation_year = request.POST.get('graduation_year', '').strip()
         profile.subjects = subjects_from_post(request)
@@ -572,6 +595,7 @@ def personal_information(request):
         profile.save()
         profile.refresh_from_db()
         messages.success(request, 'Personal information saved successfully.')
+        return redirect_after_section_save(request, 'personal-information')
 
     selected_subjects, custom_subjects = subjects_for_form(profile.subjects)
     curriculum_select, curriculum_other = curriculum_for_form(
@@ -624,6 +648,7 @@ def academic_profile(request):
         save_reference_contacts(academic, request)
         save_activity_entries(academic, request)
         messages.success(request, 'Academic profile saved successfully.')
+        return redirect_after_section_save(request, 'academic-profile')
 
     reference_contacts, reference_contacts_visible = reference_contacts_for_form(academic, profile)
     activity_entries = activity_entries_for_form(academic)
@@ -757,7 +782,7 @@ def portfolio_design(request):
         portfolio.google_doc_url = request.POST.get('google_doc_url', '').strip()
         portfolio.save()
         messages.success(request, 'Portfolio Design document link saved.')
-        return redirect('portfolio-design')
+        return redirect_after_section_save(request, 'portfolio-design')
 
     return render(request, 'portfolio_design.html', {
         'portfolio': portfolio,
@@ -1003,11 +1028,153 @@ def profile_narrative(request):
         ).strip()
         narrative.save()
         messages.success(request, 'Profile Narrative document links saved.')
-        return redirect('profile-narrative')
+        return redirect_after_section_save(request, 'profile-narrative')
 
     return render(request, 'profile_narrative.html', {
         'narrative': narrative,
         'narrative_sections': _profile_narrative_sections(narrative),
+    })
+
+
+def _validate_application_logistics_portal_post(request):
+    errors = []
+    portal_name = request.POST.get('portal_name', '').strip()
+    portal_link = request.POST.get('portal_link', '').strip()
+    username = request.POST.get('username', '').strip()
+    password = request.POST.get('password', '').strip()
+    comments = request.POST.get('comments', '').strip()
+
+    if not portal_name:
+        errors.append('Portal name is required.')
+
+    if portal_link and not portal_link.startswith(('http://', 'https://')):
+        errors.append('Portal link must start with http:// or https://.')
+
+    return errors, {
+        'portal_name': portal_name,
+        'portal_link': portal_link,
+        'username': username,
+        'password': password,
+        'comments': comments,
+    }
+
+
+def _next_application_logistics_portal_sort_order(profile):
+    last = profile.application_logistics_portals.order_by('-sort_order').first()
+    if last is None:
+        return 1
+    return last.sort_order + 1
+
+
+def _get_application_logistics_portal_for_profile(profile, portal_id):
+    if not portal_id:
+        return None
+    return ApplicationLogisticsPortal.objects.filter(
+        pk=portal_id,
+        personal_profile=profile,
+    ).first()
+
+
+def _handle_application_logistics_post(request, profile):
+    action = request.POST.get('action', '').strip()
+
+    if action == 'reorder_portals':
+        ordered_ids = request.POST.getlist('portal_ids')
+        seen = set()
+        for index, portal_id in enumerate(ordered_ids, start=1):
+            if not portal_id or portal_id in seen:
+                continue
+            seen.add(portal_id)
+            portal = ApplicationLogisticsPortal.objects.filter(
+                pk=portal_id,
+                personal_profile=profile,
+            ).first()
+            if portal:
+                portal.sort_order = index
+                portal.save(update_fields=['sort_order', 'updated_at'])
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return JsonResponse({'success': True})
+        messages.success(request, 'Portals reordered.')
+        return redirect('application-logistics')
+
+    if action in {'add_portal', 'edit_portal'}:
+        errors, cleaned = _validate_application_logistics_portal_post(request)
+        if errors:
+            for error in errors:
+                messages.error(request, error)
+            return redirect('application-logistics')
+
+        if action == 'add_portal':
+            ApplicationLogisticsPortal.objects.create(
+                personal_profile=profile,
+                sort_order=_next_application_logistics_portal_sort_order(profile),
+                **cleaned,
+            )
+            messages.success(request, 'Portal added.')
+            return redirect('application-logistics')
+
+        portal = _get_application_logistics_portal_for_profile(
+            profile,
+            request.POST.get('portal_id', '').strip(),
+        )
+        if portal is None:
+            messages.error(request, 'Portal not found.')
+            return redirect('application-logistics')
+
+        portal.portal_name = cleaned['portal_name']
+        portal.portal_link = cleaned['portal_link']
+        portal.username = cleaned['username']
+        portal.password = cleaned['password']
+        portal.comments = cleaned['comments']
+        portal.save()
+        messages.success(request, 'Portal updated.')
+        return redirect('application-logistics')
+
+    if action == 'delete_portal':
+        portal = _get_application_logistics_portal_for_profile(
+            profile,
+            request.POST.get('portal_id', '').strip(),
+        )
+        if portal is None:
+            messages.error(request, 'Portal not found.')
+            return redirect('application-logistics')
+        portal.delete()
+        messages.success(request, 'Portal deleted.')
+        return redirect('application-logistics')
+
+    messages.error(request, 'Unknown action.')
+    return redirect('application-logistics')
+
+
+def application_logistics(request):
+    if admin_must_select_student(request):
+        return _redirect_admin_without_student(request)
+
+    profile = _get_or_create_profile(request)
+    if profile is None:
+        return _redirect_admin_without_student(request)
+
+    platform_user = get_platform_user(request)
+
+    logistics = get_application_logistics_for_request(profile, platform_user)
+    if logistics is None:
+        logistics = ensure_application_logistics(profile)
+
+    blocked = _require_section_access(
+        request, platform_user, profile, 'application_logistics',
+    )
+    if blocked:
+        return blocked
+
+    if request.method == 'POST':
+        return _handle_application_logistics_post(request, profile)
+
+    portals = profile.application_logistics_portals.order_by('sort_order', 'id')
+
+    return render(request, 'application_logistics.html', {
+        'logistics': logistics,
+        'portals': portals,
+        'can_manage_portals': True,
     })
 
 
@@ -1634,6 +1801,19 @@ def select_student_profile(request, student_id):
     ):
         return redirect(next_url)
     return redirect('personal-information')
+
+
+@login_required
+def clear_student_selection(request):
+    platform_user = get_platform_user(request)
+    if not platform_user or not platform_user.is_admin:
+        messages.error(request, 'Only admins can clear student selection.')
+        return redirect('home')
+
+    clear_admin_viewing_student(request)
+    clear_deadline_filter_student(request)
+    messages.info(request, 'Student selection cleared.')
+    return redirect('home')
 
 
 @login_required

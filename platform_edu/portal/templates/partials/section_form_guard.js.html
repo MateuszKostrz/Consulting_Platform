@@ -1,0 +1,246 @@
+<script>
+(function () {
+  if (window.__sectionFormGuardReady) {
+    return;
+  }
+  window.__sectionFormGuardReady = true;
+
+  var modalEl = document.getElementById('unsavedChangesModal');
+  var modal = modalEl && typeof bootstrap !== 'undefined' ? new bootstrap.Modal(modalEl) : null;
+  var modalBody = document.getElementById('unsavedChangesModalBody');
+  var saveBtn = document.getElementById('unsavedChangesSaveBtn');
+  var discardBtn = document.getElementById('unsavedChangesDiscardBtn');
+
+  function collectFormSnapshot(form) {
+    var snapshot = {};
+    var elements = form.querySelectorAll('input, select, textarea');
+    elements.forEach(function (el) {
+      if (!el.name || el.type === 'hidden' || el.disabled || el.readOnly) {
+        return;
+      }
+      if (el.type === 'file') {
+        if (el.files && el.files.length) {
+          snapshot[el.name] = el.files[0].name;
+        }
+        return;
+      }
+      if (el.type === 'checkbox') {
+        snapshot[el.name] = el.checked ? '1' : '0';
+        return;
+      }
+      if (el.type === 'radio') {
+        if (el.checked) {
+          snapshot[el.name] = el.value;
+        }
+        return;
+      }
+      if (snapshot[el.name] !== undefined) {
+        if (!Array.isArray(snapshot[el.name])) {
+          snapshot[el.name] = [snapshot[el.name]];
+        }
+        snapshot[el.name].push(el.value);
+      } else {
+        snapshot[el.name] = el.value;
+      }
+    });
+
+    if (window.jQuery && jQuery.fn.select2) {
+      form.querySelectorAll('[data-subjects-select]').forEach(function (subjectsEl) {
+        var subjects = jQuery(subjectsEl).val() || [];
+        snapshot[subjectsEl.name || 'subjects'] = subjects.slice().sort().join('\0');
+      });
+    }
+
+    return JSON.stringify(snapshot);
+  }
+
+  function bindSectionGuard(root) {
+    var form = root.matches('[data-section-form-guard]')
+      ? root
+      : root.querySelector('[data-section-form-guard]');
+    var continueUrl = root.dataset.continueUrl || (form && form.dataset.continueUrl) || '';
+    var cancelUrl = root.dataset.cancelUrl || (form && form.dataset.cancelUrl) || '';
+    var continueSection = root.dataset.continueSection || (form && form.dataset.continueSection) || '';
+    var nextInput = form ? form.querySelector('[data-section-next-input]') : null;
+    var saveActionBtn = root.querySelector('.section-form-save-btn');
+    var continueActionBtn = root.querySelector('.section-form-continue-btn');
+    var cancelActionBtn = root.querySelector('.section-form-cancel-btn');
+    var initialSnapshot = '';
+    var allowNavigation = false;
+    var pendingNavigationUrl = null;
+    var pendingContinue = false;
+
+    function isDirty() {
+      return form ? collectFormSnapshot(form) !== initialSnapshot : false;
+    }
+
+    function navigateAway(url) {
+      if (!url) {
+        return;
+      }
+      allowNavigation = true;
+      window.location.href = url;
+    }
+
+    function clearNextSection() {
+      if (nextInput) {
+        nextInput.value = '';
+      }
+    }
+
+    function setNextSection() {
+      if (nextInput && continueSection) {
+        nextInput.value = continueSection;
+      }
+    }
+
+    function submitForm(continueAfterSave) {
+      if (!form) {
+        return;
+      }
+      allowNavigation = true;
+      if (continueAfterSave) {
+        setNextSection();
+      } else {
+        clearNextSection();
+      }
+      form.requestSubmit();
+    }
+
+    function showModal(mode) {
+      pendingContinue = mode === 'continue';
+      if (modalBody) {
+        modalBody.textContent = mode === 'continue'
+          ? 'You have unsaved changes. Save them before continuing?'
+          : 'You have unsaved changes. Would you like to save them before leaving?';
+      }
+      if (saveBtn) {
+        saveBtn.textContent = mode === 'continue' ? 'Save and continue' : 'Save changes';
+      }
+      if (discardBtn) {
+        discardBtn.classList.toggle('d-none', mode === 'continue');
+      }
+      if (modal) {
+        modal.show();
+      }
+    }
+
+    function handleContinue() {
+      if (!continueUrl) {
+        return;
+      }
+      if (form && isDirty()) {
+        pendingNavigationUrl = continueUrl;
+        showModal('continue');
+        return;
+      }
+      navigateAway(continueUrl);
+    }
+
+    function handleCancel() {
+      if (!cancelUrl) {
+        return;
+      }
+      if (form && isDirty()) {
+        pendingNavigationUrl = cancelUrl;
+        showModal('leave');
+        return;
+      }
+      navigateAway(cancelUrl);
+    }
+
+    if (form) {
+      window.addEventListener('load', function () {
+        initialSnapshot = collectFormSnapshot(form);
+      });
+
+      if (saveActionBtn) {
+        saveActionBtn.addEventListener('click', function () {
+          clearNextSection();
+        });
+      }
+
+      window.addEventListener('beforeunload', function (event) {
+        if (allowNavigation || !isDirty()) {
+          return;
+        }
+        event.preventDefault();
+        event.returnValue = '';
+      });
+
+      document.addEventListener('click', function (event) {
+        if (allowNavigation || !isDirty()) {
+          return;
+        }
+        var link = event.target.closest('a[href]');
+        if (!link || form.contains(link)) {
+          return;
+        }
+        if (link.getAttribute('target') === '_blank' || link.hasAttribute('download')) {
+          return;
+        }
+        if (link.dataset.bsToggle || link.dataset.bsTarget) {
+          return;
+        }
+        var href = link.getAttribute('href');
+        if (!href || href.charAt(0) === '#') {
+          return;
+        }
+        if (link.closest('.dropdown-menu') || link.closest('#layout-menu')) {
+          event.preventDefault();
+          event.stopPropagation();
+          pendingNavigationUrl = link.href;
+          showModal('leave');
+        }
+      }, true);
+    }
+
+    if (continueActionBtn) {
+      continueActionBtn.addEventListener('click', handleContinue);
+    }
+
+    if (cancelActionBtn) {
+      cancelActionBtn.addEventListener('click', handleCancel);
+    }
+
+    if (saveBtn) {
+      saveBtn.addEventListener('click', function () {
+        if (modal) {
+          modal.hide();
+        }
+        if (form) {
+          if (pendingContinue || pendingNavigationUrl === continueUrl) {
+            submitForm(true);
+          } else {
+            submitForm(false);
+          }
+          return;
+        }
+        if (pendingNavigationUrl) {
+          navigateAway(pendingNavigationUrl);
+        }
+      });
+    }
+
+    if (discardBtn) {
+      discardBtn.addEventListener('click', function () {
+        if (modal) {
+          modal.hide();
+        }
+        if (pendingNavigationUrl) {
+          navigateAway(pendingNavigationUrl);
+        }
+      });
+    }
+
+    if (modalEl) {
+      modalEl.addEventListener('hidden.bs.modal', function () {
+        pendingNavigationUrl = null;
+        pendingContinue = false;
+      });
+    }
+  }
+
+  document.querySelectorAll('[data-section-form-guard], [data-section-nav-only]').forEach(bindSectionGuard);
+})();
+</script>

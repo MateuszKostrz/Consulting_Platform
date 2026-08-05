@@ -45,8 +45,15 @@
           </div>
 
           {% if is_platform_admin %}
-          <form method="POST" action="{% url 'portfolio-design' %}">
+          <form
+            method="POST"
+            action="{% url 'portfolio-design' %}"
+            data-section-form-guard
+            data-continue-url="{{ section_continue_url }}"
+            data-continue-section="{{ section_continue_url_name }}"
+            data-cancel-url="{% url 'home' %}">
             {% csrf_token %}
+            <input type="hidden" name="next_section" value="" data-section-next-input />
             <div class="card mb-4">
               <div class="card-header">
                 <h6 class="mb-0">Google Doc link</h6>
@@ -61,7 +68,7 @@
                   value="{{ portfolio.google_doc_url }}"
                   placeholder="https://docs.google.com/document/d/..." />
                 <div class="form-text">Students will see this link but cannot edit it.</div>
-                <button type="submit" class="btn btn-primary mt-4">Save document link</button>
+                {% include 'partials/section_form_actions.html' %}
               </div>
             </div>
           </form>
@@ -89,8 +96,13 @@
               {% endif %}
             </div>
           </div>
+
+          {% if not is_platform_admin %}
+          {% include 'partials/section_navigation.html' %}
+          {% endif %}
         </div>
         {% include 'footer.html' %}
+        {% include 'partials/unsaved_changes_modal.html' %}
       </div>
     </div>
 
@@ -106,5 +118,6 @@
     <script src="{% static 'website/js/vendor/menu.js' %}"></script>
     <script type="text/javascript" src="{% static 'website/js/main.js' %}"></script>
     <script type="text/javascript" src="{% static 'website/js/vendors.min.js' %}"></script>
+    {% include 'partials/section_form_guard.js.html' %}
   </body>
 </html>

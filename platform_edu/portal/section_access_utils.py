@@ -1,4 +1,5 @@
 from .models import (
+    ApplicationLogistics,
     InterviewPreparation,
     Offers,
     PersonalProfile,
@@ -10,6 +11,8 @@ from .models import (
     StudentSectionAccess,
 )
 from .profile_access import (
+    application_logistics_is_unlocked_for_platform_user,
+    ensure_application_logistics,
     ensure_interview_preparation,
     ensure_offers_access,
     ensure_portfolio_design,
@@ -32,6 +35,7 @@ SECTION_ACCESS_FIELDS = (
     'portfolio_design',
     'strategic_application',
     'profile_narrative',
+    'application_logistics',
     'interview_preparation',
     'offers',
     'results',
@@ -69,6 +73,11 @@ PLATFORM_SECTIONS = (
         'default_rule': 'Unlocked by consultant',
     },
     {
+        'key': 'application_logistics',
+        'label': 'Application Logistics',
+        'default_rule': 'Unlocked by consultant',
+    },
+    {
         'key': 'interview_preparation',
         'label': 'Interview Preparation',
         'default_rule': 'Unlocked by consultant',
@@ -89,6 +98,7 @@ UNLOCK_MODEL_BY_SECTION = {
     'portfolio_design': (PortfolioDesign, ensure_portfolio_design),
     'strategic_application': (StrategicApplication, ensure_strategic_application),
     'profile_narrative': (ProfileNarrative, ensure_profile_narrative),
+    'application_logistics': (ApplicationLogistics, ensure_application_logistics),
     'interview_preparation': (InterviewPreparation, ensure_interview_preparation),
     'offers': (Offers, ensure_offers_access),
     'results': (Results, ensure_results_access),
@@ -113,6 +123,8 @@ def _default_section_access(platform_user, profile, section_key):
         return strategic_application_is_unlocked_for_platform_user(platform_user)
     if section_key == 'profile_narrative':
         return profile_narrative_is_unlocked_for_platform_user(platform_user)
+    if section_key == 'application_logistics':
+        return application_logistics_is_unlocked_for_platform_user(platform_user)
     if section_key == 'interview_preparation':
         return interview_preparation_is_unlocked_for_platform_user(platform_user)
     if section_key == 'offers':
