@@ -198,16 +198,30 @@
                   <span class="fw-medium d-block">{{ student.first_name }} {{ student.last_name }}</span>
                   <small class="text-body-secondary">{{ student.email }}</small>
                 </a>
-                <a
-                  href="{% url 'preview-student' student.id %}"
-                  class="btn btn-sm btn-icon btn-text-secondary flex-shrink-0 student-preview-btn"
-                  data-bs-toggle="tooltip"
-                  data-bs-placement="left"
-                  title="Preview"
-                  aria-label="Preview as student"
-                  onclick="event.stopPropagation();">
-                  <i class="icon-base ri ri-eye-line icon-18px"></i>
-                </a>
+                <div class="d-flex flex-shrink-0 align-items-center gap-1 student-profile-actions">
+                  <a
+                    href="{% url 'preview-student' student.id %}"
+                    class="btn btn-sm btn-icon btn-text-secondary student-preview-btn"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="left"
+                    title="Preview"
+                    aria-label="Preview as student"
+                    onclick="event.stopPropagation();">
+                    <i class="icon-base ri ri-eye-line icon-18px"></i>
+                  </a>
+                  <button
+                    type="button"
+                    class="btn btn-sm btn-icon btn-text-danger student-delete-btn"
+                    title="Delete student"
+                    aria-label="Delete student"
+                    data-student-id="{{ student.id }}"
+                    data-student-name="{{ student.first_name }} {{ student.last_name }}"
+                    data-bs-target="#adminDeleteStudentModal"
+                    data-bs-toggle="modal"
+                    onclick="event.stopPropagation();">
+                    <i class="icon-base ri ri-delete-bin-line icon-18px"></i>
+                  </button>
+                </div>
               </div>
               {% empty %}
               <div class="dropdown-item text-body-secondary student-profiles-empty">No students yet</div>

@@ -3,6 +3,7 @@
 
 {% include 'partials/admin_student_picker_modal.html' %}
 {% include 'partials/admin_add_student_modal.html' %}
+{% include 'partials/admin_delete_student_modal.html' %}
 {% include 'partials/clear_student_selection_modal.html' %}
 
 <script>
@@ -12,6 +13,9 @@ window.addEventListener('load', function () {
   }
   document.querySelectorAll('.student-preview-btn[data-bs-toggle="tooltip"]').forEach(function (el) {
     new bootstrap.Tooltip(el, { container: 'body', trigger: 'hover' });
+  });
+  document.querySelectorAll('.student-delete-btn[title]').forEach(function (el) {
+    new bootstrap.Tooltip(el, { container: 'body', trigger: 'hover', placement: 'left' });
   });
 
   var studentDropdown = document.querySelector('.navbar-dropdown.dropdown-students');

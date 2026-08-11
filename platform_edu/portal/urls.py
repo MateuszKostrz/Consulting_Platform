@@ -29,6 +29,7 @@ urlpatterns = [
     path('login/', views.login_view, name='login'),
     path('register/', views.register_view, name='register'),
     path('create-student/', views.admin_create_student, name='admin-create-student'),
+    path('delete-student/<int:student_id>/', views.admin_delete_student, name='admin-delete-student'),
     path('student-access/', views.admin_student_access, name='admin-student-access'),
     path('select-student/<int:student_id>/', views.select_student_profile, name='select-student'),
     path('clear-student-selection/', views.clear_student_selection, name='clear-student-selection'),

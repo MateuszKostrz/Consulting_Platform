@@ -91,6 +91,7 @@ from .profile_access import (
     ensure_profile_narrative,
     ensure_strategic_application,
     get_admin_viewing_student,
+    get_admin_viewing_student_id,
     get_impersonator_user,
     get_application_logistics_for_request,
     get_interview_preparation_for_request,
@@ -1783,6 +1784,30 @@ def admin_create_student(request):
         'success': True,
         'redirect_url': reverse('personal-information'),
     })
+
+
+@login_required
+def admin_delete_student(request, student_id):
+    platform_user = get_platform_user(request)
+    if not platform_user or not platform_user.is_admin:
+        messages.error(request, 'Only admins can delete students.')
+        return redirect('home')
+
+    if request.method != 'POST':
+        return redirect('home')
+
+    student = get_object_or_404(PlatformUser, pk=student_id, role=PlatformUser.Role.STUDENT)
+    name = f'{student.first_name} {student.last_name}'.strip() or student.email
+
+    if get_admin_viewing_student_id(request) == student.id:
+        clear_admin_viewing_student(request)
+        clear_deadline_filter_student(request)
+
+    auth_user = student.user
+    auth_user.delete()
+
+    messages.success(request, f'Student {name} deleted.')
+    return redirect('home')
 
 
 @login_required

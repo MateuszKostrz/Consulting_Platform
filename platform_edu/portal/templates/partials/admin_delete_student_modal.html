@@ -1,0 +1,53 @@
+{% if is_platform_admin %}
+<div
+  class="modal fade"
+  id="adminDeleteStudentModal"
+  tabindex="-1"
+  aria-labelledby="adminDeleteStudentModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="adminDeleteStudentModalLabel">Delete student</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Delete <strong id="adminDeleteStudentName"></strong>? This permanently removes their account and all profile data.
+      </div>
+      <div class="modal-footer border-0 pt-0 pb-4">
+        <form id="adminDeleteStudentForm" method="POST" action="">
+          {% csrf_token %}
+          <div class="d-flex flex-wrap justify-content-end align-items-center gap-2 w-100">
+            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-danger" id="adminDeleteStudentConfirmBtn">Delete student</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+window.addEventListener('load', function () {
+  const modalEl = document.getElementById('adminDeleteStudentModal');
+  const form = document.getElementById('adminDeleteStudentForm');
+  const nameEl = document.getElementById('adminDeleteStudentName');
+  if (!modalEl || !form || !nameEl) {
+    return;
+  }
+
+  const deleteUrlTemplate = '{% url "admin-delete-student" 0 %}'.replace('/0/', '/__ID__/');
+
+  modalEl.addEventListener('show.bs.modal', function (event) {
+    const trigger = event.relatedTarget;
+    if (!trigger || !trigger.classList.contains('student-delete-btn')) {
+      return;
+    }
+    const studentId = trigger.getAttribute('data-student-id');
+    const studentName = (trigger.getAttribute('data-student-name') || '').trim() || 'this student';
+    nameEl.textContent = studentName;
+    form.action = deleteUrlTemplate.replace('__ID__', studentId);
+  });
+});
+</script>
+{% endif %}
