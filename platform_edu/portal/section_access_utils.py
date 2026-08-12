@@ -28,19 +28,6 @@ from .profile_access import (
     strategic_application_is_unlocked_for_platform_user,
 )
 
-SECTION_ACCESS_FIELDS = (
-    'personal_information',
-    'academic_profile',
-    'diagnostics',
-    'portfolio_design',
-    'strategic_application',
-    'profile_narrative',
-    'application_logistics',
-    'interview_preparation',
-    'offers',
-    'results',
-)
-
 PLATFORM_SECTIONS = (
     {
         'key': 'personal_information',
@@ -91,6 +78,27 @@ PLATFORM_SECTIONS = (
         'key': 'results',
         'label': 'Results',
         'default_rule': 'Unlocked by consultant',
+    },
+)
+
+SECTION_ACCESS_FIELDS = (
+    'personal_information',
+    'academic_profile',
+    'diagnostics',
+    'portfolio_design',
+    'strategic_application',
+    'profile_narrative',
+    'application_logistics',
+    'interview_preparation',
+    'offers',
+    'results',
+)
+
+SIGNATURE_ADMIN_ROWS = (
+    {
+        'key': 'strategic_application_signature',
+        'label': 'Strategic Application - Signature',
+        'default_rule': 'Student signs on Strategic Application page',
     },
 )
 
@@ -200,6 +208,39 @@ def save_section_access_from_post(student_platform_user, request):
     if updated_fields:
         access.save(update_fields=updated_fields + ['updated_at'])
 
+    return _save_signature_admin_from_post(profile, request)
+
+
+def _save_signature_admin_from_post(profile, request):
+    if not profile:
+        return False
+
+    reset_value = (request.POST.get('access_strategic_application_signature') or '').strip().lower()
+    if reset_value != 'reset':
+        return False
+
+    strategic = ensure_strategic_application(profile, create=False)
+    if not strategic or not strategic.choices_approved_at:
+        return False
+
+    strategic.choices_approved_at = None
+    strategic.save(update_fields=['choices_approved_at', 'updated_at'])
+    return True
+
+
+def _strategic_application_signature_row(profile):
+    config = SIGNATURE_ADMIN_ROWS[0]
+    strategic = ensure_strategic_application(profile, create=False)
+    signed_at = strategic.choices_approved_at if strategic else None
+    return {
+        'key': config['key'],
+        'label': config['label'],
+        'default_rule': config['default_rule'],
+        'row_type': 'signature',
+        'is_signed': bool(signed_at),
+        'signed_at': signed_at,
+    }
+
 
 def _access_mode_label(value):
     if value is True:
@@ -220,6 +261,7 @@ def section_access_rows_for_student(student_platform_user):
             'key': key,
             'label': section['label'],
             'default_rule': section['default_rule'],
+            'row_type': 'access',
             'mode': _access_mode_label(override),
             'effective_access': student_has_section_access(
                 student_platform_user,
@@ -227,4 +269,6 @@ def section_access_rows_for_student(student_platform_user):
                 key,
             ),
         })
+        if key == 'strategic_application':
+            rows.append(_strategic_application_signature_row(profile))
     return rows

@@ -15,6 +15,7 @@ from .models import (
     PersonalProfile,
     PlatformUser,
     PortfolioDesign,
+    PortfolioDesignElement,
     ProfileNarrative,
     ResultDocument,
     Results,
@@ -506,6 +507,37 @@ class UniversityChoiceAdmin(admin.ModelAdmin):
     search_fields = (
         'university_name',
         'degree',
+        'personal_profile__platform_user__email',
+        'personal_profile__personal_email',
+        'personal_profile__edunade_email',
+    )
+    readonly_fields = ('created_at', 'updated_at')
+    autocomplete_fields = ('personal_profile',)
+
+    @admin.display(description='Student')
+    def display_student(self, obj):
+        platform_user = obj.personal_profile.platform_user
+        if platform_user:
+            return platform_user.email
+        return obj.personal_profile.personal_email or obj.personal_profile.edunade_email or '—'
+
+
+@admin.register(PortfolioDesignElement)
+class PortfolioDesignElementAdmin(admin.ModelAdmin):
+    list_display = (
+        'title',
+        'row_type',
+        'country',
+        'status_color',
+        'display_student',
+        'updated_at',
+    )
+    list_filter = ('row_type', 'status_color')
+    search_fields = (
+        'title',
+        'country',
+        'detail',
+        'comment',
         'personal_profile__platform_user__email',
         'personal_profile__personal_email',
         'personal_profile__edunade_email',

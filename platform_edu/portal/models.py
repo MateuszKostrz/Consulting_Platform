@@ -492,6 +492,50 @@ class UniversityChoice(models.Model):
         return f'{self.university_name} — {self.degree} ({self.get_riskiness_display()})'
 
 
+class PortfolioDesignElement(models.Model):
+    class RowType(models.TextChoices):
+        UNIVERSITY = 'university', 'University'
+        ADDITIONAL = 'additional', 'Additional element'
+
+    class StatusColor(models.TextChoices):
+        NONE = '', 'None'
+        RED = 'red', 'Red'
+        YELLOW = 'yellow', 'Yellow'
+        GREEN = 'green', 'Green'
+
+    personal_profile = models.ForeignKey(
+        PersonalProfile,
+        on_delete=models.CASCADE,
+        related_name='portfolio_design_elements',
+    )
+    row_type = models.CharField(
+        max_length=20,
+        choices=RowType.choices,
+        default=RowType.UNIVERSITY,
+    )
+    title = models.CharField(max_length=200)
+    country = models.CharField(max_length=100, blank=True, default='')
+    detail = models.CharField(max_length=200, blank=True, default='')
+    status_color = models.CharField(
+        max_length=10,
+        choices=StatusColor.choices,
+        blank=True,
+        default='',
+    )
+    comment = models.TextField(blank=True, default='')
+    sort_order = models.PositiveSmallIntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = 'Portfolio Design Element'
+        verbose_name_plural = 'Portfolio Design Elements'
+        ordering = ['sort_order', 'id']
+
+    def __str__(self):
+        return f'{self.get_row_type_display()}: {self.title}'
+
+
 class ProfileNarrative(models.Model):
     personal_profile = models.OneToOneField(
         PersonalProfile,

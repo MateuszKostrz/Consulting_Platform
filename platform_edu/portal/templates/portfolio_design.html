@@ -17,6 +17,92 @@
     {% include 'top_base.html' %}
     <script type="text/javascript" src="{% static 'website/js/vendor/helpers.js' %}"></script>
     <script type="text/javascript" src="{% static 'website/js/vendor/config.js' %}"></script>
+    <style>
+      .portfolio-element-action-btn {
+        width: 2.375rem;
+        height: 2.375rem;
+      }
+      .portfolio-element-action-btn i {
+        font-size: 1.25rem;
+        line-height: 1;
+      }
+      .portfolio-element-handle {
+        cursor: grab;
+      }
+      .portfolio-element-handle:active {
+        cursor: grabbing;
+      }
+      .portfolio-element-sortable-ghost {
+        opacity: 0.5;
+      }
+      .portfolio-status-btn {
+        width: 1.75rem;
+        height: 1.75rem;
+        padding: 0;
+        border-radius: 50%;
+        border: 2px solid transparent;
+        cursor: pointer;
+        flex-shrink: 0;
+      }
+      .portfolio-status-btn:hover,
+      .portfolio-status-btn:focus,
+      .portfolio-status-btn:active {
+        opacity: 0.85;
+      }
+      .portfolio-status-btn.is-active {
+        border-color: var(--bs-body-color);
+        box-shadow: 0 0 0 2px var(--bs-body-bg);
+      }
+      .portfolio-status-red {
+        background-color: #ff4c51;
+      }
+      .portfolio-status-red:hover,
+      .portfolio-status-red:focus,
+      .portfolio-status-red:active {
+        background-color: #ff4c51;
+      }
+      .portfolio-status-yellow {
+        background-color: #ff9f43;
+      }
+      .portfolio-status-yellow:hover,
+      .portfolio-status-yellow:focus,
+      .portfolio-status-yellow:active {
+        background-color: #ff9f43;
+      }
+      .portfolio-status-green {
+        background-color: #28c76f;
+      }
+      .portfolio-status-green:hover,
+      .portfolio-status-green:focus,
+      .portfolio-status-green:active {
+        background-color: #28c76f;
+      }
+      .portfolio-status-clear {
+        border: 0;
+        background: transparent;
+        color: var(--bs-secondary-color);
+        padding: 0;
+        line-height: 1;
+        cursor: pointer;
+      }
+      .portfolio-status-clear:hover,
+      .portfolio-status-clear:focus {
+        color: var(--bs-body-color);
+        background: transparent;
+      }
+      .portfolio-add-btn {
+        min-height: calc(1.375em + 1.711rem + 2px);
+      }
+      .portfolio-row-status-red {
+        background-color: rgba(255, 76, 81, 0.08);
+      }
+      .portfolio-row-status-yellow {
+        background-color: rgba(255, 159, 67, 0.12);
+      }
+      .portfolio-row-status-green {
+        background-color: rgba(40, 199, 111, 0.1);
+      }
+    </style>
   </head>
   <body>
     <div class="layout-wrapper layout-navbar-full layout-horizontal layout-without-menu">
@@ -74,7 +160,7 @@
           </form>
           {% endif %}
 
-          <div class="card">
+          <div class="card mb-4">
             <div class="card-header">
               <h6 class="mb-0">Portfolio document</h6>
             </div>
@@ -97,12 +183,218 @@
             </div>
           </div>
 
+          <div class="card mb-4">
+            <div class="card-header">
+              <h6 class="mb-0">Portfolio checklist</h6>
+            </div>
+            <div class="card-body">
+              <form method="POST" action="{% url 'portfolio-design' %}" class="mb-4" id="addPortfolioRowForm">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="add_element" />
+                <div class="row g-4 align-items-end">
+                  <div class="col-md-3">
+                    <label for="portfolio_university_name" class="form-label">University name</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="portfolio_university_name"
+                      name="title"
+                      placeholder="e.g. University of Oxford"
+                      required />
+                  </div>
+                  <div class="col-md-2">
+                    <label for="portfolio_country" class="form-label">Country</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="portfolio_country"
+                      name="country"
+                      placeholder="e.g. United Kingdom"
+                      required />
+                  </div>
+                  <div class="col-md-3">
+                    <label for="portfolio_program_name" class="form-label">Program name</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="portfolio_program_name"
+                      name="detail"
+                      placeholder="e.g. BSc Economics"
+                      required />
+                  </div>
+                  <div class="col-md-2">
+                    <label for="portfolio_notes" class="form-label">Notes</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="portfolio_notes"
+                      name="comment"
+                      placeholder="e.g. Visa required" />
+                  </div>
+                  <div class="col-md-2">
+                    <label class="form-label d-block invisible" aria-hidden="true">&nbsp;</label>
+                    <button type="submit" class="btn btn-primary w-100 portfolio-add-btn">Add</button>
+                  </div>
+                </div>
+              </form>
+
+              {% if portfolio_elements %}
+              <p class="text-body-secondary small mb-3">Drag rows to reorder. Click a color to mark status. Use edit to change row details and notes.</p>
+              <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                  <thead>
+                    <tr>
+                      <th style="width: 2.5rem;"></th>
+                      <th>University</th>
+                      <th>Country</th>
+                      <th>Program</th>
+                      <th style="min-width: 10rem;">Notes</th>
+                      <th>Status</th>
+                      <th class="text-end">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="portfolioElementsTableBody">
+                    {% for element in portfolio_elements %}
+                    <tr
+                      data-element-id="{{ element.id }}"
+                      class="{% if element.status_color == 'red' %}portfolio-row-status-red{% elif element.status_color == 'yellow' %}portfolio-row-status-yellow{% elif element.status_color == 'green' %}portfolio-row-status-green{% endif %}">
+                      <td>
+                        <span class="portfolio-element-handle text-body-secondary" title="Drag to reorder">
+                          <i class="icon-base ri ri-draggable icon-18px"></i>
+                        </span>
+                      </td>
+                      <td>{{ element.title }}</td>
+                      <td>{{ element.country|default:"—" }}</td>
+                      <td>{{ element.detail|default:"—" }}</td>
+                      <td class="text-body-secondary">{{ element.comment|default:"—" }}</td>
+                      <td>
+                        <div class="d-flex align-items-center gap-1 portfolio-status-group" data-element-id="{{ element.id }}">
+                          <button
+                            type="button"
+                            class="portfolio-status-btn portfolio-status-red{% if element.status_color == 'red' %} is-active{% endif %}"
+                            data-status-color="red"
+                            title="Mark red"
+                            aria-label="Mark red"></button>
+                          <button
+                            type="button"
+                            class="portfolio-status-btn portfolio-status-yellow{% if element.status_color == 'yellow' %} is-active{% endif %}"
+                            data-status-color="yellow"
+                            title="Mark yellow"
+                            aria-label="Mark yellow"></button>
+                          <button
+                            type="button"
+                            class="portfolio-status-btn portfolio-status-green{% if element.status_color == 'green' %} is-active{% endif %}"
+                            data-status-color="green"
+                            title="Mark green"
+                            aria-label="Mark green"></button>
+                          <button
+                            type="button"
+                            class="portfolio-status-clear{% if not element.status_color %} d-none{% endif %}"
+                            title="Clear color"
+                            aria-label="Clear color">
+                            <i class="ri ri-close-line"></i>
+                          </button>
+                        </div>
+                      </td>
+                      <td class="text-end text-nowrap">
+                        <button
+                          type="button"
+                          class="btn btn-icon btn-text-secondary portfolio-edit-btn portfolio-element-action-btn"
+                          title="Edit"
+                          data-element-id="{{ element.id }}"
+                          data-title="{{ element.title|escape }}"
+                          data-country="{{ element.country|escape }}"
+                          data-detail="{{ element.detail|escape }}"
+                          data-comment="{{ element.comment|escape }}">
+                          <i class="ri ri-pencil-line"></i>
+                        </button>
+                        <button
+                          type="button"
+                          class="btn btn-icon btn-text-danger portfolio-delete-btn portfolio-element-action-btn"
+                          title="Delete"
+                          data-element-id="{{ element.id }}"
+                          data-title="{{ element.title }}">
+                          <i class="ri ri-delete-bin-line"></i>
+                        </button>
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+              {% else %}
+              <p class="text-body-secondary mb-0">No rows yet. Add your first university above.</p>
+              {% endif %}
+            </div>
+          </div>
+
           {% if not is_platform_admin %}
           {% include 'partials/section_navigation.html' %}
           {% endif %}
         </div>
         {% include 'footer.html' %}
         {% include 'partials/unsaved_changes_modal.html' %}
+      </div>
+    </div>
+
+    <div class="modal fade" id="editPortfolioElementModal" tabindex="-1" aria-labelledby="editPortfolioElementModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <form method="POST" action="{% url 'portfolio-design' %}">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="edit_element" />
+            <input type="hidden" name="element_id" id="edit_portfolio_element_id" value="" />
+            <div class="modal-header">
+              <h5 class="modal-title" id="editPortfolioElementModalLabel">Edit portfolio row</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="mb-4">
+                <label for="edit_portfolio_title" class="form-label">University name</label>
+                <input type="text" class="form-control" id="edit_portfolio_title" name="title" required />
+              </div>
+              <div class="mb-4">
+                <label for="edit_portfolio_country" class="form-label">Country</label>
+                <input type="text" class="form-control" id="edit_portfolio_country" name="country" placeholder="e.g. United Kingdom" required />
+              </div>
+              <div class="mb-4">
+                <label for="edit_portfolio_detail" class="form-label">Program name</label>
+                <input type="text" class="form-control" id="edit_portfolio_detail" name="detail" required />
+              </div>
+              <div>
+                <label for="edit_portfolio_comment" class="form-label">Notes</label>
+                <textarea class="form-control" id="edit_portfolio_comment" name="comment" rows="2" placeholder="e.g. Visa required"></textarea>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+              <button type="submit" class="btn btn-primary">Save changes</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="deletePortfolioElementModal" tabindex="-1" aria-labelledby="deletePortfolioElementModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <form method="POST" action="{% url 'portfolio-design' %}">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="delete_element" />
+            <input type="hidden" name="element_id" id="delete_portfolio_element_id" value="" />
+            <div class="modal-header">
+              <h5 class="modal-title" id="deletePortfolioElementModalLabel">Delete portfolio row</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <p class="mb-0">Are you sure you want to delete <strong id="delete_portfolio_element_title"></strong>?</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+              <button type="submit" class="btn btn-danger">Delete</button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
 
@@ -118,6 +410,147 @@
     <script src="{% static 'website/js/vendor/menu.js' %}"></script>
     <script type="text/javascript" src="{% static 'website/js/main.js' %}"></script>
     <script type="text/javascript" src="{% static 'website/js/vendors.min.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/sortablejs/sortable.js' %}"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        var csrfInput = document.querySelector('#addPortfolioRowForm input[name="csrfmiddlewaretoken"]');
+        var editModalEl = document.getElementById('editPortfolioElementModal');
+        var deleteModalEl = document.getElementById('deletePortfolioElementModal');
+        var editModal = editModalEl ? bootstrap.Modal.getOrCreateInstance(editModalEl) : null;
+        var deleteModal = deleteModalEl ? bootstrap.Modal.getOrCreateInstance(deleteModalEl) : null;
+
+        function getCsrfToken() {
+          return csrfInput ? csrfInput.value : '';
+        }
+
+        document.querySelectorAll('.portfolio-edit-btn').forEach(function (button) {
+          button.addEventListener('click', function () {
+            document.getElementById('edit_portfolio_element_id').value = button.dataset.elementId;
+            document.getElementById('edit_portfolio_title').value = button.dataset.title || '';
+            document.getElementById('edit_portfolio_country').value = button.dataset.country || '';
+            document.getElementById('edit_portfolio_detail').value = button.dataset.detail || '';
+            document.getElementById('edit_portfolio_comment').value = button.dataset.comment || '';
+            if (editModal) editModal.show();
+          });
+        });
+
+        document.querySelectorAll('.portfolio-delete-btn').forEach(function (button) {
+          button.addEventListener('click', function () {
+            document.getElementById('delete_portfolio_element_id').value = button.dataset.elementId;
+            document.getElementById('delete_portfolio_element_title').textContent = button.dataset.title;
+            if (deleteModal) deleteModal.show();
+          });
+        });
+
+        function applyRowStatusClasses(row, statusColor) {
+          row.classList.remove(
+            'portfolio-row-status-red',
+            'portfolio-row-status-yellow',
+            'portfolio-row-status-green'
+          );
+          if (statusColor === 'red') row.classList.add('portfolio-row-status-red');
+          if (statusColor === 'yellow') row.classList.add('portfolio-row-status-yellow');
+          if (statusColor === 'green') row.classList.add('portfolio-row-status-green');
+        }
+
+        function postPortfolioAction(payload) {
+          var formData = new FormData();
+          Object.keys(payload).forEach(function (key) {
+            formData.append(key, payload[key]);
+          });
+          formData.append('csrfmiddlewaretoken', getCsrfToken());
+          return fetch(window.location.href, {
+            method: 'POST',
+            body: formData,
+            headers: { 'X-Requested-With': 'XMLHttpRequest' },
+            credentials: 'same-origin',
+          });
+        }
+
+        document.querySelectorAll('.portfolio-status-group').forEach(function (group) {
+          var elementId = group.dataset.elementId;
+          var row = group.closest('tr');
+          var clearBtn = group.querySelector('.portfolio-status-clear');
+
+          group.querySelectorAll('.portfolio-status-btn').forEach(function (button) {
+            button.addEventListener('click', function () {
+              var statusColor = button.dataset.statusColor;
+              postPortfolioAction({
+                action: 'update_status',
+                element_id: elementId,
+                status_color: statusColor,
+              }).then(function (response) {
+                if (!response.ok) {
+                  window.location.reload();
+                  return;
+                }
+                group.querySelectorAll('.portfolio-status-btn').forEach(function (btn) {
+                  btn.classList.toggle('is-active', btn === button);
+                });
+                if (clearBtn) clearBtn.classList.remove('d-none');
+                applyRowStatusClasses(row, statusColor);
+              }).catch(function () {
+                window.location.reload();
+              });
+            });
+          });
+
+          if (clearBtn) {
+            clearBtn.addEventListener('click', function () {
+              postPortfolioAction({
+                action: 'update_status',
+                element_id: elementId,
+                status_color: '',
+              }).then(function (response) {
+                if (!response.ok) {
+                  window.location.reload();
+                  return;
+                }
+                group.querySelectorAll('.portfolio-status-btn').forEach(function (btn) {
+                  btn.classList.remove('is-active');
+                });
+                clearBtn.classList.add('d-none');
+                applyRowStatusClasses(row, '');
+              }).catch(function () {
+                window.location.reload();
+              });
+            });
+          }
+        });
+
+        var tbody = document.getElementById('portfolioElementsTableBody');
+        function saveReorder() {
+          if (!tbody) {
+            return;
+          }
+          var formData = new FormData();
+          formData.append('action', 'reorder_elements');
+          formData.append('csrfmiddlewaretoken', getCsrfToken());
+          tbody.querySelectorAll('tr[data-element-id]').forEach(function (row) {
+            formData.append('element_ids', row.getAttribute('data-element-id'));
+          });
+          fetch(window.location.href, {
+            method: 'POST',
+            body: formData,
+            headers: { 'X-Requested-With': 'XMLHttpRequest' },
+            credentials: 'same-origin',
+          }).then(function (response) {
+            if (!response.ok) window.location.reload();
+          }).catch(function () {
+            window.location.reload();
+          });
+        }
+
+        if (tbody && window.Sortable) {
+          Sortable.create(tbody, {
+            handle: '.portfolio-element-handle',
+            animation: 150,
+            ghostClass: 'portfolio-element-sortable-ghost',
+            onEnd: saveReorder,
+          });
+        }
+      });
+    </script>
     {% include 'partials/section_form_guard.js.html' %}
   </body>
 </html>

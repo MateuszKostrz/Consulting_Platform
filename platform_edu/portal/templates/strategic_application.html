@@ -94,8 +94,11 @@
           </div>
 
           <div class="card">
-            <div class="card-header">
+            <div class="card-header d-flex align-items-center gap-2">
               <h6 class="mb-0">University choices</h6>
+              {% if strategic.choices_approved_at %}
+              <i class="icon-base ri ri-checkbox-circle-fill text-success icon-20px" title="Signed and approved"></i>
+              {% endif %}
             </div>
             <div class="card-body">
               {% if strategic.choices_approved_at %}
@@ -199,7 +202,8 @@
 
               {% if choices_locked %}
               <p class="text-body-secondary small mt-3 mb-0">
-                This list has been signed and approved. To make changes, please message your mentor.
+                If you want to edit this table, please send an email to
+                <a href="mailto:contact@edunade.com">contact@edunade.com</a>.
               </p>
               {% endif %}
 
@@ -212,6 +216,11 @@
                   data-bs-target="#approveChoicesModal">
                   Sign and approve
                 </button>
+                {% if is_platform_admin %}
+                <p class="text-body-secondary small mt-2 mb-0">
+                  Only the student can sign and approve this list. You are viewing it as admin.
+                </p>
+                {% endif %}
               </div>
               {% endif %}
             </div>

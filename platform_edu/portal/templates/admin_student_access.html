@@ -82,14 +82,32 @@
                         <td class="fw-medium">{{ row.label }}</td>
                         <td class="text-body-secondary small">{{ row.default_rule }}</td>
                         <td>
+                          {% if row.row_type == 'signature' %}
+                          {% if row.is_signed %}
+                          <select class="form-select form-select-sm" name="access_{{ row.key }}">
+                            <option value="keep" selected>Keep signed</option>
+                            <option value="reset">Reset signature</option>
+                          </select>
+                          {% else %}
+                          <input type="hidden" name="access_{{ row.key }}" value="keep" />
+                          <span class="text-body-secondary small">Not signed yet</span>
+                          {% endif %}
+                          {% else %}
                           <select class="form-select form-select-sm" name="access_{{ row.key }}">
                             <option value="default" {% if row.mode == 'default' %}selected{% endif %}>Default</option>
                             <option value="enabled" {% if row.mode == 'enabled' %}selected{% endif %}>Allowed</option>
                             <option value="disabled" {% if row.mode == 'disabled' %}selected{% endif %}>Blocked</option>
                           </select>
+                          {% endif %}
                         </td>
                         <td>
-                          {% if row.effective_access %}
+                          {% if row.row_type == 'signature' %}
+                          {% if row.is_signed %}
+                          <span class="badge bg-label-success">Signed{% if row.signed_at %} · {{ row.signed_at|date:"j M Y, H:i" }}{% endif %}</span>
+                          {% else %}
+                          <span class="badge bg-label-secondary">Not signed</span>
+                          {% endif %}
+                          {% elif row.effective_access %}
                           <span class="badge bg-label-success">Available</span>
                           {% else %}
                           <span class="badge bg-label-secondary">Locked</span>

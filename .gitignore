@@ -1,0 +1,26 @@
+# Environment and secrets
+.env
+*.env
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+venv/
+virtual2/
+virt2/
+rag_env/
+
+# Django
+db.sqlite3
+staticfiles/
+media/
+logs/
+
+# Donna (local scripts — not pushed)
+donna/
+
+# OS / IDE
+.DS_Store
+.idea/
+.vscode/

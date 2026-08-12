@@ -61,6 +61,7 @@ from .models import (
     ResultDocument,
     StudentTodo,
     UniversityChoice,
+    PortfolioDesignElement,
 )
 from .upload_utils import (
     ACADEMIC_UPLOAD_FIELDS,
@@ -753,6 +754,143 @@ def diagnostics(request):
     })
 
 
+def _validate_portfolio_element_post(request):
+    title = request.POST.get('title', '').strip()
+    country = request.POST.get('country', '').strip()
+    detail = request.POST.get('detail', '').strip()
+    comment = request.POST.get('comment', '').strip()
+    errors = []
+
+    if not title:
+        errors.append('University name is required.')
+    if not country:
+        errors.append('Country is required.')
+    if not detail:
+        errors.append('Program name is required.')
+
+    return errors, {
+        'row_type': PortfolioDesignElement.RowType.UNIVERSITY,
+        'title': title,
+        'country': country,
+        'detail': detail,
+        'comment': comment,
+    }
+
+
+def _next_portfolio_element_sort_order(profile):
+    last = profile.portfolio_design_elements.order_by('-sort_order').first()
+    return (last.sort_order + 1) if last else 1
+
+
+def _get_portfolio_element_for_profile(profile, element_id):
+    return get_object_or_404(
+        PortfolioDesignElement,
+        pk=element_id,
+        personal_profile=profile,
+    )
+
+
+def _portfolio_element_json_response(request, *, success=True, error=None, status=200):
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        payload = {'success': success}
+        if error:
+            payload['error'] = error
+        return JsonResponse(payload, status=status)
+    if error:
+        messages.error(request, error)
+    return redirect('portfolio-design')
+
+
+def _handle_portfolio_design_post(request, profile):
+    action = request.POST.get('action', '').strip()
+
+    if action == 'reorder_elements':
+        ordered_ids = request.POST.getlist('element_ids')
+        seen = set()
+        for index, element_id in enumerate(ordered_ids, start=1):
+            if not element_id or element_id in seen:
+                continue
+            seen.add(element_id)
+            element = PortfolioDesignElement.objects.filter(
+                pk=element_id,
+                personal_profile=profile,
+            ).first()
+            if element:
+                element.sort_order = index
+                element.save(update_fields=['sort_order', 'updated_at'])
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return JsonResponse({'success': True})
+        messages.success(request, 'Portfolio rows reordered.')
+        return redirect('portfolio-design')
+
+    if action == 'update_status':
+        element = _get_portfolio_element_for_profile(
+            profile,
+            request.POST.get('element_id', '').strip(),
+        )
+        status_color = request.POST.get('status_color', '').strip()
+        if status_color not in PortfolioDesignElement.StatusColor.values:
+            return _portfolio_element_json_response(
+                request,
+                success=False,
+                error='Invalid status color.',
+                status=400,
+            )
+        element.status_color = status_color
+        element.save(update_fields=['status_color', 'updated_at'])
+        return _portfolio_element_json_response(request)
+
+    if action == 'update_comment':
+        element = _get_portfolio_element_for_profile(
+            profile,
+            request.POST.get('element_id', '').strip(),
+        )
+        element.comment = request.POST.get('comment', '').strip()
+        element.save(update_fields=['comment', 'updated_at'])
+        return _portfolio_element_json_response(request)
+
+    if action in {'add_element', 'edit_element'}:
+        errors, cleaned = _validate_portfolio_element_post(request)
+        if errors:
+            for error in errors:
+                messages.error(request, error)
+            return redirect('portfolio-design')
+
+        if action == 'add_element':
+            PortfolioDesignElement.objects.create(
+                personal_profile=profile,
+                sort_order=_next_portfolio_element_sort_order(profile),
+                **cleaned,
+            )
+            messages.success(request, 'Portfolio row added.')
+            return redirect('portfolio-design')
+
+        element = _get_portfolio_element_for_profile(
+            profile,
+            request.POST.get('element_id', '').strip(),
+        )
+        element.row_type = cleaned['row_type']
+        element.title = cleaned['title']
+        element.country = cleaned['country']
+        element.detail = cleaned['detail']
+        element.comment = cleaned.get('comment', element.comment)
+        element.save()
+        messages.success(request, 'Portfolio row updated.')
+        return redirect('portfolio-design')
+
+    if action == 'delete_element':
+        element = _get_portfolio_element_for_profile(
+            profile,
+            request.POST.get('element_id', '').strip(),
+        )
+        element.delete()
+        messages.success(request, 'Portfolio row deleted.')
+        return redirect('portfolio-design')
+
+    messages.error(request, 'Unknown action.')
+    return redirect('portfolio-design')
+
+
 def portfolio_design(request):
     if admin_must_select_student(request):
         return _redirect_admin_without_student(request)
@@ -776,6 +914,10 @@ def portfolio_design(request):
         return blocked
 
     if request.method == 'POST':
+        action = request.POST.get('action', '').strip()
+        if action:
+            return _handle_portfolio_design_post(request, profile)
+
         if not is_admin:
             messages.error(request, 'You do not have permission to change these settings.')
             return redirect('portfolio-design')
@@ -785,8 +927,11 @@ def portfolio_design(request):
         messages.success(request, 'Portfolio Design document link saved.')
         return redirect_after_section_save(request, 'portfolio-design')
 
+    portfolio_elements = profile.portfolio_design_elements.order_by('sort_order', 'id')
+
     return render(request, 'portfolio_design.html', {
         'portfolio': portfolio,
+        'portfolio_elements': portfolio_elements,
     })
 
 
@@ -834,7 +979,7 @@ def _choices_are_locked(strategic, is_admin):
 def _blocked_choice_mutation_response(request):
     message = (
         'This list has been signed and approved. '
-        'Please message your mentor if you need to make changes.'
+        'If you want to edit this table, please send an email to contact@edunade.com.'
     )
     if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
         return JsonResponse({'success': False, 'error': message}, status=403)
@@ -963,11 +1108,7 @@ def strategic_application(request):
         'university_choices': university_choices,
         'riskiness_choices': UniversityChoice.Riskiness.choices,
         'choices_locked': choices_locked,
-        'show_approve_button': (
-            not is_admin
-            and not strategic.choices_approved_at
-            and university_choices.exists()
-        ),
+        'show_approve_button': not strategic.choices_approved_at,
     })
 
 
@@ -1603,11 +1744,21 @@ def admin_student_access(request):
             role=PlatformUser.Role.STUDENT,
         )
         if request.method == 'POST':
-            save_section_access_from_post(selected_student, request)
-            messages.success(
-                request,
-                f'Access settings saved for {selected_student.first_name} {selected_student.last_name}.',
+            signature_reset = save_section_access_from_post(selected_student, request)
+            student_name = (
+                f'{selected_student.first_name} {selected_student.last_name}'
             )
+            if signature_reset:
+                messages.success(
+                    request,
+                    f'Strategic Application signature reset for {student_name}. '
+                    'The student can edit and sign again.',
+                )
+            else:
+                messages.success(
+                    request,
+                    f'Access settings saved for {student_name}.',
+                )
             return redirect(f'{reverse("admin-student-access")}?student={selected_student.id}')
         section_rows = section_access_rows_for_student(selected_student)
 
