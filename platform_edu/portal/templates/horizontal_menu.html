@@ -199,16 +199,18 @@
                   <small class="text-body-secondary">{{ student.email }}</small>
                 </a>
                 <div class="d-flex flex-shrink-0 align-items-center gap-1 student-profile-actions">
-                  <a
-                    href="{% url 'preview-student' student.id %}"
+                  <button
+                    type="button"
                     class="btn btn-sm btn-icon btn-text-secondary student-preview-btn"
-                    data-bs-toggle="tooltip"
-                    data-bs-placement="left"
+                    data-student-id="{{ student.id }}"
+                    data-student-name="{{ student.first_name }} {{ student.last_name }}"
+                    data-bs-toggle="modal"
+                    data-bs-target="#adminPreviewStudentModal"
                     title="Preview"
                     aria-label="Preview as student"
                     onclick="event.stopPropagation();">
                     <i class="icon-base ri ri-eye-line icon-18px"></i>
-                  </a>
+                  </button>
                   <button
                     type="button"
                     class="btn btn-sm btn-icon btn-text-danger student-delete-btn"

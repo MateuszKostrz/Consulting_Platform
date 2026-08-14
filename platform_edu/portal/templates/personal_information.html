@@ -145,14 +145,33 @@
 
                 <div class="col-md-6 d-flex flex-column gap-4">
                   <div class="form-floating form-floating-outline">
+                    {% if admin_editing_student_profile %}
+                    <input type="email" class="form-control" id="personal_email" name="personal_email" value="{{ info.personal_email }}" placeholder="you@example.com" required />
+                    {% elif info.platform_user %}
+                    <input type="email" class="form-control" id="personal_email" value="{{ info.personal_email }}" placeholder="you@example.com" readonly />
+                    {% else %}
                     <input type="email" class="form-control" id="personal_email" name="personal_email" value="{{ info.personal_email }}" placeholder="you@example.com" />
+                    {% endif %}
                     <label for="personal_email">Personal Email</label>
                   </div>
+                  {% if admin_editing_student_profile %}
+                  <div class="form-text mt-n3">Used to log in to the platform.</div>
+                  {% elif info.platform_user %}
+                  <div class="form-text mt-n3">Used to log in — cannot be changed here</div>
+                  {% endif %}
                   <div class="form-floating form-floating-outline">
-                    <input type="email" class="form-control" id="edunade_email" value="{% if info.edunade_email %}{{ info.edunade_email }}{% elif info.platform_user %}{{ info.platform_user.email }}{% endif %}" placeholder="name@student.edunade.com" readonly />
+                    {% if admin_editing_student_profile %}
+                    <input type="email" class="form-control" id="edunade_email" name="edunade_email" value="{{ info.edunade_email }}" placeholder="name@student.edunade.com" />
+                    {% else %}
+                    <input type="email" class="form-control" id="edunade_email" value="{{ info.edunade_email }}" placeholder="name@student.edunade.com" readonly />
+                    {% endif %}
                     <label for="edunade_email">Edunade Created Email</label>
                   </div>
+                  {% if admin_editing_student_profile %}
+                  <div class="form-text mt-n3">Edunade-assigned email for this student. Not used for login.</div>
+                  {% else %}
                   <div class="form-text mt-n3">Assigned by Edunade — cannot be changed here</div>
+                  {% endif %}
                 </div>
               </div>
 

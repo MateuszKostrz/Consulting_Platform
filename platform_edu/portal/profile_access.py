@@ -1,5 +1,9 @@
 import uuid
 
+from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
+from django.core.validators import validate_email
+
 from .constants import GRADUATION_YEARS, INTERVIEW_PREP_SESSION_SLOTS
 from .models import (
     AcademicProfile,
@@ -192,40 +196,82 @@ def get_admin_viewing_student(request):
         return None
 
 
-def _sync_edunade_email(profile, student_platform_user):
+def _sync_personal_email_from_login(profile, student_platform_user):
+    """Backfill personal_email from the login email for legacy accounts."""
     if not student_platform_user or not student_platform_user.email:
         return False
-    if profile.edunade_email == student_platform_user.email:
+    if profile.personal_email:
         return False
-    profile.edunade_email = student_platform_user.email
-    profile.save(update_fields=['edunade_email', 'updated_at'])
+    profile.personal_email = student_platform_user.email
+    profile.save(update_fields=['personal_email', 'updated_at'])
     return True
 
 
-def sync_profile_edunade_email(profile):
+def sync_profile_personal_email(profile):
     if not profile or not profile.platform_user_id:
         return profile
-    _sync_edunade_email(profile, profile.platform_user)
+    _sync_personal_email_from_login(profile, profile.platform_user)
     return profile
+
+
+def admin_editing_student_profile(request):
+    platform_user = get_platform_user(request)
+    if not platform_user or not platform_user.is_admin or is_impersonating(request):
+        return False
+    return get_admin_viewing_student(request) is not None
+
+
+def update_student_login_email(student_platform_user, new_email):
+    """Update a student's login email via personal_email."""
+    if not student_platform_user or not student_platform_user.is_student:
+        raise ValidationError('Invalid student account.')
+
+    new_email = new_email.strip().lower()
+    if not new_email:
+        raise ValidationError('Personal email is required.')
+    try:
+        validate_email(new_email)
+    except ValidationError:
+        raise ValidationError('Please enter a valid personal email address.') from None
+
+    auth_user = student_platform_user.user
+    if auth_user.email.lower() == new_email:
+        profile = ensure_student_personal_profile(student_platform_user, create=False)
+        if profile and profile.personal_email != new_email:
+            profile.personal_email = new_email
+            profile.save(update_fields=['personal_email', 'updated_at'])
+        return False
+
+    if User.objects.filter(email__iexact=new_email).exclude(pk=auth_user.pk).exists():
+        raise ValidationError('An account with this email already exists.')
+    if User.objects.filter(username__iexact=new_email).exclude(pk=auth_user.pk).exists():
+        raise ValidationError('An account with this email already exists.')
+
+    auth_user.email = new_email
+    auth_user.username = new_email
+    auth_user.save(update_fields=['email', 'username'])
+
+    profile = ensure_student_personal_profile(student_platform_user, create=False)
+    if profile:
+        profile.personal_email = new_email
+        profile.save(update_fields=['personal_email', 'updated_at'])
+    return True
 
 
 def ensure_student_personal_profile(student_platform_user, create=True):
     if not create:
-        profile = PersonalProfile.objects.filter(
+        return PersonalProfile.objects.filter(
             platform_user=student_platform_user,
         ).first()
-        if profile:
-            _sync_edunade_email(profile, student_platform_user)
-        return profile
 
     profile, _ = PersonalProfile.objects.get_or_create(
         platform_user=student_platform_user,
         defaults={
             'session_key': None,
-            'edunade_email': student_platform_user.email,
+            'personal_email': student_platform_user.email,
         },
     )
-    _sync_edunade_email(profile, student_platform_user)
+    _sync_personal_email_from_login(profile, student_platform_user)
     return profile
 
 
@@ -272,9 +318,9 @@ def _merge_personal_profiles(source_profile, target_profile, student_platform_us
         target_profile,
         PERSONAL_PROFILE_MERGE_FIELDS,
     )
-    if not target_profile.edunade_email and student_platform_user.email:
-        target_profile.edunade_email = student_platform_user.email
-        updated_fields.append('edunade_email')
+    if not target_profile.personal_email and student_platform_user.email:
+        target_profile.personal_email = student_platform_user.email
+        updated_fields.append('personal_email')
     if updated_fields:
         target_profile.save(update_fields=updated_fields + ['updated_at'])
     _merge_academic_profiles(source_profile, target_profile)

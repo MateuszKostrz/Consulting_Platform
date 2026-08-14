@@ -1,0 +1,50 @@
+{% if is_platform_admin %}
+<div
+  class="modal fade"
+  id="adminPreviewStudentModal"
+  tabindex="-1"
+  aria-labelledby="adminPreviewStudentModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="adminPreviewStudentModalLabel">Preview as student</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        This will log you out from your account and log in with <strong id="adminPreviewStudentName"></strong>'s credentials.
+      </div>
+      <div class="modal-footer border-0 pt-0 pb-4">
+        <div class="d-flex flex-wrap justify-content-end align-items-center gap-2 w-100">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+          <a href="#" class="btn btn-primary" id="adminPreviewStudentConfirmBtn">Continue</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+window.addEventListener('load', function () {
+  const modalEl = document.getElementById('adminPreviewStudentModal');
+  const nameEl = document.getElementById('adminPreviewStudentName');
+  const confirmBtn = document.getElementById('adminPreviewStudentConfirmBtn');
+  if (!modalEl || !nameEl || !confirmBtn) {
+    return;
+  }
+
+  const previewUrlTemplate = '{% url "preview-student" 0 %}'.replace('/0/', '/__ID__/');
+
+  modalEl.addEventListener('show.bs.modal', function (event) {
+    const trigger = event.relatedTarget;
+    if (!trigger || !trigger.classList.contains('student-preview-btn')) {
+      return;
+    }
+    const studentId = trigger.getAttribute('data-student-id');
+    const studentName = (trigger.getAttribute('data-student-name') || '').trim() || 'the selected student';
+    nameEl.textContent = studentName;
+    confirmBtn.href = previewUrlTemplate.replace('__ID__', studentId);
+  });
+});
+</script>
+{% endif %}

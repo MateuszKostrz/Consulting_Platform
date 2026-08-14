@@ -3,6 +3,7 @@ from datetime import date, datetime, timedelta
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 from django.contrib import messages
+from django.core.exceptions import ValidationError
 from django.http import FileResponse, Http404, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
@@ -79,6 +80,7 @@ from .register_utils import (
     create_registered_user,
 )
 from .profile_access import (
+    admin_editing_student_profile,
     admin_must_select_student,
     claim_guest_profile_for_student,
     clear_admin_viewing_student,
@@ -105,7 +107,8 @@ from .profile_access import (
     is_impersonating,
     set_admin_viewing_student,
     set_impersonator_user_id,
-    sync_profile_edunade_email,
+    sync_profile_personal_email,
+    update_student_login_email,
 )
 
 _NATIONALITY_CHOICES = [
@@ -552,7 +555,7 @@ def personal_information(request):
     if blocked:
         return blocked
 
-    sync_profile_edunade_email(profile)
+    sync_profile_personal_email(profile)
 
     if request.method == 'POST':
         if request.POST.get('action') == 'delete_profile_photo':
@@ -565,10 +568,21 @@ def personal_information(request):
             return redirect('personal-information')
 
         profile.address = request.POST.get('address', '').strip()
-        profile.personal_email = request.POST.get('personal_email', '').strip()
-        if profile.platform_user_id:
-            profile.edunade_email = profile.platform_user.email
-        else:
+        admin_editing_student = admin_editing_student_profile(request)
+        viewing_student = get_admin_viewing_student(request)
+
+        if admin_editing_student and viewing_student and profile.platform_user_id == viewing_student.id:
+            new_personal_email = request.POST.get('personal_email', '').strip()
+            try:
+                update_student_login_email(viewing_student, new_personal_email)
+                profile.refresh_from_db()
+            except ValidationError as exc:
+                messages.error(request, '; '.join(exc.messages) if exc.messages else str(exc))
+                return redirect('personal-information')
+            profile.personal_email = new_personal_email
+            profile.edunade_email = request.POST.get('edunade_email', '').strip()
+        elif not profile.platform_user_id:
+            profile.personal_email = request.POST.get('personal_email', '').strip()
             profile.edunade_email = request.POST.get('edunade_email', '').strip()
         profile.phone_number = request.POST.get('phone_number', '').strip()
         profile.nationality = request.POST.get('nationality', '').strip()
@@ -607,6 +621,7 @@ def personal_information(request):
 
     return render(request, 'personal_information.html', {
         'info': profile,
+        'admin_editing_student_profile': admin_editing_student_profile(request),
         'school_name': profile.school_name,
         'curriculum': curriculum_select,
         'curriculum_other': curriculum_other,

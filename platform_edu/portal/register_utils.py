@@ -238,6 +238,7 @@ def create_registered_user(
     )
     if platform_user.is_student:
         profile = ensure_student_personal_profile(platform_user)
+        profile.personal_email = email
         if phone_number:
             profile.phone_number = phone_number
         if parent_email:

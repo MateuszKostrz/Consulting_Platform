@@ -14,6 +14,16 @@ from .section_access_utils import student_has_section_access
 from .section_navigation import next_section_url_name
 
 
+def _platform_user_display_name(platform_user):
+    if not platform_user:
+        return ''
+    return (
+        f'{platform_user.first_name} {platform_user.last_name}'.strip()
+        or platform_user.email
+        or ''
+    )
+
+
 def consulting_context(request):
     try:
         url_name = resolve(request.path_info).url_name or ''
@@ -30,10 +40,12 @@ def consulting_context(request):
     is_admin = bool(platform_user and platform_user.is_admin)
     show_admin_ui = is_admin
     if platform_user:
-        if is_admin:
+        if is_admin and not impersonating:
             role_label = 'Admin'
+        elif platform_user.is_student:
+            role_label = _platform_user_display_name(platform_user) or 'Student'
         else:
-            role_label = 'Student'
+            role_label = platform_user.get_role_display()
         site_name = f'Edunade Consulting | {role_label}'
 
     student_profiles = get_student_platform_users() if show_admin_ui else []

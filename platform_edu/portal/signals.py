@@ -31,6 +31,6 @@ def ensure_student_personal_profile_exists(sender, instance, **kwargs):
         platform_user=instance,
         defaults={
             'session_key': None,
-            'edunade_email': instance.email,
+            'personal_email': instance.email,
         },
     )

@@ -4,15 +4,17 @@
 {% include 'partials/admin_student_picker_modal.html' %}
 {% include 'partials/admin_add_student_modal.html' %}
 {% include 'partials/admin_delete_student_modal.html' %}
+{% include 'partials/admin_preview_student_modal.html' %}
 {% include 'partials/clear_student_selection_modal.html' %}
+{% include 'partials/form_submit_loading.js.html' %}
 
 <script>
 window.addEventListener('load', function () {
   if (typeof bootstrap === 'undefined') {
     return;
   }
-  document.querySelectorAll('.student-preview-btn[data-bs-toggle="tooltip"]').forEach(function (el) {
-    new bootstrap.Tooltip(el, { container: 'body', trigger: 'hover' });
+  document.querySelectorAll('.student-preview-btn[title]').forEach(function (el) {
+    new bootstrap.Tooltip(el, { container: 'body', trigger: 'hover', placement: 'left' });
   });
   document.querySelectorAll('.student-delete-btn[title]').forEach(function (el) {
     new bootstrap.Tooltip(el, { container: 'body', trigger: 'hover', placement: 'left' });

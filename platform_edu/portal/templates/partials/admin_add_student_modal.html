@@ -15,6 +15,7 @@
         id="adminAddStudentForm"
         action="{% url 'admin-create-student' %}"
         method="POST"
+        data-submit-loading="off"
         novalidate>
         {% csrf_token %}
         <div class="modal-body">
@@ -78,7 +79,7 @@
                   name="email"
                   placeholder="Email"
                   required />
-                <label for="admin_student_email">Email</label>
+                <label for="admin_student_email">Personal Email (login)</label>
               </div>
             </div>
             <div class="col-md-6">
@@ -218,7 +219,11 @@ window.addEventListener('load', function () {
       return;
     }
 
-    submitBtn.disabled = true;
+    if (window.setSubmitButtonLoading) {
+      window.setSubmitButtonLoading(submitBtn, 'Creating...');
+    } else {
+      submitBtn.disabled = true;
+    }
     const formData = new FormData(form);
 
     fetch(form.action, {
@@ -245,7 +250,11 @@ window.addEventListener('load', function () {
         showErrors(['Something went wrong. Please try again.']);
       })
       .finally(function () {
-        submitBtn.disabled = false;
+        if (window.resetSubmitButtonLoading) {
+          window.resetSubmitButtonLoading(submitBtn);
+        } else {
+          submitBtn.disabled = false;
+        }
       });
   });
 });

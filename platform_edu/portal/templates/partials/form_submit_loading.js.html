@@ -1,0 +1,135 @@
+<script>
+(function () {
+  if (window.__formSubmitLoadingReady) {
+    return;
+  }
+  window.__formSubmitLoadingReady = true;
+
+  var CUSTOM_SPINNER_SELECTOR =
+    '.todo-save-spinner, .deadline-save-spinner, .delete-todo-spinner, .delete-deadline-spinner';
+
+  function hasCustomSpinner(button) {
+    return Boolean(button && button.querySelector(CUSTOM_SPINNER_SELECTOR));
+  }
+
+  function inferLoadingText(button) {
+    if (button.dataset.submitLoadingText) {
+      return button.dataset.submitLoadingText;
+    }
+    var text = (button.textContent || button.value || '').trim().toLowerCase();
+    if (button.classList.contains('btn-danger') || text.indexOf('delete') !== -1) {
+      return 'Deleting...';
+    }
+    if (text.indexOf('upload') !== -1) {
+      return 'Uploading...';
+    }
+    if (text.indexOf('create') !== -1) {
+      return 'Creating...';
+    }
+    if (text.indexOf('add') !== -1) {
+      return 'Adding...';
+    }
+    if (text.indexOf('approve') !== -1) {
+      return 'Approving...';
+    }
+    return 'Saving...';
+  }
+
+  function getButtonLabel(button) {
+    if (button.dataset.submitLoadingOriginalLabel) {
+      return button.dataset.submitLoadingOriginalLabel;
+    }
+    var label = (button.textContent || button.value || '').trim();
+    button.dataset.submitLoadingOriginalLabel = label;
+    return label;
+  }
+
+  window.setSubmitButtonLoading = function (button, loadingText) {
+    if (!button || button.dataset.submitLoadingActive === '1') {
+      return;
+    }
+    if (button.dataset.submitLoading === 'off' || hasCustomSpinner(button)) {
+      return;
+    }
+
+    button.dataset.submitLoadingActive = '1';
+    if (button.dataset.submitLoadingOriginalHtml === undefined) {
+      button.dataset.submitLoadingOriginalHtml = button.innerHTML;
+    }
+
+    var label = loadingText || getButtonLabel(button) || inferLoadingText(button);
+    button.disabled = true;
+    button.innerHTML =
+      '<span class="spinner-border spinner-border-sm me-2 submit-loading-spinner" role="status" aria-hidden="true"></span>' +
+      label;
+
+    var form = button.form;
+    if (form) {
+      form.querySelectorAll('button[type="submit"], input[type="submit"]').forEach(function (btn) {
+        if (btn !== button && !btn.disabled) {
+          btn.disabled = true;
+          btn.dataset.submitLoadingDisabledByForm = '1';
+        }
+      });
+    }
+  };
+
+  window.resetSubmitButtonLoading = function (button) {
+    if (!button || button.dataset.submitLoadingActive !== '1') {
+      return;
+    }
+
+    button.disabled = false;
+    if (button.dataset.submitLoadingOriginalHtml !== undefined) {
+      button.innerHTML = button.dataset.submitLoadingOriginalHtml;
+      delete button.dataset.submitLoadingOriginalHtml;
+    }
+    delete button.dataset.submitLoadingOriginalLabel;
+    delete button.dataset.submitLoadingActive;
+
+    var form = button.form;
+    if (form) {
+      form.querySelectorAll('[data-submit-loading-disabled-by-form="1"]').forEach(function (btn) {
+        btn.disabled = false;
+        delete btn.dataset.submitLoadingDisabledByForm;
+      });
+    }
+  };
+
+  document.addEventListener('click', function (event) {
+    var button = event.target.closest('button[type="submit"], input[type="submit"]');
+    if (!button || !button.form || button.form.dataset.submitLoading === 'off') {
+      return;
+    }
+    if (!button.id) {
+      button.id = 'form-submitter-' + Date.now();
+    }
+    button.form.dataset.activeSubmitterId = button.id;
+  }, true);
+
+  document.addEventListener('submit', function (event) {
+    var form = event.target;
+    if (!(form instanceof HTMLFormElement) || form.dataset.submitLoading === 'off') {
+      return;
+    }
+
+    var submitter = event.submitter;
+    if (!submitter && form.dataset.activeSubmitterId) {
+      submitter = document.getElementById(form.dataset.activeSubmitterId);
+    }
+    if (!submitter) {
+      submitter = form.querySelector('button[type="submit"], input[type="submit"]');
+    }
+    if (submitter) {
+      window.setSubmitButtonLoading(submitter);
+    }
+  }, true);
+
+  document.addEventListener('click', function (event) {
+    var saveBtn = event.target.closest('#unsavedChangesSaveBtn');
+    if (saveBtn) {
+      window.setSubmitButtonLoading(saveBtn);
+    }
+  });
+})();
+</script>
