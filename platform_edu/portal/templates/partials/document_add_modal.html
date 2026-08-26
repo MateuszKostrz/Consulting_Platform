@@ -1,0 +1,99 @@
+<div class="modal fade" id="addDocumentModal" tabindex="-1" aria-labelledby="addDocumentModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <form method="post"
+            action="{% url 'home' %}"
+            id="addDocumentForm"
+            enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="hidden" name="action" value="add_home_document" />
+        <div class="modal-header">
+          <h5 class="modal-title" id="addDocumentModalLabel">Add document</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-4">
+            <div class="form-floating form-floating-outline">
+              <select class="form-select" id="document_type" name="document_type" required>
+                <option value="">Select a type...</option>
+                {% for value, label in home_document_type_choices %}
+                <option value="{{ value }}">{{ label }}</option>
+                {% endfor %}
+              </select>
+              <label for="document_type">Document type</label>
+            </div>
+          </div>
+          {% if can_manage_documents %}
+          <div class="mb-4">
+            <div class="form-floating form-floating-outline">
+              <select class="form-select" id="document_student" name="student_id" required>
+                <option value="">Select a student...</option>
+                {% for student in document_students %}
+                <option value="{{ student.id }}">{{ student.first_name }} {{ student.last_name }}</option>
+                {% endfor %}
+              </select>
+              <label for="document_student">Student</label>
+            </div>
+          </div>
+          {% endif %}
+          <div>
+            <label for="document_file" class="form-label">File</label>
+            <input type="file"
+                   class="form-control"
+                   id="document_file"
+                   name="document_file"
+                   accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,image/jpeg,image/png"
+                   required />
+            <div class="form-text">PDF, DOC, DOCX, JPG, or PNG up to 5 MB.</div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" id="documentCancelBtn">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="documentSaveBtn">
+            <span class="document-save-label">Upload document</span>
+            <span class="document-save-spinner d-none">
+              <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+              Uploading...
+            </span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  const form = document.getElementById('addDocumentForm');
+  const modal = document.getElementById('addDocumentModal');
+  if (!form || !modal) return;
+
+  const saveBtn = document.getElementById('documentSaveBtn');
+  const cancelBtn = document.getElementById('documentCancelBtn');
+  const saveLabel = saveBtn ? saveBtn.querySelector('.document-save-label') : null;
+  const saveSpinner = saveBtn ? saveBtn.querySelector('.document-save-spinner') : null;
+
+  function resetForm() {
+    form.reset();
+    if (!saveBtn) return;
+    saveBtn.disabled = false;
+    if (cancelBtn) cancelBtn.disabled = false;
+    if (saveLabel) saveLabel.classList.remove('d-none');
+    if (saveSpinner) saveSpinner.classList.add('d-none');
+  }
+
+  document.querySelectorAll('[data-bs-target="#addDocumentModal"]').forEach(function (trigger) {
+    trigger.addEventListener('click', resetForm);
+  });
+
+  modal.addEventListener('hidden.bs.modal', resetForm);
+
+  form.addEventListener('submit', function () {
+    if (!saveBtn) return;
+    saveBtn.disabled = true;
+    if (cancelBtn) cancelBtn.disabled = true;
+    if (saveLabel) saveLabel.classList.add('d-none');
+    if (saveSpinner) saveSpinner.classList.remove('d-none');
+  });
+})();
+</script>

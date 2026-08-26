@@ -1,0 +1,226 @@
+{% load portal_extras %}
+<!-- Student documents -->
+<div class="card mb-6" id="document-list-card">
+  <div class="card-header d-flex align-items-center justify-content-between flex-wrap gap-3">
+    <div>
+      <h5 class="card-title mb-0">Documents</h5>
+      <span class="text-body-secondary small" id="document-visible-count">
+        {{ document_total_count }} document{{ document_total_count|pluralize }}
+      </span>
+    </div>
+    <div class="d-flex align-items-center gap-2 flex-wrap">
+      {% if can_manage_documents %}
+      <select id="document-filter-student" class="form-select form-select-sm w-auto document-filter">
+        <option value="">All students</option>
+        {% for student in document_students %}
+        <option value="{{ student.id }}">{{ student.first_name }} {{ student.last_name }}</option>
+        {% endfor %}
+      </select>
+      {% endif %}
+      {% if can_upload_documents %}
+      <button type="button"
+              class="btn btn-sm btn-primary"
+              data-bs-toggle="modal"
+              data-bs-target="#addDocumentModal">
+        <i class="icon-base ri ri-add-line me-1"></i>Add item
+      </button>
+      {% endif %}
+    </div>
+  </div>
+  <div class="card-body p-0 d-flex flex-column">
+    <div class="table-responsive">
+      <table class="table table-hover mb-0">
+        <thead>
+          <tr>
+            <th>Type</th>
+            <th>File</th>
+            <th>Uploaded date</th>
+            {% if can_manage_documents %}
+            <th>Student</th>
+            {% endif %}
+            <th class="text-end" style="width: {% if can_delete_documents %}120{% else %}80{% endif %}px;">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="document-table-body">
+          {% for document in documents_all %}
+          <tr class="document-row" data-student-id="{{ document.student_id }}">
+            <td class="fw-medium">{{ document.get_document_type_display }}</td>
+            <td class="text-break">{{ document.document_file|basename }}</td>
+            <td>{{ document.created_at|date:"j M Y" }}</td>
+            {% if can_manage_documents %}
+            <td>{{ document.student.first_name }} {{ document.student.last_name }}</td>
+            {% endif %}
+            <td class="text-end">
+              <div class="d-flex justify-content-end gap-1">
+                <a href="{{ document.document_file.url }}"
+                   class="btn btn-sm btn-icon btn-text-secondary"
+                   title="Download"
+                   download>
+                  <i class="icon-base ri ri-download-2-line icon-18px"></i>
+                </a>
+                {% if can_delete_documents %}
+                <button type="button"
+                        class="btn btn-sm btn-icon document-delete-btn text-danger"
+                        title="Delete"
+                        data-bs-toggle="modal"
+                        data-bs-target="#deleteDocumentModal"
+                        data-document-id="{{ document.id }}"
+                        data-document-label="{{ document.get_document_type_display }} — {{ document.document_file|basename }}">
+                  <i class="icon-base ri ri-delete-bin-line icon-18px text-danger"></i>
+                </button>
+                {% endif %}
+              </div>
+            </td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="{% if can_manage_documents %}5{% else %}4{% endif %}" class="text-center text-muted py-4">
+              No documents yet.
+            </td>
+          </tr>
+          {% endfor %}
+          <tr id="document-empty-msg" class="d-none">
+            <td colspan="{% if can_manage_documents %}5{% else %}4{% endif %}" class="text-center text-muted py-4">
+              No documents match the selected filters.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    {% if documents_all %}
+    <nav class="px-4 py-3 d-none" id="document-pagination" aria-label="Documents pagination">
+      <ul class="pagination pagination-sm justify-content-center mb-0" id="document-pagination-list"></ul>
+    </nav>
+    {% endif %}
+  </div>
+</div>
+<!--/ Student documents -->
+
+<script>
+(function () {
+  var PAGE_SIZE = 5;
+  var currentPage = 1;
+
+  function rowMatchesDocumentFilters(row, filterStudent) {
+    var rowStudent = row.getAttribute('data-student-id') || '';
+    return filterStudent === '' || rowStudent === filterStudent;
+  }
+
+  function renderDocumentPagination(totalPages) {
+    var nav = document.getElementById('document-pagination');
+    var list = document.getElementById('document-pagination-list');
+    if (!nav || !list) return;
+
+    if (totalPages <= 1) {
+      nav.classList.add('d-none');
+      list.innerHTML = '';
+      return;
+    }
+
+    nav.classList.remove('d-none');
+    list.innerHTML = '';
+
+    function addPageItem(label, page, disabled, active) {
+      var li = document.createElement('li');
+      li.className = 'page-item' +
+        (disabled ? ' disabled' : '') +
+        (active ? ' active' : '');
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'page-link';
+      btn.textContent = label;
+      if (!disabled && !active) {
+        btn.addEventListener('click', function () {
+          currentPage = page;
+          applyDocumentPagination(false);
+        });
+      }
+      li.appendChild(btn);
+      list.appendChild(li);
+    }
+
+    addPageItem('Prev', currentPage - 1, currentPage === 1, false);
+    for (var page = 1; page <= totalPages; page++) {
+      addPageItem(String(page), page, false, page === currentPage);
+    }
+    addPageItem('Next', currentPage + 1, currentPage === totalPages, false);
+  }
+
+  function applyDocumentPagination(resetPage) {
+    if (resetPage !== false) {
+      currentPage = 1;
+    }
+
+    var card = document.getElementById('document-list-card');
+    if (!card) return;
+
+    var selStudent = card.querySelector('#document-filter-student');
+    var filterStudent = selStudent ? selStudent.value : '';
+
+    var rows = card.querySelectorAll('.document-row');
+    var matchingRows = [];
+
+    rows.forEach(function (row) {
+      if (rowMatchesDocumentFilters(row, filterStudent)) {
+        matchingRows.push(row);
+      }
+    });
+
+    var totalPages = Math.max(1, Math.ceil(matchingRows.length / PAGE_SIZE));
+    if (currentPage > totalPages) {
+      currentPage = totalPages;
+    }
+
+    var start = (currentPage - 1) * PAGE_SIZE;
+    var end = start + PAGE_SIZE;
+
+    rows.forEach(function (row) {
+      row.classList.add('d-none');
+    });
+
+    matchingRows.forEach(function (row, index) {
+      var onPage = index >= start && index < end;
+      row.classList.toggle('d-none', !onPage);
+    });
+
+    var emptyMsg = document.getElementById('document-empty-msg');
+    if (emptyMsg) {
+      emptyMsg.classList.toggle('d-none', matchingRows.length > 0 || rows.length === 0);
+    }
+
+    var countEl = document.getElementById('document-visible-count');
+    if (countEl) {
+      if (matchingRows.length === 0) {
+        countEl.textContent = rows.length === 0 ? '0 documents' : '0 documents shown';
+      } else {
+        countEl.textContent =
+          matchingRows.length +
+          (matchingRows.length === 1 ? ' document' : ' documents') +
+          ' · page ' + currentPage + ' of ' + totalPages;
+      }
+    }
+
+    renderDocumentPagination(totalPages);
+  }
+
+  function initDocumentPagination() {
+    var card = document.getElementById('document-list-card');
+    if (!card) return;
+
+    card.querySelectorAll('.document-filter').forEach(function (select) {
+      select.addEventListener('change', function () {
+        applyDocumentPagination(true);
+      });
+    });
+
+    applyDocumentPagination(true);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initDocumentPagination);
+  } else {
+    initDocumentPagination();
+  }
+})();
+</script>

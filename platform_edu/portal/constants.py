@@ -143,6 +143,21 @@ RESULT_DOCUMENT_TYPE_CHOICES = [
 
 RESULT_DOCUMENT_TYPE_VALUES = {value for value, _ in RESULT_DOCUMENT_TYPE_CHOICES}
 
+HOME_DOCUMENT_TYPE_CHOICES = [
+    ('passport', 'Passport'),
+    ('id', 'ID'),
+    ('cv', 'CV'),
+    ('transcript', 'Transcript'),
+    ('language_certificate', 'Language certificate'),
+    ('personal_statement', 'Personal statement'),
+    ('other', 'Other'),
+]
+
+HOME_DOCUMENT_TYPE_VALUES = {value for value, _ in HOME_DOCUMENT_TYPE_CHOICES}
+
+HOME_DOCUMENT_ALLOWED_EXTENSIONS = {'.pdf', '.doc', '.docx', '.jpg', '.jpeg', '.png'}
+MAX_HOME_DOCUMENT_SIZE = 5 * 1024 * 1024
+
 DEADLINE_TIMEZONE_CHOICES = [
     ('Europe/Warsaw', 'Warsaw (CET)'),
     ('Europe/London', 'London (GMT/BST)'),

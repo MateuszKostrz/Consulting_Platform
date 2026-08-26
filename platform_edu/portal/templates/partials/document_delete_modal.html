@@ -1,0 +1,68 @@
+<div class="modal fade" id="deleteDocumentModal" tabindex="-1" aria-labelledby="deleteDocumentModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header border-0 pb-0">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body text-center pt-0">
+        <div class="avatar avatar-lg mb-3 mx-auto">
+          <span class="avatar-initial rounded-circle bg-label-danger">
+            <i class="icon-base ri ri-delete-bin-line icon-28px"></i>
+          </span>
+        </div>
+        <h5 class="mb-2" id="deleteDocumentModalLabel">Delete document?</h5>
+        <p class="text-body-secondary mb-1">This action cannot be undone.</p>
+        <p class="fw-medium mb-0" id="deleteDocumentLabel"></p>
+      </div>
+      <div class="modal-footer justify-content-center border-0 pt-0">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" id="deleteDocumentCancelBtn">Cancel</button>
+        <form method="post" action="{% url 'home' %}" id="deleteDocumentForm" class="d-inline">
+          {% csrf_token %}
+          <input type="hidden" name="action" value="delete_home_document" />
+          <input type="hidden" name="document_id" value="" id="deleteDocumentId" />
+          <button type="submit" class="btn btn-danger" id="deleteDocumentConfirmBtn">
+            <span class="delete-document-label">Delete</span>
+            <span class="delete-document-spinner d-none">
+              <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+              Deleting...
+            </span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  const modal = document.getElementById('deleteDocumentModal');
+  const form = document.getElementById('deleteDocumentForm');
+  if (!modal || !form) return;
+
+  const idInput = document.getElementById('deleteDocumentId');
+  const labelEl = document.getElementById('deleteDocumentLabel');
+  const confirmBtn = document.getElementById('deleteDocumentConfirmBtn');
+  const cancelBtn = document.getElementById('deleteDocumentCancelBtn');
+  const deleteLabel = confirmBtn ? confirmBtn.querySelector('.delete-document-label') : null;
+  const deleteSpinner = confirmBtn ? confirmBtn.querySelector('.delete-document-spinner') : null;
+
+  document.querySelectorAll('.document-delete-btn').forEach(function (button) {
+    button.addEventListener('click', function () {
+      idInput.value = button.getAttribute('data-document-id') || '';
+      labelEl.textContent = button.getAttribute('data-document-label') || '';
+      if (confirmBtn) confirmBtn.disabled = false;
+      if (cancelBtn) cancelBtn.disabled = false;
+      if (deleteLabel) deleteLabel.classList.remove('d-none');
+      if (deleteSpinner) deleteSpinner.classList.add('d-none');
+    });
+  });
+
+  form.addEventListener('submit', function () {
+    if (!confirmBtn) return;
+    confirmBtn.disabled = true;
+    if (cancelBtn) cancelBtn.disabled = true;
+    if (deleteLabel) deleteLabel.classList.add('d-none');
+    if (deleteSpinner) deleteSpinner.classList.remove('d-none');
+  });
+})();
+</script>

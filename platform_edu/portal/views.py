@@ -25,6 +25,10 @@ from .constants import (
     DIAGNOSTIC_STAGE_KEYS,
     DIAGNOSTIC_CALL_BOOKING_URL,
     GRADUATION_YEARS,
+    HOME_DOCUMENT_ALLOWED_EXTENSIONS,
+    HOME_DOCUMENT_TYPE_CHOICES,
+    HOME_DOCUMENT_TYPE_VALUES,
+    MAX_HOME_DOCUMENT_SIZE,
     IB_SUBJECT_CHOICES,
     INTERVIEW_FEEDBACK_EXTENSIONS,
     INTERVIEW_PREP_SESSION_SLOTS,
@@ -60,6 +64,7 @@ from .models import (
     Offer,
     PlatformUser,
     ResultDocument,
+    StudentDocument,
     StudentTodo,
     UniversityChoice,
     PortfolioDesignElement,
@@ -161,6 +166,20 @@ def _validate_upload(uploaded_file):
     extension = os.path.splitext(uploaded_file.name)[1].lower()
     if extension not in ALLOWED_UPLOAD_EXTENSIONS:
         return 'Only PDF, DOC, and DOCX files are allowed.'
+
+    return None
+
+
+def _validate_home_document_upload(uploaded_file):
+    if not uploaded_file:
+        return None
+
+    if uploaded_file.size > MAX_HOME_DOCUMENT_SIZE:
+        return 'File must be 5 MB or smaller.'
+
+    extension = os.path.splitext(uploaded_file.name)[1].lower()
+    if extension not in HOME_DOCUMENT_ALLOWED_EXTENSIONS:
+        return 'Only PDF, DOC, DOCX, JPG, and PNG files are allowed.'
 
     return None
 
@@ -475,6 +494,93 @@ def _get_todos_for_user(platform_user, request=None):
     return queryset
 
 
+def _validate_home_document_form(request, platform_user):
+    document_type = request.POST.get('document_type', '').strip()
+    student_id = request.POST.get('student_id', '').strip()
+    uploaded_file = request.FILES.get('document_file')
+    errors = []
+
+    if document_type not in HOME_DOCUMENT_TYPE_VALUES:
+        errors.append('Please select a document type.')
+    if not uploaded_file:
+        errors.append('Please choose a file to upload.')
+
+    student = None
+    if platform_user and platform_user.is_student:
+        student = platform_user
+    elif platform_user and platform_user.is_admin:
+        if not student_id:
+            errors.append('Please select a student.')
+        else:
+            student = PlatformUser.objects.filter(
+                pk=student_id,
+                role=PlatformUser.Role.STUDENT,
+            ).first()
+            if not student:
+                errors.append('Selected student was not found.')
+    else:
+        errors.append('You do not have permission to upload documents.')
+
+    return errors, document_type, student, uploaded_file
+
+
+def _handle_add_home_document(request, platform_user):
+    if not platform_user or not (platform_user.is_admin or platform_user.is_student):
+        messages.error(request, 'You do not have permission to upload documents.')
+        return redirect('home')
+
+    errors, document_type, student, uploaded_file = _validate_home_document_form(request, platform_user)
+    if errors:
+        for error in errors:
+            messages.error(request, error)
+        return redirect('home')
+
+    upload_error = _validate_home_document_upload(uploaded_file)
+    if upload_error:
+        messages.error(request, upload_error)
+        return redirect('home')
+
+    document = StudentDocument(
+        document_type=document_type,
+        student=student,
+        uploaded_by=platform_user,
+    )
+    document.document_file.save(uploaded_file.name, uploaded_file, save=True)
+    messages.success(request, 'Document uploaded successfully.')
+    return redirect('home')
+
+
+def _handle_delete_home_document(request, platform_user):
+    if not platform_user or not (platform_user.is_admin or platform_user.is_student):
+        messages.error(request, 'You do not have permission to delete documents.')
+        return redirect('home')
+
+    document_id = request.POST.get('document_id', '').strip()
+    document = StudentDocument.objects.filter(pk=document_id).first()
+    if not document:
+        messages.error(request, 'Document not found.')
+        return redirect('home')
+
+    if platform_user.is_student and document.student_id != platform_user.id:
+        messages.error(request, 'You can only delete your own documents.')
+        return redirect('home')
+
+    clear_file_field(document, 'document_file')
+    document.delete()
+    messages.success(request, 'Document deleted successfully.')
+    return redirect('home')
+
+
+def _get_home_documents_for_user(platform_user, request=None):
+    queryset = StudentDocument.objects.select_related('student', 'uploaded_by').order_by(
+        '-created_at',
+        'document_type',
+    )
+    if platform_user and platform_user.is_student:
+        queryset = queryset.filter(student=platform_user)
+    return queryset
+
+
 def home(request):
     platform_user = get_platform_user(request)
 
@@ -492,12 +598,20 @@ def home(request):
             return _handle_edit_todo(request, platform_user)
         if action == 'delete_todo':
             return _handle_delete_todo(request, platform_user)
+        if action == 'add_home_document':
+            return _handle_add_home_document(request, platform_user)
+        if action == 'delete_home_document':
+            return _handle_delete_home_document(request, platform_user)
 
     deadlines = _get_deadlines_for_user(platform_user, request)
     todos = _get_todos_for_user(platform_user, request)
+    documents = _get_home_documents_for_user(platform_user, request)
     today = timezone.localdate()
     upcoming_end = today + timedelta(days=7)
     can_manage = bool(platform_user and platform_user.is_admin)
+    is_student = bool(platform_user and platform_user.is_student)
+    can_upload_documents = can_manage or is_student
+    can_delete_documents = can_upload_documents
     credential_portals = _get_credential_portals_for_home(request, platform_user)
     return render(request, 'home.html', {
         'deadlines_all': deadlines,
@@ -513,11 +627,18 @@ def home(request):
         ).count(),
         'can_manage_deadlines': can_manage,
         'can_manage_todos': can_manage,
+        'can_manage_documents': can_manage,
+        'can_upload_documents': can_upload_documents,
+        'can_delete_documents': can_delete_documents,
         'deadline_students': get_student_platform_users() if can_manage else [],
         'todo_students': get_student_platform_users() if can_manage else [],
+        'document_students': get_student_platform_users() if can_manage else [],
         'deadline_timezone_choices': DEADLINE_TIMEZONE_CHOICES,
         'todos_all': todos,
         'todo_total_count': todos.count(),
+        'documents_all': documents,
+        'document_total_count': documents.count(),
+        'home_document_type_choices': HOME_DOCUMENT_TYPE_CHOICES,
         'students_list': get_student_platform_users() if can_manage else [],
         'credential_portals': credential_portals,
     })

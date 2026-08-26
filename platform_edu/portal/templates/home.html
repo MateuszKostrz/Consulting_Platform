@@ -47,6 +47,14 @@
         {% include 'partials/todo_delete_modal.html' %}
         {% endif %}
 
+        {% if can_upload_documents %}
+        {% include 'partials/document_add_modal.html' %}
+        {% endif %}
+
+        {% if can_delete_documents %}
+        {% include 'partials/document_delete_modal.html' %}
+        {% endif %}
+
         {% include 'footer.html' %}
 
         <div class="content-backdrop fade"></div>

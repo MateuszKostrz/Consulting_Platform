@@ -6,7 +6,7 @@ from django.conf import settings
 from django.db import models
 from django.utils import timezone
 
-from .constants import DEADLINE_TIMEZONE_CHOICES, RESULT_DOCUMENT_TYPE_CHOICES
+from .constants import DEADLINE_TIMEZONE_CHOICES, HOME_DOCUMENT_TYPE_CHOICES, RESULT_DOCUMENT_TYPE_CHOICES
 
 
 class PlatformUser(models.Model):
@@ -406,6 +406,34 @@ class StudentTodo(models.Model):
 
     def __str__(self):
         return f'{self.name} ({self.student})'
+
+
+class StudentDocument(models.Model):
+    document_type = models.CharField(max_length=40, choices=HOME_DOCUMENT_TYPE_CHOICES)
+    document_file = models.FileField(upload_to='home/documents/')
+    student = models.ForeignKey(
+        PlatformUser,
+        on_delete=models.CASCADE,
+        related_name='home_documents',
+        limit_choices_to={'role': PlatformUser.Role.STUDENT},
+    )
+    uploaded_by = models.ForeignKey(
+        PlatformUser,
+        on_delete=models.SET_NULL,
+        related_name='uploaded_home_documents',
+        null=True,
+        blank=True,
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = 'Student document'
+        verbose_name_plural = 'Student documents'
+        ordering = ['-created_at', 'document_type']
+
+    def __str__(self):
+        return f'{self.get_document_type_display()} ({self.student})'
 
 
 class PortfolioDesign(models.Model):

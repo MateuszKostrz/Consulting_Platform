@@ -21,6 +21,7 @@ from .models import (
     Results,
     StrategicApplication,
     StudentTodo,
+    StudentDocument,
     UniversityChoice,
 )
 
@@ -200,6 +201,36 @@ class StudentTodoAdmin(admin.ModelAdmin):
     @admin.display(description='Student')
     def display_student(self, obj):
         return f'{obj.student.first_name} {obj.student.last_name}'.strip() or obj.student.email
+
+
+@admin.register(StudentDocument)
+class StudentDocumentAdmin(admin.ModelAdmin):
+    list_display = (
+        'document_type',
+        'display_student',
+        'display_filename',
+        'uploaded_by',
+        'created_at',
+    )
+    list_filter = ('document_type',)
+    search_fields = (
+        'student__email',
+        'student__first_name',
+        'student__last_name',
+        'document_file',
+    )
+    readonly_fields = ('created_at', 'updated_at')
+    autocomplete_fields = ('student', 'uploaded_by')
+
+    @admin.display(description='Student')
+    def display_student(self, obj):
+        return f'{obj.student.first_name} {obj.student.last_name}'.strip() or obj.student.email
+
+    @admin.display(description='File')
+    def display_filename(self, obj):
+        if not obj.document_file:
+            return '—'
+        return obj.document_file.name.split('/')[-1]
 
 
 @admin.register(PortfolioDesign)
