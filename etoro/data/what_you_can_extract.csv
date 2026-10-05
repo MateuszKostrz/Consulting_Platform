@@ -1,0 +1,8 @@
+category,endpoint,granularity,max_history,fields,notes
+Live quote,GET /market-data/instruments/rates,Real-time snapshot,Current only,"bid, ask, lastExecution, spread, quote timestamp",Best for current price; poll for updates.
+Instrument metadata,GET /market-data/instruments,Static / slow-changing,N/A,"display name, symbol, exchange, industry, logos",Resolve instrumentId once and cache it.
+Symbol search,GET /market-data/search,Lookup,N/A,"instrumentId, internalSymbolFull, displayname",Use internalSymbolFull=MSFT for exact US listing.
+OHLCV candles,GET /market-data/instruments/{id}/history/candles/{direction}/{interval}/{count},OneMinute to OneWeek,Up to 1000 bars per request,"fromDate, open, high, low, close, volume",No date-range paging. OneDay ~4 years; OneHour ~42 days.
+Exchange reference,GET /market-data/exchanges,Reference,N/A,"exchangeID, exchangeDescription",Map exchange IDs from instrument metadata.
+Your portfolio (account),GET /trading/info/demo/pnl or /trading/info/real/pnl,Current positions,Open positions only,"positions, credit, P&L",Requires Demo or Real user key matching environment.
+Your trade history (account),GET /trading/info/trade/history,Closed trades,Filterable by date,"open/close rate, timestamps, profit, fees","Your trades only, not public MSFT history."

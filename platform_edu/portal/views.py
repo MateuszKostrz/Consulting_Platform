@@ -44,6 +44,7 @@ from .reference_contacts_utils import (
 from .budget_utils import budget_exchange_rates_response, save_budget_fields
 from .course_wishes_utils import ordered_countries_for_form, save_course_wishes
 from .diagnostics_access import get_diagnostic_stage_items
+from .document_upload_notifications import notify_consultants_of_student_document_upload
 from .activity_entries_utils import (
     activity_entries_for_form,
     save_activity_entries,
@@ -546,6 +547,8 @@ def _handle_add_home_document(request, platform_user):
         uploaded_by=platform_user,
     )
     document.document_file.save(uploaded_file.name, uploaded_file, save=True)
+    if platform_user.is_student and not is_impersonating(request):
+        notify_consultants_of_student_document_upload(document)
     messages.success(request, 'Document uploaded successfully.')
     return redirect('home')
 

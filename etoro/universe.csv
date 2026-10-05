@@ -1,0 +1,12 @@
+symbol,company,role
+MSFT,Microsoft,trade
+AAPL,Apple,trade
+GOOGL,Alphabet,trade
+AMZN,Amazon,trade
+NVDA,NVIDIA,trade
+META,Meta,trade
+JPM,JPMorgan Chase,trade
+V,Visa,trade
+WMT,Walmart,trade
+UNH,UnitedHealth,trade
+SPY,SPDR S&P 500 ETF,regime

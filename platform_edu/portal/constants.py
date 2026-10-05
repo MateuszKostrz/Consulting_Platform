@@ -155,6 +155,11 @@ HOME_DOCUMENT_TYPE_CHOICES = [
 
 HOME_DOCUMENT_TYPE_VALUES = {value for value, _ in HOME_DOCUMENT_TYPE_CHOICES}
 
+HOME_DOCUMENT_UPLOAD_NOTIFY_EMAILS = [
+    'michal.slowak@edunade.com',
+    'fiorella.gallardo@edunade.com',
+]
+
 HOME_DOCUMENT_ALLOWED_EXTENSIONS = {'.pdf', '.doc', '.docx', '.jpg', '.jpeg', '.png'}
 MAX_HOME_DOCUMENT_SIZE = 5 * 1024 * 1024
 

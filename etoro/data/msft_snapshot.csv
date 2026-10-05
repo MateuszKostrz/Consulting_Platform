@@ -1,0 +1,2 @@
+fetched_at_utc,symbol,instrument_id,display_name,exchange,price_source,industry_id,bid,ask,last_execution,spread,quote_time_utc,related_symbols
+2026-08-20T19:04:14+00:00,MSFT,1004,Microsoft,Nasdaq,NASDAQ,8,482.01,482.09,482.01,0.08,2026-08-20T19:04:14.4372722Z,MSFT (1004); MSFT.24-7 (15573); MSFT.EUR (14257); MSFT.RTH (8757)

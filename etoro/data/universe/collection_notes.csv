@@ -1,0 +1,10 @@
+topic,value
+strategy_target,Trend + pullback swing (2-7 day holds)
+bar_interval,OneDay
+bars_per_symbol,1000
+approx_history,~4 years (eToro max 1000 daily bars per request)
+symbols_requested,11
+symbols_downloaded,11
+symbols_failed,0
+fetched_at_utc,2026-08-20T19:12:34+00:00
+regime_benchmark,SPY (role=regime in universe.csv)

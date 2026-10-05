@@ -1,0 +1,5 @@
+exit_reason,trades,avg_return_pct
+stop_loss,62,-3.05
+max_hold,41,1.8075609756097561
+take_profit,30,5.95
+final_close,2,1.8

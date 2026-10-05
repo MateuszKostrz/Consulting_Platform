@@ -1,0 +1,3 @@
+This GA4 export has no Month column, so monthly splits were not generated.
+Re-export from GA4 with Month + Session source / medium + Transaction ID.
+Header period: 20260501
