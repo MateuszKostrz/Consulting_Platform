@@ -245,12 +245,12 @@
                         {% if choice.comments %}
                         <div
                           class="university-choice-comments-preview"
-                          style="--comment-preview-rows: {{ choice.comments_preview_rows|default:4 }};"
+                          style="--comment-preview-rows: {{ choice.display_comments_preview_rows|default:4 }};"
                           title="{{ choice.comments }}">{{ choice.comments }}</div>
                         {% else %}
                         <div
                           class="university-choice-comments-preview text-body-secondary"
-                          style="--comment-preview-rows: {{ choice.comments_preview_rows|default:4 }};">—</div>
+                          style="--comment-preview-rows: {{ choice.display_comments_preview_rows|default:4 }};">—</div>
                         {% endif %}
                       </td>
                       <td class="text-end text-nowrap col-actions">
@@ -458,21 +458,57 @@
           textarea.style.height = (rows * lineHeight + paddingTop + paddingBottom + borderTop + borderBottom) + 'px';
         }
 
+        var COMMENTS_PREVIEW_ROWS_DEFAULT = 4;
+
+        function contentTargetRows(textarea) {
+          var text = textarea.value || '';
+          var lines = text ? text.split('\n').length : 1;
+          if (!text.trim() || lines <= COMMENTS_PREVIEW_ROWS_DEFAULT) {
+            return COMMENTS_PREVIEW_ROWS_DEFAULT;
+          }
+          return Math.min(24, Math.max(COMMENTS_PREVIEW_ROWS_DEFAULT, lines));
+        }
+
+        function syncCommentsField(textarea, hiddenInput) {
+          var target = contentTargetRows(textarea);
+          var measured = measureTextareaRows(textarea);
+          if (measured > target) {
+            applyCommentsTextareaSize(textarea, target);
+            hiddenInput.value = target;
+            return;
+          }
+          if (measured < target) {
+            applyCommentsTextareaSize(textarea, target);
+          }
+          hiddenInput.value = target;
+        }
+
+        function syncCommentsAfterResize(textarea, hiddenInput) {
+          var target = contentTargetRows(textarea);
+          var measured = measureTextareaRows(textarea);
+          hiddenInput.value = Math.max(target, measured);
+        }
+
         function bindCommentsPreviewRows(textarea, hiddenInput) {
           if (!textarea || !hiddenInput) {
             return;
           }
-          function sync() {
-            hiddenInput.value = measureTextareaRows(textarea);
-          }
-          textarea.addEventListener('mouseup', sync);
-          textarea.addEventListener('touchend', sync);
-          textarea.addEventListener('input', sync);
+          textarea.addEventListener('mouseup', function () {
+            syncCommentsAfterResize(textarea, hiddenInput);
+          });
+          textarea.addEventListener('touchend', function () {
+            syncCommentsAfterResize(textarea, hiddenInput);
+          });
+          textarea.addEventListener('input', function () {
+            syncCommentsField(textarea, hiddenInput);
+          });
           var form = textarea.closest('form');
           if (form) {
-            form.addEventListener('submit', sync);
+            form.addEventListener('submit', function () {
+              syncCommentsField(textarea, hiddenInput);
+            });
           }
-          sync();
+          syncCommentsField(textarea, hiddenInput);
         }
 
         bindCommentsPreviewRows(editComments, editCommentsRows);
@@ -492,10 +528,8 @@
             document.getElementById('edit_university_name').value = data.university_name || '';
             document.getElementById('edit_degree').value = data.degree || '';
             document.getElementById('edit_riskiness').value = data.riskiness || 'realistic';
-            var previewRows = data.comments_preview_rows || 4;
             editComments.value = data.comments || '';
-            applyCommentsTextareaSize(editComments, previewRows);
-            editCommentsRows.value = previewRows;
+            syncCommentsField(editComments, editCommentsRows);
             if (editModal) editModal.show();
           });
         });

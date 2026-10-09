@@ -1074,12 +1074,25 @@ def portfolio_design(request):
     })
 
 
+COMMENTS_PREVIEW_ROWS_DEFAULT = 4
+
+
 def _parse_comments_preview_rows(raw_value):
     try:
         rows = int(str(raw_value).strip())
     except (TypeError, ValueError):
-        rows = 4
+        rows = COMMENTS_PREVIEW_ROWS_DEFAULT
     return max(3, min(24, rows))
+
+
+def _resolve_comments_preview_rows(comments, manual_rows):
+    manual_rows = _parse_comments_preview_rows(manual_rows)
+    if not comments:
+        return COMMENTS_PREVIEW_ROWS_DEFAULT
+    content_rows = min(24, max(1, comments.count('\n') + 1))
+    if content_rows <= COMMENTS_PREVIEW_ROWS_DEFAULT:
+        return COMMENTS_PREVIEW_ROWS_DEFAULT
+    return max(content_rows, manual_rows)
 
 
 def _validate_university_choice_post(request):
@@ -1087,7 +1100,8 @@ def _validate_university_choice_post(request):
     degree = request.POST.get('degree', '').strip()
     comments = request.POST.get('comments', '').strip()
     riskiness = request.POST.get('riskiness', '').strip()
-    comments_preview_rows = _parse_comments_preview_rows(
+    comments_preview_rows = _resolve_comments_preview_rows(
+        comments,
         request.POST.get('comments_preview_rows', ''),
     )
     errors = []
@@ -1098,9 +1112,6 @@ def _validate_university_choice_post(request):
         errors.append('Degree is required.')
     if riskiness not in UniversityChoice.Riskiness.values:
         errors.append('Please select a valid riskiness level.')
-
-    content_rows = max(1, comments.count('\n') + 1) if comments else 1
-    comments_preview_rows = max(comments_preview_rows, min(24, content_rows))
 
     return errors, {
         'university_name': university_name,
@@ -1254,16 +1265,19 @@ def strategic_application(request):
 
     university_choices = profile.university_choices.order_by('sort_order', 'id')
     choices_locked = _choices_are_locked(strategic, is_admin)
-    university_choices_edit_data = {
-        str(choice.id): {
+    university_choices_edit_data = {}
+    for choice in university_choices:
+        choice.display_comments_preview_rows = _resolve_comments_preview_rows(
+            choice.comments,
+            choice.comments_preview_rows,
+        )
+        university_choices_edit_data[str(choice.id)] = {
             'university_name': choice.university_name,
             'degree': choice.degree,
             'comments': choice.comments or '',
-            'comments_preview_rows': choice.comments_preview_rows,
+            'comments_preview_rows': choice.display_comments_preview_rows,
             'riskiness': choice.riskiness,
         }
-        for choice in university_choices
-    }
 
     return render(request, 'strategic_application.html', {
         'strategic': strategic,
