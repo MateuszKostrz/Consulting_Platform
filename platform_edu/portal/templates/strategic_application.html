@@ -60,8 +60,23 @@
       .university-choices-table .uc-col-degree {
         width: 15%;
       }
-      .university-choices-table .uc-col-riskiness {
+      .university-choices-table .uc-col-riskiness,
+      .university-choices-table .uc-col-date {
         width: 9%;
+      }
+      .university-choice-due-fields .form-control,
+      .university-choice-due-fields .form-select {
+        font-size: 0.9375rem;
+      }
+      .university-choice-due-cell {
+        white-space: normal;
+        word-break: break-word;
+        line-height: 1.35;
+        font-size: 0.8125rem;
+        vertical-align: top;
+      }
+      .university-choice-due-cell .due-time-line {
+        color: var(--bs-secondary-color);
       }
       .university-choices-table .uc-col-actions {
         width: 7rem;
@@ -89,19 +104,23 @@
         line-height: 1.5;
         font-size: 0.9375rem;
       }
-      #edit_comments,
-      #comments {
+      #edit_comments {
         resize: vertical;
         min-height: 6rem;
       }
-      #addUniversityChoiceForm .university-choice-add-btn {
-        height: var(--bs-input-height, calc(1.5em + 0.75rem + 2px));
+      #addUniversityChoiceForm #comments {
+        resize: none;
+        overflow-y: hidden;
         min-height: var(--bs-input-height, calc(1.5em + 0.75rem + 2px));
+        field-sizing: content;
+      }
+      #addUniversityChoiceForm .university-choice-add-btn {
         display: inline-flex;
         align-items: center;
         justify-content: center;
         padding-top: 0;
         padding-bottom: 0;
+        box-sizing: border-box;
       }
       .university-choices-table-wrap {
         width: 100%;
@@ -176,15 +195,15 @@
                 {% csrf_token %}
                 <input type="hidden" name="action" value="add_choice" />
                 <div class="row g-4 align-items-end">
-                  <div class="col-md-3">
+                  <div class="col-md-4">
                     <label for="university_name" class="form-label">University name</label>
                     <input type="text" class="form-control" id="university_name" name="university_name" placeholder="e.g. University of Oxford" required />
                   </div>
-                  <div class="col-md-3">
+                  <div class="col-md-4">
                     <label for="degree" class="form-label">Degree</label>
                     <input type="text" class="form-control" id="degree" name="degree" placeholder="e.g. BSc Economics" required />
                   </div>
-                  <div class="col-md-3">
+                  <div class="col-md-4">
                     <label for="riskiness" class="form-label">Riskiness</label>
                     <select class="form-select" id="riskiness" name="riskiness" required>
                       {% for value, label in riskiness_choices %}
@@ -192,16 +211,41 @@
                       {% endfor %}
                     </select>
                   </div>
-                  <div class="col-md-3">
-                    <label class="form-label invisible" aria-hidden="true">&nbsp;</label>
-                    <button type="submit" class="btn btn-primary w-100 university-choice-add-btn">Add</button>
+                </div>
+                <div class="row g-4 mt-0 university-choice-due-fields">
+                  <div class="col-12">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" id="no_due_deadline" name="no_due_deadline" value="1" checked />
+                      <label class="form-check-label" for="no_due_deadline">No deadline yet (leave date empty)</label>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <label for="due_date" class="form-label">Date</label>
+                    <input type="date" class="form-control" id="due_date" name="due_date" disabled />
+                  </div>
+                  <div class="col-md-4">
+                    <label for="due_time" class="form-label">Time <span class="text-body-secondary fw-normal">(optional)</span></label>
+                    <input type="time" class="form-control" id="due_time" name="due_time" disabled />
+                  </div>
+                  <div class="col-md-4">
+                    <label for="due_timezone" class="form-label">Timezone <span class="text-body-secondary fw-normal">(optional)</span></label>
+                    <select class="form-select" id="due_timezone" name="due_timezone" disabled>
+                      <option value="">—</option>
+                      {% for tz_value, tz_label in deadline_timezone_choices %}
+                      <option value="{{ tz_value }}">{{ tz_label }}</option>
+                      {% endfor %}
+                    </select>
                   </div>
                 </div>
-                <div class="row g-4 mt-0">
-                  <div class="col-12">
+                <div class="row g-4 mt-0 align-items-end">
+                  <div class="col-md-8">
                     <label for="comments" class="form-label">Comments</label>
-                    <textarea class="form-control" id="comments" name="comments" rows="4" placeholder="Notes, requirements, deadlines…"></textarea>
-                    <input type="hidden" name="comments_preview_rows" id="add_comments_preview_rows" value="4" />
+                    <textarea class="form-control" id="comments" name="comments" rows="2" placeholder="Notes, requirements, deadlines…"></textarea>
+                    <input type="hidden" name="comments_preview_rows" id="add_comments_preview_rows" value="2" />
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-label invisible" aria-hidden="true">&nbsp;</label>
+                    <button type="submit" class="btn btn-primary w-100 university-choice-add-btn">Add</button>
                   </div>
                 </div>
               </form>
@@ -217,6 +261,7 @@
                     <col class="uc-col-university" />
                     <col class="uc-col-degree" />
                     <col class="uc-col-riskiness" />
+                    <col class="uc-col-date" />
                     <col class="uc-col-comments" />
                     <col class="uc-col-actions" />
                   </colgroup>
@@ -226,6 +271,7 @@
                       <th class="col-university">University</th>
                       <th class="col-degree">Degree</th>
                       <th class="col-riskiness">Riskiness</th>
+                      <th class="col-date">Date</th>
                       <th class="col-comments">Comments</th>
                       <th class="text-end col-actions">Actions</th>
                     </tr>
@@ -241,6 +287,18 @@
                       <td class="col-university university-choice-trunc-cell" title="{{ choice.university_name }}">{{ choice.university_name }}</td>
                       <td class="col-degree university-choice-trunc-cell" title="{{ choice.degree }}">{{ choice.degree }}</td>
                       <td class="col-riskiness university-choice-trunc-cell" title="{{ choice.get_riskiness_display }}">{{ choice.get_riskiness_display }}</td>
+                      <td class="col-date university-choice-due-cell" title="{{ choice.due_display|default:'—' }}">
+                        {% if choice.due_date %}
+                        <div>{{ choice.due_date|date:"j M Y" }}</div>
+                        {% if choice.due_time is not None %}
+                        <div class="due-time-line">
+                          {{ choice.due_time|time:"H:i" }}{% if choice.due_timezone_label %} · {{ choice.due_timezone_label }}{% endif %}
+                        </div>
+                        {% endif %}
+                        {% else %}
+                        <span class="text-body-secondary">—</span>
+                        {% endif %}
+                      </td>
                       <td class="col-comments university-choice-comments-cell">
                         {% if choice.comments %}
                         <div
@@ -332,6 +390,31 @@
               <div class="mb-4">
                 <label for="edit_degree" class="form-label">Degree</label>
                 <input type="text" class="form-control" id="edit_degree" name="degree" required />
+              </div>
+              <div class="row g-4 mb-4 university-choice-due-fields">
+                <div class="col-12">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="edit_no_due_deadline" name="no_due_deadline" value="1" />
+                    <label class="form-check-label" for="edit_no_due_deadline">No deadline yet (leave date empty)</label>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <label for="edit_due_date" class="form-label">Date</label>
+                  <input type="date" class="form-control" id="edit_due_date" name="due_date" />
+                </div>
+                <div class="col-md-4">
+                  <label for="edit_due_time" class="form-label">Time <span class="text-body-secondary fw-normal">(optional)</span></label>
+                  <input type="time" class="form-control" id="edit_due_time" name="due_time" />
+                </div>
+                <div class="col-md-4">
+                  <label for="edit_due_timezone" class="form-label">Timezone <span class="text-body-secondary fw-normal">(optional)</span></label>
+                  <select class="form-select" id="edit_due_timezone" name="due_timezone">
+                    <option value="">—</option>
+                    {% for tz_value, tz_label in deadline_timezone_choices %}
+                    <option value="{{ tz_value }}">{{ tz_label }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
               </div>
               <div class="mb-4">
                 <label for="edit_comments" class="form-label">Comments</label>
@@ -431,6 +514,8 @@
         var editCommentsRows = document.getElementById('edit_comments_preview_rows');
         var addComments = document.getElementById('comments');
         var addCommentsRows = document.getElementById('add_comments_preview_rows');
+        var addChoiceBtn = document.querySelector('#addUniversityChoiceForm .university-choice-add-btn');
+        var ADD_COMMENTS_MIN_ROWS = 2;
 
         function measureTextareaRows(textarea) {
           var style = window.getComputedStyle(textarea);
@@ -511,8 +596,74 @@
           syncCommentsField(textarea, hiddenInput);
         }
 
+        function syncAddCommentsLayout() {
+          if (!addComments) {
+            return;
+          }
+          addComments.style.height = 'auto';
+          addComments.style.height = addComments.scrollHeight + 'px';
+          if (addChoiceBtn) {
+            addChoiceBtn.style.height = addComments.offsetHeight + 'px';
+          }
+          if (addCommentsRows) {
+            var style = window.getComputedStyle(addComments);
+            var lineHeight = parseFloat(style.lineHeight) || 24;
+            var paddingTop = parseFloat(style.paddingTop) || 0;
+            var paddingBottom = parseFloat(style.paddingBottom) || 0;
+            var borderTop = parseFloat(style.borderTopWidth) || 0;
+            var borderBottom = parseFloat(style.borderBottomWidth) || 0;
+            var innerHeight = addComments.offsetHeight - paddingTop - paddingBottom - borderTop - borderBottom;
+            var rows = Math.max(ADD_COMMENTS_MIN_ROWS, Math.min(24, Math.round(innerHeight / lineHeight)));
+            addCommentsRows.value = rows;
+          }
+        }
+
+        function bindAddCommentsAutoGrow() {
+          if (!addComments) {
+            return;
+          }
+          addComments.addEventListener('input', syncAddCommentsLayout);
+          var addForm = document.getElementById('addUniversityChoiceForm');
+          if (addForm) {
+            addForm.addEventListener('submit', syncAddCommentsLayout);
+          }
+          syncAddCommentsLayout();
+        }
+
+        function syncNoDeadlineFields(checkboxId, fieldPrefix) {
+          var checkbox = document.getElementById(checkboxId);
+          if (!checkbox) {
+            return;
+          }
+          var noDeadline = checkbox.checked;
+          ['due_date', 'due_time', 'due_timezone'].forEach(function (fieldName) {
+            var field = document.getElementById(fieldPrefix + fieldName);
+            if (!field) {
+              return;
+            }
+            if (noDeadline) {
+              field.value = '';
+            }
+            field.disabled = noDeadline;
+          });
+        }
+
+        function bindNoDeadlineToggle(checkboxId, fieldPrefix) {
+          var checkbox = document.getElementById(checkboxId);
+          if (!checkbox) {
+            return;
+          }
+          checkbox.addEventListener('change', function () {
+            syncNoDeadlineFields(checkboxId, fieldPrefix);
+          });
+          syncNoDeadlineFields(checkboxId, fieldPrefix);
+        }
+
+        bindNoDeadlineToggle('no_due_deadline', '');
+        bindNoDeadlineToggle('edit_no_due_deadline', 'edit_');
+
         bindCommentsPreviewRows(editComments, editCommentsRows);
-        bindCommentsPreviewRows(addComments, addCommentsRows);
+        bindAddCommentsAutoGrow();
 
         document.querySelectorAll('.university-edit-btn').forEach(function (button) {
           button.addEventListener('click', function () {
@@ -528,6 +679,15 @@
             document.getElementById('edit_university_name').value = data.university_name || '';
             document.getElementById('edit_degree').value = data.degree || '';
             document.getElementById('edit_riskiness').value = data.riskiness || 'realistic';
+            var editNoDue = document.getElementById('edit_no_due_deadline');
+            var hasDueDate = Boolean(data.due_date);
+            document.getElementById('edit_due_date').value = data.due_date || '';
+            document.getElementById('edit_due_time').value = data.due_time || '';
+            document.getElementById('edit_due_timezone').value = data.due_timezone || '';
+            if (editNoDue) {
+              editNoDue.checked = !hasDueDate;
+            }
+            syncNoDeadlineFields('edit_no_due_deadline', 'edit_');
             editComments.value = data.comments || '';
             syncCommentsField(editComments, editCommentsRows);
             if (editModal) editModal.show();

@@ -504,6 +504,9 @@ class UniversityChoice(models.Model):
     degree = models.CharField(max_length=200)
     comments = models.TextField(blank=True, default='')
     comments_preview_rows = models.PositiveSmallIntegerField(default=4)
+    due_date = models.DateField(null=True, blank=True)
+    due_time = models.TimeField(null=True, blank=True)
+    due_timezone = models.CharField(max_length=64, blank=True, default='')
     riskiness = models.CharField(
         max_length=20,
         choices=Riskiness.choices,

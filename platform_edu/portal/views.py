@@ -1085,6 +1085,65 @@ def _parse_comments_preview_rows(raw_value):
     return max(3, min(24, rows))
 
 
+def _timezone_label(tz_value):
+    if not tz_value:
+        return ''
+    for value, label in DEADLINE_TIMEZONE_CHOICES:
+        if value == tz_value:
+            return label
+    return tz_value
+
+
+def _parse_university_choice_due_fields(request, errors):
+    if request.POST.get('no_due_deadline') == '1':
+        return None, None, ''
+
+    date_raw = request.POST.get('due_date', '').strip()
+    time_raw = request.POST.get('due_time', '').strip()
+    tz_raw = request.POST.get('due_timezone', '').strip()
+
+    due_date = None
+    due_time = None
+    due_timezone = ''
+
+    if date_raw:
+        try:
+            due_date = datetime.strptime(date_raw, '%Y-%m-%d').date()
+        except ValueError:
+            errors.append('Please enter a valid date.')
+
+    if time_raw:
+        due_time = None
+        for time_format in ('%H:%M:%S', '%H:%M'):
+            try:
+                due_time = datetime.strptime(time_raw, time_format).time()
+                break
+            except ValueError:
+                continue
+        if due_time is None:
+            errors.append('Please enter a valid time.')
+        elif not due_date:
+            errors.append('Date is required when a time is set.')
+
+    if due_time is not None and tz_raw:
+        if tz_raw not in DEADLINE_TIMEZONE_VALUES:
+            errors.append('Please select a valid timezone.')
+        else:
+            due_timezone = tz_raw
+
+    if due_time is not None and not due_timezone:
+        due_timezone = 'Europe/Warsaw'
+
+    if due_time is None:
+        due_timezone = ''
+
+    if due_date is None:
+        due_time = None
+        due_timezone = ''
+
+    return due_date, due_time, due_timezone
+
+
 def _resolve_comments_preview_rows(comments, manual_rows):
     manual_rows = _parse_comments_preview_rows(manual_rows)
     if not comments:
@@ -1105,6 +1164,7 @@ def _validate_university_choice_post(request):
         request.POST.get('comments_preview_rows', ''),
     )
     errors = []
+    due_date, due_time, due_timezone = _parse_university_choice_due_fields(request, errors)
 
     if not university_name:
         errors.append('University name is required.')
@@ -1118,6 +1178,9 @@ def _validate_university_choice_post(request):
         'degree': degree,
         'comments': comments,
         'comments_preview_rows': comments_preview_rows,
+        'due_date': due_date,
+        'due_time': due_time,
+        'due_timezone': due_timezone,
         'riskiness': riskiness,
     }
 
@@ -1219,6 +1282,9 @@ def _handle_strategic_application_post(request, profile, strategic, is_admin):
         choice.degree = cleaned['degree']
         choice.comments = cleaned['comments']
         choice.comments_preview_rows = cleaned['comments_preview_rows']
+        choice.due_date = cleaned['due_date']
+        choice.due_time = cleaned['due_time']
+        choice.due_timezone = cleaned['due_timezone']
         choice.riskiness = cleaned['riskiness']
         choice.save()
         messages.success(request, 'University choice updated.')
@@ -1271,11 +1337,24 @@ def strategic_application(request):
             choice.comments,
             choice.comments_preview_rows,
         )
+        choice.due_display = ''
+        choice.due_timezone_label = ''
+        if choice.due_timezone:
+            choice.due_timezone_label = _timezone_label(choice.due_timezone)
+        if choice.due_date:
+            choice.due_display = choice.due_date.strftime('%d %b %Y')
+            if choice.due_time is not None:
+                choice.due_display += f', {choice.due_time.strftime("%H:%M")}'
+                if choice.due_timezone_label:
+                    choice.due_display += f' ({choice.due_timezone_label})'
         university_choices_edit_data[str(choice.id)] = {
             'university_name': choice.university_name,
             'degree': choice.degree,
             'comments': choice.comments or '',
             'comments_preview_rows': choice.display_comments_preview_rows,
+            'due_date': choice.due_date.isoformat() if choice.due_date else '',
+            'due_time': choice.due_time.strftime('%H:%M') if choice.due_time is not None else '',
+            'due_timezone': choice.due_timezone or '',
             'riskiness': choice.riskiness,
         }
 
@@ -1285,6 +1364,7 @@ def strategic_application(request):
         'university_choices': university_choices,
         'university_choices_edit_data': university_choices_edit_data,
         'riskiness_choices': UniversityChoice.Riskiness.choices,
+        'deadline_timezone_choices': DEADLINE_TIMEZONE_CHOICES,
         'choices_locked': choices_locked,
         'show_approve_button': not strategic.choices_approved_at,
     })
