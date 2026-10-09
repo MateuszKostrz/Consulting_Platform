@@ -46,6 +46,67 @@
       .university-choices-locked .university-choice-handle {
         cursor: not-allowed;
       }
+      .university-choices-table {
+        table-layout: fixed;
+        width: 100%;
+        min-width: 0;
+      }
+      .university-choices-table .uc-col-handle {
+        width: 2.75rem;
+      }
+      .university-choices-table .uc-col-university {
+        width: 15%;
+      }
+      .university-choices-table .uc-col-degree {
+        width: 15%;
+      }
+      .university-choices-table .uc-col-riskiness {
+        width: 9%;
+      }
+      .university-choices-table .uc-col-actions {
+        width: 7rem;
+      }
+      .university-choices-table th.col-actions,
+      .university-choices-table td.col-actions {
+        overflow: visible;
+        padding-left: 0.25rem;
+        padding-right: 0.25rem;
+      }
+      .university-choice-trunc-cell {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        vertical-align: middle;
+      }
+      .university-choice-comments-cell {
+        vertical-align: top;
+      }
+      .university-choice-comments-preview {
+        --comment-preview-rows: 4;
+        min-height: calc(var(--comment-preview-rows) * 1.5rem);
+        word-break: break-word;
+        white-space: pre-wrap;
+        line-height: 1.5;
+        font-size: 0.9375rem;
+      }
+      #edit_comments,
+      #comments {
+        resize: vertical;
+        min-height: 6rem;
+      }
+      #addUniversityChoiceForm .university-choice-add-btn {
+        height: var(--bs-input-height, calc(1.5em + 0.75rem + 2px));
+        min-height: var(--bs-input-height, calc(1.5em + 0.75rem + 2px));
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding-top: 0;
+        padding-bottom: 0;
+      }
+      .university-choices-table-wrap {
+        width: 100%;
+        overflow-x: visible;
+      }
     </style>
   </head>
   <body>
@@ -119,15 +180,11 @@
                     <label for="university_name" class="form-label">University name</label>
                     <input type="text" class="form-control" id="university_name" name="university_name" placeholder="e.g. University of Oxford" required />
                   </div>
-                  <div class="col-md-2">
-                    <label for="country" class="form-label">Country</label>
-                    <input type="text" class="form-control" id="country" name="country" placeholder="e.g. United Kingdom" required />
-                  </div>
                   <div class="col-md-3">
                     <label for="degree" class="form-label">Degree</label>
                     <input type="text" class="form-control" id="degree" name="degree" placeholder="e.g. BSc Economics" required />
                   </div>
-                  <div class="col-md-2">
+                  <div class="col-md-3">
                     <label for="riskiness" class="form-label">Riskiness</label>
                     <select class="form-select" id="riskiness" name="riskiness" required>
                       {% for value, label in riskiness_choices %}
@@ -135,8 +192,16 @@
                       {% endfor %}
                     </select>
                   </div>
-                  <div class="col-md-2">
-                    <button type="submit" class="btn btn-primary w-100">Add</button>
+                  <div class="col-md-3">
+                    <label class="form-label invisible" aria-hidden="true">&nbsp;</label>
+                    <button type="submit" class="btn btn-primary w-100 university-choice-add-btn">Add</button>
+                  </div>
+                </div>
+                <div class="row g-4 mt-0">
+                  <div class="col-12">
+                    <label for="comments" class="form-label">Comments</label>
+                    <textarea class="form-control" id="comments" name="comments" rows="4" placeholder="Notes, requirements, deadlines…"></textarea>
+                    <input type="hidden" name="comments_preview_rows" id="add_comments_preview_rows" value="4" />
                   </div>
                 </div>
               </form>
@@ -145,40 +210,55 @@
               <p class="text-body-secondary small mb-3">
                 {% if choices_locked %}Your approved university list.{% else %}Drag rows to reorder your choices.{% endif %}
               </p>
-              <div class="table-responsive">
-                <table class="table table-hover align-middle mb-0">
+              <div class="university-choices-table-wrap">
+                <table class="table table-hover align-middle mb-0 university-choices-table">
+                  <colgroup>
+                    <col class="uc-col-handle" />
+                    <col class="uc-col-university" />
+                    <col class="uc-col-degree" />
+                    <col class="uc-col-riskiness" />
+                    <col class="uc-col-comments" />
+                    <col class="uc-col-actions" />
+                  </colgroup>
                   <thead>
                     <tr>
-                      <th style="width: 2.5rem;"></th>
-                      <th>University</th>
-                      <th>Country</th>
-                      <th>Degree</th>
-                      <th>Riskiness</th>
-                      <th class="text-end">Actions</th>
+                      <th class="col-handle"></th>
+                      <th class="col-university">University</th>
+                      <th class="col-degree">Degree</th>
+                      <th class="col-riskiness">Riskiness</th>
+                      <th class="col-comments">Comments</th>
+                      <th class="text-end col-actions">Actions</th>
                     </tr>
                   </thead>
                   <tbody id="universityChoicesTableBody">
                     {% for choice in university_choices %}
                     <tr data-choice-id="{{ choice.id }}">
-                      <td>
+                      <td class="col-handle">
                         <span class="university-choice-handle text-body-secondary" title="Drag to reorder">
                           <i class="icon-base ri ri-draggable icon-18px"></i>
                         </span>
                       </td>
-                      <td>{{ choice.university_name }}</td>
-                      <td>{{ choice.country|default:"—" }}</td>
-                      <td>{{ choice.degree }}</td>
-                      <td>{{ choice.get_riskiness_display }}</td>
-                      <td class="text-end text-nowrap">
+                      <td class="col-university university-choice-trunc-cell" title="{{ choice.university_name }}">{{ choice.university_name }}</td>
+                      <td class="col-degree university-choice-trunc-cell" title="{{ choice.degree }}">{{ choice.degree }}</td>
+                      <td class="col-riskiness university-choice-trunc-cell" title="{{ choice.get_riskiness_display }}">{{ choice.get_riskiness_display }}</td>
+                      <td class="col-comments university-choice-comments-cell">
+                        {% if choice.comments %}
+                        <div
+                          class="university-choice-comments-preview"
+                          style="--comment-preview-rows: {{ choice.comments_preview_rows|default:4 }};"
+                          title="{{ choice.comments }}">{{ choice.comments }}</div>
+                        {% else %}
+                        <div
+                          class="university-choice-comments-preview text-body-secondary"
+                          style="--comment-preview-rows: {{ choice.comments_preview_rows|default:4 }};">—</div>
+                        {% endif %}
+                      </td>
+                      <td class="text-end text-nowrap col-actions">
                         <button
                           type="button"
                           class="btn btn-icon btn-text-secondary university-edit-btn university-choice-action-btn"
                           title="Edit"
-                          data-choice-id="{{ choice.id }}"
-                          data-university-name="{{ choice.university_name }}"
-                          data-country="{{ choice.country }}"
-                          data-degree="{{ choice.degree }}"
-                          data-riskiness="{{ choice.riskiness }}">
+                          data-choice-id="{{ choice.id }}">
                           <i class="ri ri-pencil-line"></i>
                         </button>
                         <button
@@ -234,7 +314,7 @@
     </div>
 
     <div class="modal fade" id="editUniversityChoiceModal" tabindex="-1" aria-labelledby="editUniversityChoiceModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
           <form method="POST" action="{% url 'strategic-application' %}">
             {% csrf_token %}
@@ -250,12 +330,13 @@
                 <input type="text" class="form-control" id="edit_university_name" name="university_name" required />
               </div>
               <div class="mb-4">
-                <label for="edit_country" class="form-label">Country</label>
-                <input type="text" class="form-control" id="edit_country" name="country" placeholder="e.g. United Kingdom" required />
-              </div>
-              <div class="mb-4">
                 <label for="edit_degree" class="form-label">Degree</label>
                 <input type="text" class="form-control" id="edit_degree" name="degree" required />
+              </div>
+              <div class="mb-4">
+                <label for="edit_comments" class="form-label">Comments</label>
+                <textarea class="form-control" id="edit_comments" name="comments" rows="6" placeholder="Notes, requirements, deadlines…"></textarea>
+                <input type="hidden" name="comments_preview_rows" id="edit_comments_preview_rows" value="4" />
               </div>
               <div>
                 <label for="edit_riskiness" class="form-label">Riskiness</label>
@@ -336,6 +417,7 @@
     <script type="text/javascript" src="{% static 'website/js/main.js' %}"></script>
     <script type="text/javascript" src="{% static 'website/js/vendors.min.js' %}"></script>
     <script src="{% static 'website/js/vendor/libs/sortablejs/sortable.js' %}"></script>
+    {{ university_choices_edit_data|json_script:"university-choices-edit-data" }}
     <script>
       document.addEventListener('DOMContentLoaded', function () {
         var choicesLocked = {{ choices_locked|yesno:"true,false" }};
@@ -343,17 +425,77 @@
         var deleteModalEl = document.getElementById('deleteUniversityChoiceModal');
         var editModal = editModalEl ? bootstrap.Modal.getOrCreateInstance(editModalEl) : null;
         var deleteModal = deleteModalEl ? bootstrap.Modal.getOrCreateInstance(deleteModalEl) : null;
+        var choicesDataEl = document.getElementById('university-choices-edit-data');
+        var choicesById = choicesDataEl ? JSON.parse(choicesDataEl.textContent) : {};
+        var editComments = document.getElementById('edit_comments');
+        var editCommentsRows = document.getElementById('edit_comments_preview_rows');
+        var addComments = document.getElementById('comments');
+        var addCommentsRows = document.getElementById('add_comments_preview_rows');
+
+        function measureTextareaRows(textarea) {
+          var style = window.getComputedStyle(textarea);
+          var lineHeight = parseFloat(style.lineHeight);
+          if (!lineHeight || Number.isNaN(lineHeight)) {
+            lineHeight = 24;
+          }
+          var paddingTop = parseFloat(style.paddingTop) || 0;
+          var paddingBottom = parseFloat(style.paddingBottom) || 0;
+          var borderTop = parseFloat(style.borderTopWidth) || 0;
+          var borderBottom = parseFloat(style.borderBottomWidth) || 0;
+          var innerHeight = textarea.offsetHeight - paddingTop - paddingBottom - borderTop - borderBottom;
+          return Math.max(3, Math.min(24, Math.round(innerHeight / lineHeight)));
+        }
+
+        function applyCommentsTextareaSize(textarea, rows) {
+          rows = Math.max(3, Math.min(24, rows || 4));
+          textarea.rows = rows;
+          var style = window.getComputedStyle(textarea);
+          var lineHeight = parseFloat(style.lineHeight) || 24;
+          var paddingTop = parseFloat(style.paddingTop) || 0;
+          var paddingBottom = parseFloat(style.paddingBottom) || 0;
+          var borderTop = parseFloat(style.borderTopWidth) || 0;
+          var borderBottom = parseFloat(style.borderBottomWidth) || 0;
+          textarea.style.height = (rows * lineHeight + paddingTop + paddingBottom + borderTop + borderBottom) + 'px';
+        }
+
+        function bindCommentsPreviewRows(textarea, hiddenInput) {
+          if (!textarea || !hiddenInput) {
+            return;
+          }
+          function sync() {
+            hiddenInput.value = measureTextareaRows(textarea);
+          }
+          textarea.addEventListener('mouseup', sync);
+          textarea.addEventListener('touchend', sync);
+          textarea.addEventListener('input', sync);
+          var form = textarea.closest('form');
+          if (form) {
+            form.addEventListener('submit', sync);
+          }
+          sync();
+        }
+
+        bindCommentsPreviewRows(editComments, editCommentsRows);
+        bindCommentsPreviewRows(addComments, addCommentsRows);
 
         document.querySelectorAll('.university-edit-btn').forEach(function (button) {
           button.addEventListener('click', function () {
             if (choicesLocked) {
               return;
             }
-            document.getElementById('edit_choice_id').value = button.dataset.choiceId;
-            document.getElementById('edit_university_name').value = button.dataset.universityName;
-            document.getElementById('edit_country').value = button.dataset.country || '';
-            document.getElementById('edit_degree').value = button.dataset.degree;
-            document.getElementById('edit_riskiness').value = button.dataset.riskiness;
+            var choiceId = button.dataset.choiceId;
+            var data = choicesById[choiceId];
+            if (!data) {
+              return;
+            }
+            document.getElementById('edit_choice_id').value = choiceId;
+            document.getElementById('edit_university_name').value = data.university_name || '';
+            document.getElementById('edit_degree').value = data.degree || '';
+            document.getElementById('edit_riskiness').value = data.riskiness || 'realistic';
+            var previewRows = data.comments_preview_rows || 4;
+            editComments.value = data.comments || '';
+            applyCommentsTextareaSize(editComments, previewRows);
+            editCommentsRows.value = previewRows;
             if (editModal) editModal.show();
           });
         });

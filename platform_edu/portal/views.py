@@ -1074,26 +1074,39 @@ def portfolio_design(request):
     })
 
 
+def _parse_comments_preview_rows(raw_value):
+    try:
+        rows = int(str(raw_value).strip())
+    except (TypeError, ValueError):
+        rows = 4
+    return max(3, min(24, rows))
+
+
 def _validate_university_choice_post(request):
     university_name = request.POST.get('university_name', '').strip()
-    country = request.POST.get('country', '').strip()
     degree = request.POST.get('degree', '').strip()
+    comments = request.POST.get('comments', '').strip()
     riskiness = request.POST.get('riskiness', '').strip()
+    comments_preview_rows = _parse_comments_preview_rows(
+        request.POST.get('comments_preview_rows', ''),
+    )
     errors = []
 
     if not university_name:
         errors.append('University name is required.')
-    if not country:
-        errors.append('Country is required.')
     if not degree:
         errors.append('Degree is required.')
     if riskiness not in UniversityChoice.Riskiness.values:
         errors.append('Please select a valid riskiness level.')
 
+    content_rows = max(1, comments.count('\n') + 1) if comments else 1
+    comments_preview_rows = max(comments_preview_rows, min(24, content_rows))
+
     return errors, {
         'university_name': university_name,
-        'country': country,
         'degree': degree,
+        'comments': comments,
+        'comments_preview_rows': comments_preview_rows,
         'riskiness': riskiness,
     }
 
@@ -1192,8 +1205,9 @@ def _handle_strategic_application_post(request, profile, strategic, is_admin):
             request.POST.get('choice_id', '').strip(),
         )
         choice.university_name = cleaned['university_name']
-        choice.country = cleaned['country']
         choice.degree = cleaned['degree']
+        choice.comments = cleaned['comments']
+        choice.comments_preview_rows = cleaned['comments_preview_rows']
         choice.riskiness = cleaned['riskiness']
         choice.save()
         messages.success(request, 'University choice updated.')
@@ -1240,11 +1254,22 @@ def strategic_application(request):
 
     university_choices = profile.university_choices.order_by('sort_order', 'id')
     choices_locked = _choices_are_locked(strategic, is_admin)
+    university_choices_edit_data = {
+        str(choice.id): {
+            'university_name': choice.university_name,
+            'degree': choice.degree,
+            'comments': choice.comments or '',
+            'comments_preview_rows': choice.comments_preview_rows,
+            'riskiness': choice.riskiness,
+        }
+        for choice in university_choices
+    }
 
     return render(request, 'strategic_application.html', {
         'strategic': strategic,
         'portfolio': portfolio,
         'university_choices': university_choices,
+        'university_choices_edit_data': university_choices_edit_data,
         'riskiness_choices': UniversityChoice.Riskiness.choices,
         'choices_locked': choices_locked,
         'show_approve_button': not strategic.choices_approved_at,

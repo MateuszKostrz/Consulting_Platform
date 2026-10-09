@@ -502,6 +502,8 @@ class UniversityChoice(models.Model):
     university_name = models.CharField(max_length=200)
     country = models.CharField(max_length=100, blank=True, default='')
     degree = models.CharField(max_length=200)
+    comments = models.TextField(blank=True, default='')
+    comments_preview_rows = models.PositiveSmallIntegerField(default=4)
     riskiness = models.CharField(
         max_length=20,
         choices=Riskiness.choices,
