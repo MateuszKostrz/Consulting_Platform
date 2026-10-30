@@ -162,7 +162,7 @@ def _validate_upload(uploaded_file):
         return None
 
     if uploaded_file.size > MAX_UPLOAD_SIZE:
-        return 'File must be 10 MB or smaller.'
+        return 'File must be 30 MB or smaller.'
 
     extension = os.path.splitext(uploaded_file.name)[1].lower()
     if extension not in ALLOWED_UPLOAD_EXTENSIONS:
@@ -176,7 +176,7 @@ def _validate_home_document_upload(uploaded_file):
         return None
 
     if uploaded_file.size > MAX_HOME_DOCUMENT_SIZE:
-        return 'File must be 5 MB or smaller.'
+        return 'File must be 30 MB or smaller.'
 
     extension = os.path.splitext(uploaded_file.name)[1].lower()
     if extension not in HOME_DOCUMENT_ALLOWED_EXTENSIONS:
@@ -1582,7 +1582,7 @@ def _validate_interview_feedback_upload(uploaded_file):
     if not uploaded_file:
         return None
     if uploaded_file.size > MAX_UPLOAD_SIZE:
-        return 'Feedback file must be 10 MB or smaller.'
+        return 'Feedback file must be 30 MB or smaller.'
     extension = os.path.splitext(uploaded_file.name)[1].lower()
     if extension not in INTERVIEW_FEEDBACK_EXTENSIONS:
         return 'Only PDF and DOCX files are allowed for feedback.'
