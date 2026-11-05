@@ -1,0 +1,14 @@
+#!/bin/bash
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+
+if [ -f "$REPO_ROOT/env/bin/activate" ]; then
+  source "$REPO_ROOT/env/bin/activate"
+elif [ -f "$REPO_ROOT/venv/bin/activate" ]; then
+  source "$REPO_ROOT/venv/bin/activate"
+fi
+
+cd "$SCRIPT_DIR"
+python send_test_sms_confirm.py

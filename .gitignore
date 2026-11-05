@@ -17,8 +17,15 @@ staticfiles/
 media/
 logs/
 
-# Donna (local scripts — not pushed)
-donna/
+# Donna — scripts are in git; local exports / lists stay out
+donna/campaign_lists/
+donna/fillout/
+donna/email/
+donna/**/*.xlsx
+donna/**/*.log
+donna/**/__pycache__/
+donna/.DS_Store
+donna/platform_exploration.ipynb
 
 # OS / IDE
 .DS_Store
