@@ -10,6 +10,7 @@ LOGIN_EXEMPT_PREFIXES = (
     '/admin/',
     '/static/',
     '/media/',
+    '/webhooks/',
 )
 
 

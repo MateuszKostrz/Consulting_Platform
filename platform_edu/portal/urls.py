@@ -2,6 +2,7 @@ from django.urls import path
 from django.views.generic import RedirectView
 
 from . import views
+from .whatsapp_webhook import donna_whatsapp_webhook
 
 urlpatterns = [
     path('home/', views.home, name='home'),
@@ -37,4 +38,5 @@ urlpatterns = [
     path('exit-student-preview/', views.exit_student_preview, name='exit-student-preview'),
     path('logout/', views.logout_view, name='logout'),
     path('settings/', views.personal_information, name='account'),
+    path('webhooks/whatsapp/donna/', donna_whatsapp_webhook, name='donna-whatsapp-webhook'),
 ]

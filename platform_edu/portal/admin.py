@@ -23,6 +23,8 @@ from .models import (
     StudentTodo,
     StudentDocument,
     UniversityChoice,
+    WhatsAppDonnaContact,
+    WhatsAppDonnaMessage,
 )
 
 
@@ -582,3 +584,27 @@ class PortfolioDesignElementAdmin(admin.ModelAdmin):
         if platform_user:
             return platform_user.email
         return obj.personal_profile.personal_email or obj.personal_profile.edunade_email or '—'
+
+
+@admin.register(WhatsAppDonnaContact)
+class WhatsAppDonnaContactAdmin(admin.ModelAdmin):
+    list_display = ('wa_id', 'profile_name', 'last_message_at', 'updated_at')
+    search_fields = ('wa_id', 'profile_name')
+    readonly_fields = ('created_at', 'updated_at')
+
+
+@admin.register(WhatsAppDonnaMessage)
+class WhatsAppDonnaMessageAdmin(admin.ModelAdmin):
+    list_display = (
+        'wamid',
+        'contact',
+        'direction',
+        'message_type',
+        'status',
+        'body_text',
+        'wa_timestamp',
+    )
+    list_filter = ('direction', 'message_type', 'status')
+    search_fields = ('wamid', 'body_text', 'contact__wa_id')
+    readonly_fields = ('created_at', 'updated_at')
+    raw_id_fields = ('contact',)

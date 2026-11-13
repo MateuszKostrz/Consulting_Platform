@@ -843,3 +843,50 @@ class StudentSectionAccess(models.Model):
 
     def __str__(self):
         return f'Section access ({self.platform_user})'
+
+
+class WhatsAppDonnaContact(models.Model):
+    wa_id = models.CharField(max_length=32, unique=True, db_index=True)
+    profile_name = models.CharField(max_length=255, blank=True, default='')
+    last_message_at = models.DateTimeField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = 'Donna WhatsApp contact'
+        verbose_name_plural = 'Donna WhatsApp contacts'
+        ordering = ['-last_message_at', '-updated_at']
+
+    def __str__(self):
+        label = self.profile_name or self.wa_id
+        return f'{label} ({self.wa_id})'
+
+
+class WhatsAppDonnaMessage(models.Model):
+    class Direction(models.TextChoices):
+        INBOUND = 'in', 'Inbound'
+        OUTBOUND = 'out', 'Outbound'
+
+    contact = models.ForeignKey(
+        WhatsAppDonnaContact,
+        on_delete=models.CASCADE,
+        related_name='messages',
+    )
+    wamid = models.CharField(max_length=255, unique=True, db_index=True)
+    direction = models.CharField(max_length=8, choices=Direction.choices)
+    message_type = models.CharField(max_length=32, blank=True, default='')
+    body_text = models.TextField(blank=True, default='')
+    status = models.CharField(max_length=32, blank=True, default='')
+    raw_payload = models.JSONField(default=dict, blank=True)
+    wa_timestamp = models.DateTimeField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = 'Donna WhatsApp message'
+        verbose_name_plural = 'Donna WhatsApp messages'
+        ordering = ['-wa_timestamp', '-created_at']
+
+    def __str__(self):
+        preview = (self.body_text or self.message_type or '')[:40]
+        return f'{self.direction} {self.contact.wa_id}: {preview}'

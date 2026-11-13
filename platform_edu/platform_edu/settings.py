@@ -182,8 +182,18 @@ DATABASES = {
         'PORT': '5432',
         'CONN_MAX_AGE': 60,  # reuse DB connections for 60s instead of reconnecting every request
     },
-    
+    'donna': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv('DB_DONNA_NAME', 'test_don'),
+        'USER': os.getenv('DB_DONNA_USER', 'mateuszkostrz'),
+        'PASSWORD': os.getenv('DB_DONNA_PASSWORD') or os.getenv('DB_PASSWORD'),
+        'HOST': os.getenv('DB_DONNA_HOST') or os.getenv('DB_HOST'),
+        'PORT': os.getenv('DB_DONNA_PORT', '5432'),
+        'CONN_MAX_AGE': 60,
+    },
 }
+
+DATABASE_ROUTERS = ['portal.db_router.DonnaDatabaseRouter']
 
 
 # Password validation
@@ -317,6 +327,15 @@ SESSION_COOKIE_SAMESITE = 'Lax'  # CSRF protection
 CSRF_COOKIE_SECURE = USE_HTTPS and not DEBUG
 
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+
+WHATSAPP_DONNA_API = os.getenv('WHATSAPP_DONNA_API', '').strip()
+WHATSAPP_DONNA_PHONE_NUMBER_ID = os.getenv(
+    'WHATSAPP_DONNA_PHONE_NUMBER_ID',
+    '1450404871491619',
+).strip()
+WHATSAPP_DONNA_VERIFY_TOKEN = os.getenv('WHATSAPP_DONNA_VERIFY_TOKEN', '').strip()
+WHATSAPP_DONNA_APP_SECRET = os.getenv('WHATSAPP_DONNA_APP_SECRET', '').strip()
+META_API_VERSION = os.getenv('META_API_VERSION', 'v25.0').strip()
 
 
 AUTHENTICATION_BACKENDS = [
