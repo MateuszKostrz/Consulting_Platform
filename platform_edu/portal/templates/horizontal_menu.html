@@ -60,6 +60,19 @@
     text-decoration: underline;
     opacity: 0.85;
   }
+
+  /* Student profile picker: cap height and scroll (ships with template; do not rely on demo.css collectstatic alone) */
+  .layout-navbar .navbar-dropdown.dropdown-students .dropdown-menu {
+    overflow: visible;
+  }
+
+  .layout-navbar .navbar-dropdown.dropdown-students .dropdown-students-list {
+    max-block-size: 25.75rem;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+  }
 </style>
 
 <!-- Top Navbar (from horizontal-menu-template) -->

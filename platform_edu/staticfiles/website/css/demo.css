@@ -27,6 +27,38 @@
   padding-top: 64px !important;
 }
 
+/* Horizontal tab bar is fixed; page content must clear navbar + menu */
+@media (min-width: 1200px) {
+  .layout-menu-fixed:not(.layout-navbar-hidden) .layout-horizontal .layout-page .content-wrapper > .container-xxl,
+  .layout-menu-fixed:not(.layout-navbar-hidden) .layout-horizontal .layout-page .content-wrapper > [class*="container-"],
+  .layout-menu-fixed-offcanvas:not(.layout-navbar-hidden) .layout-horizontal .layout-page .content-wrapper > .container-xxl,
+  .layout-menu-fixed-offcanvas:not(.layout-navbar-hidden) .layout-horizontal .layout-page .content-wrapper > [class*="container-"] {
+    padding-block-start: 5.15rem !important;
+  }
+}
+
+/* Scrollable student profile dropdown in header */
+.layout-navbar .navbar-dropdown.dropdown-students .dropdown-menu {
+  overflow: visible;
+}
+
+.layout-navbar .navbar-dropdown.dropdown-students .dropdown-students-filters {
+  background-color: var(--bs-paper-bg);
+}
+
+.layout-navbar .navbar-dropdown.dropdown-students .dropdown-students-filters .student-year-filter {
+  min-width: 2.75rem;
+  padding-inline: 0.625rem;
+}
+
+.layout-navbar .navbar-dropdown.dropdown-students .dropdown-students-list {
+  max-block-size: 25.75rem;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
 /* Navbar page z-index issue solution */
 .content-wrapper .navbar {
   z-index: auto;
