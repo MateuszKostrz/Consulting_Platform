@@ -39,6 +39,11 @@ def _verify_subscription(request):
 def _handle_notification(request):
     app_secret = settings.WHATSAPP_DONNA_APP_SECRET
     signature = request.headers.get('X-Hub-Signature-256')
+    logger.info(
+        'WhatsApp Donna webhook POST bytes=%s has_signature=%s',
+        len(request.body),
+        bool(signature),
+    )
 
     if app_secret:
         if not verify_meta_signature(app_secret, request.body, signature):

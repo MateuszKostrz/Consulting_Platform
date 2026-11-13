@@ -1,0 +1,567 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WhatsApp</title>
+    <style>
+      :root {
+        --wa-bg: #e8eef3;
+        --wa-card: #ffffff;
+        --wa-sidebar: #f4f6f9;
+        --wa-border: #e2e8f0;
+        --wa-text: #1e293b;
+        --wa-muted: #64748b;
+        --wa-accent: #0d9488;
+        --wa-accent-soft: #ccfbf1;
+        --wa-accent-hover: #0f766e;
+        --wa-chat-bg: #efeae2;
+        --wa-bubble-in: #ffffff;
+        --wa-bubble-out: #d9fdd3;
+        --wa-radius: 16px;
+        --wa-radius-sm: 12px;
+        --wa-shadow: 0 12px 40px rgba(15, 23, 42, 0.12), 0 0 0 1px rgba(15, 23, 42, 0.06);
+      }
+      * { box-sizing: border-box; }
+      html, body {
+        height: 100%;
+        margin: 0;
+        font-family: "Segoe UI", system-ui, -apple-system, Roboto, sans-serif;
+        color: var(--wa-text);
+        background: var(--wa-bg);
+        background-image:
+          radial-gradient(ellipse 120% 80% at 50% -20%, rgba(13, 148, 136, 0.12), transparent 50%),
+          radial-gradient(ellipse 80% 50% at 100% 100%, rgba(148, 163, 184, 0.15), transparent 45%);
+      }
+      .wa-page {
+        min-height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1.25rem;
+      }
+      input[name="csrfmiddlewaretoken"] { display: none; }
+      .wa-shell {
+        width: 100%;
+        max-width: 44rem;
+        height: min(720px, calc(100vh - 2.5rem));
+        background: var(--wa-card);
+        border-radius: var(--wa-radius);
+        box-shadow: var(--wa-shadow);
+        overflow: hidden;
+      }
+      .wa-inbox-layout {
+        display: grid;
+        grid-template-columns: 11.5rem 1fr;
+        height: 100%;
+        overflow: hidden;
+      }
+      @media (max-width: 640px) {
+        .wa-page { padding: 0.5rem; align-items: stretch; }
+        .wa-shell { height: calc(100vh - 1rem); border-radius: var(--wa-radius-sm); }
+        .wa-inbox-layout { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
+        .wa-contacts-panel { max-height: 32vh; }
+      }
+      .wa-contacts-panel {
+        display: flex;
+        flex-direction: column;
+        background: var(--wa-sidebar);
+        border-right: 1px solid var(--wa-border);
+        min-height: 0;
+      }
+      .wa-contacts-toolbar {
+        flex-shrink: 0;
+        padding: 0.85rem 0.75rem;
+      }
+      .wa-contacts-list {
+        flex: 1;
+        overflow-y: auto;
+        min-height: 0;
+        padding: 0 0.5rem 0.5rem;
+      }
+      .wa-new-template-btn {
+        width: 100%;
+        border: none;
+        border-radius: var(--wa-radius-sm);
+        background: var(--wa-accent);
+        color: #fff;
+        font-size: 0.78rem;
+        font-weight: 600;
+        letter-spacing: 0.02em;
+        padding: 0.55rem 0.65rem;
+        cursor: pointer;
+        box-shadow: 0 2px 8px rgba(13, 148, 136, 0.35);
+        transition: background 0.15s ease, transform 0.1s ease;
+      }
+      .wa-new-template-btn:hover {
+        background: var(--wa-accent-hover);
+      }
+      .wa-new-template-btn:active { transform: scale(0.98); }
+      .wa-contact-item {
+        display: flex;
+        align-items: center;
+        gap: 0.55rem;
+        padding: 0.65rem 0.55rem;
+        margin-bottom: 0.25rem;
+        border-radius: var(--wa-radius-sm);
+        text-decoration: none;
+        color: var(--wa-text);
+        font-size: 0.84rem;
+        font-weight: 500;
+        transition: background 0.12s ease;
+      }
+      .wa-contact-item:hover { background: rgba(255, 255, 255, 0.7); }
+      .wa-contact-item.active {
+        background: var(--wa-card);
+        box-shadow: 0 1px 4px rgba(15, 23, 42, 0.08);
+      }
+      .wa-contact-avatar {
+        flex-shrink: 0;
+        width: 2rem;
+        height: 2rem;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #5eead4, var(--wa-accent));
+        color: #fff;
+        font-size: 0.75rem;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .wa-contact-text { min-width: 0; }
+      .wa-contact-item .sub {
+        color: var(--wa-muted);
+        font-size: 0.68rem;
+        font-weight: 400;
+        margin-top: 1px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .wa-chat-panel {
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+        background: var(--wa-chat-bg);
+      }
+      .wa-chat-top {
+        flex-shrink: 0;
+        padding: 0.75rem 1rem;
+        background: var(--wa-card);
+        border-bottom: 1px solid var(--wa-border);
+        font-size: 0.9rem;
+        font-weight: 600;
+      }
+      .wa-chat-top span {
+        color: var(--wa-muted);
+        font-weight: 400;
+        font-size: 0.75rem;
+        margin-left: 0.35rem;
+      }
+      .wa-chat-messages {
+        flex: 1;
+        overflow-y: auto;
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.4rem;
+        min-height: 0;
+        background-color: var(--wa-chat-bg);
+        background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c5b9ab' fill-opacity='0.22'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      }
+      .wa-bubble {
+        display: inline-flex;
+        flex-direction: column;
+        align-items: flex-start;
+        max-width: 16.5rem;
+        padding: 0.45rem 0.6rem 0.35rem;
+        border-radius: 0 12px 12px 12px;
+        font-size: 0.88rem;
+        line-height: 1.35;
+        box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06);
+      }
+      .wa-bubble.in {
+        align-self: flex-start;
+        background: var(--wa-bubble-in);
+        border-radius: 0 12px 12px 12px;
+      }
+      .wa-bubble.out {
+        align-self: flex-end;
+        background: var(--wa-bubble-out);
+        border-radius: 12px 0 12px 12px;
+      }
+      .wa-bubble-body {
+        white-space: pre-wrap;
+        word-break: break-word;
+      }
+      .wa-bubble-meta {
+        align-self: flex-end;
+        font-size: 0.62rem;
+        color: var(--wa-muted);
+        margin-top: 0.15rem;
+        line-height: 1;
+      }
+      .wa-composer {
+        display: flex;
+        gap: 0.5rem;
+        padding: 0.75rem 1rem;
+        background: var(--wa-card);
+        border-top: 1px solid var(--wa-border);
+        align-items: flex-end;
+      }
+      .wa-composer textarea {
+        flex: 1;
+        border: 1px solid var(--wa-border);
+        border-radius: 999px;
+        padding: 0.6rem 1rem;
+        font: inherit;
+        font-size: 0.88rem;
+        resize: none;
+        min-height: 2.6rem;
+        max-height: 7rem;
+        background: #f8fafc;
+        transition: border-color 0.15s ease, box-shadow 0.15s ease;
+      }
+      .wa-composer textarea:focus {
+        outline: none;
+        border-color: var(--wa-accent);
+        box-shadow: 0 0 0 3px var(--wa-accent-soft);
+        background: #fff;
+      }
+      .wa-composer button {
+        flex-shrink: 0;
+        border: none;
+        border-radius: 999px;
+        background: var(--wa-accent);
+        color: #fff;
+        font-weight: 600;
+        font-size: 0.82rem;
+        padding: 0.6rem 1.1rem;
+        cursor: pointer;
+        transition: background 0.15s ease;
+      }
+      .wa-composer button:hover:not(:disabled) { background: var(--wa-accent-hover); }
+      .wa-composer button:disabled { opacity: 0.55; cursor: default; }
+      .wa-empty, .wa-none {
+        margin: auto;
+        text-align: center;
+        color: var(--wa-muted);
+        padding: 1.5rem;
+        font-size: 0.88rem;
+      }
+      .wa-error {
+        color: #dc2626;
+        font-size: 0.72rem;
+        padding: 0 1rem 0.5rem;
+        background: var(--wa-card);
+      }
+      .wa-error.hidden { display: none; }
+      .wa-modal {
+        position: fixed;
+        inset: 0;
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1.25rem;
+      }
+      .wa-modal.hidden { display: none; }
+      .wa-modal-backdrop {
+        position: absolute;
+        inset: 0;
+        background: rgba(15, 23, 42, 0.45);
+        backdrop-filter: blur(4px);
+      }
+      .wa-modal-card {
+        position: relative;
+        width: 100%;
+        max-width: 23rem;
+        background: var(--wa-card);
+        border-radius: var(--wa-radius);
+        padding: 1.25rem 1.25rem 1rem;
+        box-shadow: var(--wa-shadow);
+      }
+      .wa-modal-card h2 {
+        margin: 0 0 1rem;
+        font-size: 1.05rem;
+        font-weight: 600;
+      }
+      .wa-field { margin-bottom: 0.85rem; }
+      .wa-field label {
+        display: block;
+        font-size: 0.72rem;
+        font-weight: 600;
+        color: var(--wa-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        margin-bottom: 0.35rem;
+      }
+      .wa-phone-row {
+        display: grid;
+        grid-template-columns: 8rem 1fr;
+        gap: 0.5rem;
+      }
+      .wa-modal-card select,
+      .wa-modal-card input[type="tel"] {
+        width: 100%;
+        border: 1px solid var(--wa-border);
+        border-radius: var(--wa-radius-sm);
+        padding: 0.55rem 0.7rem;
+        font: inherit;
+        font-size: 0.88rem;
+        background: #f8fafc;
+      }
+      .wa-modal-card select:focus,
+      .wa-modal-card input:focus {
+        outline: none;
+        border-color: var(--wa-accent);
+        box-shadow: 0 0 0 3px var(--wa-accent-soft);
+        background: #fff;
+      }
+      .wa-modal-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 0.5rem;
+        margin-top: 0.35rem;
+      }
+      .wa-modal-actions button {
+        border: none;
+        border-radius: var(--wa-radius-sm);
+        padding: 0.52rem 1rem;
+        font-size: 0.84rem;
+        font-weight: 600;
+        cursor: pointer;
+      }
+      .wa-btn-cancel { background: #f1f5f9; color: var(--wa-text); }
+      .wa-btn-cancel:hover { background: #e2e8f0; }
+      .wa-btn-send { background: var(--wa-accent); color: #fff; }
+      .wa-btn-send:hover:not(:disabled) { background: var(--wa-accent-hover); }
+      .wa-btn-send:disabled { opacity: 0.55; cursor: default; }
+      .wa-modal-error {
+        color: #dc2626;
+        font-size: 0.75rem;
+        margin: 0 0 0.5rem;
+        min-height: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wa-page">
+    {% csrf_token %}
+    <div class="wa-shell">
+    <div class="wa-inbox-layout">
+      <div class="wa-contacts-panel" aria-label="Contacts">
+        <div class="wa-contacts-toolbar">
+          <button type="button" class="wa-new-template-btn" id="wa-new-template-btn">+ New template</button>
+        </div>
+        <div class="wa-contacts-list">
+        {% if not contacts %}
+        <p class="wa-none">No chats</p>
+        {% else %}
+        {% for c in contacts %}
+        <a href="?contact={{ c.id }}"
+           class="wa-contact-item{% if selected_contact and selected_contact.id == c.id %} active{% endif %}">
+          <span class="wa-contact-avatar" aria-hidden="true">{{ c.profile_name|default:c.wa_id|slice:":1"|upper }}</span>
+          <div class="wa-contact-text">
+            <div class="wa-contact-name">{{ c.profile_name|default:c.wa_id }}</div>
+            <div class="sub">{{ c.wa_id }}</div>
+          </div>
+        </a>
+        {% endfor %}
+        {% endif %}
+        </div>
+      </div>
+
+      <div class="wa-chat-panel">
+        {% if selected_contact %}
+        <div class="wa-chat-top">
+          {{ selected_contact.profile_name|default:selected_contact.wa_id }}
+          <span>{{ selected_contact.wa_id }}</span>
+        </div>
+        <div class="wa-chat-messages" id="wa-chat-messages" data-contact-id="{{ selected_contact.id }}"
+             data-messages-url="{% url 'donna-whatsapp-messages-api' selected_contact.id %}"
+             data-send-url="{% url 'donna-whatsapp-send-api' %}">
+          {% for m in thread_messages %}
+          <div class="wa-bubble {% if m.direction == 'out' %}out{% else %}in{% endif %}" data-msg-id="{{ m.id }}"><span class="wa-bubble-body">{{ m.body_text|default:"" }}</span>{% if m.wa_timestamp %}<span class="wa-bubble-meta">{{ m.wa_timestamp|date:"H:i" }}</span>{% endif %}</div>
+          {% endfor %}
+        </div>
+        <form class="wa-composer" id="wa-send-form">
+          {% csrf_token %}
+          <textarea name="body" id="wa-body" rows="1" placeholder="Message" required></textarea>
+          <button type="submit" id="wa-send-btn">Send</button>
+        </form>
+        <div id="wa-send-error" class="wa-error hidden"></div>
+        {% else %}
+        <div class="wa-empty">Pick a chat</div>
+        {% endif %}
+      </div>
+    </div>
+    </div>
+    </div>
+
+    <div id="wa-template-modal" class="wa-modal hidden" aria-hidden="true">
+      <div class="wa-modal-backdrop" data-close-template-modal></div>
+      <div class="wa-modal-card" role="dialog" aria-labelledby="wa-template-modal-title">
+        <h2 id="wa-template-modal-title">Send template</h2>
+        <form id="wa-template-form">
+          <div class="wa-field">
+            <label for="wa-country-code">Country</label>
+            <div class="wa-phone-row">
+              <select id="wa-country-code" name="country_code" required>
+                {% for code, label in country_codes %}
+                <option value="{{ code }}"{% if code == '48' %} selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+              </select>
+              <input type="tel" id="wa-phone-local" name="phone" inputmode="numeric" autocomplete="tel-national" placeholder="663 337 793" required />
+            </div>
+          </div>
+          <div class="wa-field">
+            <label for="wa-template-name">Template</label>
+            <select id="wa-template-name" name="template_name" required>
+              {% for t in whatsapp_templates %}
+              <option value="{{ t.name }}">{{ t.label }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <p id="wa-template-modal-error" class="wa-modal-error"></p>
+          <div class="wa-modal-actions">
+            <button type="button" class="wa-btn-cancel" data-close-template-modal>Cancel</button>
+            <button type="submit" class="wa-btn-send" id="wa-template-submit">Send</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    {% if selected_contact %}
+    <script>
+(function () {
+  const box = document.getElementById('wa-chat-messages');
+  const form = document.getElementById('wa-send-form');
+  const bodyEl = document.getElementById('wa-body');
+  const errEl = document.getElementById('wa-send-error');
+  const sendBtn = document.getElementById('wa-send-btn');
+  const contactId = box.dataset.contactId;
+  const messagesUrl = box.dataset.messagesUrl;
+  const sendUrl = box.dataset.sendUrl;
+
+  function lastMsgId() {
+    const nodes = box.querySelectorAll('[data-msg-id]');
+    if (!nodes.length) return '';
+    return nodes[nodes.length - 1].dataset.msgId;
+  }
+
+  function appendMessage(m) {
+    if (box.querySelector('[data-msg-id="' + m.id + '"]')) return;
+    const div = document.createElement('div');
+    div.className = 'wa-bubble ' + (m.direction === 'out' ? 'out' : 'in');
+    div.dataset.msgId = m.id;
+    const bodySpan = document.createElement('span');
+    bodySpan.className = 'wa-bubble-body';
+    bodySpan.textContent = m.body || '';
+    div.appendChild(bodySpan);
+    if (m.at) {
+      const meta = document.createElement('span');
+      meta.className = 'wa-bubble-meta';
+      meta.textContent = m.at.replace('T', ' ').slice(11, 16);
+      div.appendChild(meta);
+    }
+    box.appendChild(div);
+    box.scrollTop = box.scrollHeight;
+  }
+
+  function poll() {
+    const since = lastMsgId();
+    const url = since ? messagesUrl + '?since_id=' + encodeURIComponent(since) : messagesUrl;
+    fetch(url, { credentials: 'same-origin', headers: { Accept: 'application/json' } })
+      .then(function (r) { return r.json(); })
+      .then(function (data) { (data.messages || []).forEach(appendMessage); })
+      .catch(function () {});
+  }
+
+  setInterval(poll, 5000);
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    const body = bodyEl.value.trim();
+    if (!body) return;
+    errEl.classList.add('hidden');
+    sendBtn.disabled = true;
+    const fd = new FormData(form);
+    fd.set('contact_id', contactId);
+    fd.set('body', body);
+    fetch(sendUrl, { method: 'POST', body: fd, credentials: 'same-origin', headers: { Accept: 'application/json' } })
+      .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
+      .then(function (res) {
+        if (!res.ok) throw new Error(res.j.error || 'Send failed');
+        bodyEl.value = '';
+        if (res.j.message) appendMessage(res.j.message);
+      })
+      .catch(function (err) {
+        errEl.textContent = err.message || 'Send failed';
+        errEl.classList.remove('hidden');
+      })
+      .finally(function () { sendBtn.disabled = false; bodyEl.focus(); });
+  });
+
+  box.scrollTop = box.scrollHeight;
+})();
+    </script>
+    {% endif %}
+    <script>
+(function () {
+  const modal = document.getElementById('wa-template-modal');
+  const openBtn = document.getElementById('wa-new-template-btn');
+  const form = document.getElementById('wa-template-form');
+  const errEl = document.getElementById('wa-template-modal-error');
+  const submitBtn = document.getElementById('wa-template-submit');
+  const sendTemplateUrl = "{% url 'donna-whatsapp-send-template-api' %}";
+  const csrfInput = document.querySelector('[name=csrfmiddlewaretoken]');
+
+  function openModal() {
+    modal.classList.remove('hidden');
+    modal.setAttribute('aria-hidden', 'false');
+    errEl.textContent = '';
+    document.getElementById('wa-phone-local').focus();
+  }
+  function closeModal() {
+    modal.classList.add('hidden');
+    modal.setAttribute('aria-hidden', 'true');
+  }
+
+  openBtn.addEventListener('click', openModal);
+  modal.querySelectorAll('[data-close-template-modal]').forEach(function (el) {
+    el.addEventListener('click', closeModal);
+  });
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    errEl.textContent = '';
+    submitBtn.disabled = true;
+    const fd = new FormData(form);
+    if (csrfInput) fd.set('csrfmiddlewaretoken', csrfInput.value);
+    fetch(sendTemplateUrl, {
+      method: 'POST',
+      body: fd,
+      credentials: 'same-origin',
+      headers: { Accept: 'application/json' },
+    })
+      .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
+      .then(function (res) {
+        if (!res.ok) throw new Error(res.j.error || 'Send failed');
+        if (res.j.redirect_url) {
+          window.location.href = res.j.redirect_url;
+          return;
+        }
+        closeModal();
+        window.location.reload();
+      })
+      .catch(function (err) {
+        errEl.textContent = err.message || 'Send failed';
+      })
+      .finally(function () { submitBtn.disabled = false; });
+  });
+})();
+    </script>
+  </body>
+</html>
