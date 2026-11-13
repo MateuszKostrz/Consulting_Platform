@@ -27,6 +27,16 @@ IB_SUBJECT_CHOICES = [
 
 SUBJECT_OTHER_VALUE = 'other'
 
+SUBJECT_LEVEL_CHOICES = [
+    ('SL', 'SL'),
+    ('HL', 'HL'),
+    ('Standard', 'Standard'),
+    ('Extended', 'Extended'),
+    ('Podstawa', 'Podstawa'),
+    ('Rozszerzenie', 'Rozszerzenie'),
+    ('Other', 'Other'),
+]
+
 GRADUATION_YEARS = ['2024', '2025', '2026', '2027', '2028', '2029', '2030', 'Other']
 
 PHONE_COUNTRY_CODES = [

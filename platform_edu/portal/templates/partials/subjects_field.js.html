@@ -5,59 +5,89 @@
   }
   window.__subjectsFieldReady = true;
 
-  function initSubjectsSelect(selectEl) {
-    if (window.jQuery && jQuery.fn.select2) {
-      jQuery(selectEl).select2({
-        placeholder: 'Select your subjects',
-        allowClear: true,
-        width: '100%',
-      });
+  const OTHER_LEVEL = 'Other';
+
+  function syncLevelOther(row) {
+    const levelSelect = row.querySelector('[data-subject-level]');
+    const wrap = row.querySelector('[data-subject-level-other-wrap]');
+    const otherInput = row.querySelector('[data-subject-level-other]');
+    if (!levelSelect || !wrap) {
+      return;
+    }
+    const isOther = levelSelect.value === OTHER_LEVEL;
+    wrap.classList.toggle('d-none', !isOther);
+    if (otherInput && isOther) {
+      otherInput.focus();
     }
   }
 
-  function addCustomSubjectRow(listEl, value) {
-    const template = document.getElementById('customSubjectRowTemplate');
+  function bindSubjectRow(row) {
+    const levelSelect = row.querySelector('[data-subject-level]');
+    if (!levelSelect) {
+      return;
+    }
+    syncLevelOther(row);
+    levelSelect.addEventListener('change', function () {
+      syncLevelOther(row);
+    });
+  }
+
+  function addSubjectRow(listEl) {
+    const template = document.getElementById('subjectRowTemplate');
     if (!template || !listEl) {
       return null;
     }
-
     const row = template.content.firstElementChild.cloneNode(true);
-    const input = row.querySelector('input[name="subjects_custom"]');
-    if (input && value) {
-      input.value = value;
-    }
     listEl.appendChild(row);
-    if (input) {
-      input.focus();
+    bindSubjectRow(row);
+    const nameInput = row.querySelector('input[name="subjects_name"]');
+    if (nameInput) {
+      nameInput.focus();
     }
     return row;
   }
 
-  function initCustomSubjects(field) {
-    const listEl = field.querySelector('[data-custom-subjects-list]');
-    const addBtn = field.querySelector('[data-add-custom-subject]');
-    if (!listEl || !addBtn) {
+  function initSubjectsField(field) {
+    const listEl = field.querySelector('[data-subjects-list]');
+    const addBtn = field.querySelector('[data-add-subject]');
+    if (!listEl) {
       return;
     }
 
-    addBtn.addEventListener('click', function () {
-      addCustomSubjectRow(listEl, '');
-    });
+    listEl.querySelectorAll('[data-subject-row]').forEach(bindSubjectRow);
+
+    if (addBtn) {
+      addBtn.addEventListener('click', function () {
+        addSubjectRow(listEl);
+      });
+    }
 
     field.addEventListener('click', function (event) {
-      const removeBtn = event.target.closest('[data-remove-custom-subject]');
+      const removeBtn = event.target.closest('[data-remove-subject]');
       if (!removeBtn) {
         return;
       }
-      const row = removeBtn.closest('[data-custom-subject-row]');
-      if (row) {
-        row.remove();
+      const row = removeBtn.closest('[data-subject-row]');
+      if (!row) {
+        return;
       }
+      const rows = listEl.querySelectorAll('[data-subject-row]');
+      if (rows.length <= 1) {
+        row.querySelectorAll('input').forEach(function (input) {
+          input.value = '';
+        });
+        const levelSelect = row.querySelector('[data-subject-level]');
+        if (levelSelect) {
+          levelSelect.value = '';
+        }
+        syncLevelOther(row);
+        return;
+      }
+      row.remove();
     });
   }
 
-  document.querySelectorAll('[data-subjects-select]').forEach(initSubjectsSelect);
-  document.querySelectorAll('[data-subjects-field]').forEach(initCustomSubjects);
+  document.querySelectorAll('[data-subjects-field]').forEach(initSubjectsField);
 })();
 </script>
 

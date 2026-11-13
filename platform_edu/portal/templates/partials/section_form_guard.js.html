@@ -44,13 +44,6 @@
       }
     });
 
-    if (window.jQuery && jQuery.fn.select2) {
-      form.querySelectorAll('[data-subjects-select]').forEach(function (subjectsEl) {
-        var subjects = jQuery(subjectsEl).val() || [];
-        snapshot[subjectsEl.name || 'subjects'] = subjects.slice().sort().join('\0');
-      });
-    }
-
     return JSON.stringify(snapshot);
   }
 

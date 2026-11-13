@@ -1,38 +1,96 @@
-<div class="col-md-6" data-subjects-field>
-  <label for="{{ field_id|default:'subjects' }}" class="form-label">Subjects</label>
-  <select id="{{ field_id|default:'subjects' }}" name="subjects" class="select2-subjects form-select" multiple data-subjects-select>
-    {% for value, label in ib_subjects %}
-    <option value="{{ value }}" {% if value in selected_subjects %}selected{% endif %}>{{ label }}</option>
-    {% endfor %}
-  </select>
+<style>
+  .subject-row__remove {
+    padding: 0;
+    width: 100%;
+    min-height: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    font-size: 1.35rem;
+  }
+</style>
 
-  <div class="mt-3" data-custom-subjects-wrap>
-    <label class="form-label mb-2">Other subjects</label>
-    <div data-custom-subjects-list>
-      {% for custom in custom_subjects %}
-      <div class="input-group mb-2" data-custom-subject-row>
+<div class="col-12" data-subjects-field>
+  <label class="form-label">Subjects</label>
+  <div class="d-flex flex-column gap-3" data-subjects-list>
+    {% for entry in subject_entries %}
+    <div data-subject-row class="subject-row">
+      <div class="row g-4 align-items-stretch subject-row__main">
+        <div class="col-md-6">
+          <input
+            type="text"
+            class="form-control h-100"
+            name="subjects_name"
+            value="{{ entry.name }}"
+            placeholder="Subject name"
+            autocomplete="off" />
+        </div>
+        <div class="col-md-5">
+          <select class="form-select h-100" name="subjects_level" data-subject-level>
+            <option value="">Select level…</option>
+            {% for value, label in subject_levels %}
+            <option value="{{ value }}" {% if entry.level == value %}selected{% endif %}>{{ label }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="col-md-1 d-flex align-items-stretch">
+          <button type="button" class="btn btn-outline-secondary subject-row__remove" data-remove-subject aria-label="Remove subject">&times;</button>
+        </div>
+      </div>
+      <div class="row g-4 {% if entry.level != 'Other' %}d-none{% endif %} subject-row__other" data-subject-level-other-wrap>
+        <div class="col-md-11">
+          <input
+            type="text"
+            class="form-control"
+            name="subjects_level_other"
+            value="{{ entry.level_other }}"
+            placeholder="Specify level"
+            data-subject-level-other
+            autocomplete="off" />
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  <button type="button" class="btn btn-sm btn-outline-primary mt-3" data-add-subject>Add another</button>
+</div>
+
+<template id="subjectRowTemplate">
+  <div data-subject-row class="subject-row">
+    <div class="row g-4 align-items-stretch subject-row__main">
+      <div class="col-md-6">
+        <input
+          type="text"
+          class="form-control h-100"
+          name="subjects_name"
+          value=""
+          placeholder="Subject name"
+          autocomplete="off" />
+      </div>
+      <div class="col-md-5">
+        <select class="form-select h-100" name="subjects_level" data-subject-level>
+          <option value="">Select level…</option>
+          {% for value, label in subject_levels %}
+          <option value="{{ value }}">{{ label }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-md-1 d-flex align-items-stretch">
+        <button type="button" class="btn btn-outline-secondary subject-row__remove" data-remove-subject aria-label="Remove subject">&times;</button>
+      </div>
+    </div>
+    <div class="row g-4 d-none subject-row__other" data-subject-level-other-wrap>
+      <div class="col-md-11">
         <input
           type="text"
           class="form-control"
-          name="subjects_custom"
-          value="{{ custom }}"
-          placeholder="Subject name" />
-        <button type="button" class="btn btn-outline-secondary" data-remove-custom-subject aria-label="Remove subject">&times;</button>
+          name="subjects_level_other"
+          value=""
+          placeholder="Specify level"
+          data-subject-level-other
+          autocomplete="off" />
       </div>
-      {% endfor %}
     </div>
-    <button type="button" class="btn btn-sm btn-outline-primary" data-add-custom-subject>Add another</button>
-  </div>
-</div>
-
-<template id="customSubjectRowTemplate">
-  <div class="input-group mb-2" data-custom-subject-row>
-    <input
-      type="text"
-      class="form-control"
-      name="subjects_custom"
-      value=""
-      placeholder="Subject name" />
-    <button type="button" class="btn btn-outline-secondary" data-remove-custom-subject aria-label="Remove subject">&times;</button>
   </div>
 </template>

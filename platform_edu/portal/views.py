@@ -29,7 +29,7 @@ from .constants import (
     HOME_DOCUMENT_TYPE_CHOICES,
     HOME_DOCUMENT_TYPE_VALUES,
     MAX_HOME_DOCUMENT_SIZE,
-    IB_SUBJECT_CHOICES,
+    SUBJECT_LEVEL_CHOICES,
     INTERVIEW_FEEDBACK_EXTENSIONS,
     INTERVIEW_PREP_SESSION_SLOTS,
     MAX_UPLOAD_SIZE,
@@ -737,7 +737,7 @@ def personal_information(request):
         messages.success(request, 'Personal information saved successfully.')
         return redirect_after_section_save(request, 'personal-information')
 
-    selected_subjects, custom_subjects = subjects_for_form(profile.subjects)
+    subject_entries = subjects_for_form(profile.subjects)
     curriculum_select, curriculum_other = curriculum_for_form(
         profile.curriculum,
         profile.curriculum_other,
@@ -749,9 +749,8 @@ def personal_information(request):
         'school_name': profile.school_name,
         'curriculum': curriculum_select,
         'curriculum_other': curriculum_other,
-        'selected_subjects': selected_subjects,
-        'custom_subjects': custom_subjects,
-        'ib_subjects': IB_SUBJECT_CHOICES,
+        'subject_entries': subject_entries,
+        'subject_levels': SUBJECT_LEVEL_CHOICES,
         'nationalities': _NATIONALITY_CHOICES,
         'graduation_years': GRADUATION_YEARS,
         'profile_photo_url': profile.profile_photo.url if profile.profile_photo else '',
