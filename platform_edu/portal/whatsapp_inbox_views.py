@@ -292,6 +292,11 @@ def donna_whatsapp_send_template_api(request):
         {
             'ok': True,
             'contact_id': contact.id,
+            'contact': {
+                'id': contact.id,
+                'name': contact.profile_name or contact.wa_id,
+                'wa_id': contact.wa_id,
+            },
             'redirect_url': f'?contact={contact.id}',
             'message': _serialize_message(msg),
         }

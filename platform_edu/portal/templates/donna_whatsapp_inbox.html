@@ -795,12 +795,69 @@
 
   function setActiveContactItem(contactId) {
     document.querySelectorAll('.wa-contact-item').forEach(function (el) {
-      el.classList.toggle('active', el.getAttribute('data-contact-id') === String(contactId));
+      el.classList.toggle('active', contactId != null && el.getAttribute('data-contact-id') === String(contactId));
     });
+  }
+
+  function upsertContactInList(c) {
+    const list = document.querySelector('.wa-contacts-list');
+    if (!list || !c || c.id == null) return;
+    const none = list.querySelector('.wa-none');
+    if (none) none.remove();
+    const name = c.name || c.wa_id || '';
+    const waId = c.wa_id || '';
+    const id = String(c.id);
+    const avatarLetter = (name || waId || '?').charAt(0).toUpperCase();
+    const existing = list.querySelector('.wa-contact-item[data-contact-id="' + id + '"]');
+    if (existing) {
+      const row = existing.closest('.wa-contact-row');
+      existing.setAttribute('data-contact-name', name);
+      existing.setAttribute('data-contact-wa-id', waId);
+      existing.querySelector('.wa-contact-name').textContent = name;
+      existing.querySelector('.sub').textContent = waId;
+      existing.querySelector('.wa-contact-avatar').textContent = avatarLetter;
+      if (row) list.prepend(row);
+      return;
+    }
+    const row = document.createElement('div');
+    row.className = 'wa-contact-row';
+    const link = document.createElement('a');
+    link.href = '?contact=' + encodeURIComponent(id);
+    link.className = 'wa-contact-item';
+    link.setAttribute('data-contact-id', id);
+    link.setAttribute('data-contact-name', name);
+    link.setAttribute('data-contact-wa-id', waId);
+    const avatar = document.createElement('span');
+    avatar.className = 'wa-contact-avatar';
+    avatar.setAttribute('aria-hidden', 'true');
+    avatar.textContent = avatarLetter;
+    const textWrap = document.createElement('div');
+    textWrap.className = 'wa-contact-text';
+    const nameEl = document.createElement('div');
+    nameEl.className = 'wa-contact-name';
+    nameEl.textContent = name;
+    const sub = document.createElement('div');
+    sub.className = 'sub';
+    sub.textContent = waId;
+    textWrap.appendChild(nameEl);
+    textWrap.appendChild(sub);
+    link.appendChild(avatar);
+    link.appendChild(textWrap);
+    const delBtn = document.createElement('button');
+    delBtn.type = 'button';
+    delBtn.className = 'wa-contact-delete';
+    delBtn.setAttribute('data-contact-id', id);
+    delBtn.title = 'Remove contact';
+    delBtn.setAttribute('aria-label', 'Remove contact');
+    delBtn.textContent = '×';
+    row.appendChild(link);
+    row.appendChild(delBtn);
+    list.prepend(row);
   }
 
   function applyThread(data) {
     const c = data.contact;
+    upsertContactInList(c);
     activeContactId = c.id;
     messagesUrl = messagesPollUrl(c.id, '');
     nameEl.textContent = c.name || c.wa_id;
@@ -880,12 +937,23 @@
     }
   }
 
-  document.querySelectorAll('.wa-contact-item').forEach(function (link) {
-    link.addEventListener('click', function (e) {
-      e.preventDefault();
-      openContact(link.getAttribute('data-contact-id'));
+  const contactsList = document.querySelector('.wa-contacts-list');
+  if (contactsList) {
+    contactsList.addEventListener('click', function (e) {
+      const del = e.target.closest('.wa-contact-delete');
+      if (del) {
+        e.preventDefault();
+        e.stopPropagation();
+        deleteContact(del.getAttribute('data-contact-id'));
+        return;
+      }
+      const link = e.target.closest('.wa-contact-item');
+      if (link) {
+        e.preventDefault();
+        openContact(link.getAttribute('data-contact-id'));
+      }
     });
-  });
+  }
 
   if (backBtn) {
     backBtn.addEventListener('click', function (e) {
@@ -962,14 +1030,6 @@
       .catch(function (err) { window.alert(err.message || 'Delete failed'); });
   }
 
-  document.querySelectorAll('.wa-contact-delete').forEach(function (btn) {
-    btn.addEventListener('click', function (e) {
-      e.preventDefault();
-      e.stopPropagation();
-      deleteContact(btn.getAttribute('data-contact-id'));
-    });
-  });
-
   if (deleteChatBtn) {
     deleteChatBtn.addEventListener('click', function () {
       deleteContact(deleteChatBtn.getAttribute('data-contact-id'));
@@ -992,6 +1052,7 @@
   }
 
   window.waOpenContact = openContact;
+  window.waUpsertContact = upsertContactInList;
 })();
     </script>
     <script>
@@ -1055,6 +1116,9 @@
       .then(function (res) {
         if (!res.ok) throw new Error(res.j.error || 'Send failed');
         closeModal();
+        if (res.j.contact && window.waUpsertContact) {
+          window.waUpsertContact(res.j.contact);
+        }
         if (res.j.contact_id && window.waOpenContact) {
           window.waOpenContact(res.j.contact_id);
           return;
