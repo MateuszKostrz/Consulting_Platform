@@ -1,13 +1,22 @@
 from __future__ import annotations
 
-from django.contrib import messages
-from django.contrib.auth.decorators import login_required
+from datetime import timedelta
+
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
-from django.views.decorators.http import require_GET, require_POST
+from django.urls import reverse
+from django.utils import timezone
+from django.views.decorators.http import require_GET, require_http_methods, require_POST
 
 from .models import WhatsAppDonnaContact, WhatsAppDonnaMessage
-from .profile_access import get_platform_user
+from .whatsapp_inbox_auth import (
+    is_whatsapp_inbox_authenticated,
+    login_whatsapp_inbox,
+    logout_whatsapp_inbox,
+    require_whatsapp_inbox,
+    require_whatsapp_inbox_json,
+    verify_whatsapp_inbox_login,
+)
 from .whatsapp_outbound import (
     WhatsAppSendError,
     send_template_to_recipient,
@@ -17,8 +26,13 @@ from .whatsapp_outbound import (
 WHATSAPP_DONNA_TEMPLATES = (
     {
         'name': 'test_first_message',
-        'label': 'Test first message',
+        'label': 'Test message (PL)',
         'language': 'pl',
+    },
+    {
+        'name': 'black_week_first_message_en',
+        'label': 'Black Friday first message (EN)',
+        'language': 'en',
     },
 )
 
@@ -42,19 +56,47 @@ WHATSAPP_COUNTRY_CODES = (
 )
 
 
-def _require_admin(request):
-    platform_user = get_platform_user(request)
-    if not platform_user or not platform_user.is_admin:
-        return None
-    return platform_user
-
-
 def _message_display_body(msg: WhatsAppDonnaMessage) -> str:
     if msg.body_text:
         return msg.body_text
     if msg.message_type and msg.message_type != 'text':
         return f'({msg.message_type})'
     return ''
+
+
+def _message_delivery_error(msg: WhatsAppDonnaMessage) -> str:
+    payload = msg.raw_payload if isinstance(msg.raw_payload, dict) else {}
+    for err in payload.get('errors') or []:
+        if not isinstance(err, dict):
+            continue
+        detail = (err.get('error_data') or {}).get('details') or err.get('message')
+        if detail:
+            return str(detail)
+    return ''
+
+
+def _can_send_session_text(contact: WhatsAppDonnaContact) -> tuple[bool, str]:
+    last_in = (
+        WhatsAppDonnaMessage.objects.filter(
+            contact=contact,
+            direction=WhatsAppDonnaMessage.Direction.INBOUND,
+        )
+        .exclude(message_type='status')
+        .order_by('-wa_timestamp', '-created_at', '-id')
+        .first()
+    )
+    if not last_in:
+        return False, (
+            'This number has never messaged your WhatsApp. Use + New template, '
+            'or ask them to send any message to your business number first.'
+        )
+    when = last_in.wa_timestamp or last_in.created_at
+    if timezone.now() - when > timedelta(hours=24):
+        return False, (
+            'More than 24 hours since their last reply. Use + New template — '
+            'the chat box only works inside Meta’s 24-hour window.'
+        )
+    return True, ''
 
 
 def _serialize_message(msg: WhatsAppDonnaMessage) -> dict:
@@ -64,16 +106,44 @@ def _serialize_message(msg: WhatsAppDonnaMessage) -> dict:
         'direction': msg.direction,
         'body': _message_display_body(msg),
         'status': msg.status or '',
+        'delivery_error': _message_delivery_error(msg),
         'at': ts.isoformat() if ts else '',
     }
 
 
-@login_required
-def donna_whatsapp_inbox(request):
-    if not _require_admin(request):
-        messages.error(request, 'Only admins can open Donna WhatsApp inbox.')
-        return redirect('home')
+@require_http_methods(['GET', 'POST'])
+def donna_whatsapp_login(request):
+    if is_whatsapp_inbox_authenticated(request):
+        return redirect('donna-whatsapp-inbox')
 
+    error = ''
+    next_url = (request.GET.get('next') or request.POST.get('next') or '').strip()
+    if next_url and not next_url.startswith('/donna/whatsapp'):
+        next_url = reverse('donna-whatsapp-inbox')
+
+    if request.method == 'POST':
+        email = (request.POST.get('email') or '').strip()
+        password = request.POST.get('password') or ''
+        if verify_whatsapp_inbox_login(email, password):
+            login_whatsapp_inbox(request)
+            return redirect(next_url or reverse('donna-whatsapp-inbox'))
+        error = 'Invalid email or password.'
+
+    return render(
+        request,
+        'donna_whatsapp_login.html',
+        {'error': error, 'next_url': next_url},
+    )
+
+
+@require_http_methods(['GET', 'POST'])
+def donna_whatsapp_logout(request):
+    logout_whatsapp_inbox(request)
+    return redirect('donna-whatsapp-login')
+
+
+@require_whatsapp_inbox
+def donna_whatsapp_inbox(request):
     contacts = list(
         WhatsAppDonnaContact.objects.all().order_by('-last_message_at', '-updated_at')[:300]
     )
@@ -83,8 +153,6 @@ def donna_whatsapp_inbox(request):
         selected = next((c for c in contacts if c.id == int(contact_param)), None)
         if not selected:
             selected = WhatsAppDonnaContact.objects.filter(pk=int(contact_param)).first()
-    elif contacts:
-        selected = contacts[0]
 
     thread = []
     if selected:
@@ -94,6 +162,24 @@ def donna_whatsapp_inbox(request):
             .order_by('wa_timestamp', 'created_at', 'id')[:500]
         )
 
+    session_text_ok = True
+    session_text_hint = ''
+    if selected:
+        session_text_ok, session_text_hint = _can_send_session_text(selected)
+
+    initial_thread = None
+    if selected:
+        initial_thread = {
+            'contact': {
+                'id': selected.id,
+                'name': selected.profile_name or selected.wa_id,
+                'wa_id': selected.wa_id,
+            },
+            'messages': [_serialize_message(m) for m in thread],
+            'session_text_ok': session_text_ok,
+            'session_text_hint': session_text_hint,
+        }
+
     return render(
         request,
         'donna_whatsapp_inbox.html',
@@ -101,18 +187,42 @@ def donna_whatsapp_inbox(request):
             'contacts': contacts,
             'selected_contact': selected,
             'thread_messages': thread,
+            'initial_thread': initial_thread,
             'whatsapp_templates': WHATSAPP_DONNA_TEMPLATES,
             'country_codes': WHATSAPP_COUNTRY_CODES,
+            'session_text_ok': session_text_ok,
+            'session_text_hint': session_text_hint,
         },
     )
 
 
-@login_required
+@require_whatsapp_inbox_json
+@require_GET
+def donna_whatsapp_thread_api(request, contact_id: int):
+    contact = get_object_or_404(WhatsAppDonnaContact, pk=contact_id)
+    thread = list(
+        WhatsAppDonnaMessage.objects.filter(contact=contact)
+        .exclude(message_type='status')
+        .order_by('wa_timestamp', 'created_at', 'id')[:500]
+    )
+    session_text_ok, session_text_hint = _can_send_session_text(contact)
+    return JsonResponse(
+        {
+            'contact': {
+                'id': contact.id,
+                'name': contact.profile_name or contact.wa_id,
+                'wa_id': contact.wa_id,
+            },
+            'messages': [_serialize_message(m) for m in thread],
+            'session_text_ok': session_text_ok,
+            'session_text_hint': session_text_hint,
+        }
+    )
+
+
+@require_whatsapp_inbox_json
 @require_GET
 def donna_whatsapp_messages_api(request, contact_id: int):
-    if not _require_admin(request):
-        return JsonResponse({'error': 'Forbidden'}, status=403)
-
     contact = get_object_or_404(WhatsAppDonnaContact, pk=contact_id)
     qs = (
         WhatsAppDonnaMessage.objects.filter(contact=contact)
@@ -131,12 +241,9 @@ def donna_whatsapp_messages_api(request, contact_id: int):
     )
 
 
-@login_required
+@require_whatsapp_inbox_json
 @require_POST
 def donna_whatsapp_send_api(request):
-    if not _require_admin(request):
-        return JsonResponse({'error': 'Forbidden'}, status=403)
-
     contact_id = (request.POST.get('contact_id') or '').strip()
     body = (request.POST.get('body') or '').strip()
     if not contact_id.isdigit():
@@ -145,6 +252,9 @@ def donna_whatsapp_send_api(request):
         return JsonResponse({'error': 'Message is empty'}, status=400)
 
     contact = get_object_or_404(WhatsAppDonnaContact, pk=int(contact_id))
+    can_send, session_error = _can_send_session_text(contact)
+    if not can_send:
+        return JsonResponse({'error': session_error}, status=400)
     try:
         msg = send_text_to_contact(contact, body)
     except WhatsAppSendError as exc:
@@ -153,20 +263,18 @@ def donna_whatsapp_send_api(request):
     return JsonResponse({'ok': True, 'message': _serialize_message(msg)})
 
 
-@login_required
+@require_whatsapp_inbox_json
 @require_POST
 def donna_whatsapp_send_template_api(request):
-    if not _require_admin(request):
-        return JsonResponse({'error': 'Forbidden'}, status=403)
-
     country_code = (request.POST.get('country_code') or '48').strip()
     phone = (request.POST.get('phone') or '').strip()
-    template_name = (request.POST.get('template_name') or '').strip()
-
+    template_name = (request.POST.get('template_name') or '').strip().lower()
     allowed = {t['name']: t for t in WHATSAPP_DONNA_TEMPLATES}
     template = allowed.get(template_name)
     if not template:
         return JsonResponse({'error': 'Unknown template'}, status=400)
+    name = template['name']
+    language = template['language']
     if not phone:
         return JsonResponse({'error': 'Phone number is required'}, status=400)
 
@@ -174,8 +282,8 @@ def donna_whatsapp_send_template_api(request):
         contact, msg = send_template_to_recipient(
             country_code=country_code,
             local_number=phone,
-            template_name=template['name'],
-            language_code=template['language'],
+            template_name=name,
+            language_code=language,
         )
     except WhatsAppSendError as exc:
         return JsonResponse({'error': str(exc)}, status=400)
@@ -188,3 +296,15 @@ def donna_whatsapp_send_template_api(request):
             'message': _serialize_message(msg),
         }
     )
+
+
+@require_whatsapp_inbox_json
+@require_POST
+def donna_whatsapp_delete_contact_api(request):
+    contact_id = (request.POST.get('contact_id') or '').strip()
+    if not contact_id.isdigit():
+        return JsonResponse({'error': 'Invalid contact'}, status=400)
+
+    contact = get_object_or_404(WhatsAppDonnaContact, pk=int(contact_id))
+    contact.delete()
+    return JsonResponse({'ok': True, 'redirect_url': reverse('donna-whatsapp-inbox')})

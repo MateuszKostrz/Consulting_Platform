@@ -20092,3 +20092,862 @@ Traceback (most recent call last):
   File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/env/lib/python3.12/site-packages/django/http/request.py", line 151, in get_host
     raise DisallowedHost(msg)
 django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: 'testserver'. You may need to add 'testserver' to ALLOWED_HOSTS.
+ERROR 2026-11-19 10:30:31,870 Internal Server Error: /donna/whatsapp/messages/1/
+Traceback (most recent call last):
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/contrib/sessions/backends/base.py", line 246, in _get_session
+    return self._session_cache
+           ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'SessionStore' object has no attribute '_session_cache'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+psycopg2.OperationalError: could not receive data from server: Operation timed out
+SSL SYSCALL error: Operation timed out
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/platform_edu/portal/middleware.py", line 22, in __call__
+    if not request.user.is_authenticated:
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/utils/functional.py", line 251, in inner
+    self._setup()
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/utils/functional.py", line 404, in _setup
+    self._wrapped = self._setupfunc()
+                    ^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/contrib/auth/middleware.py", line 40, in <lambda>
+    request.user = SimpleLazyObject(lambda: get_user(request))
+                                            ^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/contrib/auth/middleware.py", line 20, in get_user
+    request._cached_user = auth.get_user(request)
+                           ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/contrib/auth/__init__.py", line 321, in get_user
+    user_id = _get_user_session_key(request)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/contrib/auth/__init__.py", line 95, in _get_user_session_key
+    return get_user_model()._meta.pk.to_python(request.session[SESSION_KEY])
+                                               ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/contrib/sessions/backends/base.py", line 55, in __getitem__
+    return self._session[key]
+           ^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/contrib/sessions/backends/base.py", line 251, in _get_session
+    self._session_cache = self.load()
+                          ^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/contrib/sessions/backends/db.py", line 55, in load
+    s = self._get_session_from_db()
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/contrib/sessions/backends/db.py", line 34, in _get_session_from_db
+    return self.model.objects.get(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/models/query.py", line 635, in get
+    num = len(clone)
+          ^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/models/query.py", line 372, in __len__
+    self._fetch_all()
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/models/query.py", line 2000, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/models/query.py", line 95, in __iter__
+    results = compiler.execute_sql(
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/models/sql/compiler.py", line 1624, in execute_sql
+    cursor.execute(sql, params)
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/utils.py", line 94, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: could not receive data from server: Operation timed out
+SSL SYSCALL error: Operation timed out
+
+ERROR 2026-11-19 10:30:31,885 Internal Server Error: /donna/whatsapp/messages/1/
+Traceback (most recent call last):
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/contrib/sessions/backends/base.py", line 246, in _get_session
+    return self._session_cache
+           ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'SessionStore' object has no attribute '_session_cache'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/base/base.py", line 298, in _cursor
+    return self._prepare_cursor(self.create_cursor(name))
+                                ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/utils/asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/postgresql/base.py", line 430, in create_cursor
+    cursor = self.connection.cursor()
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+psycopg2.InterfaceError: connection already closed
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/utils/deprecation.py", line 311, in __call__
+    response = self.process_response(request, response)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/contrib/sessions/middleware.py", line 49, in process_response
+    if request.session.get_expire_at_browser_close():
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/contrib/sessions/backends/base.py", line 405, in get_expire_at_browser_close
+    if (expiry := self.get("_session_expiry")) is None:
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/contrib/sessions/backends/base.py", line 74, in get
+    return self._session.get(key, default)
+           ^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/contrib/sessions/backends/base.py", line 251, in _get_session
+    self._session_cache = self.load()
+                          ^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/contrib/sessions/backends/db.py", line 55, in load
+    s = self._get_session_from_db()
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/contrib/sessions/backends/db.py", line 34, in _get_session_from_db
+    return self.model.objects.get(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/models/query.py", line 635, in get
+    num = len(clone)
+          ^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/models/query.py", line 372, in __len__
+    self._fetch_all()
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/models/query.py", line 2000, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/models/query.py", line 95, in __iter__
+    results = compiler.execute_sql(
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/models/sql/compiler.py", line 1622, in execute_sql
+    cursor = self.connection.cursor()
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/utils/asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/base/base.py", line 320, in cursor
+    return self._cursor()
+           ^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/base/base.py", line 297, in _cursor
+    with self.wrap_database_errors:
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/utils.py", line 94, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/base/base.py", line 298, in _cursor
+    return self._prepare_cursor(self.create_cursor(name))
+                                ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/utils/asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/postgresql/base.py", line 430, in create_cursor
+    cursor = self.connection.cursor()
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.InterfaceError: connection already closed
+ERROR 2026-11-19 10:30:31,887 "GET /donna/whatsapp/messages/1/?since_id=19 HTTP/1.1" 500 27723
+ERROR 2026-11-19 10:30:37,888 Internal Server Error: /donna/whatsapp/messages/1/
+Traceback (most recent call last):
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/contrib/sessions/backends/base.py", line 246, in _get_session
+    return self._session_cache
+           ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'SessionStore' object has no attribute '_session_cache'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/base/base.py", line 279, in ensure_connection
+    self.connect()
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/utils/asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/base/base.py", line 256, in connect
+    self.connection = self.get_new_connection(conn_params)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/utils/asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/postgresql/base.py", line 333, in get_new_connection
+    connection = self.Database.connect(**conn_params)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/psycopg2/__init__.py", line 122, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+psycopg2.OperationalError: could not translate host name "database-1.c0nc7ffu1op1.us-east-1.rds.amazonaws.com" to address: nodename nor servname provided, or not known
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/platform_edu/portal/middleware.py", line 22, in __call__
+    if not request.user.is_authenticated:
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/utils/functional.py", line 251, in inner
+    self._setup()
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/utils/functional.py", line 404, in _setup
+    self._wrapped = self._setupfunc()
+                    ^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/contrib/auth/middleware.py", line 40, in <lambda>
+    request.user = SimpleLazyObject(lambda: get_user(request))
+                                            ^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/contrib/auth/middleware.py", line 20, in get_user
+    request._cached_user = auth.get_user(request)
+                           ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/contrib/auth/__init__.py", line 321, in get_user
+    user_id = _get_user_session_key(request)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/contrib/auth/__init__.py", line 95, in _get_user_session_key
+    return get_user_model()._meta.pk.to_python(request.session[SESSION_KEY])
+                                               ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/contrib/sessions/backends/base.py", line 55, in __getitem__
+    return self._session[key]
+           ^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/contrib/sessions/backends/base.py", line 251, in _get_session
+    self._session_cache = self.load()
+                          ^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/contrib/sessions/backends/db.py", line 55, in load
+    s = self._get_session_from_db()
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/contrib/sessions/backends/db.py", line 34, in _get_session_from_db
+    return self.model.objects.get(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/models/query.py", line 635, in get
+    num = len(clone)
+          ^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/models/query.py", line 372, in __len__
+    self._fetch_all()
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/models/query.py", line 2000, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/models/query.py", line 95, in __iter__
+    results = compiler.execute_sql(
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/models/sql/compiler.py", line 1622, in execute_sql
+    cursor = self.connection.cursor()
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/utils/asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/base/base.py", line 320, in cursor
+    return self._cursor()
+           ^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/base/base.py", line 296, in _cursor
+    self.ensure_connection()
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/utils/asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/base/base.py", line 278, in ensure_connection
+    with self.wrap_database_errors:
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/utils.py", line 94, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/base/base.py", line 279, in ensure_connection
+    self.connect()
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/utils/asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/base/base.py", line 256, in connect
+    self.connection = self.get_new_connection(conn_params)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/utils/asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/postgresql/base.py", line 333, in get_new_connection
+    connection = self.Database.connect(**conn_params)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/psycopg2/__init__.py", line 122, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: could not translate host name "database-1.c0nc7ffu1op1.us-east-1.rds.amazonaws.com" to address: nodename nor servname provided, or not known
+
+ERROR 2026-11-19 10:30:37,927 Internal Server Error: /donna/whatsapp/messages/1/
+Traceback (most recent call last):
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/contrib/sessions/backends/base.py", line 246, in _get_session
+    return self._session_cache
+           ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'SessionStore' object has no attribute '_session_cache'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/base/base.py", line 279, in ensure_connection
+    self.connect()
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/utils/asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/base/base.py", line 256, in connect
+    self.connection = self.get_new_connection(conn_params)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/utils/asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/postgresql/base.py", line 333, in get_new_connection
+    connection = self.Database.connect(**conn_params)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/psycopg2/__init__.py", line 122, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+psycopg2.OperationalError: could not translate host name "database-1.c0nc7ffu1op1.us-east-1.rds.amazonaws.com" to address: nodename nor servname provided, or not known
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/platform_edu/portal/middleware.py", line 22, in __call__
+    if not request.user.is_authenticated:
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/utils/functional.py", line 251, in inner
+    self._setup()
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/utils/functional.py", line 404, in _setup
+    self._wrapped = self._setupfunc()
+                    ^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/contrib/auth/middleware.py", line 40, in <lambda>
+    request.user = SimpleLazyObject(lambda: get_user(request))
+                                            ^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/contrib/auth/middleware.py", line 20, in get_user
+    request._cached_user = auth.get_user(request)
+                           ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/contrib/auth/__init__.py", line 321, in get_user
+    user_id = _get_user_session_key(request)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/contrib/auth/__init__.py", line 95, in _get_user_session_key
+    return get_user_model()._meta.pk.to_python(request.session[SESSION_KEY])
+                                               ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/contrib/sessions/backends/base.py", line 55, in __getitem__
+    return self._session[key]
+           ^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/contrib/sessions/backends/base.py", line 251, in _get_session
+    self._session_cache = self.load()
+                          ^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/contrib/sessions/backends/db.py", line 55, in load
+    s = self._get_session_from_db()
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/contrib/sessions/backends/db.py", line 34, in _get_session_from_db
+    return self.model.objects.get(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/models/query.py", line 635, in get
+    num = len(clone)
+          ^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/models/query.py", line 372, in __len__
+    self._fetch_all()
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/models/query.py", line 2000, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/models/query.py", line 95, in __iter__
+    results = compiler.execute_sql(
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/models/sql/compiler.py", line 1622, in execute_sql
+    cursor = self.connection.cursor()
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/utils/asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/base/base.py", line 320, in cursor
+    return self._cursor()
+           ^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/base/base.py", line 296, in _cursor
+    self.ensure_connection()
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/utils/asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/base/base.py", line 278, in ensure_connection
+    with self.wrap_database_errors:
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/utils.py", line 94, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/base/base.py", line 279, in ensure_connection
+    self.connect()
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/utils/asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/base/base.py", line 256, in connect
+    self.connection = self.get_new_connection(conn_params)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/utils/asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/postgresql/base.py", line 333, in get_new_connection
+    connection = self.Database.connect(**conn_params)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/psycopg2/__init__.py", line 122, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: could not translate host name "database-1.c0nc7ffu1op1.us-east-1.rds.amazonaws.com" to address: nodename nor servname provided, or not known
+
+ERROR 2026-11-19 10:30:37,931 Internal Server Error: /donna/whatsapp/
+Traceback (most recent call last):
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/contrib/sessions/backends/base.py", line 246, in _get_session
+    return self._session_cache
+           ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'SessionStore' object has no attribute '_session_cache'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/base/base.py", line 279, in ensure_connection
+    self.connect()
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/utils/asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/base/base.py", line 256, in connect
+    self.connection = self.get_new_connection(conn_params)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/utils/asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/postgresql/base.py", line 333, in get_new_connection
+    connection = self.Database.connect(**conn_params)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/psycopg2/__init__.py", line 122, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+psycopg2.OperationalError: could not translate host name "database-1.c0nc7ffu1op1.us-east-1.rds.amazonaws.com" to address: nodename nor servname provided, or not known
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/platform_edu/portal/middleware.py", line 22, in __call__
+    if not request.user.is_authenticated:
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/utils/functional.py", line 251, in inner
+    self._setup()
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/utils/functional.py", line 404, in _setup
+    self._wrapped = self._setupfunc()
+                    ^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/contrib/auth/middleware.py", line 40, in <lambda>
+    request.user = SimpleLazyObject(lambda: get_user(request))
+                                            ^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/contrib/auth/middleware.py", line 20, in get_user
+    request._cached_user = auth.get_user(request)
+                           ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/contrib/auth/__init__.py", line 321, in get_user
+    user_id = _get_user_session_key(request)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/contrib/auth/__init__.py", line 95, in _get_user_session_key
+    return get_user_model()._meta.pk.to_python(request.session[SESSION_KEY])
+                                               ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/contrib/sessions/backends/base.py", line 55, in __getitem__
+    return self._session[key]
+           ^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/contrib/sessions/backends/base.py", line 251, in _get_session
+    self._session_cache = self.load()
+                          ^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/contrib/sessions/backends/db.py", line 55, in load
+    s = self._get_session_from_db()
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/contrib/sessions/backends/db.py", line 34, in _get_session_from_db
+    return self.model.objects.get(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/models/query.py", line 635, in get
+    num = len(clone)
+          ^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/models/query.py", line 372, in __len__
+    self._fetch_all()
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/models/query.py", line 2000, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/models/query.py", line 95, in __iter__
+    results = compiler.execute_sql(
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/models/sql/compiler.py", line 1622, in execute_sql
+    cursor = self.connection.cursor()
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/utils/asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/base/base.py", line 320, in cursor
+    return self._cursor()
+           ^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/base/base.py", line 296, in _cursor
+    self.ensure_connection()
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/utils/asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/base/base.py", line 278, in ensure_connection
+    with self.wrap_database_errors:
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/utils.py", line 94, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/base/base.py", line 279, in ensure_connection
+    self.connect()
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/utils/asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/base/base.py", line 256, in connect
+    self.connection = self.get_new_connection(conn_params)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/utils/asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/postgresql/base.py", line 333, in get_new_connection
+    connection = self.Database.connect(**conn_params)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/psycopg2/__init__.py", line 122, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: could not translate host name "database-1.c0nc7ffu1op1.us-east-1.rds.amazonaws.com" to address: nodename nor servname provided, or not known
+
+ERROR 2026-11-19 10:30:38,047 Internal Server Error: /donna/whatsapp/messages/1/
+Traceback (most recent call last):
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/contrib/sessions/backends/base.py", line 246, in _get_session
+    return self._session_cache
+           ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'SessionStore' object has no attribute '_session_cache'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/base/base.py", line 279, in ensure_connection
+    self.connect()
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/utils/asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/base/base.py", line 256, in connect
+    self.connection = self.get_new_connection(conn_params)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/utils/asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/postgresql/base.py", line 333, in get_new_connection
+    connection = self.Database.connect(**conn_params)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/psycopg2/__init__.py", line 122, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+psycopg2.OperationalError: could not translate host name "database-1.c0nc7ffu1op1.us-east-1.rds.amazonaws.com" to address: nodename nor servname provided, or not known
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/utils/deprecation.py", line 311, in __call__
+    response = self.process_response(request, response)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/contrib/sessions/middleware.py", line 49, in process_response
+    if request.session.get_expire_at_browser_close():
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/contrib/sessions/backends/base.py", line 405, in get_expire_at_browser_close
+    if (expiry := self.get("_session_expiry")) is None:
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/contrib/sessions/backends/base.py", line 74, in get
+    return self._session.get(key, default)
+           ^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/contrib/sessions/backends/base.py", line 251, in _get_session
+    self._session_cache = self.load()
+                          ^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/contrib/sessions/backends/db.py", line 55, in load
+    s = self._get_session_from_db()
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/contrib/sessions/backends/db.py", line 34, in _get_session_from_db
+    return self.model.objects.get(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/models/query.py", line 635, in get
+    num = len(clone)
+          ^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/models/query.py", line 372, in __len__
+    self._fetch_all()
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/models/query.py", line 2000, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/models/query.py", line 95, in __iter__
+    results = compiler.execute_sql(
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/models/sql/compiler.py", line 1622, in execute_sql
+    cursor = self.connection.cursor()
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/utils/asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/base/base.py", line 320, in cursor
+    return self._cursor()
+           ^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/base/base.py", line 296, in _cursor
+    self.ensure_connection()
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/utils/asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/base/base.py", line 278, in ensure_connection
+    with self.wrap_database_errors:
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/utils.py", line 94, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/base/base.py", line 279, in ensure_connection
+    self.connect()
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/utils/asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/base/base.py", line 256, in connect
+    self.connection = self.get_new_connection(conn_params)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/utils/asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/postgresql/base.py", line 333, in get_new_connection
+    connection = self.Database.connect(**conn_params)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/psycopg2/__init__.py", line 122, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: could not translate host name "database-1.c0nc7ffu1op1.us-east-1.rds.amazonaws.com" to address: nodename nor servname provided, or not known
+
+ERROR 2026-11-19 10:30:38,063 "GET /donna/whatsapp/messages/1/?since_id=19 HTTP/1.1" 500 30083
+ERROR 2026-11-19 10:30:38,113 Internal Server Error: /donna/whatsapp/messages/1/
+Traceback (most recent call last):
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/contrib/sessions/backends/base.py", line 246, in _get_session
+    return self._session_cache
+           ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'SessionStore' object has no attribute '_session_cache'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/base/base.py", line 279, in ensure_connection
+    self.connect()
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/utils/asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/base/base.py", line 256, in connect
+    self.connection = self.get_new_connection(conn_params)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/utils/asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/postgresql/base.py", line 333, in get_new_connection
+    connection = self.Database.connect(**conn_params)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/psycopg2/__init__.py", line 122, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+psycopg2.OperationalError: could not translate host name "database-1.c0nc7ffu1op1.us-east-1.rds.amazonaws.com" to address: nodename nor servname provided, or not known
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/utils/deprecation.py", line 311, in __call__
+    response = self.process_response(request, response)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/contrib/sessions/middleware.py", line 49, in process_response
+    if request.session.get_expire_at_browser_close():
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/contrib/sessions/backends/base.py", line 405, in get_expire_at_browser_close
+    if (expiry := self.get("_session_expiry")) is None:
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/contrib/sessions/backends/base.py", line 74, in get
+    return self._session.get(key, default)
+           ^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/contrib/sessions/backends/base.py", line 251, in _get_session
+    self._session_cache = self.load()
+                          ^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/contrib/sessions/backends/db.py", line 55, in load
+    s = self._get_session_from_db()
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/contrib/sessions/backends/db.py", line 34, in _get_session_from_db
+    return self.model.objects.get(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/models/query.py", line 635, in get
+    num = len(clone)
+          ^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/models/query.py", line 372, in __len__
+    self._fetch_all()
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/models/query.py", line 2000, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/models/query.py", line 95, in __iter__
+    results = compiler.execute_sql(
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/models/sql/compiler.py", line 1622, in execute_sql
+    cursor = self.connection.cursor()
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/utils/asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/base/base.py", line 320, in cursor
+    return self._cursor()
+           ^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/base/base.py", line 296, in _cursor
+    self.ensure_connection()
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/utils/asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/base/base.py", line 278, in ensure_connection
+    with self.wrap_database_errors:
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/utils.py", line 94, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/base/base.py", line 279, in ensure_connection
+    self.connect()
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/utils/asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/base/base.py", line 256, in connect
+    self.connection = self.get_new_connection(conn_params)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/utils/asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/postgresql/base.py", line 333, in get_new_connection
+    connection = self.Database.connect(**conn_params)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/psycopg2/__init__.py", line 122, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: could not translate host name "database-1.c0nc7ffu1op1.us-east-1.rds.amazonaws.com" to address: nodename nor servname provided, or not known
+
+ERROR 2026-11-19 10:30:38,130 Internal Server Error: /donna/whatsapp/
+Traceback (most recent call last):
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/contrib/sessions/backends/base.py", line 246, in _get_session
+    return self._session_cache
+           ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'SessionStore' object has no attribute '_session_cache'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/base/base.py", line 279, in ensure_connection
+    self.connect()
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/utils/asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/base/base.py", line 256, in connect
+    self.connection = self.get_new_connection(conn_params)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/utils/asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/postgresql/base.py", line 333, in get_new_connection
+    connection = self.Database.connect(**conn_params)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/psycopg2/__init__.py", line 122, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+psycopg2.OperationalError: could not translate host name "database-1.c0nc7ffu1op1.us-east-1.rds.amazonaws.com" to address: nodename nor servname provided, or not known
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/utils/deprecation.py", line 311, in __call__
+    response = self.process_response(request, response)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/contrib/sessions/middleware.py", line 49, in process_response
+    if request.session.get_expire_at_browser_close():
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/contrib/sessions/backends/base.py", line 405, in get_expire_at_browser_close
+    if (expiry := self.get("_session_expiry")) is None:
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/contrib/sessions/backends/base.py", line 74, in get
+    return self._session.get(key, default)
+           ^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/contrib/sessions/backends/base.py", line 251, in _get_session
+    self._session_cache = self.load()
+                          ^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/contrib/sessions/backends/db.py", line 55, in load
+    s = self._get_session_from_db()
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/contrib/sessions/backends/db.py", line 34, in _get_session_from_db
+    return self.model.objects.get(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/models/query.py", line 635, in get
+    num = len(clone)
+          ^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/models/query.py", line 372, in __len__
+    self._fetch_all()
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/models/query.py", line 2000, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/models/query.py", line 95, in __iter__
+    results = compiler.execute_sql(
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/models/sql/compiler.py", line 1622, in execute_sql
+    cursor = self.connection.cursor()
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/utils/asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/base/base.py", line 320, in cursor
+    return self._cursor()
+           ^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/base/base.py", line 296, in _cursor
+    self.ensure_connection()
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/utils/asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/base/base.py", line 278, in ensure_connection
+    with self.wrap_database_errors:
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/utils.py", line 94, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/base/base.py", line 279, in ensure_connection
+    self.connect()
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/utils/asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/base/base.py", line 256, in connect
+    self.connection = self.get_new_connection(conn_params)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/utils/asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/postgresql/base.py", line 333, in get_new_connection
+    connection = self.Database.connect(**conn_params)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/psycopg2/__init__.py", line 122, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: could not translate host name "database-1.c0nc7ffu1op1.us-east-1.rds.amazonaws.com" to address: nodename nor servname provided, or not known
+
+ERROR 2026-11-19 10:30:38,134 "GET /donna/whatsapp/?contact=1 HTTP/1.1" 500 209807

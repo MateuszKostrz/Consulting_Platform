@@ -43,7 +43,7 @@
       input[name="csrfmiddlewaretoken"] { display: none; }
       .wa-shell {
         width: 100%;
-        max-width: 44rem;
+        max-width: 56rem;
         height: min(720px, calc(100vh - 2.5rem));
         background: var(--wa-card);
         border-radius: var(--wa-radius);
@@ -52,15 +52,30 @@
       }
       .wa-inbox-layout {
         display: grid;
-        grid-template-columns: 11.5rem 1fr;
+        grid-template-columns: 14rem 1fr;
         height: 100%;
         overflow: hidden;
       }
       @media (max-width: 640px) {
-        .wa-page { padding: 0.5rem; align-items: stretch; }
-        .wa-shell { height: calc(100vh - 1rem); border-radius: var(--wa-radius-sm); }
-        .wa-inbox-layout { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
-        .wa-contacts-panel { max-height: 32vh; }
+        .wa-page { padding: 0; align-items: stretch; }
+        .wa-shell {
+          max-width: none;
+          height: 100vh;
+          height: 100dvh;
+          border-radius: 0;
+          box-shadow: none;
+        }
+        .wa-inbox-layout {
+          grid-template-columns: 1fr;
+          grid-template-rows: 1fr;
+        }
+        .wa-inbox-layout:not(.wa-show-chat) .wa-chat-panel { display: none; }
+        .wa-inbox-layout.wa-show-chat .wa-contacts-panel { display: none; }
+        .wa-contacts-panel { max-height: none; border-right: none; }
+        .wa-chat-panel { min-height: 0; }
+        .wa-contact-row { padding-right: 0.15rem; }
+        .wa-contact-item { padding: 0.75rem 0.55rem; font-size: 0.92rem; }
+        .wa-composer textarea { font-size: 16px; }
       }
       .wa-contacts-panel {
         display: flex;
@@ -72,7 +87,54 @@
       .wa-contacts-toolbar {
         flex-shrink: 0;
         padding: 0.85rem 0.75rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.45rem;
       }
+      .wa-contacts-toolbar-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.5rem;
+      }
+      .wa-contacts-title {
+        font-size: 0.95rem;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+      }
+      .wa-logout-link {
+        font-size: 0.72rem;
+        font-weight: 600;
+        color: var(--wa-muted);
+        text-decoration: none;
+      }
+      .wa-logout-link:hover { color: var(--wa-accent); }
+      .wa-back-btn {
+        display: none;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        width: 2.25rem;
+        height: 2.25rem;
+        margin-right: 0.35rem;
+        border-radius: 50%;
+        color: var(--wa-text);
+        text-decoration: none;
+        font-size: 1.25rem;
+        line-height: 1;
+        background: #f1f5f9;
+      }
+      .wa-back-btn:hover { background: #e2e8f0; }
+      @media (max-width: 640px) {
+        .wa-back-btn { display: inline-flex; }
+      }
+      .wa-chat-top-main {
+        display: flex;
+        align-items: center;
+        min-width: 0;
+        flex: 1;
+      }
+      .wa-chat-top-names { min-width: 0; }
       .wa-contacts-list {
         flex: 1;
         overflow-y: auto;
@@ -97,12 +159,19 @@
         background: var(--wa-accent-hover);
       }
       .wa-new-template-btn:active { transform: scale(0.98); }
+      .wa-contact-row {
+        display: flex;
+        align-items: stretch;
+        gap: 0.5rem;
+        margin-bottom: 0.25rem;
+      }
       .wa-contact-item {
+        flex: 1;
+        min-width: 0;
         display: flex;
         align-items: center;
         gap: 0.55rem;
         padding: 0.65rem 0.55rem;
-        margin-bottom: 0.25rem;
         border-radius: var(--wa-radius-sm);
         text-decoration: none;
         color: var(--wa-text);
@@ -114,6 +183,65 @@
       .wa-contact-item.active {
         background: var(--wa-card);
         box-shadow: 0 1px 4px rgba(15, 23, 42, 0.08);
+      }
+      .wa-contact-delete {
+        flex-shrink: 0;
+        align-self: center;
+        margin-left: 0.35rem;
+        margin-right: 0.15rem;
+        width: 1.65rem;
+        height: 1.65rem;
+        border: none;
+        border-radius: 8px;
+        background: transparent;
+        color: var(--wa-muted);
+        font-size: 1.1rem;
+        line-height: 1;
+        cursor: pointer;
+        transition: background 0.12s, color 0.12s;
+      }
+      .wa-contact-delete:hover {
+        background: #fee2e2;
+        color: #b91c1c;
+      }
+      .wa-chat-top-actions {
+        display: flex;
+        gap: 0.35rem;
+        flex-shrink: 0;
+      }
+      .wa-btn-delete-chat {
+        border: none;
+        border-radius: 8px;
+        background: #fef2f2;
+        color: #b91c1c;
+        font-size: 0.72rem;
+        font-weight: 600;
+        padding: 0.35rem 0.55rem;
+        cursor: pointer;
+      }
+      .wa-btn-delete-chat:hover { background: #fee2e2; }
+      .wa-template-saved-row {
+        display: flex;
+        gap: 0.35rem;
+        align-items: center;
+      }
+      .wa-template-saved-row select { flex: 1; }
+      .wa-btn-small {
+        border: none;
+        border-radius: 8px;
+        background: #f1f5f9;
+        color: var(--wa-text);
+        font-size: 0.72rem;
+        font-weight: 600;
+        padding: 0.4rem 0.55rem;
+        cursor: pointer;
+        white-space: nowrap;
+      }
+      .wa-btn-small:hover { background: #e2e8f0; }
+      .wa-field-hint {
+        font-size: 0.68rem;
+        color: var(--wa-muted);
+        margin: 0.25rem 0 0;
       }
       .wa-contact-avatar {
         flex-shrink: 0;
@@ -144,8 +272,26 @@
         min-height: 0;
         background: var(--wa-chat-bg);
       }
+      #wa-chat-active {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        min-height: 0;
+        height: 100%;
+      }
+      #wa-chat-empty {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 0;
+      }
       .wa-chat-top {
         flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.5rem;
         padding: 0.75rem 1rem;
         background: var(--wa-card);
         border-bottom: 1px solid var(--wa-border);
@@ -167,6 +313,7 @@
         align-items: flex-start;
         gap: 0.4rem;
         min-height: 0;
+        position: relative;
         background-color: var(--wa-chat-bg);
         background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c5b9ab' fill-opacity='0.22'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
       }
@@ -209,6 +356,7 @@
         background: var(--wa-card);
         border-top: 1px solid var(--wa-border);
         align-items: flex-end;
+        flex-shrink: 0;
       }
       .wa-composer textarea {
         flex: 1;
@@ -303,7 +451,8 @@
         gap: 0.5rem;
       }
       .wa-modal-card select,
-      .wa-modal-card input[type="tel"] {
+      .wa-modal-card input[type="tel"],
+      .wa-modal-card input[type="text"] {
         width: 100%;
         border: 1px solid var(--wa-border);
         border-radius: var(--wa-radius-sm);
@@ -344,15 +493,78 @@
         margin: 0 0 0.5rem;
         min-height: 1rem;
       }
+      .hidden { display: none !important; }
+      .wa-session-hint {
+        flex-shrink: 0;
+        font-size: 0.72rem;
+        color: #b45309;
+        background: #fffbeb;
+        padding: 0.45rem 1rem;
+        border-bottom: 1px solid #fde68a;
+      }
+      @keyframes wa-spin {
+        to { transform: rotate(360deg); }
+      }
+      .wa-spinner {
+        width: 2.25rem;
+        height: 2.25rem;
+        border: 3px solid var(--wa-border);
+        border-top-color: var(--wa-accent);
+        border-radius: 50%;
+        animation: wa-spin 0.65s linear infinite;
+        flex-shrink: 0;
+      }
+      .wa-spinner-sm {
+        width: 1.15rem;
+        height: 1.15rem;
+        border-width: 2px;
+      }
+      .wa-thread-loading {
+        position: absolute;
+        inset: 0;
+        z-index: 3;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 0.85rem;
+        padding: 1.5rem;
+        text-align: center;
+        color: var(--wa-muted);
+        font-size: 0.9rem;
+        font-weight: 500;
+        background: rgba(239, 234, 226, 0.94);
+        backdrop-filter: blur(2px);
+      }
+      .wa-thread-loading.hidden { display: none; }
+      .wa-composer.wa-composer-busy textarea { opacity: 0.65; }
+      #wa-send-btn {
+        position: relative;
+        min-width: 4.75rem;
+        justify-content: center;
+      }
+      #wa-send-btn .wa-btn-spinner {
+        display: none;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        margin: -0.575rem 0 0 -0.575rem;
+      }
+      #wa-send-btn.wa-sending .wa-btn-text { visibility: hidden; }
+      #wa-send-btn.wa-sending .wa-btn-spinner { display: block; }
     </style>
   </head>
   <body>
     <div class="wa-page">
     {% csrf_token %}
     <div class="wa-shell">
-    <div class="wa-inbox-layout">
+    <div class="wa-inbox-layout{% if selected_contact %} wa-show-chat{% endif %}" id="wa-inbox-layout">
       <div class="wa-contacts-panel" aria-label="Contacts">
         <div class="wa-contacts-toolbar">
+          <div class="wa-contacts-toolbar-top">
+            <span class="wa-contacts-title">Chats</span>
+            <a class="wa-logout-link" href="{% url 'donna-whatsapp-logout' %}">Log out</a>
+          </div>
           <button type="button" class="wa-new-template-btn" id="wa-new-template-btn">+ New template</button>
         </div>
         <div class="wa-contacts-list">
@@ -360,41 +572,60 @@
         <p class="wa-none">No chats</p>
         {% else %}
         {% for c in contacts %}
-        <a href="?contact={{ c.id }}"
-           class="wa-contact-item{% if selected_contact and selected_contact.id == c.id %} active{% endif %}">
-          <span class="wa-contact-avatar" aria-hidden="true">{{ c.profile_name|default:c.wa_id|slice:":1"|upper }}</span>
-          <div class="wa-contact-text">
-            <div class="wa-contact-name">{{ c.profile_name|default:c.wa_id }}</div>
-            <div class="sub">{{ c.wa_id }}</div>
-          </div>
-        </a>
+        <div class="wa-contact-row">
+          <a href="?contact={{ c.id }}"
+             class="wa-contact-item{% if selected_contact and selected_contact.id == c.id %} active{% endif %}"
+             data-contact-id="{{ c.id }}"
+             data-contact-name="{{ c.profile_name|default:c.wa_id }}"
+             data-contact-wa-id="{{ c.wa_id }}">
+            <span class="wa-contact-avatar" aria-hidden="true">{{ c.profile_name|default:c.wa_id|slice:":1"|upper }}</span>
+            <div class="wa-contact-text">
+              <div class="wa-contact-name">{{ c.profile_name|default:c.wa_id }}</div>
+              <div class="sub">{{ c.wa_id }}</div>
+            </div>
+          </a>
+          <button type="button" class="wa-contact-delete" data-contact-id="{{ c.id }}"
+                  title="Remove contact" aria-label="Remove contact">×</button>
+        </div>
         {% endfor %}
         {% endif %}
         </div>
       </div>
 
       <div class="wa-chat-panel">
-        {% if selected_contact %}
-        <div class="wa-chat-top">
-          {{ selected_contact.profile_name|default:selected_contact.wa_id }}
-          <span>{{ selected_contact.wa_id }}</span>
+        <div id="wa-chat-active" class="{% if not selected_contact %}hidden{% endif %}">
+          <div class="wa-chat-top">
+            <div class="wa-chat-top-main">
+              <a href="{% url 'donna-whatsapp-inbox' %}" class="wa-back-btn" id="wa-back-btn" aria-label="Back to chats">←</a>
+              <div class="wa-chat-top-names">
+                <span id="wa-chat-name">{% if selected_contact %}{{ selected_contact.profile_name|default:selected_contact.wa_id }}{% endif %}</span>
+                <span id="wa-chat-wa-id">{% if selected_contact %}{{ selected_contact.wa_id }}{% endif %}</span>
+              </div>
+            </div>
+            <div class="wa-chat-top-actions">
+              <button type="button" class="wa-btn-delete-chat" id="wa-delete-selected-chat"
+                      data-contact-id="{% if selected_contact %}{{ selected_contact.id }}{% endif %}">Delete contact</button>
+            </div>
+          </div>
+          <div id="wa-session-hint" class="wa-session-hint {% if session_text_ok or not selected_contact %}hidden{% endif %}" role="status">{{ session_text_hint }}</div>
+          <div class="wa-chat-messages" id="wa-chat-messages">
+            <div id="wa-thread-loading" class="wa-thread-loading hidden" role="status" aria-live="polite">
+              <span class="wa-spinner" aria-hidden="true"></span>
+              <span id="wa-thread-loading-text">Opening chat…</span>
+            </div>
+          </div>
+          <div id="wa-send-error" class="wa-error hidden" role="alert"></div>
+          <form class="wa-composer" id="wa-send-form">
+            {% csrf_token %}
+            <input type="hidden" name="contact_id" id="wa-contact-id-input" value="{% if selected_contact %}{{ selected_contact.id }}{% endif %}" />
+            <textarea name="body" id="wa-body" rows="1" placeholder="Message" required></textarea>
+            <button type="submit" id="wa-send-btn">
+              <span class="wa-btn-text">Send</span>
+              <span class="wa-btn-spinner wa-spinner wa-spinner-sm" aria-hidden="true"></span>
+            </button>
+          </form>
         </div>
-        <div class="wa-chat-messages" id="wa-chat-messages" data-contact-id="{{ selected_contact.id }}"
-             data-messages-url="{% url 'donna-whatsapp-messages-api' selected_contact.id %}"
-             data-send-url="{% url 'donna-whatsapp-send-api' %}">
-          {% for m in thread_messages %}
-          <div class="wa-bubble {% if m.direction == 'out' %}out{% else %}in{% endif %}" data-msg-id="{{ m.id }}"><span class="wa-bubble-body">{{ m.body_text|default:"" }}</span>{% if m.wa_timestamp %}<span class="wa-bubble-meta">{{ m.wa_timestamp|date:"H:i" }}</span>{% endif %}</div>
-          {% endfor %}
-        </div>
-        <form class="wa-composer" id="wa-send-form">
-          {% csrf_token %}
-          <textarea name="body" id="wa-body" rows="1" placeholder="Message" required></textarea>
-          <button type="submit" id="wa-send-btn">Send</button>
-        </form>
-        <div id="wa-send-error" class="wa-error hidden"></div>
-        {% else %}
-        <div class="wa-empty">Pick a chat</div>
-        {% endif %}
+        <div id="wa-chat-empty" class="wa-empty {% if selected_contact %}hidden{% endif %}">Choose a chat from the list{% if not contacts %} (or send a new template){% endif %}.</div>
       </div>
     </div>
     </div>
@@ -405,6 +636,7 @@
       <div class="wa-modal-card" role="dialog" aria-labelledby="wa-template-modal-title">
         <h2 id="wa-template-modal-title">Send template</h2>
         <form id="wa-template-form">
+          {% csrf_token %}
           <div class="wa-field">
             <label for="wa-country-code">Country</label>
             <div class="wa-phone-row">
@@ -433,22 +665,83 @@
       </div>
     </div>
 
-    {% if selected_contact %}
+    {{ initial_thread|json_script:"wa-initial-thread" }}
     <script>
 (function () {
+  const layout = document.getElementById('wa-inbox-layout');
+  const chatActive = document.getElementById('wa-chat-active');
+  const chatEmpty = document.getElementById('wa-chat-empty');
   const box = document.getElementById('wa-chat-messages');
   const form = document.getElementById('wa-send-form');
   const bodyEl = document.getElementById('wa-body');
   const errEl = document.getElementById('wa-send-error');
   const sendBtn = document.getElementById('wa-send-btn');
-  const contactId = box.dataset.contactId;
-  const messagesUrl = box.dataset.messagesUrl;
-  const sendUrl = box.dataset.sendUrl;
+  const contactInput = document.getElementById('wa-contact-id-input');
+  const nameEl = document.getElementById('wa-chat-name');
+  const waIdEl = document.getElementById('wa-chat-wa-id');
+  const sessionHint = document.getElementById('wa-session-hint');
+  const deleteChatBtn = document.getElementById('wa-delete-selected-chat');
+  const backBtn = document.getElementById('wa-back-btn');
+  const threadLoadingEl = document.getElementById('wa-thread-loading');
+  const threadLoadingText = document.getElementById('wa-thread-loading-text');
+  const sendUrl = "{% url 'donna-whatsapp-send-api' %}";
+  const threadUrlTpl = "{% url 'donna-whatsapp-thread-api' 0 %}".replace('/0/', '/');
+  const messagesUrlTpl = "{% url 'donna-whatsapp-messages-api' 0 %}".replace('/0/', '/');
+  const inboxPath = "{% url 'donna-whatsapp-inbox' %}";
+  const deleteUrl = "{% url 'donna-whatsapp-delete-contact-api' %}";
+  const csrfInput = document.querySelector('[name=csrfmiddlewaretoken]');
 
-  function lastMsgId() {
-    const nodes = box.querySelectorAll('[data-msg-id]');
-    if (!nodes.length) return '';
-    return nodes[nodes.length - 1].dataset.msgId;
+  let activeContactId = null;
+  let messagesUrl = '';
+  let pollTimer = null;
+  let openRequestId = 0;
+
+  function showThreadLoading(text) {
+    if (threadLoadingText) threadLoadingText.textContent = text || 'Opening chat…';
+    if (threadLoadingEl) threadLoadingEl.classList.remove('hidden');
+    box.setAttribute('aria-busy', 'true');
+  }
+
+  function hideThreadLoading() {
+    if (threadLoadingEl) threadLoadingEl.classList.add('hidden');
+    box.removeAttribute('aria-busy');
+  }
+
+  function setSending(sending) {
+    sendBtn.disabled = sending;
+    sendBtn.classList.toggle('wa-sending', sending);
+    form.classList.toggle('wa-composer-busy', sending);
+    bodyEl.disabled = sending;
+  }
+
+  function readJsonResponse(r) {
+    return r.text().then(function (text) {
+      var j;
+      try {
+        j = text ? JSON.parse(text) : {};
+      } catch (e) {
+        j = {
+          error: r.status === 403
+            ? 'Session expired or blocked — refresh the page and log in again.'
+            : (text && text.length < 200 ? text : 'Request failed (' + r.status + ')'),
+        };
+      }
+      return { ok: r.ok, j: j };
+    });
+  }
+
+  function threadUrl(id) { return threadUrlTpl + String(id) + '/'; }
+  function messagesPollUrl(id, since) {
+    var url = messagesUrlTpl + String(id) + '/';
+    return since ? url + '?since_id=' + encodeURIComponent(since) : url;
+  }
+
+  function renderMessages(messages, clear) {
+    if (clear) {
+      Array.from(box.querySelectorAll('.wa-bubble')).forEach(function (el) { el.remove(); });
+    }
+    (messages || []).forEach(appendMessage);
+    box.scrollTop = box.scrollHeight;
   }
 
   function appendMessage(m) {
@@ -467,47 +760,240 @@
       div.appendChild(meta);
     }
     box.appendChild(div);
-    box.scrollTop = box.scrollHeight;
   }
 
-  function poll() {
-    const since = lastMsgId();
-    const url = since ? messagesUrl + '?since_id=' + encodeURIComponent(since) : messagesUrl;
-    fetch(url, { credentials: 'same-origin', headers: { Accept: 'application/json' } })
-      .then(function (r) { return r.json(); })
-      .then(function (data) { (data.messages || []).forEach(appendMessage); })
-      .catch(function () {});
+  function lastMsgId() {
+    const nodes = box.querySelectorAll('[data-msg-id]');
+    if (!nodes.length) return '';
+    return nodes[nodes.length - 1].dataset.msgId;
   }
 
-  setInterval(poll, 5000);
+  function stopPoll() {
+    if (pollTimer) {
+      clearInterval(pollTimer);
+      pollTimer = null;
+    }
+  }
+
+  function startPoll() {
+    stopPoll();
+    if (!activeContactId) return;
+    pollTimer = setInterval(function () {
+      const since = lastMsgId();
+      fetch(messagesPollUrl(activeContactId, since), {
+        credentials: 'same-origin',
+        headers: { Accept: 'application/json' },
+      })
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          (data.messages || []).forEach(appendMessage);
+          box.scrollTop = box.scrollHeight;
+        })
+        .catch(function () {});
+    }, 5000);
+  }
+
+  function setActiveContactItem(contactId) {
+    document.querySelectorAll('.wa-contact-item').forEach(function (el) {
+      el.classList.toggle('active', el.getAttribute('data-contact-id') === String(contactId));
+    });
+  }
+
+  function applyThread(data) {
+    const c = data.contact;
+    activeContactId = c.id;
+    messagesUrl = messagesPollUrl(c.id, '');
+    nameEl.textContent = c.name || c.wa_id;
+    waIdEl.textContent = c.wa_id;
+    contactInput.value = String(c.id);
+    deleteChatBtn.setAttribute('data-contact-id', String(c.id));
+    if (data.session_text_ok) {
+      sessionHint.classList.add('hidden');
+      sessionHint.textContent = '';
+    } else {
+      sessionHint.textContent = data.session_text_hint || '';
+      sessionHint.classList.remove('hidden');
+    }
+    chatEmpty.classList.add('hidden');
+    chatActive.classList.remove('hidden');
+    layout.classList.add('wa-show-chat');
+    errEl.classList.add('hidden');
+    renderMessages(data.messages, true);
+    setActiveContactItem(c.id);
+    startPoll();
+  }
+
+  function openContact(contactId, push) {
+    const reqId = ++openRequestId;
+    const link = document.querySelector('.wa-contact-item[data-contact-id="' + contactId + '"]');
+    stopPoll();
+    chatEmpty.classList.add('hidden');
+    chatActive.classList.remove('hidden');
+    layout.classList.add('wa-show-chat');
+    setActiveContactItem(contactId);
+    if (link) {
+      nameEl.textContent = link.getAttribute('data-contact-name') || '';
+      waIdEl.textContent = link.getAttribute('data-contact-wa-id') || '';
+    }
+    Array.from(box.querySelectorAll('.wa-bubble')).forEach(function (el) { el.remove(); });
+    showThreadLoading('Opening chat…');
+    setSending(true);
+
+    fetch(threadUrl(contactId), { credentials: 'same-origin', headers: { Accept: 'application/json' } })
+      .then(readJsonResponse)
+      .then(function (res) {
+        if (reqId !== openRequestId) return;
+        if (!res.ok) throw new Error(res.j.error || 'Could not load chat');
+        applyThread(res.j);
+        if (push !== false) {
+          const url = inboxPath + '?contact=' + encodeURIComponent(contactId);
+          if (window.location.pathname + window.location.search !== url) {
+            history.pushState({ contactId: contactId }, '', url);
+          }
+        }
+      })
+      .catch(function (err) {
+        if (reqId !== openRequestId) return;
+        window.alert(err.message || 'Could not load chat');
+        if (!activeContactId) {
+          chatActive.classList.add('hidden');
+          chatEmpty.classList.remove('hidden');
+          layout.classList.remove('wa-show-chat');
+        }
+      })
+      .finally(function () {
+        if (reqId !== openRequestId) return;
+        hideThreadLoading();
+        setSending(false);
+      });
+  }
+
+  function closeChat(push) {
+    stopPoll();
+    activeContactId = null;
+    chatActive.classList.add('hidden');
+    chatEmpty.classList.remove('hidden');
+    layout.classList.remove('wa-show-chat');
+    setActiveContactItem(null);
+    if (push !== false) {
+      history.pushState({ contactId: null }, '', inboxPath);
+    }
+  }
+
+  document.querySelectorAll('.wa-contact-item').forEach(function (link) {
+    link.addEventListener('click', function (e) {
+      e.preventDefault();
+      openContact(link.getAttribute('data-contact-id'));
+    });
+  });
+
+  if (backBtn) {
+    backBtn.addEventListener('click', function (e) {
+      e.preventDefault();
+      closeChat(true);
+    });
+  }
+
+  window.addEventListener('popstate', function (e) {
+    const id = e.state && e.state.contactId;
+    if (id) {
+      openContact(id, false);
+    } else {
+      closeChat(false);
+    }
+  });
+
+  bodyEl.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      if (bodyEl.value.trim() && activeContactId) {
+        form.requestSubmit();
+      }
+    }
+  });
 
   form.addEventListener('submit', function (e) {
     e.preventDefault();
+    if (!activeContactId) return;
     const body = bodyEl.value.trim();
     if (!body) return;
     errEl.classList.add('hidden');
-    sendBtn.disabled = true;
+    setSending(true);
     const fd = new FormData(form);
-    fd.set('contact_id', contactId);
     fd.set('body', body);
-    fetch(sendUrl, { method: 'POST', body: fd, credentials: 'same-origin', headers: { Accept: 'application/json' } })
-      .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
+    fd.set('contact_id', String(activeContactId));
+    var csrf = form.querySelector('[name=csrfmiddlewaretoken]');
+    var headers = { Accept: 'application/json' };
+    if (csrf && csrf.value) headers['X-CSRFToken'] = csrf.value;
+    fetch(sendUrl, { method: 'POST', body: fd, credentials: 'same-origin', headers: headers })
+      .then(readJsonResponse)
       .then(function (res) {
         if (!res.ok) throw new Error(res.j.error || 'Send failed');
         bodyEl.value = '';
         if (res.j.message) appendMessage(res.j.message);
+        box.scrollTop = box.scrollHeight;
       })
       .catch(function (err) {
         errEl.textContent = err.message || 'Send failed';
         errEl.classList.remove('hidden');
       })
-      .finally(function () { sendBtn.disabled = false; bodyEl.focus(); });
+      .finally(function () { setSending(false); bodyEl.focus(); });
   });
 
-  box.scrollTop = box.scrollHeight;
+  function deleteContact(contactId) {
+    if (!contactId) return;
+    if (!window.confirm('Remove this contact and all messages from your inbox? They can still message you on WhatsApp.')) {
+      return;
+    }
+    const fd = new FormData();
+    fd.set('contact_id', String(contactId));
+    if (csrfInput) fd.set('csrfmiddlewaretoken', csrfInput.value);
+    fetch(deleteUrl, {
+      method: 'POST',
+      body: fd,
+      credentials: 'same-origin',
+      headers: { Accept: 'application/json' },
+    })
+      .then(readJsonResponse)
+      .then(function (res) {
+        if (!res.ok) throw new Error(res.j.error || 'Delete failed');
+        window.location.href = res.j.redirect_url || inboxPath;
+      })
+      .catch(function (err) { window.alert(err.message || 'Delete failed'); });
+  }
+
+  document.querySelectorAll('.wa-contact-delete').forEach(function (btn) {
+    btn.addEventListener('click', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      deleteContact(btn.getAttribute('data-contact-id'));
+    });
+  });
+
+  if (deleteChatBtn) {
+    deleteChatBtn.addEventListener('click', function () {
+      deleteContact(deleteChatBtn.getAttribute('data-contact-id'));
+    });
+  }
+
+  const initialEl = document.getElementById('wa-initial-thread');
+  if (initialEl && initialEl.textContent) {
+    try {
+      const data = JSON.parse(initialEl.textContent);
+      applyThread(data);
+      if (data.contact && data.contact.id) {
+        history.replaceState({ contactId: data.contact.id }, '', inboxPath + '?contact=' + data.contact.id);
+      }
+    } catch (e) {}
+  } else {
+    const params = new URLSearchParams(window.location.search);
+    const cid = params.get('contact');
+    if (cid) openContact(cid, false);
+  }
+
+  window.waOpenContact = openContact;
 })();
     </script>
-    {% endif %}
     <script>
 (function () {
   const modal = document.getElementById('wa-template-modal');
@@ -516,7 +1002,21 @@
   const errEl = document.getElementById('wa-template-modal-error');
   const submitBtn = document.getElementById('wa-template-submit');
   const sendTemplateUrl = "{% url 'donna-whatsapp-send-template-api' %}";
-  const csrfInput = document.querySelector('[name=csrfmiddlewaretoken]');
+  function readJsonResponse(r) {
+    return r.text().then(function (text) {
+      var j;
+      try {
+        j = text ? JSON.parse(text) : {};
+      } catch (e) {
+        j = {
+          error: r.status === 403
+            ? 'Session expired or blocked — refresh the page and log in again.'
+            : (text && text.length < 200 ? text : 'Send failed (' + r.status + ')'),
+        };
+      }
+      return { ok: r.ok, j: j };
+    });
+  }
 
   function openModal() {
     modal.classList.remove('hidden');
@@ -524,12 +1024,13 @@
     errEl.textContent = '';
     document.getElementById('wa-phone-local').focus();
   }
+
+  openBtn.addEventListener('click', openModal);
   function closeModal() {
     modal.classList.add('hidden');
     modal.setAttribute('aria-hidden', 'true');
   }
 
-  openBtn.addEventListener('click', openModal);
   modal.querySelectorAll('[data-close-template-modal]').forEach(function (el) {
     el.addEventListener('click', closeModal);
   });
@@ -539,22 +1040,28 @@
     errEl.textContent = '';
     submitBtn.disabled = true;
     const fd = new FormData(form);
-    if (csrfInput) fd.set('csrfmiddlewaretoken', csrfInput.value);
+    var csrf = form.querySelector('[name=csrfmiddlewaretoken]');
+    var headers = { Accept: 'application/json' };
+    if (csrf && csrf.value) {
+      headers['X-CSRFToken'] = csrf.value;
+    }
     fetch(sendTemplateUrl, {
       method: 'POST',
       body: fd,
       credentials: 'same-origin',
-      headers: { Accept: 'application/json' },
+      headers: headers,
     })
-      .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
+      .then(readJsonResponse)
       .then(function (res) {
         if (!res.ok) throw new Error(res.j.error || 'Send failed');
-        if (res.j.redirect_url) {
-          window.location.href = res.j.redirect_url;
+        closeModal();
+        if (res.j.contact_id && window.waOpenContact) {
+          window.waOpenContact(res.j.contact_id);
           return;
         }
-        closeModal();
-        window.location.reload();
+        if (res.j.redirect_url) {
+          window.location.href = res.j.redirect_url;
+        }
       })
       .catch(function (err) {
         errEl.textContent = err.message || 'Send failed';

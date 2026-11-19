@@ -90,10 +90,10 @@ def _apply_status(status: dict):
     if not wamid:
         return
     new_status = status.get('status') or ''
-    updated = WhatsAppDonnaMessage.objects.filter(wamid=wamid).update(
-        status=new_status,
-        updated_at=timezone.now(),
-    )
+    update_fields = {'status': new_status, 'updated_at': timezone.now()}
+    if status.get('errors'):
+        update_fields['raw_payload'] = status
+    updated = WhatsAppDonnaMessage.objects.filter(wamid=wamid).update(**update_fields)
     if not updated:
         recipient = str(status.get('recipient_id') or '')
         if not recipient:

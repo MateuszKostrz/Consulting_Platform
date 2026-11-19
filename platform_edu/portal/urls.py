@@ -4,10 +4,14 @@ from django.views.generic import RedirectView
 from . import views
 from .whatsapp_webhook import donna_whatsapp_webhook
 from .whatsapp_inbox_views import (
+    donna_whatsapp_delete_contact_api,
     donna_whatsapp_inbox,
+    donna_whatsapp_login,
+    donna_whatsapp_logout,
     donna_whatsapp_messages_api,
     donna_whatsapp_send_api,
     donna_whatsapp_send_template_api,
+    donna_whatsapp_thread_api,
 )
 
 urlpatterns = [
@@ -45,16 +49,28 @@ urlpatterns = [
     path('logout/', views.logout_view, name='logout'),
     path('settings/', views.personal_information, name='account'),
     path('webhooks/whatsapp/donna/', donna_whatsapp_webhook, name='donna-whatsapp-webhook'),
+    path('donna/whatsapp/login/', donna_whatsapp_login, name='donna-whatsapp-login'),
+    path('donna/whatsapp/logout/', donna_whatsapp_logout, name='donna-whatsapp-logout'),
     path('donna/whatsapp/', donna_whatsapp_inbox, name='donna-whatsapp-inbox'),
     path(
         'donna/whatsapp/messages/<int:contact_id>/',
         donna_whatsapp_messages_api,
         name='donna-whatsapp-messages-api',
     ),
+    path(
+        'donna/whatsapp/thread/<int:contact_id>/',
+        donna_whatsapp_thread_api,
+        name='donna-whatsapp-thread-api',
+    ),
     path('donna/whatsapp/send/', donna_whatsapp_send_api, name='donna-whatsapp-send-api'),
     path(
         'donna/whatsapp/send-template/',
         donna_whatsapp_send_template_api,
         name='donna-whatsapp-send-template-api',
+    ),
+    path(
+        'donna/whatsapp/delete-contact/',
+        donna_whatsapp_delete_contact_api,
+        name='donna-whatsapp-delete-contact-api',
     ),
 ]

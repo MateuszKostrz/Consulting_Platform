@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Donna WhatsApp — log in</title>
+    <style>
+      :root {
+        --wa-bg: #e8eef3;
+        --wa-card: #ffffff;
+        --wa-text: #1e293b;
+        --wa-muted: #64748b;
+        --wa-accent: #0d9488;
+        --wa-accent-hover: #0f766e;
+        --wa-radius: 16px;
+      }
+      * { box-sizing: border-box; }
+      html, body {
+        height: 100%;
+        margin: 0;
+        font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+        color: var(--wa-text);
+        background: var(--wa-bg);
+      }
+      .wa-login-page {
+        min-height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1.25rem;
+      }
+      .wa-login-card {
+        width: 100%;
+        max-width: 22rem;
+        background: var(--wa-card);
+        border-radius: var(--wa-radius);
+        box-shadow: 0 12px 40px rgba(15, 23, 42, 0.12);
+        padding: 1.75rem 1.5rem 1.5rem;
+      }
+      .wa-login-card h1 {
+        margin: 0 0 0.35rem;
+        font-size: 1.25rem;
+        font-weight: 700;
+      }
+      .wa-login-card p.sub {
+        margin: 0 0 1.25rem;
+        font-size: 0.85rem;
+        color: var(--wa-muted);
+      }
+      .wa-field { margin-bottom: 1rem; }
+      .wa-field label {
+        display: block;
+        font-size: 0.72rem;
+        font-weight: 600;
+        color: var(--wa-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        margin-bottom: 0.35rem;
+      }
+      .wa-field input {
+        width: 100%;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 0.65rem 0.75rem;
+        font: inherit;
+        font-size: 1rem;
+        background: #f8fafc;
+      }
+      .wa-field input:focus {
+        outline: none;
+        border-color: var(--wa-accent);
+        box-shadow: 0 0 0 3px #ccfbf1;
+        background: #fff;
+      }
+      .wa-error {
+        color: #dc2626;
+        font-size: 0.82rem;
+        margin-bottom: 0.75rem;
+      }
+      .wa-login-btn {
+        width: 100%;
+        border: none;
+        border-radius: 12px;
+        background: var(--wa-accent);
+        color: #fff;
+        font-size: 0.95rem;
+        font-weight: 600;
+        padding: 0.7rem 1rem;
+        cursor: pointer;
+      }
+      .wa-login-btn:hover { background: var(--wa-accent-hover); }
+    </style>
+  </head>
+  <body>
+    <div class="wa-login-page">
+      <div class="wa-login-card">
+        <h1>Donna WhatsApp</h1>
+        <p class="sub">Sign in to manage conversations.</p>
+        {% if error %}
+        <p class="wa-error" role="alert">{{ error }}</p>
+        {% endif %}
+        <form method="post" action="{% url 'donna-whatsapp-login' %}">
+          {% csrf_token %}
+          {% if next_url %}
+          <input type="hidden" name="next" value="{{ next_url }}" />
+          {% endif %}
+          <div class="wa-field">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" autocomplete="username" required />
+          </div>
+          <div class="wa-field">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" autocomplete="current-password" required />
+          </div>
+          <button type="submit" class="wa-login-btn">Log in</button>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>
