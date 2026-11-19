@@ -11,6 +11,7 @@ LOGIN_EXEMPT_PREFIXES = (
     '/static/',
     '/media/',
     '/webhooks/',
+    '/donna/whatsapp/',  # separate inbox login (whatsapp_inbox_auth), not platform users
 )
 
 
