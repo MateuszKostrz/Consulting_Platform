@@ -43,7 +43,7 @@
       input[name="csrfmiddlewaretoken"] { display: none; }
       .wa-shell {
         width: 100%;
-        max-width: 56rem;
+        max-width: 72rem;
         height: min(720px, calc(100vh - 2.5rem));
         background: var(--wa-card);
         border-radius: var(--wa-radius);
@@ -52,9 +52,14 @@
       }
       .wa-inbox-layout {
         display: grid;
-        grid-template-columns: 14rem 1fr;
+        grid-template-columns: minmax(16rem, 22rem) 1fr;
         height: 100%;
         overflow: hidden;
+      }
+      @media (min-width: 900px) {
+        .wa-inbox-layout {
+          grid-template-columns: 22rem 1fr;
+        }
       }
       @media (max-width: 640px) {
         .wa-page { padding: 0; align-items: stretch; }
@@ -116,13 +121,17 @@
         flex-shrink: 0;
         width: 2.25rem;
         height: 2.25rem;
-        margin-right: 0.35rem;
+        margin: 0 0.35rem 0 0;
+        padding: 0;
+        border: none;
         border-radius: 50%;
         color: var(--wa-text);
+        font: inherit;
         text-decoration: none;
         font-size: 1.25rem;
         line-height: 1;
         background: #f1f5f9;
+        cursor: pointer;
       }
       .wa-back-btn:hover { background: #e2e8f0; }
       @media (max-width: 640px) {
@@ -259,12 +268,77 @@
       .wa-contact-text { min-width: 0; }
       .wa-contact-item .sub {
         color: var(--wa-muted);
-        font-size: 0.68rem;
-        font-weight: 400;
-        margin-top: 1px;
+        font-size: 0.72rem;
+        font-weight: 500;
+        font-variant-numeric: tabular-nums;
+        letter-spacing: 0.02em;
+        margin-top: 2px;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+      }
+      .wa-contact-hint {
+        color: #b45309;
+        font-size: 0.65rem;
+        font-weight: 600;
+        margin-top: 3px;
+        line-height: 1.2;
+      }
+      .wa-contact-item.wa-needs-reply {
+        background: rgba(255, 251, 235, 0.85);
+      }
+      .wa-contact-item.wa-needs-reply:hover {
+        background: rgba(255, 251, 235, 1);
+      }
+      .wa-contact-item.wa-needs-reply.active {
+        box-shadow: 0 1px 4px rgba(180, 83, 9, 0.12), inset 3px 0 0 #f59e0b;
+      }
+      .wa-unanswered-banner {
+        flex-shrink: 0;
+        padding: 0.45rem 1rem;
+        font-size: 0.78rem;
+        font-weight: 600;
+        color: #92400e;
+        background: #fef3c7;
+        border-bottom: 1px solid #fde68a;
+      }
+      .wa-unanswered-banner.hidden { display: none; }
+      .wa-bubble-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.35rem;
+        margin-top: 0.35rem;
+        align-items: center;
+      }
+      .wa-btn-translate {
+        border: none;
+        background: #f1f5f9;
+        color: var(--wa-accent-hover);
+        font-size: 0.68rem;
+        font-weight: 600;
+        padding: 0.2rem 0.45rem;
+        border-radius: 6px;
+        cursor: pointer;
+      }
+      .wa-btn-translate:hover { background: var(--wa-accent-soft); }
+      .wa-btn-translate:disabled { opacity: 0.55; cursor: wait; }
+      .wa-bubble-translation {
+        margin-top: 0.35rem;
+        padding-top: 0.35rem;
+        border-top: 1px dashed #e2e8f0;
+        font-size: 0.8rem;
+        color: #334155;
+        white-space: pre-wrap;
+        word-break: break-word;
+      }
+      .wa-bubble-translation-label {
+        display: block;
+        font-size: 0.62rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: var(--wa-muted);
+        margin-bottom: 0.15rem;
       }
       .wa-chat-panel {
         display: flex;
@@ -391,6 +465,37 @@
       }
       .wa-composer button:hover:not(:disabled) { background: var(--wa-accent-hover); }
       .wa-composer button:disabled { opacity: 0.55; cursor: default; }
+      .wa-composer-send-col {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.35rem;
+        flex-shrink: 0;
+      }
+      .wa-composer-translate label {
+        font-size: 0.62rem;
+        font-weight: 600;
+        color: var(--wa-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+      }
+      .wa-composer-translate select {
+        min-width: 7.5rem;
+        border: 1px solid var(--wa-border);
+        border-radius: 8px;
+        padding: 0.35rem 0.45rem;
+        font: inherit;
+        font-size: 0.72rem;
+        font-weight: 600;
+        color: var(--wa-text);
+        background: #f8fafc;
+        cursor: pointer;
+      }
+      .wa-composer-translate select:focus {
+        outline: none;
+        border-color: var(--wa-accent);
+        box-shadow: 0 0 0 2px var(--wa-accent-soft);
+      }
       .wa-empty, .wa-none {
         margin: auto;
         text-align: center;
@@ -573,15 +678,19 @@
         {% else %}
         {% for c in contacts %}
         <div class="wa-contact-row">
-          <a href="?contact={{ c.id }}"
-             class="wa-contact-item{% if selected_contact and selected_contact.id == c.id %} active{% endif %}"
+          <a href="{% url 'donna-whatsapp-inbox' %}?contact={{ c.id }}"
+             class="wa-contact-item{% if selected_contact and selected_contact.id == c.id %} active{% endif %}{% if c.last_msg_direction == 'in' %} wa-needs-reply{% endif %}"
              data-contact-id="{{ c.id }}"
              data-contact-name="{{ c.profile_name|default:c.wa_id }}"
-             data-contact-wa-id="{{ c.wa_id }}">
+             data-contact-wa-id="{{ c.wa_id }}"
+             data-needs-reply="{% if c.last_msg_direction == 'in' %}1{% else %}0{% endif %}">
             <span class="wa-contact-avatar" aria-hidden="true">{{ c.profile_name|default:c.wa_id|slice:":1"|upper }}</span>
             <div class="wa-contact-text">
               <div class="wa-contact-name">{{ c.profile_name|default:c.wa_id }}</div>
               <div class="sub">{{ c.wa_id }}</div>
+              {% if c.last_msg_direction == 'in' %}
+              <div class="wa-contact-hint">Unanswered message</div>
+              {% endif %}
             </div>
           </a>
           <button type="button" class="wa-contact-delete" data-contact-id="{{ c.id }}"
@@ -596,7 +705,7 @@
         <div id="wa-chat-active" class="{% if not selected_contact %}hidden{% endif %}">
           <div class="wa-chat-top">
             <div class="wa-chat-top-main">
-              <a href="{% url 'donna-whatsapp-inbox' %}" class="wa-back-btn" id="wa-back-btn" aria-label="Back to chats">←</a>
+              <button type="button" class="wa-back-btn" id="wa-back-btn" aria-label="Back to chats">←</button>
               <div class="wa-chat-top-names">
                 <span id="wa-chat-name">{% if selected_contact %}{{ selected_contact.profile_name|default:selected_contact.wa_id }}{% endif %}</span>
                 <span id="wa-chat-wa-id">{% if selected_contact %}{{ selected_contact.wa_id }}{% endif %}</span>
@@ -608,6 +717,9 @@
             </div>
           </div>
           <div id="wa-session-hint" class="wa-session-hint {% if session_text_ok or not selected_contact %}hidden{% endif %}" role="status">{{ session_text_hint }}</div>
+          <div id="wa-unanswered-banner" class="wa-unanswered-banner {% if not selected_needs_reply %}hidden{% endif %}" role="status">
+            Unanswered message — they are waiting for your reply.
+          </div>
           <div class="wa-chat-messages" id="wa-chat-messages">
             <div id="wa-thread-loading" class="wa-thread-loading hidden" role="status" aria-live="polite">
               <span class="wa-spinner" aria-hidden="true"></span>
@@ -618,11 +730,23 @@
           <form class="wa-composer" id="wa-send-form">
             {% csrf_token %}
             <input type="hidden" name="contact_id" id="wa-contact-id-input" value="{% if selected_contact %}{{ selected_contact.id }}{% endif %}" />
-            <textarea name="body" id="wa-body" rows="1" placeholder="Message" required></textarea>
-            <button type="submit" id="wa-send-btn">
-              <span class="wa-btn-text">Send</span>
-              <span class="wa-btn-spinner wa-spinner wa-spinner-sm" aria-hidden="true"></span>
-            </button>
+            <textarea name="body" id="wa-body" rows="1" placeholder="Wiadomość po polsku…" required></textarea>
+            <div class="wa-composer-send-col">
+              <div class="wa-composer-translate">
+                <label for="wa-translate-to">Translate to?</label>
+                <select id="wa-translate-to" name="translate_to" aria-label="Translate outgoing message">
+                  <option value="">Don't translate</option>
+                  <option value="en">EN</option>
+                  <option value="esp">ESP</option>
+                  <option value="de">DE</option>
+                  <option value="ro">RO</option>
+                </select>
+              </div>
+              <button type="submit" id="wa-send-btn">
+                <span class="wa-btn-text">Send</span>
+                <span class="wa-btn-spinner wa-spinner wa-spinner-sm" aria-hidden="true"></span>
+              </button>
+            </div>
           </form>
         </div>
         <div id="wa-chat-empty" class="wa-empty {% if selected_contact %}hidden{% endif %}">Choose a chat from the list{% if not contacts %} (or send a new template){% endif %}.</div>
@@ -676,6 +800,7 @@
   const bodyEl = document.getElementById('wa-body');
   const errEl = document.getElementById('wa-send-error');
   const sendBtn = document.getElementById('wa-send-btn');
+  const translateToEl = document.getElementById('wa-translate-to');
   const contactInput = document.getElementById('wa-contact-id-input');
   const nameEl = document.getElementById('wa-chat-name');
   const waIdEl = document.getElementById('wa-chat-wa-id');
@@ -689,7 +814,9 @@
   const messagesUrlTpl = "{% url 'donna-whatsapp-messages-api' 0 %}".replace('/0/', '/');
   const inboxPath = "{% url 'donna-whatsapp-inbox' %}";
   const deleteUrl = "{% url 'donna-whatsapp-delete-contact-api' %}";
+  const translateUrl = "{% url 'donna-whatsapp-translate-api' %}";
   const csrfInput = document.querySelector('[name=csrfmiddlewaretoken]');
+  const unansweredBanner = document.getElementById('wa-unanswered-banner');
 
   let activeContactId = null;
   let messagesUrl = '';
@@ -712,6 +839,7 @@
     sendBtn.classList.toggle('wa-sending', sending);
     form.classList.toggle('wa-composer-busy', sending);
     bodyEl.disabled = sending;
+    if (translateToEl) translateToEl.disabled = sending;
   }
 
   function readJsonResponse(r) {
@@ -744,6 +872,71 @@
     box.scrollTop = box.scrollHeight;
   }
 
+  function setUnansweredBanner(needsReply) {
+    if (!unansweredBanner) return;
+    unansweredBanner.classList.toggle('hidden', !needsReply);
+  }
+
+  function setContactNeedsReply(contactId, needsReply) {
+    const link = document.querySelector('.wa-contact-item[data-contact-id="' + contactId + '"]');
+    if (!link) return;
+    const flag = needsReply ? '1' : '0';
+    link.setAttribute('data-needs-reply', flag);
+    link.classList.toggle('wa-needs-reply', !!needsReply);
+    const textWrap = link.querySelector('.wa-contact-text');
+    if (!textWrap) return;
+    let hint = textWrap.querySelector('.wa-contact-hint');
+    if (needsReply) {
+      if (!hint) {
+        hint = document.createElement('div');
+        hint.className = 'wa-contact-hint';
+        hint.textContent = 'Unanswered message';
+        textWrap.appendChild(hint);
+      }
+    } else if (hint) {
+      hint.remove();
+    }
+  }
+
+  function translateInboundMessage(btn, text) {
+    if (!text || !btn) return;
+    btn.disabled = true;
+    const bubble = btn.closest('.wa-bubble');
+    const existing = bubble && bubble.querySelector('.wa-bubble-translation');
+    if (existing) existing.remove();
+    fetch(translateUrl, {
+      method: 'POST',
+      credentials: 'same-origin',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'X-CSRFToken': csrfInput ? csrfInput.value : '',
+      },
+      body: JSON.stringify({ text: text, target: 'pl' }),
+    })
+      .then(readJsonResponse)
+      .then(function (res) {
+        if (!res.ok) throw new Error(res.j.error || 'Translation failed');
+        if (!bubble) return;
+        const block = document.createElement('div');
+        block.className = 'wa-bubble-translation';
+        const label = document.createElement('span');
+        label.className = 'wa-bubble-translation-label';
+        label.textContent = 'Polski';
+        const body = document.createElement('span');
+        body.textContent = res.j.translation || '';
+        block.appendChild(label);
+        block.appendChild(body);
+        bubble.appendChild(block);
+        btn.textContent = 'Translated';
+        box.scrollTop = box.scrollHeight;
+      })
+      .catch(function (err) {
+        window.alert(err.message || 'Could not translate');
+        btn.disabled = false;
+      });
+  }
+
   function appendMessage(m) {
     if (box.querySelector('[data-msg-id="' + m.id + '"]')) return;
     const div = document.createElement('div');
@@ -753,6 +946,20 @@
     bodySpan.className = 'wa-bubble-body';
     bodySpan.textContent = m.body || '';
     div.appendChild(bodySpan);
+    const bodyText = (m.body || '').trim();
+    if (m.direction === 'in' && bodyText && !bodyText.startsWith('[Template:')) {
+      const actions = document.createElement('div');
+      actions.className = 'wa-bubble-actions';
+      const trBtn = document.createElement('button');
+      trBtn.type = 'button';
+      trBtn.className = 'wa-btn-translate';
+      trBtn.textContent = 'Translate to Polish';
+      trBtn.addEventListener('click', function () {
+        translateInboundMessage(trBtn, bodyText);
+      });
+      actions.appendChild(trBtn);
+      div.appendChild(actions);
+    }
     if (m.at) {
       const meta = document.createElement('span');
       meta.className = 'wa-bubble-meta';
@@ -786,7 +993,13 @@
       })
         .then(function (r) { return r.json(); })
         .then(function (data) {
-          (data.messages || []).forEach(appendMessage);
+          (data.messages || []).forEach(function (m) {
+            appendMessage(m);
+            if (m.direction === 'in' && activeContactId) {
+              setContactNeedsReply(activeContactId, true);
+              setUnansweredBanner(true);
+            }
+          });
           box.scrollTop = box.scrollHeight;
         })
         .catch(function () {});
@@ -816,17 +1029,20 @@
       existing.querySelector('.wa-contact-name').textContent = name;
       existing.querySelector('.sub').textContent = waId;
       existing.querySelector('.wa-contact-avatar').textContent = avatarLetter;
+      setContactNeedsReply(id, !!c.needs_reply);
       if (row) list.prepend(row);
       return;
     }
     const row = document.createElement('div');
     row.className = 'wa-contact-row';
     const link = document.createElement('a');
-    link.href = '?contact=' + encodeURIComponent(id);
+    link.href = inboxPath + '?contact=' + encodeURIComponent(id);
     link.className = 'wa-contact-item';
     link.setAttribute('data-contact-id', id);
     link.setAttribute('data-contact-name', name);
     link.setAttribute('data-contact-wa-id', waId);
+    link.setAttribute('data-needs-reply', c.needs_reply ? '1' : '0');
+    link.classList.toggle('wa-needs-reply', !!c.needs_reply);
     const avatar = document.createElement('span');
     avatar.className = 'wa-contact-avatar';
     avatar.setAttribute('aria-hidden', 'true');
@@ -841,6 +1057,12 @@
     sub.textContent = waId;
     textWrap.appendChild(nameEl);
     textWrap.appendChild(sub);
+    if (c.needs_reply) {
+      const hint = document.createElement('div');
+      hint.className = 'wa-contact-hint';
+      hint.textContent = 'Unanswered message';
+      textWrap.appendChild(hint);
+    }
     link.appendChild(avatar);
     link.appendChild(textWrap);
     const delBtn = document.createElement('button');
@@ -871,6 +1093,9 @@
       sessionHint.textContent = data.session_text_hint || '';
       sessionHint.classList.remove('hidden');
     }
+    const needsReply = !!(c && c.needs_reply);
+    setUnansweredBanner(needsReply);
+    setContactNeedsReply(c.id, needsReply);
     chatEmpty.classList.add('hidden');
     chatActive.classList.remove('hidden');
     layout.classList.add('wa-show-chat');
@@ -990,6 +1215,9 @@
     const fd = new FormData(form);
     fd.set('body', body);
     fd.set('contact_id', String(activeContactId));
+    if (translateToEl) {
+      fd.set('translate_to', translateToEl.value || '');
+    }
     var csrf = form.querySelector('[name=csrfmiddlewaretoken]');
     var headers = { Accept: 'application/json' };
     if (csrf && csrf.value) headers['X-CSRFToken'] = csrf.value;
@@ -999,6 +1227,8 @@
         if (!res.ok) throw new Error(res.j.error || 'Send failed');
         bodyEl.value = '';
         if (res.j.message) appendMessage(res.j.message);
+        setContactNeedsReply(activeContactId, false);
+        setUnansweredBanner(false);
         box.scrollTop = box.scrollHeight;
       })
       .catch(function (err) {

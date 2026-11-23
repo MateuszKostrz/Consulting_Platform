@@ -13,7 +13,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.utils import timezone
 from django.utils.http import url_has_allowed_host_and_scheme
-from urllib.parse import urlencode
+from urllib.parse import quote, urlencode
 
 from .constants import (
     ALLOWED_UPLOAD_EXTENSIONS,
@@ -2032,6 +2032,9 @@ def login_view(request):
         return redirect('home')
 
     next_url = request.GET.get('next', '').strip()
+
+    if request.method != 'POST' and next_url.startswith('/donna/whatsapp'):
+        return redirect(f'{reverse("donna-whatsapp-login")}?next={quote(next_url, safe="")}')
 
     if request.method == 'POST':
         email = request.POST.get('email', '').strip().lower()

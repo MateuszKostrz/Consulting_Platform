@@ -11,8 +11,16 @@ LOGIN_EXEMPT_PREFIXES = (
     '/static/',
     '/media/',
     '/webhooks/',
-    '/donna/whatsapp/',  # separate inbox login (whatsapp_inbox_auth), not platform users
 )
+
+
+def _path_login_exempt(path: str) -> bool:
+    if any(path.startswith(prefix) for prefix in LOGIN_EXEMPT_PREFIXES):
+        return True
+    # Donna WhatsApp inbox — own session login, not platform users
+    if path == '/donna/whatsapp' or path.startswith('/donna/whatsapp/'):
+        return True
+    return False
 
 
 class LoginRequiredMiddleware:
@@ -22,7 +30,7 @@ class LoginRequiredMiddleware:
     def __call__(self, request):
         if not request.user.is_authenticated:
             path = request.path
-            if not any(path.startswith(prefix) for prefix in LOGIN_EXEMPT_PREFIXES):
+            if not _path_login_exempt(path):
                 login_url = reverse('login')
                 next_url = request.get_full_path()
                 if next_url and next_url != login_url:

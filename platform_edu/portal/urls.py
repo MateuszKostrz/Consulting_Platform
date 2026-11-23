@@ -12,6 +12,7 @@ from .whatsapp_inbox_views import (
     donna_whatsapp_send_api,
     donna_whatsapp_send_template_api,
     donna_whatsapp_thread_api,
+    donna_whatsapp_translate_api,
 )
 
 urlpatterns = [
@@ -72,5 +73,10 @@ urlpatterns = [
         'donna/whatsapp/delete-contact/',
         donna_whatsapp_delete_contact_api,
         name='donna-whatsapp-delete-contact-api',
+    ),
+    path(
+        'donna/whatsapp/translate/',
+        donna_whatsapp_translate_api,
+        name='donna-whatsapp-translate-api',
     ),
 ]

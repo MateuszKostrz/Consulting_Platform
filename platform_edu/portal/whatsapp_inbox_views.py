@@ -1,7 +1,9 @@
 from __future__ import annotations
 
+import json
 from datetime import timedelta
 
+from django.db.models import OuterRef, Subquery
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
@@ -22,6 +24,7 @@ from .whatsapp_outbound import (
     send_template_to_recipient,
     send_text_to_contact,
 )
+from .whatsapp_translate import WhatsAppTranslateError, normalize_lang_code, translate_from_polish, translate_text
 
 WHATSAPP_DONNA_TEMPLATES = (
     {
@@ -54,6 +57,37 @@ WHATSAPP_COUNTRY_CODES = (
     ('372', 'Estonia (+372)'),
     ('380', 'Ukraine (+380)'),
 )
+
+
+def _last_message_subquery():
+    return (
+        WhatsAppDonnaMessage.objects.filter(contact=OuterRef('pk'))
+        .exclude(message_type='status')
+        .order_by('-wa_timestamp', '-created_at', '-id')
+    )
+
+
+def _contacts_queryset():
+    return (
+        WhatsAppDonnaContact.objects.annotate(
+            last_msg_direction=Subquery(_last_message_subquery().values('direction')[:1]),
+        )
+        .order_by('-last_message_at', '-updated_at')[:300]
+    )
+
+
+def _contact_needs_reply(last_direction: str | None) -> bool:
+    return last_direction == WhatsAppDonnaMessage.Direction.INBOUND
+
+
+def _serialize_contact(contact: WhatsAppDonnaContact) -> dict:
+    last_dir = getattr(contact, 'last_msg_direction', None)
+    return {
+        'id': contact.id,
+        'name': contact.profile_name or contact.wa_id,
+        'wa_id': contact.wa_id,
+        'needs_reply': _contact_needs_reply(last_dir),
+    }
 
 
 def _message_display_body(msg: WhatsAppDonnaMessage) -> str:
@@ -144,9 +178,7 @@ def donna_whatsapp_logout(request):
 
 @require_whatsapp_inbox
 def donna_whatsapp_inbox(request):
-    contacts = list(
-        WhatsAppDonnaContact.objects.all().order_by('-last_message_at', '-updated_at')[:300]
-    )
+    contacts = list(_contacts_queryset())
     selected = None
     contact_param = (request.GET.get('contact') or '').strip()
     if contact_param.isdigit():
@@ -168,12 +200,24 @@ def donna_whatsapp_inbox(request):
         session_text_ok, session_text_hint = _can_send_session_text(selected)
 
     initial_thread = None
+    selected_needs_reply = False
+    if selected:
+        last_dir = (
+            WhatsAppDonnaMessage.objects.filter(contact=selected)
+            .exclude(message_type='status')
+            .order_by('-wa_timestamp', '-created_at', '-id')
+            .values_list('direction', flat=True)
+            .first()
+        )
+        selected_needs_reply = _contact_needs_reply(last_dir)
+
     if selected:
         initial_thread = {
             'contact': {
                 'id': selected.id,
                 'name': selected.profile_name or selected.wa_id,
                 'wa_id': selected.wa_id,
+                'needs_reply': selected_needs_reply,
             },
             'messages': [_serialize_message(m) for m in thread],
             'session_text_ok': session_text_ok,
@@ -192,6 +236,7 @@ def donna_whatsapp_inbox(request):
             'country_codes': WHATSAPP_COUNTRY_CODES,
             'session_text_ok': session_text_ok,
             'session_text_hint': session_text_hint,
+            'selected_needs_reply': selected_needs_reply,
         },
     )
 
@@ -206,12 +251,20 @@ def donna_whatsapp_thread_api(request, contact_id: int):
         .order_by('wa_timestamp', 'created_at', 'id')[:500]
     )
     session_text_ok, session_text_hint = _can_send_session_text(contact)
+    last_dir = (
+        WhatsAppDonnaMessage.objects.filter(contact=contact)
+        .exclude(message_type='status')
+        .order_by('-wa_timestamp', '-created_at', '-id')
+        .values_list('direction', flat=True)
+        .first()
+    )
     return JsonResponse(
         {
             'contact': {
                 'id': contact.id,
                 'name': contact.profile_name or contact.wa_id,
                 'wa_id': contact.wa_id,
+                'needs_reply': _contact_needs_reply(last_dir),
             },
             'messages': [_serialize_message(m) for m in thread],
             'session_text_ok': session_text_ok,
@@ -255,6 +308,19 @@ def donna_whatsapp_send_api(request):
     can_send, session_error = _can_send_session_text(contact)
     if not can_send:
         return JsonResponse({'error': session_error}, status=400)
+
+    translate_to_raw = (request.POST.get('translate_to') or '').strip()
+    try:
+        translate_to = normalize_lang_code(translate_to_raw)
+    except WhatsAppTranslateError as exc:
+        return JsonResponse({'error': str(exc)}, status=400)
+    if translate_to:
+        try:
+            translated = translate_from_polish(body, translate_to)
+            body = translated['translation']
+        except WhatsAppTranslateError as exc:
+            return JsonResponse({'error': str(exc)}, status=400)
+
     try:
         msg = send_text_to_contact(contact, body)
     except WhatsAppSendError as exc:
@@ -297,10 +363,29 @@ def donna_whatsapp_send_template_api(request):
                 'name': contact.profile_name or contact.wa_id,
                 'wa_id': contact.wa_id,
             },
-            'redirect_url': f'?contact={contact.id}',
+            'redirect_url': f'{reverse("donna-whatsapp-inbox")}?contact={contact.id}',
             'message': _serialize_message(msg),
         }
     )
+
+
+@require_whatsapp_inbox_json
+@require_POST
+def donna_whatsapp_translate_api(request):
+    try:
+        payload = json.loads(request.body.decode('utf-8') or '{}')
+    except (json.JSONDecodeError, UnicodeDecodeError):
+        payload = {}
+    text = (payload.get('text') or request.POST.get('text') or '').strip()
+    if not text:
+        return JsonResponse({'error': 'Missing text'}, status=400)
+    target = (payload.get('target') or request.POST.get('target') or 'pl').strip()
+    source = (payload.get('source') or request.POST.get('source') or '').strip() or None
+    try:
+        result = translate_text(text, target=target, source=source)
+    except WhatsAppTranslateError as exc:
+        return JsonResponse({'error': str(exc)}, status=400)
+    return JsonResponse(result)
 
 
 @require_whatsapp_inbox_json
