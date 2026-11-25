@@ -96,6 +96,7 @@ def consulting_context(request):
         'personal_info_complete': personal_info_complete,
         'personal_information_unlocked': section_unlocked('personal_information'),
         'academic_profile_unlocked': section_unlocked('academic_profile'),
+        'self_assessment_unlocked': section_unlocked('self_assessment'),
         'diagnostics_unlocked': section_unlocked('diagnostics'),
         'portfolio_design_unlocked': section_unlocked('portfolio_design'),
         'strategic_application_unlocked': section_unlocked('strategic_application'),

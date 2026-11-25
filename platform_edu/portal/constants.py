@@ -153,6 +153,65 @@ RESULT_DOCUMENT_TYPE_CHOICES = [
 
 RESULT_DOCUMENT_TYPE_VALUES = {value for value, _ in RESULT_DOCUMENT_TYPE_CHOICES}
 
+DEADLINE_ALL_STUDENTS_VALUE = 'all'
+
+TASK_TRACKER_STATUS_CHOICES = [
+    ('done', 'Done'),
+    ('in_progress', 'In progress'),
+    ('not_started', 'Not started'),
+    ('not_applicable', 'Not applicable'),
+]
+
+TASK_TRACKER_STATUS_VALUES = {value for value, _ in TASK_TRACKER_STATUS_CHOICES}
+
+TASK_TRACKER_STATUS_STYLES = {
+    'done': {'dot': '#22c55e', 'bg': '#dcfce7', 'text': '#166534'},
+    'in_progress': {'dot': '#3b82f6', 'bg': '#dbeafe', 'text': '#1e40af'},
+    'not_started': {'dot': '#9ca3af', 'bg': '#f3f4f6', 'text': '#4b5563'},
+    'not_applicable': {'dot': '#a855f7', 'bg': '#f3e8ff', 'text': '#6b21a8'},
+}
+
+DEFAULT_TASK_TRACKER_COLUMNS = [
+    'Onboarding',
+    'Forms Sent',
+    'Diagnostic',
+    'Achievements',
+    'Research',
+    'Choices Made',
+    'PS',
+    'Email Created',
+    'CV',
+    'Docs',
+    'Application Portals',
+]
+
+DOCUMENT_TRACKER_STATUS_CHOICES = [
+    ('done', 'Done'),
+    ('in_progress', 'In progress'),
+    ('not_sent', 'Not sent'),
+    ('not_applicable', 'Not applicable'),
+]
+
+DOCUMENT_TRACKER_STATUS_VALUES = {value for value, _ in DOCUMENT_TRACKER_STATUS_CHOICES}
+
+DOCUMENT_TRACKER_STATUS_STYLES = {
+    'done': {'dot': '#22c55e', 'bg': '#dcfce7', 'text': '#166534'},
+    'in_progress': {'dot': '#3b82f6', 'bg': '#dbeafe', 'text': '#1e40af'},
+    'not_sent': {'dot': '#9ca3af', 'bg': '#f3f4f6', 'text': '#4b5563'},
+    'not_applicable': {'dot': '#a855f7', 'bg': '#f3e8ff', 'text': '#6b21a8'},
+}
+
+DEFAULT_DOCUMENT_TRACKER_COLUMNS = [
+    'Passport',
+    'PS Form',
+    'Predicted Grades',
+    'Transcripts',
+    'Statement',
+    'Recommendation Letters',
+    'English Exam',
+    'Picture',
+]
+
 HOME_DOCUMENT_TYPE_CHOICES = [
     ('passport', 'Passport'),
     ('id', 'ID'),
@@ -160,6 +219,7 @@ HOME_DOCUMENT_TYPE_CHOICES = [
     ('transcript', 'Transcript'),
     ('language_certificate', 'Language certificate'),
     ('personal_statement', 'Personal statement'),
+    ('reference', 'Reference'),
     ('other', 'Other'),
 ]
 

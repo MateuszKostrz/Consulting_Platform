@@ -23,7 +23,7 @@
             <tbody>
               {% for deadline in deadlines_all %}
               <tr>
-                <td>{{ deadline.student.first_name }} {{ deadline.student.last_name }}</td>
+                <td>{{ deadline.audience_display }}</td>
                 <td>
                   <span class="d-flex align-items-center gap-1">
                     {{ deadline.name }}

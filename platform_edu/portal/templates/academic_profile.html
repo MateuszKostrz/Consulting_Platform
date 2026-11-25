@@ -100,12 +100,12 @@
 
                 {% include 'partials/profile_section_divider.html' %}
 
-                {% include 'partials/profile_section_header.html' with section_title="Family input" section_subtitle="Notes or preferences from parents or guardians" %}
+                {% include 'partials/profile_section_header.html' with section_title="Additional Information" section_subtitle="Optional context for your advisors" %}
 
                 <div class="col-12">
                   <div class="form-floating form-floating-outline">
-                    <textarea class="form-control" id="parent_input" name="parent_input" placeholder="Any preferences or notes from parents" style="height: 100px">{{ academic.parent_input }}</textarea>
-                    <label for="parent_input">Parent input</label>
+                    <textarea class="form-control" id="parent_input" name="parent_input" placeholder="Anything else you'd like us to know" style="height: 100px">{{ academic.parent_input }}</textarea>
+                    <label for="parent_input">Additional information</label>
                   </div>
                 </div>
               </div>

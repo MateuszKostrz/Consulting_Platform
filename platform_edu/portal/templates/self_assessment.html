@@ -1,0 +1,75 @@
+{% load static %}
+
+<!doctype html>
+<html
+  lang="en"
+  class="layout-navbar-fixed layout-menu-fixed layout-compact"
+  dir="ltr"
+  data-skin="default"
+  data-bs-theme="light"
+  data-assets-path="{% static 'website/' %}"
+  data-template="horizontal-menu-template">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>{{ site_name }} | Self-assessment</title>
+    <link rel="icon" href="{% static 'website/images/platform_logo.svg' %}">
+    {% include 'top_base.html' %}
+    <script type="text/javascript" src="{% static 'website/js/vendor/helpers.js' %}"></script>
+    <script type="text/javascript" src="{% static 'website/js/vendor/config.js' %}"></script>
+  </head>
+  <body>
+    <div class="layout-wrapper layout-navbar-full layout-horizontal layout-without-menu">
+      <div class="layout-container">
+        {% include 'horizontal_menu.html' %}
+        <div class="container-xxl flex-grow-1 container-p-y">
+          {% if messages %}
+          {% for message in messages %}
+          <div class="alert alert-{{ message.tags }} alert-dismissible mb-4" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+          {% endfor %}
+          {% endif %}
+
+          <div class="card mb-6">
+            <form
+              class="card-body"
+              method="POST"
+              action="{% url 'self-assessment' %}"
+              data-section-form-guard
+              data-continue-url="{{ section_continue_url }}"
+              data-continue-section="{{ section_continue_url_name }}"
+              data-cancel-url="{% url 'home' %}">
+              {% csrf_token %}
+              <input type="hidden" name="next_section" value="" data-section-next-input />
+
+              <div class="row g-5">
+                {% include 'partials/personal_statement_assessment_section.html' %}
+              </div>
+
+              {% include 'partials/section_form_actions.html' %}
+            </form>
+          </div>
+        </div>
+
+        {% include 'footer.html' %}
+        {% include 'partials/unsaved_changes_modal.html' %}
+      </div>
+    </div>
+
+    <div class="layout-overlay layout-menu-toggle"></div>
+    <div class="drag-target"></div>
+
+    <script src="{% static 'website/js/vendor/libs/jquery/jquery.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/popper/popper.js' %}"></script>
+    <script src="{% static 'website/js/bootstrap.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/node-waves/node-waves.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/perfect-scrollbar/perfect-scrollbar.js' %}"></script>
+    <script src="{% static 'website/js/vendor/libs/hammer/hammer.js' %}"></script>
+    <script src="{% static 'website/js/vendor/menu.js' %}"></script>
+    <script type="text/javascript" src="{% static 'website/js/main.js' %}"></script>
+    <script type="text/javascript" src="{% static 'website/js/vendors.min.js' %}"></script>
+    {% include 'partials/section_form_guard.js.html' %}
+  </body>
+</html>

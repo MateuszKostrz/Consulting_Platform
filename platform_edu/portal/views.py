@@ -1,3 +1,5 @@
+import json
+import mimetypes
 import os
 from datetime import date, datetime, timedelta
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
@@ -5,12 +7,14 @@ from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 from django.contrib import messages
 from django.core.exceptions import ValidationError
 from django.http import FileResponse, Http404, JsonResponse
+from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import ensure_csrf_cookie
+from django.views.decorators.http import require_POST
 from django.utils import timezone
 from django.utils.http import url_has_allowed_host_and_scheme
 from urllib.parse import quote, urlencode
@@ -20,6 +24,7 @@ from .constants import (
     BUDGET_CHOICES,
     BUDGET_CURRENCY_CHOICES,
     COUNTRY_CHOICES,
+    DEADLINE_ALL_STUDENTS_VALUE,
     DEADLINE_TIMEZONE_CHOICES,
     DEADLINE_TIMEZONE_VALUES,
     DIAGNOSTIC_STAGE_KEYS,
@@ -35,6 +40,12 @@ from .constants import (
     MAX_UPLOAD_SIZE,
     RESULT_DOCUMENT_TYPE_CHOICES,
     RESULT_DOCUMENT_TYPE_VALUES,
+    DOCUMENT_TRACKER_STATUS_CHOICES,
+    DOCUMENT_TRACKER_STATUS_STYLES,
+    DOCUMENT_TRACKER_STATUS_VALUES,
+    TASK_TRACKER_STATUS_CHOICES,
+    TASK_TRACKER_STATUS_STYLES,
+    TASK_TRACKER_STATUS_VALUES,
 )
 from .reference_contacts_utils import (
     MAX_REFERENCE_CONTACTS,
@@ -55,6 +66,20 @@ from .section_access_utils import (
     student_can_access_section,
 )
 from .section_navigation import redirect_after_section_save
+from .document_tracker import (
+    add_document_tracker_column,
+    cells_by_row_column as document_cells_by_row_column,
+    delete_document_tracker_column,
+    document_tracker_rows_queryset,
+    sync_all_students_to_document_tracker,
+)
+from .task_tracker import (
+    add_task_tracker_column,
+    cells_by_row_column,
+    delete_task_tracker_column,
+    sync_all_students_to_tracker,
+    task_tracker_rows_queryset,
+)
 from .subjects_utils import curriculum_for_form, curriculum_from_post, subjects_for_form, subjects_from_post
 from .models import (
     AcademicProfile,
@@ -67,6 +92,12 @@ from .models import (
     ResultDocument,
     StudentDocument,
     StudentTodo,
+    DocumentTrackerCell,
+    DocumentTrackerColumn,
+    DocumentTrackerRow,
+    TaskTrackerCell,
+    TaskTrackerColumn,
+    TaskTrackerRow,
     UniversityChoice,
     PortfolioDesignElement,
 )
@@ -138,6 +169,7 @@ def _get_or_create_academic(profile):
 _SECTION_LABELS = {
     'personal_information': 'Personal Information',
     'academic_profile': 'Academic Profile',
+    'self_assessment': 'Self-assessment',
     'diagnostics': 'Diagnostics',
     'portfolio_design': 'Portfolio Design',
     'strategic_application': 'Strategic Application',
@@ -281,7 +313,9 @@ def _validate_deadline_form(request):
 
     student = None
     if not student_id:
-        errors.append('Please select a student.')
+        errors.append('Please select a student or Everyone.')
+    elif student_id == DEADLINE_ALL_STUDENTS_VALUE:
+        student = None
     else:
         student = PlatformUser.objects.filter(
             pk=student_id,
@@ -366,7 +400,7 @@ def _handle_delete_deadline(request, platform_user):
 def _get_deadlines_for_user(platform_user, request=None):
     queryset = Deadline.objects.select_related('student').order_by('due_at')
     if platform_user and platform_user.is_student:
-        queryset = queryset.filter(student=platform_user)
+        queryset = queryset.filter(Q(student=platform_user) | Q(student__isnull=True))
     return queryset
 
 
@@ -495,15 +529,16 @@ def _get_todos_for_user(platform_user, request=None):
     return queryset
 
 
-def _validate_home_document_form(request, platform_user):
+def _validate_home_document_form(request, platform_user, *, require_file=True):
     document_type = request.POST.get('document_type', '').strip()
     student_id = request.POST.get('student_id', '').strip()
+    name = request.POST.get('name', '').strip()
     uploaded_file = request.FILES.get('document_file')
     errors = []
 
     if document_type not in HOME_DOCUMENT_TYPE_VALUES:
         errors.append('Please select a document type.')
-    if not uploaded_file:
+    if require_file and not uploaded_file:
         errors.append('Please choose a file to upload.')
 
     student = None
@@ -522,7 +557,7 @@ def _validate_home_document_form(request, platform_user):
     else:
         errors.append('You do not have permission to upload documents.')
 
-    return errors, document_type, student, uploaded_file
+    return errors, name, document_type, student, uploaded_file
 
 
 def _handle_add_home_document(request, platform_user):
@@ -530,7 +565,7 @@ def _handle_add_home_document(request, platform_user):
         messages.error(request, 'You do not have permission to upload documents.')
         return redirect('home')
 
-    errors, document_type, student, uploaded_file = _validate_home_document_form(request, platform_user)
+    errors, name, document_type, student, uploaded_file = _validate_home_document_form(request, platform_user)
     if errors:
         for error in errors:
             messages.error(request, error)
@@ -541,7 +576,13 @@ def _handle_add_home_document(request, platform_user):
         messages.error(request, upload_error)
         return redirect('home')
 
+    if not name:
+        from .upload_utils import upload_display_name
+
+        name = upload_display_name(uploaded_file) or os.path.basename(uploaded_file.name)
+
     document = StudentDocument(
+        name=name,
         document_type=document_type,
         student=student,
         uploaded_by=platform_user,
@@ -550,6 +591,40 @@ def _handle_add_home_document(request, platform_user):
     if platform_user.is_student and not is_impersonating(request):
         notify_consultants_of_student_document_upload(document)
     messages.success(request, 'Document uploaded successfully.')
+    return redirect('home')
+
+
+def _handle_edit_home_document(request, platform_user):
+    if not platform_user or not (platform_user.is_admin or platform_user.is_student):
+        messages.error(request, 'You do not have permission to edit documents.')
+        return redirect('home')
+
+    document_id = request.POST.get('document_id', '').strip()
+    document = StudentDocument.objects.filter(pk=document_id).first()
+    if not document:
+        messages.error(request, 'Document not found.')
+        return redirect('home')
+
+    if platform_user.is_student and document.student_id != platform_user.id:
+        messages.error(request, 'You can only edit your own documents.')
+        return redirect('home')
+
+    name = request.POST.get('name', '').strip()
+    document_type = request.POST.get('document_type', '').strip()
+    errors = []
+    if not name:
+        errors.append('Document name is required.')
+    if document_type not in HOME_DOCUMENT_TYPE_VALUES:
+        errors.append('Please select a document type.')
+    if errors:
+        for error in errors:
+            messages.error(request, error)
+        return redirect('home')
+
+    document.name = name
+    document.document_type = document_type
+    document.save(update_fields=['name', 'document_type', 'updated_at'])
+    messages.success(request, 'Document updated successfully.')
     return redirect('home')
 
 
@@ -584,6 +659,50 @@ def _get_home_documents_for_user(platform_user, request=None):
     return queryset
 
 
+def _user_can_access_home_document(platform_user, document):
+    if not platform_user:
+        return False
+    if platform_user.is_admin:
+        return True
+    if platform_user.is_student:
+        return document.student_id == platform_user.id
+    return False
+
+
+def _filename_for_home_document_download(document):
+    stored = os.path.basename(document.document_file.name)
+    display = (document.display_name() or '').strip() or stored
+    _, ext = os.path.splitext(stored)
+    if ext and not display.lower().endswith(ext.lower()):
+        display = f'{display}{ext}'
+    return display
+
+
+@login_required
+def download_home_document(request, document_id):
+    document = get_object_or_404(StudentDocument, pk=document_id)
+    platform_user = get_platform_user(request)
+    if not _user_can_access_home_document(platform_user, document):
+        raise Http404
+
+    if not document.document_file:
+        raise Http404
+
+    try:
+        file_handle = document.document_file.open('rb')
+    except FileNotFoundError:
+        raise Http404
+
+    filename = _filename_for_home_document_download(document)
+    content_type = mimetypes.guess_type(filename)[0] or 'application/octet-stream'
+    return FileResponse(
+        file_handle,
+        as_attachment=True,
+        filename=filename,
+        content_type=content_type,
+    )
+
+
 def home(request):
     platform_user = get_platform_user(request)
 
@@ -603,6 +722,8 @@ def home(request):
             return _handle_delete_todo(request, platform_user)
         if action == 'add_home_document':
             return _handle_add_home_document(request, platform_user)
+        if action == 'edit_home_document':
+            return _handle_edit_home_document(request, platform_user)
         if action == 'delete_home_document':
             return _handle_delete_home_document(request, platform_user)
 
@@ -615,6 +736,7 @@ def home(request):
     is_student = bool(platform_user and platform_user.is_student)
     can_upload_documents = can_manage or is_student
     can_delete_documents = can_upload_documents
+    can_edit_documents = can_upload_documents
     credential_portals = _get_credential_portals_for_home(request, platform_user)
     return render(request, 'home.html', {
         'deadlines_all': deadlines,
@@ -632,6 +754,7 @@ def home(request):
         'can_manage_todos': can_manage,
         'can_manage_documents': can_manage,
         'can_upload_documents': can_upload_documents,
+        'can_edit_documents': can_edit_documents,
         'can_delete_documents': can_delete_documents,
         'deadline_students': get_student_platform_users() if can_manage else [],
         'todo_students': get_student_platform_users() if can_manage else [],
@@ -807,6 +930,43 @@ def academic_profile(request):
         'reference_contacts_max': MAX_REFERENCE_CONTACTS,
         'activity_entries': activity_entries,
     })
+
+
+def self_assessment(request):
+    if admin_must_select_student(request):
+        return _redirect_admin_without_student(request)
+
+    profile = _get_or_create_profile(request)
+    if profile is None:
+        return _redirect_admin_without_student(request)
+
+    platform_user = get_platform_user(request)
+    blocked = _require_section_access(
+        request, platform_user, profile, 'self_assessment',
+    )
+    if blocked:
+        return blocked
+
+    academic = _get_or_create_academic(profile)
+
+    if request.method == 'POST':
+        from .academic_ps_assessment import save_ps_assessment_from_post
+
+        save_ps_assessment_from_post(academic, request.POST)
+        academic.save()
+        messages.success(request, 'Self-assessment saved successfully.')
+        return redirect_after_section_save(request, 'self-assessment')
+
+    from .academic_ps_assessment import ps_assessment_form_context
+
+    return render(
+        request,
+        'self_assessment.html',
+        {
+            'academic': academic,
+            **ps_assessment_form_context(academic, profile),
+        },
+    )
 
 
 def budget_exchange_rates(request):
@@ -1061,15 +1221,13 @@ def portfolio_design(request):
             return redirect('portfolio-design')
 
         portfolio.google_doc_url = request.POST.get('google_doc_url', '').strip()
+        portfolio.student_comments = request.POST.get('student_comments', '').strip()
         portfolio.save()
-        messages.success(request, 'Portfolio Design document link saved.')
+        messages.success(request, 'Portfolio Design saved.')
         return redirect_after_section_save(request, 'portfolio-design')
-
-    portfolio_elements = profile.portfolio_design_elements.order_by('sort_order', 'id')
 
     return render(request, 'portfolio_design.html', {
         'portfolio': portfolio,
-        'portfolio_elements': portfolio_elements,
     })
 
 
@@ -1370,25 +1528,16 @@ def strategic_application(request):
 
 
 def _profile_narrative_sections(narrative):
-    return (
+    from .profile_narrative_links import NARRATIVE_LINK_SECTIONS, build_document_links_payload
+
+    links_by_section = build_document_links_payload(narrative)
+    return tuple(
         {
-            'key': 'personal_statement',
-            'title': 'Personal Statement',
-            'field_name': 'personal_statement_google_doc_url',
-            'url': narrative.personal_statement_google_doc_url,
-        },
-        {
-            'key': 'cv',
-            'title': 'CV',
-            'field_name': 'cv_google_doc_url',
-            'url': narrative.cv_google_doc_url,
-        },
-        {
-            'key': 'application_essays',
-            'title': 'Application Essays',
-            'field_name': 'application_essays_google_doc_url',
-            'url': narrative.application_essays_google_doc_url,
-        },
+            'key': section_key,
+            'title': section_label,
+            'links': links_by_section.get(section_key) or [],
+        }
+        for section_key, section_label in NARRATIVE_LINK_SECTIONS
     )
 
 
@@ -1418,13 +1567,9 @@ def profile_narrative(request):
             messages.error(request, 'You do not have permission to change these settings.')
             return redirect('profile-narrative')
 
-        narrative.personal_statement_google_doc_url = request.POST.get(
-            'personal_statement_google_doc_url', '',
-        ).strip()
-        narrative.cv_google_doc_url = request.POST.get('cv_google_doc_url', '').strip()
-        narrative.application_essays_google_doc_url = request.POST.get(
-            'application_essays_google_doc_url', '',
-        ).strip()
+        from .profile_narrative_links import save_narrative_links_from_post
+
+        save_narrative_links_from_post(narrative, request.POST)
         narrative.save()
         messages.success(request, 'Profile Narrative document links saved.')
         return redirect_after_section_save(request, 'profile-narrative')
@@ -1980,6 +2125,203 @@ def faq(request):
     return render(request, 'consulting_faq.html')
 
 
+def _require_platform_admin(request):
+    platform_user = get_platform_user(request)
+    if not platform_user or not platform_user.is_admin:
+        return None
+    return platform_user
+
+
+@ensure_csrf_cookie
+@login_required
+def admin_tasks_tracker(request):
+    if not _require_platform_admin(request):
+        messages.error(request, 'Only admins can open the tasks tracker.')
+        return redirect('home')
+
+    sync_all_students_to_tracker()
+    columns = list(TaskTrackerColumn.objects.order_by('sort_order', 'id'))
+    rows = list(task_tracker_rows_queryset())
+    cell_lookup = cells_by_row_column(rows, columns)
+    row_cells = []
+    for row in rows:
+        statuses = {
+            str(column.id): cell_lookup.get((row.id, column.id), 'not_started')
+            for column in columns
+        }
+        row_cells.append({'row': row, 'statuses': statuses})
+
+    return render(request, 'admin_tasks_tracker.html', {
+        'admin_tools_tab': 'tracker',
+        'tracker_columns': columns,
+        'tracker_row_cells': row_cells,
+        'tracker_status_choices': TASK_TRACKER_STATUS_CHOICES,
+        'tracker_status_styles_json': json.dumps(TASK_TRACKER_STATUS_STYLES),
+    })
+
+
+@login_required
+@require_POST
+def tasks_tracker_api(request):
+    if not _require_platform_admin(request):
+        return JsonResponse({'success': False, 'error': 'Forbidden'}, status=403)
+
+    action = request.POST.get('action', '').strip()
+    if action == 'update_cell':
+        row_id = request.POST.get('row_id', '').strip()
+        column_id = request.POST.get('column_id', '').strip()
+        status = request.POST.get('status', '').strip()
+        if status not in TASK_TRACKER_STATUS_VALUES:
+            return JsonResponse({'success': False, 'error': 'Invalid status.'}, status=400)
+        cell = TaskTrackerCell.objects.filter(row_id=row_id, column_id=column_id).first()
+        if not cell:
+            return JsonResponse({'success': False, 'error': 'Cell not found.'}, status=404)
+        cell.status = status
+        cell.save(update_fields=['status', 'updated_at'])
+        return JsonResponse({'success': True, 'status': status})
+
+    if action == 'update_column':
+        column_id = request.POST.get('column_id', '').strip()
+        name = request.POST.get('name', '').strip()
+        if not name:
+            return JsonResponse({'success': False, 'error': 'Column name is required.'}, status=400)
+        column = TaskTrackerColumn.objects.filter(pk=column_id).first()
+        if not column:
+            return JsonResponse({'success': False, 'error': 'Column not found.'}, status=404)
+        column.name = name[:120]
+        column.save(update_fields=['name', 'updated_at'])
+        return JsonResponse({'success': True, 'name': column.name})
+
+    if action == 'update_assignee':
+        row_id = request.POST.get('row_id', '').strip()
+        assignee = request.POST.get('assignee', '').strip()
+        row = TaskTrackerRow.objects.filter(pk=row_id).first()
+        if not row:
+            return JsonResponse({'success': False, 'error': 'Row not found.'}, status=404)
+        row.assignee = assignee[:200]
+        row.save(update_fields=['assignee', 'updated_at'])
+        return JsonResponse({'success': True, 'assignee': row.assignee})
+
+    if action == 'add_column':
+        name = request.POST.get('name', '').strip()
+        if not name:
+            return JsonResponse({'success': False, 'error': 'Column name is required.'}, status=400)
+        try:
+            column = add_task_tracker_column(name)
+        except ValueError as exc:
+            return JsonResponse({'success': False, 'error': str(exc)}, status=400)
+        return JsonResponse({'success': True, 'column_id': column.id, 'name': column.name})
+
+    if action == 'delete_column':
+        column_id = request.POST.get('column_id', '').strip()
+        if not column_id:
+            return JsonResponse({'success': False, 'error': 'Choose a column to delete.'}, status=400)
+        try:
+            deleted_name = delete_task_tracker_column(int(column_id))
+        except (ValueError, TypeError) as exc:
+            return JsonResponse({'success': False, 'error': str(exc)}, status=400)
+        except LookupError:
+            return JsonResponse({'success': False, 'error': 'Column not found.'}, status=404)
+        return JsonResponse({'success': True, 'name': deleted_name})
+
+    return JsonResponse({'success': False, 'error': 'Unknown action.'}, status=400)
+
+
+@ensure_csrf_cookie
+@login_required
+def admin_documents_tracker(request):
+    if not _require_platform_admin(request):
+        messages.error(request, 'Only admins can open the documents tracker.')
+        return redirect('home')
+
+    sync_all_students_to_document_tracker()
+    columns = list(DocumentTrackerColumn.objects.order_by('sort_order', 'id'))
+    rows = list(document_tracker_rows_queryset())
+    cell_lookup = document_cells_by_row_column(rows)
+    row_cells = []
+    for row in rows:
+        statuses = {
+            str(column.id): cell_lookup.get((row.id, column.id), 'not_sent')
+            for column in columns
+        }
+        row_cells.append({'row': row, 'statuses': statuses})
+
+    return render(request, 'admin_documents_tracker.html', {
+        'admin_tools_tab': 'documents',
+        'tracker_columns': columns,
+        'tracker_row_cells': row_cells,
+        'tracker_status_choices': DOCUMENT_TRACKER_STATUS_CHOICES,
+        'tracker_status_styles_json': json.dumps(DOCUMENT_TRACKER_STATUS_STYLES),
+    })
+
+
+@login_required
+@require_POST
+def documents_tracker_api(request):
+    if not _require_platform_admin(request):
+        return JsonResponse({'success': False, 'error': 'Forbidden'}, status=403)
+
+    action = request.POST.get('action', '').strip()
+    if action == 'update_cell':
+        row_id = request.POST.get('row_id', '').strip()
+        column_id = request.POST.get('column_id', '').strip()
+        status = request.POST.get('status', '').strip()
+        if status not in DOCUMENT_TRACKER_STATUS_VALUES:
+            return JsonResponse({'success': False, 'error': 'Invalid status.'}, status=400)
+        cell = DocumentTrackerCell.objects.filter(row_id=row_id, column_id=column_id).first()
+        if not cell:
+            return JsonResponse({'success': False, 'error': 'Cell not found.'}, status=404)
+        cell.status = status
+        cell.save(update_fields=['status', 'updated_at'])
+        return JsonResponse({'success': True, 'status': status})
+
+    if action == 'update_column':
+        column_id = request.POST.get('column_id', '').strip()
+        name = request.POST.get('name', '').strip()
+        if not name:
+            return JsonResponse({'success': False, 'error': 'Column name is required.'}, status=400)
+        column = DocumentTrackerColumn.objects.filter(pk=column_id).first()
+        if not column:
+            return JsonResponse({'success': False, 'error': 'Column not found.'}, status=404)
+        column.name = name[:120]
+        column.save(update_fields=['name', 'updated_at'])
+        return JsonResponse({'success': True, 'name': column.name})
+
+    if action == 'update_assignee':
+        row_id = request.POST.get('row_id', '').strip()
+        assignee = request.POST.get('assignee', '').strip()
+        row = DocumentTrackerRow.objects.filter(pk=row_id).first()
+        if not row:
+            return JsonResponse({'success': False, 'error': 'Row not found.'}, status=404)
+        row.assignee = assignee[:200]
+        row.save(update_fields=['assignee', 'updated_at'])
+        return JsonResponse({'success': True, 'assignee': row.assignee})
+
+    if action == 'add_column':
+        name = request.POST.get('name', '').strip()
+        if not name:
+            return JsonResponse({'success': False, 'error': 'Column name is required.'}, status=400)
+        try:
+            column = add_document_tracker_column(name)
+        except ValueError as exc:
+            return JsonResponse({'success': False, 'error': str(exc)}, status=400)
+        return JsonResponse({'success': True, 'column_id': column.id, 'name': column.name})
+
+    if action == 'delete_column':
+        column_id = request.POST.get('column_id', '').strip()
+        if not column_id:
+            return JsonResponse({'success': False, 'error': 'Choose a column to delete.'}, status=400)
+        try:
+            deleted_name = delete_document_tracker_column(int(column_id))
+        except (ValueError, TypeError) as exc:
+            return JsonResponse({'success': False, 'error': str(exc)}, status=400)
+        except LookupError:
+            return JsonResponse({'success': False, 'error': 'Column not found.'}, status=404)
+        return JsonResponse({'success': True, 'name': deleted_name})
+
+    return JsonResponse({'success': False, 'error': 'Unknown action.'}, status=400)
+
+
 @login_required
 def admin_student_access(request):
     platform_user = get_platform_user(request)
@@ -2020,6 +2362,7 @@ def admin_student_access(request):
         section_rows = section_access_rows_for_student(selected_student)
 
     return render(request, 'admin_student_access.html', {
+        'admin_tools_tab': 'access',
         'students': students,
         'selected_student': selected_student,
         'section_rows': section_rows,

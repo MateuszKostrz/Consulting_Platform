@@ -17,6 +17,45 @@
     {% include 'top_base.html' %}
     <script type="text/javascript" src="{% static 'website/js/vendor/helpers.js' %}"></script>
     <script type="text/javascript" src="{% static 'website/js/vendor/config.js' %}"></script>
+    <style>
+      .narrative-link-row .form-label {
+        font-size: 0.8125rem;
+      }
+      .narrative-links-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+      .narrative-student-links {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        align-items: flex-start;
+      }
+      .narrative-link-item {
+        border: 1px solid var(--bs-border-color);
+        border-radius: 0.5rem;
+        padding: 0.75rem 1rem;
+        background: var(--bs-body-bg);
+      }
+      .narrative-link-actions {
+        display: flex;
+        gap: 0.25rem;
+        flex-shrink: 0;
+      }
+      .narrative-action-btn {
+        width: 2.375rem;
+        height: 2.375rem;
+      }
+      .narrative-action-btn i {
+        font-size: 1.25rem;
+        line-height: 1;
+      }
+      .narrative-link-view-url {
+        font-size: 0.8125rem;
+        word-break: break-all;
+      }
+    </style>
   </head>
   <body>
     <div class="layout-wrapper layout-navbar-full layout-horizontal layout-without-menu">
@@ -36,7 +75,7 @@
             <div class="card-body">
               <h5 class="mb-2">Profile Narrative</h5>
               <p class="mb-0 text-body-secondary">
-                Personal Statement, CV, and Application Essays — each linked to its own Google Doc.
+                Personal Statement, CV, and Application Essays — add multiple labelled Google Doc links per section.
               </p>
               {% if is_platform_admin and admin_viewing_student_name %}
               <p class="text-body-secondary small mt-2 mb-0">Viewing profile narrative for <strong>{{ admin_viewing_student_name }}</strong></p>
@@ -48,6 +87,7 @@
           <form
             method="POST"
             action="{% url 'profile-narrative' %}"
+            id="profileNarrativeForm"
             data-section-form-guard
             data-continue-url="{{ section_continue_url }}"
             data-continue-section="{{ section_continue_url_name }}"
@@ -55,25 +95,122 @@
             {% csrf_token %}
             <input type="hidden" name="next_section" value="" data-section-next-input />
             {% for section in narrative_sections %}
-            <div class="card mb-4">
-              <div class="card-header">
+            <div class="card mb-4" data-narrative-section="{{ section.key }}">
+              <div class="card-header d-flex align-items-center justify-content-between flex-wrap gap-2">
                 <h6 class="mb-0">{{ section.title }}</h6>
+                <button type="button" class="btn btn-sm btn-outline-primary" data-add-narrative-link>
+                  <i class="ri ri-add-line me-1"></i>
+                  Add link
+                </button>
               </div>
               <div class="card-body">
-                <label for="{{ section.field_name }}" class="form-label">Google Doc link</label>
-                <input
-                  type="url"
-                  class="form-control"
-                  id="{{ section.field_name }}"
-                  name="{{ section.field_name }}"
-                  value="{{ section.url }}"
-                  placeholder="https://docs.google.com/document/d/..." />
-                {% if section.url %}
-                <a href="{{ section.url }}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-primary mt-3">
-                  <i class="ri ri-external-link-line me-1"></i>
-                  Preview link
-                </a>
-                {% endif %}
+                <div class="narrative-links-list" data-narrative-links-list>
+                  {% if section.links %}
+                  {% for link in section.links %}
+                  <div
+                    class="narrative-link-item"
+                    data-narrative-link-row
+                    data-start-mode="{% if link.title or link.url %}view{% else %}edit{% endif %}">
+                    <div class="narrative-link-view" data-narrative-link-view>
+                      <div class="d-flex justify-content-between align-items-start gap-3 flex-wrap">
+                        <div class="min-w-0">
+                          <div class="fw-medium" data-narrative-view-title>{{ link.title|default:"Untitled" }}</div>
+                          {% if link.url %}
+                          <a
+                            href="{{ link.url }}"
+                            class="narrative-link-view-url d-inline-block mt-1"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            data-narrative-view-url>{{ link.url }}</a>
+                          {% else %}
+                          <span class="text-body-secondary narrative-link-view-url d-inline-block mt-1" data-narrative-view-url-placeholder>No link yet</span>
+                          <a class="narrative-link-view-url d-none mt-1" href="#" data-narrative-view-url></a>
+                          {% endif %}
+                        </div>
+                        <div class="narrative-link-actions">
+                          <button type="button" class="btn btn-icon btn-text-secondary narrative-action-btn" data-edit-narrative-link title="Edit">
+                            <i class="ri ri-pencil-line"></i>
+                          </button>
+                          <button type="button" class="btn btn-icon btn-text-danger narrative-action-btn" data-remove-narrative-link title="Remove">
+                            <i class="ri ri-delete-bin-line"></i>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="narrative-link-edit d-none" data-narrative-link-edit>
+                      <div class="row g-3 narrative-link-row align-items-end">
+                        <div class="col-md-5">
+                          <label class="form-label">Title</label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            name="link_{{ section.key }}_{{ forloop.counter0 }}_title"
+                            value="{{ link.title }}"
+                            placeholder="e.g. PS UCAS" />
+                        </div>
+                        <div class="col-md-7">
+                          <label class="form-label">Google Doc link</label>
+                          <input
+                            type="url"
+                            class="form-control"
+                            name="link_{{ section.key }}_{{ forloop.counter0 }}_url"
+                            value="{{ link.url }}"
+                            placeholder="https://docs.google.com/document/d/..." />
+                        </div>
+                      </div>
+                      <div class="mt-2">
+                        <button type="button" class="btn btn-sm btn-primary" data-done-narrative-link>Done</button>
+                      </div>
+                    </div>
+                  </div>
+                  {% endfor %}
+                  {% else %}
+                  <div class="narrative-link-item" data-narrative-link-row data-start-mode="edit">
+                    <div class="narrative-link-view d-none" data-narrative-link-view>
+                      <div class="d-flex justify-content-between align-items-start gap-3 flex-wrap">
+                        <div class="min-w-0">
+                          <div class="fw-medium" data-narrative-view-title>Untitled</div>
+                          <span class="text-body-secondary narrative-link-view-url d-inline-block mt-1" data-narrative-view-url-placeholder>No link yet</span>
+                          <a class="narrative-link-view-url d-none mt-1" href="#" target="_blank" rel="noopener noreferrer" data-narrative-view-url></a>
+                        </div>
+                        <div class="narrative-link-actions">
+                          <button type="button" class="btn btn-icon btn-text-secondary narrative-action-btn" data-edit-narrative-link title="Edit">
+                            <i class="ri ri-pencil-line"></i>
+                          </button>
+                          <button type="button" class="btn btn-icon btn-text-danger narrative-action-btn" data-remove-narrative-link title="Remove">
+                            <i class="ri ri-delete-bin-line"></i>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="narrative-link-edit" data-narrative-link-edit>
+                      <div class="row g-3 narrative-link-row align-items-end">
+                        <div class="col-md-5">
+                          <label class="form-label">Title</label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            name="link_{{ section.key }}_0_title"
+                            value=""
+                            placeholder="e.g. PS UCAS" />
+                        </div>
+                        <div class="col-md-7">
+                          <label class="form-label">Google Doc link</label>
+                          <input
+                            type="url"
+                            class="form-control"
+                            name="link_{{ section.key }}_0_url"
+                            value=""
+                            placeholder="https://docs.google.com/document/d/..." />
+                        </div>
+                      </div>
+                      <div class="mt-2">
+                        <button type="button" class="btn btn-sm btn-primary" data-done-narrative-link>Done</button>
+                      </div>
+                    </div>
+                  </div>
+                  {% endif %}
+                </div>
               </div>
             </div>
             {% endfor %}
@@ -86,14 +223,20 @@
               <h6 class="mb-0">{{ section.title }}</h6>
             </div>
             <div class="card-body">
-              {% if section.url %}
-              <a href="{{ section.url }}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-primary">
-                <i class="ri ri-external-link-line me-1"></i>
-                Open Google Doc
-              </a>
+              {% if section.links %}
+              <div class="narrative-student-links">
+                {% for link in section.links %}
+                {% if link.url %}
+                <a href="{{ link.url }}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-primary">
+                  <i class="ri ri-external-link-line me-1"></i>
+                  {{ link.title }}
+                </a>
+                {% endif %}
+                {% endfor %}
+              </div>
               {% else %}
               <p class="text-body-secondary mb-0">
-                Your consultant will share the {{ section.title|lower }} document link here soon.
+                Your consultant will share {{ section.title|lower }} document links here soon.
               </p>
               {% endif %}
             </div>
@@ -123,5 +266,128 @@
     <script type="text/javascript" src="{% static 'website/js/main.js' %}"></script>
     <script type="text/javascript" src="{% static 'website/js/vendors.min.js' %}"></script>
     {% include 'partials/section_form_guard.js.html' %}
+    {% if is_platform_admin %}
+    <script>
+    (function () {
+      const form = document.getElementById('profileNarrativeForm');
+      if (!form) return;
+
+      function rowInputs(row) {
+        return {
+          title: row.querySelector('[data-narrative-link-edit] input[type="text"]'),
+          url: row.querySelector('[data-narrative-link-edit] input[type="url"]'),
+        };
+      }
+
+      function syncViewFromInputs(row) {
+        const inputs = rowInputs(row);
+        const titleEl = row.querySelector('[data-narrative-view-title]');
+        const urlEl = row.querySelector('[data-narrative-view-url]');
+        const urlPlaceholder = row.querySelector('[data-narrative-view-url-placeholder]');
+        const title = (inputs.title && inputs.title.value || '').trim() || 'Untitled';
+        const url = (inputs.url && inputs.url.value || '').trim();
+        if (titleEl) titleEl.textContent = title;
+        if (urlEl) {
+          if (url) {
+            urlEl.href = url;
+            urlEl.textContent = url;
+            urlEl.classList.remove('d-none');
+            if (urlPlaceholder) urlPlaceholder.classList.add('d-none');
+          } else {
+            urlEl.href = '#';
+            urlEl.textContent = '';
+            urlEl.classList.add('d-none');
+            if (urlPlaceholder) urlPlaceholder.classList.remove('d-none');
+          }
+        }
+      }
+
+      function setRowMode(row, mode) {
+        const view = row.querySelector('[data-narrative-link-view]');
+        const edit = row.querySelector('[data-narrative-link-edit]');
+        if (!view || !edit) return;
+        if (mode === 'edit') {
+          view.classList.add('d-none');
+          edit.classList.remove('d-none');
+          const inputs = rowInputs(row);
+          if (inputs.title) inputs.title.focus();
+        } else {
+          syncViewFromInputs(row);
+          edit.classList.add('d-none');
+          view.classList.remove('d-none');
+        }
+      }
+
+      function reindexSection(sectionEl) {
+        const sectionKey = sectionEl.getAttribute('data-narrative-section');
+        const rows = sectionEl.querySelectorAll('[data-narrative-link-row]');
+        rows.forEach(function (row, index) {
+          const inputs = rowInputs(row);
+          if (inputs.title) inputs.title.name = 'link_' + sectionKey + '_' + index + '_title';
+          if (inputs.url) inputs.url.name = 'link_' + sectionKey + '_' + index + '_url';
+        });
+      }
+
+      function reindexAll() {
+        form.querySelectorAll('[data-narrative-section]').forEach(reindexSection);
+      }
+
+      form.querySelectorAll('[data-narrative-link-row]').forEach(function (row) {
+        const start = row.getAttribute('data-start-mode') || 'view';
+        setRowMode(row, start);
+      });
+
+      form.addEventListener('click', function (event) {
+        const addBtn = event.target.closest('[data-add-narrative-link]');
+        if (addBtn) {
+          const sectionEl = addBtn.closest('[data-narrative-section]');
+          const list = sectionEl.querySelector('[data-narrative-links-list]');
+          const template = list.querySelector('[data-narrative-link-row]');
+          if (!template) return;
+          const clone = template.cloneNode(true);
+          clone.setAttribute('data-start-mode', 'edit');
+          clone.querySelectorAll('input').forEach(function (input) { input.value = ''; });
+          clone.querySelector('[data-narrative-view-url-placeholder]')?.classList.remove('d-none');
+          const urlEl = clone.querySelector('[data-narrative-view-url]');
+          if (urlEl) urlEl.classList.add('d-none');
+          list.appendChild(clone);
+          reindexSection(sectionEl);
+          setRowMode(clone, 'edit');
+          return;
+        }
+        const editBtn = event.target.closest('[data-edit-narrative-link]');
+        if (editBtn) {
+          const row = editBtn.closest('[data-narrative-link-row]');
+          setRowMode(row, 'edit');
+          return;
+        }
+        const doneBtn = event.target.closest('[data-done-narrative-link]');
+        if (doneBtn) {
+          const row = doneBtn.closest('[data-narrative-link-row]');
+          setRowMode(row, 'view');
+          return;
+        }
+        const removeBtn = event.target.closest('[data-remove-narrative-link]');
+        if (removeBtn) {
+          const sectionEl = removeBtn.closest('[data-narrative-section]');
+          const list = sectionEl.querySelector('[data-narrative-links-list]');
+          const row = removeBtn.closest('[data-narrative-link-row]');
+          const rows = list.querySelectorAll('[data-narrative-link-row]');
+          if (rows.length <= 1) {
+            row.querySelectorAll('input').forEach(function (input) { input.value = ''; });
+            setRowMode(row, 'edit');
+          } else {
+            row.remove();
+          }
+          reindexSection(sectionEl);
+        }
+      });
+
+      form.addEventListener('submit', function () {
+        reindexAll();
+      });
+    })();
+    </script>
+    {% endif %}
   </body>
 </html>

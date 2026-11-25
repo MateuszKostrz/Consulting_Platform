@@ -40,6 +40,11 @@ PLATFORM_SECTIONS = (
         'default_rule': 'Always available',
     },
     {
+        'key': 'self_assessment',
+        'label': 'Self-assessment',
+        'default_rule': 'Always available',
+    },
+    {
         'key': 'diagnostics',
         'label': 'Diagnostics',
         'default_rule': 'Available after Personal Information is complete',
@@ -84,6 +89,7 @@ PLATFORM_SECTIONS = (
 SECTION_ACCESS_FIELDS = (
     'personal_information',
     'academic_profile',
+    'self_assessment',
     'diagnostics',
     'portfolio_design',
     'strategic_application',
@@ -121,7 +127,7 @@ def get_or_create_section_access(student_platform_user):
 
 
 def _default_section_access(platform_user, profile, section_key):
-    if section_key in {'personal_information', 'academic_profile'}:
+    if section_key in {'personal_information', 'academic_profile', 'self_assessment'}:
         return True
     if section_key == 'diagnostics':
         return bool(profile and profile.is_complete())

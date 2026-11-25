@@ -5,6 +5,7 @@ from django.shortcuts import redirect
 SECTION_FLOW = (
     'personal-information',
     'academic-profile',
+    'self-assessment',
     'diagnostics',
     'portfolio-design',
     'strategic-application',

@@ -83,6 +83,36 @@ document.addEventListener('DOMContentLoaded', function () {
     Waves.attach('.nav-pills .nav-item .nav-link', ['waves-light']);
   }
 
+  function scrollHorizontalMenuToActive(horizontalMenu) {
+    if (!horizontalMenu || !horizontalMenu._horizontal || !horizontalMenu._wrapper || !horizontalMenu._inner) {
+      return;
+    }
+    const activeItem = horizontalMenu._inner.querySelector('.menu-item.active');
+    if (!activeItem) return;
+
+    const wrapperWidth = Math.round(horizontalMenu._wrapper.getBoundingClientRect().width);
+    const innerWidth = horizontalMenu._innerWidth;
+    if (innerWidth <= wrapperWidth) return;
+
+    const itemOffset = horizontalMenu._getItemOffset(activeItem);
+    const itemWidth = Math.round(activeItem.getBoundingClientRect().width);
+    const delta = 5;
+    let position = horizontalMenu._innerPosition;
+
+    if (itemOffset - delta <= -position) {
+      position = -itemOffset;
+    } else if (itemOffset + position + itemWidth + delta >= wrapperWidth) {
+      if (itemWidth > wrapperWidth) {
+        position = -itemOffset;
+      } else {
+        position = -(itemOffset + itemWidth - wrapperWidth);
+      }
+    }
+
+    horizontalMenu._innerPosition = position;
+    horizontalMenu._updateSlider();
+  }
+
   // Initialize menu
   //-----------------
 
@@ -98,9 +128,16 @@ document.addEventListener('DOMContentLoaded', function () {
           ? window.templateCustomizer.settings.defaultShowDropdownOnHover // Use the config.js value
           : true // Use this if you are not using the config.js and want to set value directly from here
     });
-    // Change parameter to true if you want scroll animation
-    window.Helpers.scrollToActive((animate = false));
     window.Helpers.mainMenu = menu;
+    // Change parameter to true if you want scroll animation
+    if (isHorizontalLayout) {
+      scrollHorizontalMenuToActive(menu);
+      window.requestAnimationFrame(function () {
+        scrollHorizontalMenuToActive(menu);
+      });
+    } else {
+      window.Helpers.scrollToActive((animate = false));
+    }
   });
 
   // Initialize menu togglers and bind click on each

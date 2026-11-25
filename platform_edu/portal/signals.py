@@ -34,3 +34,14 @@ def ensure_student_personal_profile_exists(sender, instance, **kwargs):
             'personal_email': instance.email,
         },
     )
+
+
+@receiver(post_save, sender=PlatformUser)
+def ensure_new_student_on_admin_trackers(sender, instance, created, **kwargs):
+    if not created or instance.role != PlatformUser.Role.STUDENT:
+        return
+    from .document_tracker import ensure_student_on_document_tracker
+    from .task_tracker import ensure_student_on_task_tracker
+
+    ensure_student_on_task_tracker(instance)
+    ensure_student_on_document_tracker(instance)

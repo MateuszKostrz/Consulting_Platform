@@ -6,7 +6,13 @@ from django.conf import settings
 from django.db import models
 from django.utils import timezone
 
-from .constants import DEADLINE_TIMEZONE_CHOICES, HOME_DOCUMENT_TYPE_CHOICES, RESULT_DOCUMENT_TYPE_CHOICES
+from .constants import (
+    DEADLINE_TIMEZONE_CHOICES,
+    HOME_DOCUMENT_TYPE_CHOICES,
+    RESULT_DOCUMENT_TYPE_CHOICES,
+    DOCUMENT_TRACKER_STATUS_CHOICES,
+    TASK_TRACKER_STATUS_CHOICES,
+)
 
 
 class PlatformUser(models.Model):
@@ -186,6 +192,7 @@ class AcademicProfile(models.Model):
     budget_currency = models.CharField(max_length=3, blank=True, default='USD')
     parent_input = models.TextField(blank=True, default='')
     career_goals = models.TextField(blank=True, default='')
+    personal_statement_assessment = models.JSONField(blank=True, default=dict)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -343,6 +350,8 @@ class Deadline(models.Model):
         on_delete=models.CASCADE,
         related_name='deadlines',
         limit_choices_to={'role': PlatformUser.Role.STUDENT},
+        null=True,
+        blank=True,
     )
     created_by = models.ForeignKey(
         PlatformUser,
@@ -360,7 +369,26 @@ class Deadline(models.Model):
         ordering = ['due_at']
 
     def __str__(self):
-        return f'{self.name} ({self.student})'
+        if self.student_id:
+            return f'{self.name} ({self.student})'
+        return f'{self.name} (Everyone)'
+
+    @property
+    def is_for_all_students(self):
+        return self.student_id is None
+
+    @property
+    def audience_display(self):
+        if self.student_id:
+            name = f'{self.student.first_name} {self.student.last_name}'.strip()
+            return name or self.student.email
+        return 'Everyone'
+
+    @property
+    def filter_student_key(self):
+        if self.student_id:
+            return str(self.student_id)
+        return 'all'
 
     @property
     def is_approaching(self):
@@ -377,6 +405,130 @@ class Deadline(models.Model):
     @property
     def timezone_display(self):
         return dict(DEADLINE_TIMEZONE_CHOICES).get(self.timezone, self.timezone)
+
+
+class TaskTrackerColumn(models.Model):
+    name = models.CharField(max_length=120)
+    sort_order = models.PositiveSmallIntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['sort_order', 'id']
+        verbose_name = 'Task tracker column'
+        verbose_name_plural = 'Task tracker columns'
+
+    def __str__(self):
+        return self.name
+
+
+class TaskTrackerRow(models.Model):
+    student = models.OneToOneField(
+        PlatformUser,
+        on_delete=models.CASCADE,
+        related_name='task_tracker_row',
+        limit_choices_to={'role': PlatformUser.Role.STUDENT},
+    )
+    assignee = models.CharField(max_length=200, blank=True, default='')
+    sort_order = models.PositiveIntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['sort_order', 'id']
+        verbose_name = 'Task tracker row'
+        verbose_name_plural = 'Task tracker rows'
+
+    def __str__(self):
+        return self.student_display
+
+    @property
+    def student_display(self):
+        name = f'{self.student.first_name} {self.student.last_name}'.strip()
+        return name or self.student.email
+
+
+class TaskTrackerCell(models.Model):
+    row = models.ForeignKey(TaskTrackerRow, on_delete=models.CASCADE, related_name='cells')
+    column = models.ForeignKey(TaskTrackerColumn, on_delete=models.CASCADE, related_name='cells')
+    status = models.CharField(
+        max_length=20,
+        choices=TASK_TRACKER_STATUS_CHOICES,
+        default='not_started',
+    )
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['row', 'column'], name='unique_task_tracker_cell'),
+        ]
+        verbose_name = 'Task tracker cell'
+        verbose_name_plural = 'Task tracker cells'
+
+    def __str__(self):
+        return f'{self.row} · {self.column}: {self.status}'
+
+
+class DocumentTrackerColumn(models.Model):
+    name = models.CharField(max_length=120)
+    sort_order = models.PositiveSmallIntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['sort_order', 'id']
+        verbose_name = 'Document tracker column'
+        verbose_name_plural = 'Document tracker columns'
+
+    def __str__(self):
+        return self.name
+
+
+class DocumentTrackerRow(models.Model):
+    student = models.OneToOneField(
+        PlatformUser,
+        on_delete=models.CASCADE,
+        related_name='document_tracker_row',
+        limit_choices_to={'role': PlatformUser.Role.STUDENT},
+    )
+    assignee = models.CharField(max_length=200, blank=True, default='')
+    sort_order = models.PositiveIntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['sort_order', 'id']
+        verbose_name = 'Document tracker row'
+        verbose_name_plural = 'Document tracker rows'
+
+    def __str__(self):
+        return self.student_display
+
+    @property
+    def student_display(self):
+        name = f'{self.student.first_name} {self.student.last_name}'.strip()
+        return name or self.student.email
+
+
+class DocumentTrackerCell(models.Model):
+    row = models.ForeignKey(DocumentTrackerRow, on_delete=models.CASCADE, related_name='cells')
+    column = models.ForeignKey(DocumentTrackerColumn, on_delete=models.CASCADE, related_name='cells')
+    status = models.CharField(
+        max_length=20,
+        choices=DOCUMENT_TRACKER_STATUS_CHOICES,
+        default='not_sent',
+    )
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['row', 'column'], name='unique_document_tracker_cell'),
+        ]
+        verbose_name = 'Document tracker cell'
+        verbose_name_plural = 'Document tracker cells'
+
+    def __str__(self):
+        return f'{self.row} · {self.column}: {self.status}'
 
 
 class StudentTodo(models.Model):
@@ -409,6 +561,7 @@ class StudentTodo(models.Model):
 
 
 class StudentDocument(models.Model):
+    name = models.CharField(max_length=255, blank=True, default='')
     document_type = models.CharField(max_length=40, choices=HOME_DOCUMENT_TYPE_CHOICES)
     document_file = models.FileField(upload_to='home/documents/')
     student = models.ForeignKey(
@@ -435,6 +588,23 @@ class StudentDocument(models.Model):
     def __str__(self):
         return f'{self.get_document_type_display()} ({self.student})'
 
+    def display_name(self):
+        if self.name:
+            return self.name
+        if self.document_file:
+            from .upload_utils import upload_display_name
+
+            return upload_display_name(self.document_file)
+        return ''
+
+    def file_is_available(self):
+        if not self.document_file:
+            return False
+        try:
+            return self.document_file.storage.exists(self.document_file.name)
+        except Exception:
+            return False
+
 
 class PortfolioDesign(models.Model):
     personal_profile = models.OneToOneField(
@@ -443,6 +613,7 @@ class PortfolioDesign(models.Model):
         related_name='portfolio_design',
     )
     google_doc_url = models.URLField(max_length=500, blank=True, default='')
+    student_comments = models.TextField(blank=True, default='')
     is_unlocked = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -579,6 +750,7 @@ class ProfileNarrative(models.Model):
     personal_statement_google_doc_url = models.URLField(max_length=500, blank=True, default='')
     cv_google_doc_url = models.URLField(max_length=500, blank=True, default='')
     application_essays_google_doc_url = models.URLField(max_length=500, blank=True, default='')
+    document_links = models.JSONField(blank=True, default=dict)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -826,6 +998,7 @@ class StudentSectionAccess(models.Model):
     )
     personal_information = models.BooleanField(null=True, blank=True)
     academic_profile = models.BooleanField(null=True, blank=True)
+    self_assessment = models.BooleanField(null=True, blank=True)
     diagnostics = models.BooleanField(null=True, blank=True)
     portfolio_design = models.BooleanField(null=True, blank=True)
     strategic_application = models.BooleanField(null=True, blank=True)

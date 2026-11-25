@@ -58,6 +58,20 @@
         {% endif %}
       </li>
 
+      <li class="menu-item {% if current_url_name == 'self-assessment' %}active{% endif %}">
+        {% if self_assessment_unlocked %}
+        <a href="{% url 'self-assessment' %}" class="menu-link"{% if is_platform_admin and not admin_viewing_student_id %} data-requires-student{% endif %}>
+          <i class="menu-icon icon-base ri ri-file-list-3-line"></i>
+          <div data-i18n="Self-assessment">Self-assessment</div>
+        </a>
+        {% else %}
+        <span class="menu-link pe-none text-body-secondary" title="Self-assessment is locked">
+          <i class="menu-icon icon-base ri ri-lock-line"></i>
+          <div data-i18n="Self-assessment">Self-assessment</div>
+        </span>
+        {% endif %}
+      </li>
+
       <li class="menu-item {% if current_url_name == 'diagnostics' %}active{% endif %}">
         {% if diagnostics_unlocked %}
         <a href="{% url 'diagnostics' %}" class="menu-link"{% if is_platform_admin and not admin_viewing_student_id %} data-requires-student{% endif %}>
@@ -298,8 +312,41 @@
     return true;
   }
 
+  function scrollMenuToActiveItem() {
+    var menu = window.Helpers && window.Helpers.mainMenu;
+    if (!menu || !menu._horizontal || !menu._wrapper || !menu._inner) return;
+
+    var activeItem = menu._inner.querySelector('.menu-item.active');
+    if (!activeItem) return;
+
+    var wrapperWidth = Math.round(menu._wrapper.getBoundingClientRect().width);
+    var innerWidth = menu._innerWidth;
+    if (innerWidth <= wrapperWidth) return;
+
+    var itemOffset = menu._getItemOffset(activeItem);
+    var itemWidth = Math.round(activeItem.getBoundingClientRect().width);
+    var delta = 5;
+    var position = menu._innerPosition;
+
+    if (itemOffset - delta <= -position) {
+      position = -itemOffset;
+    } else if (itemOffset + position + itemWidth + delta >= wrapperWidth) {
+      if (itemWidth > wrapperWidth) {
+        position = -itemOffset;
+      } else {
+        position = -(itemOffset + itemWidth - wrapperWidth);
+      }
+    }
+
+    menu._innerPosition = position;
+    menu._updateSlider();
+  }
+
   function initMenuDragScroll(attempt) {
-    if (setupMenuDragScroll()) return;
+    if (setupMenuDragScroll()) {
+      scrollMenuToActiveItem();
+      return;
+    }
     if (attempt >= 10) return;
     window.setTimeout(function () {
       initMenuDragScroll(attempt + 1);
@@ -308,6 +355,9 @@
 
   window.addEventListener('load', function () {
     initMenuDragScroll(0);
+    window.requestAnimationFrame(function () {
+      scrollMenuToActiveItem();
+    });
   });
 })();
 </script>

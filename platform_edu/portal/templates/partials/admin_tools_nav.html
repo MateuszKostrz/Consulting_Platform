@@ -1,0 +1,23 @@
+<ul class="nav nav-pills flex-wrap gap-2 mb-4" role="tablist">
+  <li class="nav-item">
+    <a class="nav-link{% if admin_tools_tab == 'access' %} active{% endif %}"
+       href="{% url 'admin-student-access' %}"
+       {% if admin_tools_tab == 'access' %}aria-current="page"{% endif %}>
+      Manage student access
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link{% if admin_tools_tab == 'tracker' %} active{% endif %}"
+       href="{% url 'admin-tasks-tracker' %}"
+       {% if admin_tools_tab == 'tracker' %}aria-current="page"{% endif %}>
+      Tasks tracker
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link{% if admin_tools_tab == 'documents' %} active{% endif %}"
+       href="{% url 'admin-documents-tracker' %}"
+       {% if admin_tools_tab == 'documents' %}aria-current="page"{% endif %}>
+      Documents tracker
+    </a>
+  </li>
+</ul>

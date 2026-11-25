@@ -58,6 +58,35 @@ const Helpers = {
 
     if (!layoutMenu) return
 
+    const mainMenu = this.mainMenu
+    if (mainMenu && mainMenu._horizontal && mainMenu._wrapper && mainMenu._inner) {
+      const activeItem = mainMenu._inner.querySelector('.menu-item.active')
+      if (!activeItem) return
+
+      const wrapperWidth = Math.round(mainMenu._wrapper.getBoundingClientRect().width)
+      const innerWidth = mainMenu._innerWidth
+      if (innerWidth <= wrapperWidth) return
+
+      const itemOffset = mainMenu._getItemOffset(activeItem)
+      const itemWidth = Math.round(activeItem.getBoundingClientRect().width)
+      const delta = 5
+      let position = mainMenu._innerPosition
+
+      if (itemOffset - delta <= -position) {
+        position = -itemOffset
+      } else if (itemOffset + position + itemWidth + delta >= wrapperWidth) {
+        if (itemWidth > wrapperWidth) {
+          position = -itemOffset
+        } else {
+          position = -(itemOffset + itemWidth - wrapperWidth)
+        }
+      }
+
+      mainMenu._innerPosition = position
+      mainMenu._updateSlider()
+      return
+    }
+
     let activeEl = layoutMenu.querySelector('li.menu-item.active:not(.open)')
 
     if (activeEl) {

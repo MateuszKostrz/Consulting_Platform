@@ -45,12 +45,13 @@
           <div>
             <div class="form-floating form-floating-outline">
               <select class="form-select" id="deadline_student" name="student_id" required>
-                <option value="">Select a student...</option>
+                <option value="">Select a student or Everyone...</option>
+                <option value="all">Everyone (all students)</option>
                 {% for student in deadline_students %}
                 <option value="{{ student.id }}">{{ student.first_name }} {{ student.last_name }}</option>
                 {% endfor %}
               </select>
-              <label for="deadline_student">Student</label>
+              <label for="deadline_student">Audience</label>
             </div>
           </div>
         </div>

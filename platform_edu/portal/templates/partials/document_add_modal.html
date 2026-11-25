@@ -6,12 +6,20 @@
             id="addDocumentForm"
             enctype="multipart/form-data">
         {% csrf_token %}
-        <input type="hidden" name="action" value="add_home_document" />
+        <input type="hidden" name="action" value="add_home_document" id="documentFormAction" />
+        <input type="hidden" name="document_id" value="" id="documentFormId" />
         <div class="modal-header">
           <h5 class="modal-title" id="addDocumentModalLabel">Add document</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
+          <div class="mb-4">
+            <div class="form-floating form-floating-outline">
+              <input type="text" class="form-control" id="document_name" name="name" placeholder="Document name" required />
+              <label for="document_name">Document name</label>
+            </div>
+            <div class="form-text" id="documentNameHint">Optional on upload — defaults to the file name.</div>
+          </div>
           <div class="mb-4">
             <div class="form-floating form-floating-outline">
               <select class="form-select" id="document_type" name="document_type" required>
@@ -23,10 +31,9 @@
               <label for="document_type">Document type</label>
             </div>
           </div>
-          {% if can_manage_documents %}
-          <div class="mb-4">
+          <div class="mb-4 {% if not can_manage_documents %}d-none{% endif %}" id="documentStudentField">
             <div class="form-floating form-floating-outline">
-              <select class="form-select" id="document_student" name="student_id" required>
+              <select class="form-select" id="document_student" name="student_id"{% if can_manage_documents %} required{% endif %}>
                 <option value="">Select a student...</option>
                 {% for student in document_students %}
                 <option value="{{ student.id }}">{{ student.first_name }} {{ student.last_name }}</option>
@@ -35,8 +42,7 @@
               <label for="document_student">Student</label>
             </div>
           </div>
-          {% endif %}
-          <div>
+          <div id="documentFileField">
             <label for="document_file" class="form-label">File</label>
             <input type="file"
                    class="form-control"
@@ -53,7 +59,7 @@
             <span class="document-save-label">Upload document</span>
             <span class="document-save-spinner d-none">
               <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-              Uploading...
+              <span id="documentSaveSpinnerText">Uploading...</span>
             </span>
           </button>
         </div>
@@ -68,25 +74,107 @@
   const modal = document.getElementById('addDocumentModal');
   if (!form || !modal) return;
 
+  const actionInput = document.getElementById('documentFormAction');
+  const idInput = document.getElementById('documentFormId');
+  const titleEl = document.getElementById('addDocumentModalLabel');
+  const nameInput = document.getElementById('document_name');
+  const typeInput = document.getElementById('document_type');
+  const studentInput = document.getElementById('document_student');
+  const fileInput = document.getElementById('document_file');
+  const fileField = document.getElementById('documentFileField');
+  const studentField = document.getElementById('documentStudentField');
+  const nameHint = document.getElementById('documentNameHint');
   const saveBtn = document.getElementById('documentSaveBtn');
   const cancelBtn = document.getElementById('documentCancelBtn');
   const saveLabel = saveBtn ? saveBtn.querySelector('.document-save-label') : null;
   const saveSpinner = saveBtn ? saveBtn.querySelector('.document-save-spinner') : null;
+  const saveSpinnerText = document.getElementById('documentSaveSpinnerText');
 
-  function resetForm() {
-    form.reset();
+  function resetSaveButton() {
     if (!saveBtn) return;
     saveBtn.disabled = false;
     if (cancelBtn) cancelBtn.disabled = false;
-    if (saveLabel) saveLabel.classList.remove('d-none');
+    if (saveLabel) {
+      saveLabel.classList.remove('d-none');
+      saveLabel.textContent = actionInput.value === 'edit_home_document' ? 'Save changes' : 'Upload document';
+    }
     if (saveSpinner) saveSpinner.classList.add('d-none');
+    if (saveSpinnerText) {
+      saveSpinnerText.textContent = actionInput.value === 'edit_home_document' ? 'Saving...' : 'Uploading...';
+    }
+  }
+
+  function setUploadFieldState(isEdit) {
+    if (nameInput) {
+      nameInput.required = isEdit;
+    }
+    if (fileInput) {
+      fileInput.required = !isEdit;
+      fileInput.disabled = isEdit;
+      if (isEdit) fileInput.value = '';
+    }
+    if (fileField) fileField.classList.toggle('d-none', isEdit);
+    if (studentInput) {
+      studentInput.disabled = isEdit;
+      if (isEdit) {
+        studentInput.removeAttribute('required');
+      } else if (studentField && !studentField.classList.contains('d-none')) {
+        studentInput.setAttribute('required', 'required');
+      }
+    }
+    if (studentField) studentField.classList.toggle('d-none', isEdit);
+    if (nameHint) nameHint.classList.toggle('d-none', isEdit);
+  }
+
+  function setAddMode() {
+    actionInput.value = 'add_home_document';
+    idInput.value = '';
+    titleEl.textContent = 'Add document';
+    form.reset();
+    setUploadFieldState(false);
+    resetSaveButton();
+  }
+
+  function setEditMode(button) {
+    actionInput.value = 'edit_home_document';
+    idInput.value = button.getAttribute('data-document-id') || '';
+    titleEl.textContent = 'Edit document';
+    if (nameInput) {
+      nameInput.value = button.getAttribute('data-document-name') || '';
+    }
+    if (typeInput) typeInput.value = button.getAttribute('data-document-type') || '';
+    setUploadFieldState(true);
+    resetSaveButton();
   }
 
   document.querySelectorAll('[data-bs-target="#addDocumentModal"]').forEach(function (trigger) {
-    trigger.addEventListener('click', resetForm);
+    if (trigger.classList.contains('document-edit-btn')) return;
+    trigger.addEventListener('click', setAddMode);
   });
 
-  modal.addEventListener('hidden.bs.modal', resetForm);
+  document.querySelectorAll('.document-edit-btn').forEach(function (button) {
+    button.addEventListener('click', function () {
+      setEditMode(button);
+    });
+  });
+
+  modal.addEventListener('show.bs.modal', function (event) {
+    var trigger = event.relatedTarget;
+    if (trigger && trigger.classList && trigger.classList.contains('document-edit-btn')) {
+      setEditMode(trigger);
+    }
+  });
+
+  modal.addEventListener('hidden.bs.modal', setAddMode);
+
+  if (fileInput && nameInput) {
+    fileInput.addEventListener('change', function () {
+      if (actionInput.value !== 'add_home_document') return;
+      if (nameInput.value.trim()) return;
+      var selectedName = fileInput.files && fileInput.files[0] ? fileInput.files[0].name : '';
+      if (selectedName) nameInput.value = selectedName;
+    });
+  }
 
   form.addEventListener('submit', function () {
     if (!saveBtn) return;

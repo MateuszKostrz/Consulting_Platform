@@ -33,31 +33,51 @@
         <thead>
           <tr>
             <th>Type</th>
-            <th>File</th>
+            <th>Name</th>
             <th>Uploaded date</th>
             {% if can_manage_documents %}
             <th>Student</th>
             {% endif %}
-            <th class="text-end" style="width: {% if can_delete_documents %}120{% else %}80{% endif %}px;">Actions</th>
+            <th class="text-end" style="width: {% if can_edit_documents %}140{% elif can_delete_documents %}120{% else %}80{% endif %}px;">Actions</th>
           </tr>
         </thead>
         <tbody id="document-table-body">
           {% for document in documents_all %}
           <tr class="document-row" data-student-id="{{ document.student_id }}">
             <td class="fw-medium">{{ document.get_document_type_display }}</td>
-            <td class="text-break">{{ document.document_file|basename }}</td>
+            <td class="text-break">{{ document.display_name }}</td>
             <td>{{ document.created_at|date:"j M Y" }}</td>
             {% if can_manage_documents %}
             <td>{{ document.student.first_name }} {{ document.student.last_name }}</td>
             {% endif %}
             <td class="text-end">
               <div class="d-flex justify-content-end gap-1">
-                <a href="{{ document.document_file.url }}"
+                {% if document.file_is_available %}
+                <a href="{% url 'download-home-document' document.id %}"
                    class="btn btn-sm btn-icon btn-text-secondary"
                    title="Download"
-                   download>
+                   download="{{ document.display_name }}">
                   <i class="icon-base ri ri-download-2-line icon-18px"></i>
                 </a>
+                {% else %}
+                <span class="btn btn-sm btn-icon btn-text-secondary disabled"
+                      title="File is not on this server (e.g. production document while running locally). Upload again or download from production."
+                      aria-disabled="true">
+                  <i class="icon-base ri ri-download-2-line icon-18px opacity-50"></i>
+                </span>
+                {% endif %}
+                {% if can_edit_documents %}
+                <button type="button"
+                        class="btn btn-sm btn-icon btn-text-secondary document-edit-btn"
+                        title="Edit"
+                        data-bs-toggle="modal"
+                        data-bs-target="#addDocumentModal"
+                        data-document-id="{{ document.id }}"
+                        data-document-name="{{ document.display_name }}"
+                        data-document-type="{{ document.document_type }}">
+                  <i class="icon-base ri ri-pencil-line icon-18px"></i>
+                </button>
+                {% endif %}
                 {% if can_delete_documents %}
                 <button type="button"
                         class="btn btn-sm btn-icon document-delete-btn text-danger"
@@ -65,7 +85,7 @@
                         data-bs-toggle="modal"
                         data-bs-target="#deleteDocumentModal"
                         data-document-id="{{ document.id }}"
-                        data-document-label="{{ document.get_document_type_display }} — {{ document.document_file|basename }}">
+                        data-document-label="{{ document.get_document_type_display }} — {{ document.display_name }}">
                   <i class="icon-base ri ri-delete-bin-line icon-18px text-danger"></i>
                 </button>
                 {% endif %}

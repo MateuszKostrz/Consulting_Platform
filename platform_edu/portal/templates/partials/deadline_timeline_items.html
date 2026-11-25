@@ -17,7 +17,7 @@
       <div class="timeline-event ps-1">
         <div class="timeline-header">
           <small class="{% if deadline.urgency == 'urgent' %}text-danger{% elif deadline.urgency == 'standard' %}text-warning{% else %}text-info{% endif %} text-uppercase">
-            {{ deadline.student.first_name }} {{ deadline.student.last_name }}
+            {{ deadline.audience_display }}
           </small>
         </div>
         <h6 class="my-50 d-flex align-items-center gap-1">
@@ -44,7 +44,7 @@
           data-deadline-due-at="{{ deadline.due_at_local_input }}"
           data-deadline-urgency="{{ deadline.urgency }}"
           data-deadline-timezone="{{ deadline.timezone }}"
-          data-deadline-student-id="{{ deadline.student_id }}">
+          data-deadline-student-id="{{ deadline.filter_student_key }}">
           <i class="icon-base ri ri-pencil-line icon-18px"></i>
         </button>
         <button

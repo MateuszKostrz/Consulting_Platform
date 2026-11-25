@@ -1,0 +1,40 @@
+<div class="col-12">
+  <h5 class="mb-2">{{ ps_assessment_title }}</h5>
+  <p class="text-body-secondary small mb-4">{{ ps_assessment_intro }}</p>
+</div>
+
+<div class="col-md-6">
+  <label class="form-label">Name</label>
+  <input
+    type="text"
+    class="form-control"
+    value="{{ student_display_name }}"
+    readonly
+    aria-readonly="true" />
+</div>
+
+<div class="col-md-6">
+  <label for="ps_desired_course" class="form-label">Desired course</label>
+  <input
+    type="text"
+    class="form-control"
+    id="ps_desired_course"
+    name="ps_desired_course"
+    value="{{ ps_assessment_desired_course }}"
+    placeholder="e.g. BSc Computer Science" />
+</div>
+
+{% for q in ps_assessment_questions %}
+<div class="col-12">
+  <label for="ps_{{ q.key }}" class="form-label">{{ q.label }}</label>
+  {% if q.hint %}
+  <p class="text-body-secondary small mb-2">{{ q.hint }}</p>
+  {% endif %}
+  <textarea
+    class="form-control"
+    id="ps_{{ q.key }}"
+    name="ps_{{ q.key }}"
+    rows="4"
+    placeholder="Your answer">{{ q.value }}</textarea>
+</div>
+{% endfor %}

@@ -57,7 +57,11 @@
                   var rowUrgency = row.getAttribute('data-urgency') || '';
                   var rowDueDate = row.getAttribute('data-due-date') || '';
 
-                  var okStudent = (filterStudent === '' || rowStudent === filterStudent);
+                  var okStudent = (
+                    filterStudent === '' ||
+                    rowStudent === filterStudent ||
+                    rowStudent === 'all'
+                  );
                   var okUrgency = (filterUrgency === '' || rowUrgency === filterUrgency);
                   var okDays = true;
 

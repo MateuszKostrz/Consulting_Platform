@@ -20951,3 +20951,52 @@ Traceback (most recent call last):
 django.db.utils.OperationalError: could not translate host name "database-1.c0nc7ffu1op1.us-east-1.rds.amazonaws.com" to address: nodename nor servname provided, or not known
 
 ERROR 2026-11-19 10:30:38,134 "GET /donna/whatsapp/?contact=1 HTTP/1.1" 500 209807
+ERROR 2026-11-25 11:24:23,313 Internal Server Error: /student-access/tasks-tracker/
+Traceback (most recent call last):
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/base/base.py", line 303, in _commit
+    return self.connection.commit()
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+psycopg2.errors.ForeignKeyViolation: insert or update on table "portal_tasktrackercell" violates foreign key constraint "portal_tasktrackerce_column_id_2dbff16e_fk_portal_ta"
+DETAIL:  Key (column_id)=(14) is not present in table "portal_tasktrackercolumn".
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/core/handlers/base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/utils/decorators.py", line 192, in _view_wrapper
+    result = _process_exception(request, e)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/utils/decorators.py", line 190, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/contrib/auth/decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/platform_edu/portal/views.py", line 2149, in admin_tasks_tracker
+    sync_all_students_to_tracker()
+  File "/opt/homebrew/Cellar/python@3.12/3.12.2_1/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py", line 80, in inner
+    with self._recreate_cm():
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/transaction.py", line 263, in __exit__
+    connection.commit()
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/utils/asyncio.py", line 26, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/base/base.py", line 327, in commit
+    self._commit()
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/base/base.py", line 302, in _commit
+    with debug_transaction(self, "COMMIT"), self.wrap_database_errors:
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/utils.py", line 94, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "/Users/mateuszkostrz/Desktop/CONSULTING PLATFORM/Consulting_Platform/virtual2/lib/python3.12/site-packages/django/db/backends/base/base.py", line 303, in _commit
+    return self.connection.commit()
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.IntegrityError: insert or update on table "portal_tasktrackercell" violates foreign key constraint "portal_tasktrackerce_column_id_2dbff16e_fk_portal_ta"
+DETAIL:  Key (column_id)=(14) is not present in table "portal_tasktrackercolumn".
+
+ERROR 2026-11-25 11:24:23,316 "GET /student-access/tasks-tracker/ HTTP/1.1" 500 130567

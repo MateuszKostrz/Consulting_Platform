@@ -1,0 +1,203 @@
+<script>
+(function () {
+  var apiUrl = window.TRACKER_API_URL || window.TASK_TRACKER_API_URL;
+  var statusStyles = window.TRACKER_STATUS_STYLES || window.TASK_TRACKER_STATUS_STYLES || {};
+  if (!apiUrl) return;
+
+  function csrfToken() {
+    var input = document.querySelector('[name=csrfmiddlewaretoken]');
+    if (input) return input.value;
+    var match = document.cookie.match(/csrftoken=([^;]+)/);
+    return match ? decodeURIComponent(match[1]) : '';
+  }
+
+  function setTrackerColumnBtnLoading(button, loading) {
+    if (!button) return;
+    var label = button.querySelector('.tracker-col-btn-default');
+    var spinnerWrap = button.querySelector('.tracker-col-btn-loading');
+    button.disabled = loading;
+    button.setAttribute('aria-busy', loading ? 'true' : 'false');
+    if (label) label.classList.toggle('d-none', loading);
+    if (spinnerWrap) spinnerWrap.classList.toggle('d-none', !loading);
+  }
+
+  function postForm(data) {
+    var token = csrfToken();
+    if (!token) {
+      return Promise.reject(new Error('Session expired — refresh the page and try again.'));
+    }
+    var body = new URLSearchParams(data);
+    return fetch(apiUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'X-CSRFToken': token,
+      },
+      body: body.toString(),
+      credentials: 'same-origin',
+    }).then(function (response) {
+      var contentType = response.headers.get('content-type') || '';
+      if (!contentType.includes('application/json')) {
+        throw new Error(response.ok ? 'Unexpected server response.' : 'Could not save (try refreshing the page).');
+      }
+      return response.json().then(function (payload) {
+        if (!response.ok) throw new Error(payload.error || 'Request failed');
+        return payload;
+      });
+    });
+  }
+
+  function applyStatusStyle(select) {
+    var status = select.value;
+    var style = statusStyles[status];
+    if (!style) return;
+    select.style.backgroundColor = style.bg;
+    select.style.color = style.text;
+    select.style.setProperty('--tracker-dot', style.dot);
+    select.style.backgroundImage =
+      "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E\")";
+  }
+
+  document.querySelectorAll('.task-tracker-status-select').forEach(function (select) {
+    applyStatusStyle(select);
+    select.addEventListener('change', function () {
+      var previous = select.getAttribute('data-status') || select.value;
+      applyStatusStyle(select);
+      postForm({
+        action: 'update_cell',
+        row_id: select.getAttribute('data-row-id'),
+        column_id: select.getAttribute('data-column-id'),
+        status: select.value,
+      }).then(function () {
+        select.setAttribute('data-status', select.value);
+      }).catch(function () {
+        select.value = previous;
+        applyStatusStyle(select);
+        window.alert('Could not save status. Please try again.');
+      });
+    });
+  });
+
+  document.querySelectorAll('.task-tracker-col-input').forEach(function (input) {
+    var original = input.value;
+    input.addEventListener('blur', function () {
+      var value = input.value.trim();
+      if (!value || value === original) {
+        input.value = original;
+        return;
+      }
+      var columnId = input.getAttribute('data-column-id');
+      postForm({
+        action: 'update_column',
+        column_id: columnId,
+        name: value,
+      }).then(function (payload) {
+        original = payload.name;
+        input.value = original;
+        var deleteSelect = document.getElementById('trackerDeleteColumnSelect');
+        if (deleteSelect) {
+          var option = deleteSelect.querySelector('option[value="' + columnId + '"]');
+          if (option) option.textContent = payload.name;
+        }
+      }).catch(function () {
+        input.value = original;
+        window.alert('Could not rename column.');
+      });
+    });
+    input.addEventListener('keydown', function (event) {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        input.blur();
+      }
+      if (event.key === 'Escape') {
+        input.value = original;
+        input.blur();
+      }
+    });
+  });
+
+  document.querySelectorAll('.task-tracker-assignee').forEach(function (input) {
+    var original = input.value;
+    input.addEventListener('blur', function () {
+      if (input.value === original) return;
+      postForm({
+        action: 'update_assignee',
+        row_id: input.getAttribute('data-row-id'),
+        assignee: input.value,
+      }).then(function (payload) {
+        original = payload.assignee;
+        input.value = original;
+      }).catch(function () {
+        input.value = original;
+        window.alert('Could not save assignee.');
+      });
+    });
+    input.addEventListener('keydown', function (event) {
+      if (event.key === 'Enter') event.target.blur();
+      if (event.key === 'Escape') {
+        input.value = original;
+        input.blur();
+      }
+    });
+  });
+
+  var addColumnBtn = document.getElementById('trackerAddColumnBtn');
+  var newColumnInput = document.getElementById('trackerNewColumnName');
+  if (addColumnBtn && newColumnInput) {
+    function submitNewColumn() {
+      var name = newColumnInput.value.trim();
+      if (!name) {
+        newColumnInput.focus();
+        return;
+      }
+      setTrackerColumnBtnLoading(addColumnBtn, true);
+      if (newColumnInput) newColumnInput.disabled = true;
+      postForm({ action: 'add_column', name: name })
+        .then(function () {
+          window.location.reload();
+        })
+        .catch(function (err) {
+          setTrackerColumnBtnLoading(addColumnBtn, false);
+          if (newColumnInput) newColumnInput.disabled = false;
+          window.alert(err.message || 'Could not add column.');
+        });
+    }
+    addColumnBtn.addEventListener('click', submitNewColumn);
+    newColumnInput.addEventListener('keydown', function (event) {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        submitNewColumn();
+      }
+    });
+  }
+
+  var deleteColumnSelect = document.getElementById('trackerDeleteColumnSelect');
+  var deleteColumnBtn = document.getElementById('trackerDeleteColumnBtn');
+  if (deleteColumnBtn && deleteColumnSelect) {
+    deleteColumnBtn.addEventListener('click', function () {
+      var columnId = deleteColumnSelect.value;
+      if (!columnId) {
+        deleteColumnSelect.focus();
+        return;
+      }
+      var columnName = deleteColumnSelect.options[deleteColumnSelect.selectedIndex].text;
+      if (!window.confirm('Delete column “' + columnName + '”? Statuses in this column will be removed.')) {
+        return;
+      }
+      setTrackerColumnBtnLoading(deleteColumnBtn, true);
+      deleteColumnSelect.disabled = true;
+      postForm({ action: 'delete_column', column_id: columnId })
+        .then(function () {
+          window.location.reload();
+        })
+        .catch(function (err) {
+          setTrackerColumnBtnLoading(deleteColumnBtn, false);
+          if (deleteColumnSelect && deleteColumnSelect.options.length > 1) {
+            deleteColumnSelect.disabled = false;
+          }
+          window.alert(err.message || 'Could not delete column.');
+        });
+    });
+  }
+})();
+</script>

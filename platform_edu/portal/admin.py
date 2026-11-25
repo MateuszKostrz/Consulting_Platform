@@ -178,7 +178,7 @@ class DeadlineAdmin(admin.ModelAdmin):
 
     @admin.display(description='Student')
     def display_student(self, obj):
-        return f'{obj.student.first_name} {obj.student.last_name}'.strip() or obj.student.email
+        return obj.audience_display
 
 
 @admin.register(StudentTodo)
@@ -208,6 +208,7 @@ class StudentTodoAdmin(admin.ModelAdmin):
 @admin.register(StudentDocument)
 class StudentDocumentAdmin(admin.ModelAdmin):
     list_display = (
+        'name',
         'document_type',
         'display_student',
         'display_filename',
@@ -241,6 +242,7 @@ class PortfolioDesignAdmin(admin.ModelAdmin):
         'display_student',
         'is_unlocked',
         'google_doc_url',
+        'student_comments',
         'updated_at',
     )
     list_filter = ('is_unlocked',)

@@ -166,6 +166,21 @@
         </li>
         <li class="consulting-pathway-separator{% if not academic_profile_unlocked %} is-muted{% endif %}" aria-hidden="true"><i class="icon-base ri ri-arrow-right-line"></i></li>
 
+        <li class="consulting-pathway-item{% if current_url_name == 'self-assessment' %} is-active{% endif %}{% if not self_assessment_unlocked %} is-locked{% endif %}">
+          {% if self_assessment_unlocked %}
+          <a href="{% url 'self-assessment' %}" class="consulting-pathway-link"{% if is_platform_admin and not admin_viewing_student_id %} data-requires-student{% endif %}>
+            <i class="icon-base ri ri-file-list-3-line"></i>
+            <span>Self-assessment</span>
+          </a>
+          {% else %}
+          <span class="consulting-pathway-link is-disabled" title="Self-assessment is locked">
+            <i class="icon-base ri ri-lock-line"></i>
+            <span>Self-assessment</span>
+          </span>
+          {% endif %}
+        </li>
+        <li class="consulting-pathway-separator{% if not self_assessment_unlocked %} is-muted{% endif %}" aria-hidden="true"><i class="icon-base ri ri-arrow-right-line"></i></li>
+
         <li class="consulting-pathway-item{% if current_url_name == 'diagnostics' %} is-active{% endif %}{% if not diagnostics_unlocked %} is-locked{% endif %}">
           {% if diagnostics_unlocked %}
           <a href="{% url 'diagnostics' %}" class="consulting-pathway-link"{% if is_platform_admin and not admin_viewing_student_id %} data-requires-student{% endif %}>
@@ -336,10 +351,17 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }, true);
 
-  var active = nav.querySelector('.consulting-pathway-item.is-active');
-  if (active) {
+  function scrollPathwayToActive() {
+    var active = nav.querySelector('.consulting-pathway-item.is-active');
+    if (!active) return;
+    var maxScroll = Math.max(0, nav.scrollWidth - nav.clientWidth);
+    if (!maxScroll) return;
     var target = active.offsetLeft - (nav.clientWidth / 2) + (active.offsetWidth / 2);
-    nav.scrollTo({ left: Math.max(0, target), behavior: 'smooth' });
+    target = Math.min(Math.max(0, target), maxScroll);
+    nav.scrollLeft = target;
   }
+
+  scrollPathwayToActive();
+  window.requestAnimationFrame(scrollPathwayToActive);
 });
 </script>
