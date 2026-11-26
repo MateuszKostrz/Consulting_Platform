@@ -31,7 +31,9 @@
               <label for="document_type">Document type</label>
             </div>
           </div>
-          <div class="mb-4 {% if not can_manage_documents %}d-none{% endif %}" id="documentStudentField">
+          <div class="mb-4 {% if not can_manage_documents %}d-none{% endif %}"
+               id="documentStudentField"
+               data-can-manage="{% if can_manage_documents %}1{% else %}0{% endif %}">
             <div class="form-floating form-floating-outline">
               <select class="form-select" id="document_student" name="student_id"{% if can_manage_documents %} required{% endif %}>
                 <option value="">Select a student...</option>
@@ -104,6 +106,10 @@
     }
   }
 
+  function canManageDocuments() {
+    return studentField && studentField.dataset.canManage === '1';
+  }
+
   function setUploadFieldState(isEdit) {
     if (nameInput) {
       nameInput.required = isEdit;
@@ -114,15 +120,18 @@
       if (isEdit) fileInput.value = '';
     }
     if (fileField) fileField.classList.toggle('d-none', isEdit);
+    var showStudentPicker = canManageDocuments() && !isEdit;
     if (studentInput) {
       studentInput.disabled = isEdit;
-      if (isEdit) {
-        studentInput.removeAttribute('required');
-      } else if (studentField && !studentField.classList.contains('d-none')) {
+      if (showStudentPicker) {
         studentInput.setAttribute('required', 'required');
+      } else {
+        studentInput.removeAttribute('required');
       }
     }
-    if (studentField) studentField.classList.toggle('d-none', isEdit);
+    if (studentField) {
+      studentField.classList.toggle('d-none', !showStudentPicker);
+    }
     if (nameHint) nameHint.classList.toggle('d-none', isEdit);
   }
 
